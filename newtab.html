@@ -3,278 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>发现导航 - Super Bookmark</title>
+    <title>超级书签 - Super Bookmark</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>发现导航</h1>
-        <p class="subtitle">精选实用导航网站 · 支持收藏、编辑和删除</p>
-        
-        <div class="search-box">
-            <input type="text" placeholder="搜索站点名称或描述" aria-label="站内搜索">
-            <span class="search-icon">🔍</span>
+    <header class="header">
+        <div class="header-inner">
+            <h1 class="logo">超级书签</h1>
+            <p class="subtitle">从浏览器收藏夹加载 · 支持编辑和删除</p>
+            <nav class="primary-nav" id="primaryNav" aria-label="一级菜单"></nav>
+            <div class="search-row">
+                <select class="search-select" id="searchScope" aria-label="搜索范围">
+                    <option value="all">综合</option>
+                </select>
+                <div class="search-box">
+                    <input type="text" placeholder="站内搜索" aria-label="站内搜索" id="searchInput">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
         </div>
-        
-        <div class="tips">
-            <span>右键卡片进入删除模式</span>
-            <span>点击 ✏️ 按钮编辑链接信息</span>
-            <span>⭐ 收藏 · 📋 复制 · 🔗 分享 · ✏️ 编辑</span>
-        </div>
+    </header>
 
-        <div class="category-nav">
-            <a href="#cat-tech">技术博客</a>
-            <a href="#cat-analytics">数据分析工具</a>
-            <a href="#cat-security">安全工具</a>
-            <a href="#cat-learning">编程学习</a>
-        </div>
+    <div class="main-layout">
+        <aside class="secondary-nav" aria-label="二级菜单">
+            <div class="secondary-nav-list" id="secondaryNavList"></div>
+        </aside>
 
-        <div class="content-layout">
-            <div class="content-main">
-        
-        <div class="category" id="cat-tech">
-            <h2>技术博客</h2>
-            <div class="links-grid">
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://danreact.com" target="_blank">
-                        <div class="title">Danreact作者的博客</div>
-                        <div class="description">React相关技术博客</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
+        <main class="content-main">
+            <div id="contentArea">
+                <div class="loading" id="loading">正在加载收藏夹…</div>
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <p>暂无数据。请在浏览器书签栏创建一级、二级文件夹并添加书签。</p>
                 </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://www.yinwang.org" target="_blank">
-                        <div class="title">王垠的博客</div>
-                        <div class="description">技术与思考</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://www.ruanyifeng.com/blog" target="_blank">
-                        <div class="title">阮一峰的网络日志</div>
-                        <div class="description">技术与人文</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://tech.youzan.com" target="_blank">
-                        <div class="title">有赞技术团队</div>
-                        <div class="description">电商技术分享</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
+                <div id="categoryPanel" style="display:none;">
+                    <h2 class="category-title" id="categoryTitle"></h2>
+                    <div class="tag-bar" id="tagBar"></div>
+                    <div class="links-grid" id="linksGrid"></div>
                 </div>
             </div>
-        </div>
-        
-        <div class="category" id="cat-analytics">
-            <h2>数据分析工具</h2>
-            <div class="links-grid">
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://mta.qq.com" target="_blank">
-                        <div class="title">腾讯移动分析</div>
-                        <div class="description">App应用统计分析</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://analytics.google.com" target="_blank">
-                        <div class="title">Google Analytics</div>
-                        <div class="description">网站流量分析</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://jinshuju.net" target="_blank">
-                        <div class="title">金数据</div>
-                        <div class="description">在线表单工具</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://www.wjx.cn" target="_blank">
-                        <div class="title">问卷星</div>
-                        <div class="description">问卷调查工具</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="category" id="cat-security">
-            <h2>安全工具</h2>
-            <div class="links-grid">
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://vulhub.org" target="_blank">
-                        <div class="title">Vulhub</div>
-                        <div class="description">漏洞环境集合</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://sqlmap.org" target="_blank">
-                        <div class="title">sqlmap</div>
-                        <div class="description">SQL注入工具</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://www.wireshark.org" target="_blank">
-                        <div class="title">Wireshark</div>
-                        <div class="description">网络封包分析</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://www.telerik.com/fiddler" target="_blank">
-                        <div class="title">Fiddler</div>
-                        <div class="description">HTTP调试工具</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="category" id="cat-learning">
-            <h2>编程学习</h2>
-            <div class="links-grid">
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://leetcode.com" target="_blank">
-                        <div class="title">LeetCode</div>
-                        <div class="description">算法练习平台</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://www.nowcoder.com" target="_blank">
-                        <div class="title">牛客网</div>
-                        <div class="description">编程学习与求职</div>
-                    </a>
-                    <div class="actions">
-                        <button type="button" title="收藏 / 取消收藏" aria-label="收藏">⭐</button>
-                        <button type="button" title="复制链接" aria-label="复制链接">📋</button>
-                        <button type="button" title="分享" aria-label="分享">🔗</button>
-                        <button type="button" title="编辑链接" aria-label="编辑链接">✏️</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://www.w3cschool.cn" target="_blank">
-                        <div class="title">W3Cschool</div>
-                        <div class="description">编程学习平台</div>
-                    </a>
-                    <div class="actions">
-                        <button>⭐</button>
-                        <button>📋</button>
-                        <button>🔗</button>
-                    </div>
-                </div>
-                <div class="link-item">
-                    <div class="delete-icon">×</div>
-                    <a href="https://www.lanqiao.cn" target="_blank">
-                        <div class="title">蓝桥</div>
-                        <div class="description">在线编程实训</div>
-                    </a>
-                    <div class="actions">
-                        <button>⭐</button>
-                        <button>📋</button>
-                        <button>🔗</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-            </div>
-
-            <div class="side-nav">
-                <div class="side-nav-title">目录</div>
-                <div class="side-nav-list">
-                    <a href="#cat-tech">技术博客</a>
-                    <a href="#cat-analytics">数据分析工具</a>
-                    <a href="#cat-security">安全工具</a>
-                    <a href="#cat-learning">编程学习</a>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
-    
+
     <script src="assets/newtab.js"></script>
 </body>
 </html>
