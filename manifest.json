@@ -1,17 +1,26 @@
 {
   "manifest_version": 3,
-  "name": "发现导航",
+  "name": "SuperBookmark",
   "version": "1.0",
-  "description": "复制mynav.zhyea.com的导航网站到Chrome插件",
-  "chrome_url_overrides": {
-    "newtab": "newtab.html"
+  "description": "SuperBookmark - 点击扩展图标打开",
+  "background": {
+    "service_worker": "assets/background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
   },
   "permissions": [
-    "storage"
+    "storage",
+    "bookmarks",
+    "tabs"
   ],
   "icons": {
-    "16": "icons/icon16.svg",
-    "48": "icons/icon48.svg",
-    "128": "icons/icon128.svg"
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }

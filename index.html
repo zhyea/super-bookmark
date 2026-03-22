@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperBookmark</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <nav class="nav" aria-label="二级菜单（顶部）">
+                <ul class="nav-list" id="secondaryNav"></ul>
+            </nav>
+            <div class="search-container">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="书签搜索" aria-label="书签搜索" id="searchInput">
+                    <button type="button" class="search-btn" id="searchBtn">搜索</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar" aria-label="侧边菜单">
+                <div class="sidebar-section" id="sideSection">
+                    <ul class="sidebar-list" id="sideNavList"></ul>
+                </div>
+            </aside>
+
+            <main class="content" id="contentMain">
+                <div id="contentArea">
+                    <div class="loading" id="loading">正在加载收藏夹…</div>
+                    <div class="empty-state" id="emptyState" style="display:none;">
+                        <p>暂无数据。请在浏览器书签栏创建文件夹并添加书签。</p>
+                    </div>
+                    <div id="categoryPanel" style="display:none;">
+                        <h2 class="category-title" id="categoryTitle"></h2>
+                        <div class="tag-bar-outer" id="tagBarOuter">
+                            <button type="button" class="tag-bar-arrow tag-bar-arrow-left" id="tagBarPrev" aria-label="向左滚动" title="向左"></button>
+                            <div class="tag-bar" id="tagBar"></div>
+                            <button type="button" class="tag-bar-arrow tag-bar-arrow-right" id="tagBarNext" aria-label="向右滚动" title="向右"></button>
+                        </div>
+                        <div class="links-grid" id="linksGrid"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2026 SuperBookmark. 保留所有权利.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/bookmarks.js"></script><script src="assets/constants.js"></script><script src="assets/i18n.js"></script><script src="assets/bookmark-maintenance.js"></script><script src="assets/edit.js"></script><script src="assets/render.js"></script><script src="assets/settings.js"></script><script src="assets/operate.js"></script>
+</body>
+</html>
