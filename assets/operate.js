@@ -322,6 +322,21 @@ document.addEventListener('DOMContentLoaded', function() {
         return state.selectedTag === null && !searchTerm;
     }
 
+    function resolveDropParentId(rawId) {
+        let parentId = rawId;
+        if (parentId === 'MERGED_UNCAT') {
+            return '1';
+        }
+        if (parentId && String(parentId).endsWith('_uncat')) {
+            const primary = state.navData[state.currentPrimaryIndex];
+            return primary ? primary.folderId : '';
+        }
+        if (parentId && String(parentId).endsWith('_direct')) {
+            return String(parentId).replace(/_direct$/, '');
+        }
+        return parentId;
+    }
+
     linksGrid.addEventListener('dragstart', function(e) {
         const item = e.target.closest('.link-item');
         if (!item) return;
@@ -333,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
     linksGrid.addEventListener('dragend', function(e) {
         document.querySelectorAll('.link-item.dragging').forEach(el => el.classList.remove('dragging'));
         document.querySelectorAll('.link-item.drop-target-reorder').forEach(el => el.classList.remove('drop-target-reorder'));
-        document.querySelectorAll('.primary-nav-item.drop-target, .secondary-nav-item.drop-target').forEach(el => el.classList.remove('drop-target'));
+        document.querySelectorAll('.primary-nav-item.drop-target, .secondary-nav-item.drop-target, .side-nav-item.drop-target').forEach(el => el.classList.remove('drop-target'));
     });
     linksGrid.addEventListener('dragover', function(e) {
         const item = e.target.closest('.link-item');
@@ -410,15 +425,32 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             secondaryNav.querySelectorAll('.secondary-nav-item').forEach(el => el.classList.remove('drop-target'));
             const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
-            let parentId = a.dataset.secondaryId;
-            if (parentId === 'MERGED_UNCAT') {
-                parentId = '1';
-            } else if (parentId && String(parentId).endsWith('_uncat')) {
-                const primary = state.navData[state.currentPrimaryIndex];
-                if (primary) parentId = primary.folderId;
-            } else if (parentId && String(parentId).endsWith('_direct')) {
-                parentId = String(parentId).replace(/_direct$/, '');
+            const parentId = resolveDropParentId(a.dataset.secondaryId);
+            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, loadNavAndRender);
+        });
+    }
+
+    if (sideNavList) {
+        sideNavList.addEventListener('dragover', function(e) {
+            const a = e.target.closest('.side-nav-item');
+            if (!a) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            sideNavList.querySelectorAll('.side-nav-item').forEach(el => el.classList.remove('drop-target'));
+            a.classList.add('drop-target');
+        });
+        sideNavList.addEventListener('dragleave', function(e) {
+            if (!sideNavList.contains(e.relatedTarget)) {
+                sideNavList.querySelectorAll('.side-nav-item').forEach(el => el.classList.remove('drop-target'));
             }
+        });
+        sideNavList.addEventListener('drop', function(e) {
+            const a = e.target.closest('.side-nav-item');
+            if (!a) return;
+            e.preventDefault();
+            sideNavList.querySelectorAll('.side-nav-item').forEach(el => el.classList.remove('drop-target'));
+            const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
+            const parentId = resolveDropParentId(a.dataset.sideId);
             if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, loadNavAndRender);
         });
     }

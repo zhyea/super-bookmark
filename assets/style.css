@@ -393,6 +393,11 @@ body {
     position: relative;
 }
 
+.link-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px #0000001a;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -438,7 +443,8 @@ body {
 }
 
 .primary-nav-item.drop-target,
-.secondary-nav-item.drop-target {
+.secondary-nav-item.drop-target,
+.side-nav-item.drop-target {
     background: #bae7ff !important;
     color: #0050b3;
 }

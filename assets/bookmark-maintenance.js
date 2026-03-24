@@ -9,7 +9,10 @@
         const primary = state.navData[state.currentPrimaryIndex];
         const secondary = primary && primary.secondaries.find(function(s) { return String(s.id) === String(state.currentSecondaryId); });
         if (secondary && secondary.sides && secondary.sides.length) {
-            state.currentSideId = secondary.sides[0].id;
+            const hasCurrent = state.currentSideId != null && secondary.sides.some(function(sd) {
+                return String(sd.id) === String(state.currentSideId);
+            });
+            state.currentSideId = hasCurrent ? state.currentSideId : secondary.sides[0].id;
         } else {
             state.currentSideId = null;
         }

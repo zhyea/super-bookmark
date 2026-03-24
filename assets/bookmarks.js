@@ -60,11 +60,14 @@
                 sides: [{ id: l2.id, title: l2.title || '未命名', bookmarks }]
             };
         }
-        const sides = [{
-            id: l2.id + '_direct',
-            title: l2.title || '未命名',
-            bookmarks: l2DirectLinks
-        }];
+        const sides = [];
+        if (l2DirectLinks.length > 0) {
+            sides.push({
+                id: l2.id + '_direct',
+                title: l2.title || '未命名',
+                bookmarks: l2DirectLinks
+            });
+        }
         const allBookmarks = l2DirectLinks.slice();
         for (const l3 of l3Folders) {
             const bookmarks = [];
