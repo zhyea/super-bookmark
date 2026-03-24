@@ -89,7 +89,12 @@
 
     function faviconUrl(url) {
         try {
-            return new URL(url).origin + '/favicon.ico';
+            const parsed = new URL(url);
+            // Only web pages are allowed for direct favicon fetch.
+            if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+                return '';
+            }
+            return parsed.origin + '/favicon.ico';
         } catch (_) {
             return '';
         }
