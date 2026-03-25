@@ -48,6 +48,25 @@
         return list;
     }
 
+    function getCurrentScopeTags(state, secondary) {
+        if (!secondary) return [];
+        let scopeList;
+        if (secondary.sides && secondary.sides.length) {
+            const side = secondary.sides.find(sd => String(sd.id) === String(state.currentSideId));
+            scopeList = side ? (side.bookmarks || []) : (secondary.sides[0].bookmarks || []);
+        } else {
+            scopeList = secondary.bookmarks || [];
+        }
+        const tagSet = new Set();
+        scopeList.forEach(function(b) {
+            const folderTags = b.tags || [];
+            const userTags = (secondary._userTags && secondary._userTags[b.id]) || [];
+            folderTags.forEach(function(t) { if (t) tagSet.add(t); });
+            userTags.forEach(function(t) { if (t) tagSet.add(t); });
+        });
+        return Array.from(tagSet).sort();
+    }
+
     /** 渲染到侧栏 primaryNavList */
     function renderPrimaryNav(state, primaryNavList, escapeHtml) {
         if (!primaryNavList) return;
@@ -125,7 +144,7 @@
         if (emptyState) emptyState.style.display = 'none';
         if (categoryPanel) categoryPanel.style.display = 'block';
 
-        const tags = secondary.allTags || [];
+        const tags = getCurrentScopeTags(state, secondary);
         const selectedTag = state.selectedTag;
         var I18n = global.BookmarkManagerI18n;
         var i18n = I18n && I18n.t ? I18n.t.bind(I18n) : function(k) {
@@ -158,11 +177,11 @@
                 : `<span class="card-icon-fallback">${escapeHtml(firstChar)}</span>`;
             const linkTitle = (b.title && b.title.trim()) ? b.title.trim() : b.url;
             const urlDisplay = (b.url || '').replace(/^https?:\/\//, '').replace(/\/$/, '') || b.url || '';
-            const folderTags = b.tags || [];
             const userTags = (secondary._userTags && secondary._userTags[b.id]) || [];
-            const displayTags = [...new Set([...folderTags, ...userTags])];
-            const tagsHtml = displayTags.length
-                ? displayTags.map(function(t) { return '<span class="card-tag">' + escapeHtml(t) + '</span>'; }).join('')
+            // Note: b.tags is derived from folder names under the current side.
+            // Folder-derived "tags" should be used for top-bar filtering, but shouldn't be rendered on each card.
+            const tagsHtml = userTags && userTags.length
+                ? userTags.map(function(t) { return '<span class="card-tag">' + escapeHtml(t) + '</span>'; }).join('')
                 : '';
             return `
 <div class="link-item" data-bookmark-id="${escapeHtml(b.id)}" data-url="${escapeHtml(b.url)}" data-icon-color="${escapeHtml(iconColor)}" draggable="true">

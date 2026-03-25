@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SuperBookmark",
   "version": "1.0",
-  "description": "SuperBookmark - 点击扩展图标打开",
+  "description": "SuperBookmark - Turn your bookmarks into your private navigation hub.",
   "background": {
     "service_worker": "assets/background.js"
   },

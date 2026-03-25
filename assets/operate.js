@@ -322,6 +322,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return state.selectedTag === null && !searchTerm;
     }
 
+    function refreshAfterMove() {
+        const savedScrollY = contentMain ? contentMain.scrollTop : (window.scrollY || document.documentElement.scrollTop);
+        refreshNavAndRender({ scrollY: savedScrollY });
+    }
+
     function resolveDropParentId(rawId) {
         let parentId = rawId;
         if (parentId === 'MERGED_UNCAT') {
@@ -401,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
             primaryNavList.querySelectorAll('.primary-nav-item').forEach(el => el.classList.remove('drop-target'));
             const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
             const parentId = a.dataset.folderId;
-            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, loadNavAndRender);
+            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshAfterMove);
         });
     }
 
@@ -426,7 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
             secondaryNav.querySelectorAll('.secondary-nav-item').forEach(el => el.classList.remove('drop-target'));
             const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
             const parentId = resolveDropParentId(a.dataset.secondaryId);
-            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, loadNavAndRender);
+            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshAfterMove);
         });
     }
 
@@ -451,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
             sideNavList.querySelectorAll('.side-nav-item').forEach(el => el.classList.remove('drop-target'));
             const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
             const parentId = resolveDropParentId(a.dataset.sideId);
-            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, loadNavAndRender);
+            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshAfterMove);
         });
     }
 
