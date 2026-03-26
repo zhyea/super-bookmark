@@ -4,6 +4,7 @@
 (function() {
     const SETTINGS_STORAGE_KEY = 'bookmarkManagerSettings';
     const CONTENT_WIDTH_VALUES = ['full', '1200', '960', '800'];
+    const DEFAULT_BG_PATH = 'assets/imgs/default_bg.webp';
     const BACKGROUND_COLORS = [
         { value: '#e8f4fc' },
         { value: '#e8f5e9' },
@@ -45,15 +46,21 @@
             const contentWidth = s.contentWidth && CONTENT_WIDTH_VALUES.includes(s.contentWidth) ? s.contentWidth : '1200';
             const backgroundColor = normalizeHex(s.backgroundColor);
             const backgroundImage = (s.backgroundImage && typeof s.backgroundImage === 'string' && s.backgroundImage.startsWith('data:')) ? s.backgroundImage : '';
+            const disableDefaultBg = s.disableDefaultBg === true;
             window.__settings = {
-                showActions: s.showActions !== false,
+                // 首次安装或未保存时：编辑模式默认关闭
+                showActions: s.showActions === true,
                 columns: [3, 4, 5].includes(parseInt(s.columns, 10)) ? parseInt(s.columns, 10) : 3,
                 contentWidth: contentWidth,
                 backgroundColor: backgroundColor,
                 backgroundImage: backgroundImage,
+                disableDefaultBg: disableDefaultBg,
                 replaceDefaultNewTab: s.replaceDefaultNewTab === true,
                 locale: locale
             };
+            if (typeof document !== 'undefined' && document.body) {
+                document.body.classList.toggle('hide-card-actions', !window.__settings.showActions);
+            }
             if (cb) cb(window.__settings);
         });
     }
@@ -80,6 +87,12 @@
             document.body.style.backgroundSize = 'cover';
             document.body.style.backgroundPosition = 'center';
             document.body.style.backgroundRepeat = 'no-repeat';
+        } else if (s.disableDefaultBg !== true) {
+            // Default background image (low priority). Can be removed by clicking "Clear".
+            document.body.style.backgroundImage = 'url(' + DEFAULT_BG_PATH + ')';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundRepeat = 'no-repeat';
         } else {
             document.body.style.backgroundImage = '';
             document.body.style.backgroundSize = '';
@@ -97,7 +110,7 @@
         const cols = window.__settings.columns;
         const contentWidth = window.__settings.contentWidth || '1200';
         const backgroundColor = normalizeHex(window.__settings.backgroundColor);
-        const hasBackgroundImage = !!(window.__settings.backgroundImage);
+        const hasBackgroundImage = !!(window.__settings.backgroundImage) || window.__settings.disableDefaultBg !== true;
         const replaceDefaultNewTab = window.__settings.replaceDefaultNewTab === true;
         const locale = (window.__settings.locale && L && L.normalizeLocale) ? L.normalizeLocale(window.__settings.locale) : 'zh';
         const isPresetActive = presetMatchesColor(backgroundColor);
@@ -237,6 +250,7 @@
                 contentWidth: cw,
                 backgroundColor: bg,
                 backgroundImage: window.__settings.backgroundImage || '',
+                disableDefaultBg: window.__settings.disableDefaultBg === true,
                 replaceDefaultNewTab: replaceDefaultNewTab,
                 locale: loc
             });
@@ -325,7 +339,7 @@
                         alert(t('imgTooBig'));
                         return;
                     }
-                    saveSettings({ backgroundImage: dataUrl });
+                    saveSettings({ backgroundImage: dataUrl, disableDefaultBg: false });
                     applyContentWidthAndBackground();
                     if (clearBtn) {
                         clearBtn.disabled = false;
@@ -339,7 +353,8 @@
         if (clearBtn) {
             clearBtn.addEventListener('click', function() {
                 if (this.disabled) return;
-                saveSettings({ backgroundImage: '' });
+                // Clear ALL background images, including the default background.
+                saveSettings({ backgroundImage: '', disableDefaultBg: true });
                 applyContentWidthAndBackground();
                 this.disabled = true;
                 this.classList.add('disabled');

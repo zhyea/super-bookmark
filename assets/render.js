@@ -162,7 +162,7 @@
             categoryTitle.style.display = 'none';
         }
 
-        const showActions = options && options.showActions !== false;
+        const showActions = !!(options && options.showActions);
         const columns = (options && options.columns) != null ? options.columns : 3;
 
         const containerWidth = linksGrid.parentElement ? linksGrid.parentElement.clientWidth : 300;

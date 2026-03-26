@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
             linksGrid, tagBar, categoryTitle, categoryPanel, loadingEl, emptyState
         };
         const options = {
-            showActions: !window.__settings || window.__settings.showActions !== false,
+            showActions: !!(window.__settings && window.__settings.showActions),
             columns: window.__settings ? window.__settings.columns : 3,
             setHideCardActions: function(hide) { document.body.classList.toggle('hide-card-actions', hide); }
         };
