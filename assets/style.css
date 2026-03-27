@@ -702,7 +702,7 @@ body.hide-card-actions .link-item .actions {
     border: 1px solid #e0e0e0;
     background: #FFFFFF;
     box-shadow: 0 2px 12px #00000026;
-    opacity: 0.3;
+    opacity: 0.5;
     backdrop-filter: blur(2px);
     cursor: pointer;
     display: flex;
