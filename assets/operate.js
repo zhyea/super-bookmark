@@ -589,4 +589,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         updateScrollButtonVisibility();
     });
+
+    window.addEventListener('bookmark-visible-roots-changed', function() {
+        refreshNavAndRender();
+    });
 });

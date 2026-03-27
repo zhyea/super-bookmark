@@ -47,6 +47,10 @@
             const backgroundColor = normalizeHex(s.backgroundColor);
             const backgroundImage = (s.backgroundImage && typeof s.backgroundImage === 'string' && s.backgroundImage.startsWith('data:')) ? s.backgroundImage : '';
             const disableDefaultBg = s.disableDefaultBg === true;
+            const BM = window.BookmarkManager;
+            const visibleRoots = BM && BM.normalizeVisibleRoots
+                ? BM.normalizeVisibleRoots(s.visibleRoots)
+                : { bar: true, other: true, mobile: true, others: true };
             window.__settings = {
                 // 首次安装或未保存时：编辑模式默认关闭
                 showActions: s.showActions === true,
@@ -56,7 +60,8 @@
                 backgroundImage: backgroundImage,
                 disableDefaultBg: disableDefaultBg,
                 replaceDefaultNewTab: s.replaceDefaultNewTab === true,
-                locale: locale
+                locale: locale,
+                visibleRoots: visibleRoots
             };
             if (typeof document !== 'undefined' && document.body) {
                 document.body.classList.toggle('hide-card-actions', !window.__settings.showActions);
@@ -203,6 +208,10 @@
 
                 <div class="settings-section">
                     <div class="settings-section-title">${escAttr(t('settingsGroupManage'))}</div>
+                    <div class="settings-row">
+                        <span class="settings-label">${escAttr(t('settingsVisibleRoots'))}</span>
+                        <div class="settings-btns settings-root-btns" id="settingsVisibleRootsBtns"></div>
+                    </div>
                     <div class="settings-row">
                         <span class="settings-label">${escAttr(t('settingsFolderManage'))}</span>
                         <div class="settings-btns">
@@ -399,6 +408,61 @@
                 this.classList.add('disabled');
             });
         }
+
+        (function bindVisibleRootButtons() {
+            var container = wrap.querySelector('#settingsVisibleRootsBtns');
+            if (!container || typeof chrome === 'undefined' || !chrome.bookmarks || !chrome.bookmarks.getTree) return;
+            var BM = window.BookmarkManager;
+            if (!BM || !BM.classifyBuiltinRoot || !BM.normalizeVisibleRoots) return;
+            chrome.bookmarks.getTree(function(tree) {
+                var roots = (tree && tree[0] && tree[0].children) ? tree[0].children : [];
+                var folders = roots.filter(function(n) { return !n.url && n.children; });
+                var vr = BM.normalizeVisibleRoots(window.__settings && window.__settings.visibleRoots);
+                var seen = { bar: false, other: false, mobile: false };
+                var html = [];
+                for (var i = 0; i < folders.length; i++) {
+                    var node = folders[i];
+                    var rk = BM.classifyBuiltinRoot(node);
+                    if (!rk || seen[rk]) continue;
+                    seen[rk] = true;
+                    var on = vr[rk] !== false;
+                    html.push('<button type="button" class="settings-btn settings-root-toggle' + (on ? ' active' : '') + '" data-root-key="' + rk + '" aria-pressed="' + (on ? 'true' : 'false') + '">' + escAttr(node.title || '') + '</button>');
+                }
+                var othersOn = vr.others !== false;
+                html.push('<button type="button" class="settings-btn settings-root-toggle' + (othersOn ? ' active' : '') + '" data-root-key="others" aria-pressed="' + (othersOn ? 'true' : 'false') + '">' + escAttr(t('settingsRootOthers')) + '</button>');
+                container.innerHTML = html.join('');
+                container.querySelectorAll('.settings-root-toggle').forEach(function(btn) {
+                    btn.addEventListener('click', function(ev) {
+                        ev.stopPropagation();
+                        var key = this.dataset.rootKey;
+                        if (!key) return;
+                        var base = (window.__settings && window.__settings.visibleRoots) || BM.DEFAULT_VISIBLE_ROOTS;
+                        var next = {
+                            bar: !!base.bar,
+                            other: !!base.other,
+                            mobile: !!base.mobile,
+                            others: !!base.others
+                        };
+                        if (next[key]) {
+                            var cnt = (next.bar ? 1 : 0) + (next.other ? 1 : 0) + (next.mobile ? 1 : 0) + (next.others ? 1 : 0);
+                            if (cnt <= 1) return;
+                            next[key] = false;
+                        } else {
+                            next[key] = true;
+                        }
+                        next = BM.normalizeVisibleRoots(next);
+                        saveSettings({ visibleRoots: next });
+                        container.querySelectorAll('.settings-root-toggle').forEach(function(b) {
+                            var k2 = b.dataset.rootKey;
+                            var active = next[k2] !== false;
+                            b.classList.toggle('active', active);
+                            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+                        });
+                        window.dispatchEvent(new CustomEvent('bookmark-visible-roots-changed'));
+                    });
+                });
+            });
+        })();
     }
 
     window.BookmarkManagerSettings = {

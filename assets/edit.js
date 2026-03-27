@@ -88,7 +88,6 @@
         }
         for (var r = 0; r < tree.length; r++) {
             var root = tree[r];
-            if (root.title === 'Mobile Bookmarks' || root.title === '移动设备书签') continue;
             var rootTitle = (root.title && root.title.trim()) ? root.title.trim() : '未命名';
             if (rootTitle !== '未命名') {
                 out.push({ id: String(root.id), pathDisplay: rootTitle, depth: 0 });

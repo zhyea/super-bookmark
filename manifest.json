@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SuperBookmark",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "SuperBookmark - Turn your bookmarks into your private navigation hub.",
   "background": {
     "service_worker": "assets/background.js"

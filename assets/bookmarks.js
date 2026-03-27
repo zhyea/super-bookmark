@@ -5,6 +5,37 @@
     const TAGS_STORAGE_KEY = 'bookmarkTags';
     const ICON_COLOR_STORAGE_KEY = 'bookmarkIconColors';
     const DESCRIPTION_STORAGE_KEY = 'bookmarkDescriptions';
+    const SETTINGS_STORAGE_KEY = 'bookmarkManagerSettings';
+
+    const DEFAULT_VISIBLE_ROOTS = { bar: true, other: true, mobile: true, others: true };
+
+    function normalizeVisibleRoots(v) {
+        const d = { bar: true, other: true, mobile: true, others: true };
+        if (!v || typeof v !== 'object') return d;
+        if (typeof v.bar === 'boolean') d.bar = v.bar;
+        if (typeof v.other === 'boolean') d.other = v.other;
+        if (typeof v.mobile === 'boolean') d.mobile = v.mobile;
+        if (typeof v.others === 'boolean') d.others = v.others;
+        if (!d.bar && !d.other && !d.mobile && !d.others) {
+            return { bar: true, other: true, mobile: true, others: true };
+        }
+        return d;
+    }
+
+    /** 将内置顶层文件夹归类为 bar / other / mobile（与 isChromeBarOrOtherRoot 一致） */
+    function classifyBuiltinRoot(node) {
+        if (!node || node.url || !node.children) return null;
+        const id = String(node.id);
+        if (id === '1') return 'bar';
+        if (id === '2') return 'other';
+        if (id === '3') return 'mobile';
+        const title = (node.title || '').trim();
+        const tl = title.toLowerCase();
+        if (['Bookmarks bar', '书签栏'].indexOf(title) !== -1) return 'bar';
+        if (['Other bookmarks', '其它书签'].indexOf(title) !== -1) return 'other';
+        if (tl === 'mobile bookmarks' || title === '移动设备书签') return 'mobile';
+        return null;
+    }
 
     function escapeHtml(text) {
         if (text == null) return '';
@@ -30,13 +61,16 @@
         }
     }
 
-    /** Chrome 书签栏 / 其它书签根节点（多语言 + 常见 id） */
+    /** Chrome 内置顶层文件夹：书签栏、其它书签、移动设备书签（多语言 + 常见 id） */
     function isChromeBarOrOtherRoot(node) {
         if (!node || node.url || !node.children) return false;
         const id = String(node.id);
-        if (id === '1' || id === '2') return true;
+        if (id === '1' || id === '2' || id === '3') return true;
         const t = (node.title || '').trim();
-        return ['Bookmarks bar', 'Other bookmarks', '书签栏', '其它书签'].indexOf(t) !== -1;
+        if (['Bookmarks bar', 'Other bookmarks', '书签栏', '其它书签'].indexOf(t) !== -1) return true;
+        const tl = t.toLowerCase();
+        if (tl === 'mobile bookmarks') return true;
+        return t === '移动设备书签';
     }
 
     /** 由二级文件夹（L2）生成一条 secondary 配置 */
@@ -86,12 +120,12 @@
     }
 
     /**
-     * 合并「书签栏」「其它书签」：二者下所有子文件夹作为顶部二级菜单；
-     * 二者根目录下的直接书签合并为一个「未分类」（置于最后）。
+     * 合并「书签栏」「其它书签」「移动设备书签」：三者下所有子文件夹作为顶部二级菜单；
+     * 各根目录下的直接书签合并为一个「未分类」（置于最后）。
      */
     function buildMergedBarOtherPrimary(mergeRoots) {
         if (!mergeRoots || !mergeRoots.length) return null;
-        const order = ['1', '2'];
+        const order = ['1', '2', '3'];
         mergeRoots.sort(function(a, b) {
             const ia = order.indexOf(String(a.id));
             const ib = order.indexOf(String(b.id));
@@ -130,24 +164,32 @@
     }
 
     /** 从 Chrome 书签树构建 navData：一级=primary，二级=header 菜单；直接在一级下的书签归为虚拟二级「未分类」并置于最后；
-     *  书签栏 + 其它书签合并为一级「书签」；每个二级下的分类：side 菜单 = 二级名称（直接书签）+ 三级目录名 */
-    function buildNavData(tree) {
+     *  书签栏 + 其它书签 + 移动设备书签合并为一级「书签」；每个二级下的分类：side 菜单 = 二级名称（直接书签）+ 三级目录名 */
+    function buildNavData(tree, visibleRoots) {
         const result = [];
         if (!tree || !tree.length) return result;
+        const vr = normalizeVisibleRoots(visibleRoots);
 
         for (const root of tree) {
             const children = root.children;
             if (!children || !children.length) continue;
-            if (root.title === 'Mobile Bookmarks' || root.title === '移动设备书签') continue;
 
             const l1Folders = children.filter(n => !n.url && n.children);
-            const mergeRoots = l1Folders.filter(isChromeBarOrOtherRoot);
+            const mergeRootsAll = l1Folders.filter(isChromeBarOrOtherRoot);
+            const mergeRoots = mergeRootsAll.filter(function(n) {
+                const k = classifyBuiltinRoot(n);
+                if (k === 'bar') return vr.bar;
+                if (k === 'other') return vr.other;
+                if (k === 'mobile') return vr.mobile;
+                return true;
+            });
             const otherL1 = l1Folders.filter(function(n) { return !isChromeBarOrOtherRoot(n); });
 
             const merged = buildMergedBarOtherPrimary(mergeRoots);
             if (merged) result.push(merged);
 
             for (const l1 of otherL1) {
+                if (!vr.others) continue;
                 const l2Folders = (l1.children || []).filter(n => !n.url && n.children);
                 const l1DirectLinks = (l1.children || []).filter(n => n.url).map(n => ({
                     id: n.id,
@@ -262,8 +304,11 @@
 
     /** 拉取完整导航数据（书签树 + 用户标签 + 图标背景色合并），回调 cb(navData) */
     function fetchNavData(cb) {
-        chrome.bookmarks.getTree(function(tree) {
-            const navData = buildNavData(tree);
+        chrome.storage.local.get(SETTINGS_STORAGE_KEY, function(store) {
+            const s = store[SETTINGS_STORAGE_KEY] || {};
+            const visibleRoots = normalizeVisibleRoots(s.visibleRoots);
+            chrome.bookmarks.getTree(function(tree) {
+            const navData = buildNavData(tree, visibleRoots);
             loadTags(function(tagsMap) {
                 loadIconColors(function(iconColorMap) {
                     loadDescriptions(function(descMap) {
@@ -285,6 +330,7 @@
                     });
                 });
             });
+            });
         });
     }
 
@@ -292,6 +338,10 @@
         TAGS_STORAGE_KEY,
         ICON_COLOR_STORAGE_KEY,
         DESCRIPTION_STORAGE_KEY,
+        SETTINGS_STORAGE_KEY,
+        DEFAULT_VISIBLE_ROOTS,
+        normalizeVisibleRoots,
+        classifyBuiltinRoot,
         loadDescriptions,
         saveDescription,
         escapeHtml,
