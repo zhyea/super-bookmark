@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const item = this.closest('.link-item');
                 const id = item.dataset.bookmarkId;
                 item.style.animation = 'fadeOut 0.3s ease forwards';
-                BookmarkMaintenance.deleteBookmark(id, loadNavAndRender);
+                BookmarkMaintenance.deleteBookmark(id, refreshKeepView);
             });
         });
 
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return state.selectedTag === null && !searchTerm;
     }
 
-    function refreshAfterMove() {
+    function refreshKeepView() {
         const savedScrollY = contentMain ? contentMain.scrollTop : (window.scrollY || document.documentElement.scrollTop);
         refreshNavAndRender({ scrollY: savedScrollY });
     }
@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
             primaryNavList.querySelectorAll('.primary-nav-item').forEach(el => el.classList.remove('drop-target'));
             const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
             const parentId = a.dataset.folderId;
-            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshAfterMove);
+            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshKeepView);
         });
     }
 
@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
             secondaryNav.querySelectorAll('.secondary-nav-item').forEach(el => el.classList.remove('drop-target'));
             const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
             const parentId = resolveDropParentId(a.dataset.secondaryId);
-            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshAfterMove);
+            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshKeepView);
         });
     }
 
@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
             sideNavList.querySelectorAll('.side-nav-item').forEach(el => el.classList.remove('drop-target'));
             const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
             const parentId = resolveDropParentId(a.dataset.sideId);
-            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshAfterMove);
+            if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshKeepView);
         });
     }
 
@@ -479,8 +479,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const Settings = window.BookmarkManagerSettings;
     if (!Settings) return;
 
-    chrome.bookmarks.onRemoved.addListener(loadNavAndRender);
-    chrome.bookmarks.onCreated.addListener(loadNavAndRender);
+    chrome.bookmarks.onRemoved.addListener(refreshKeepView);
+    chrome.bookmarks.onCreated.addListener(refreshKeepView);
 
     const scrollFloatWrap = document.createElement('div');
     scrollFloatWrap.className = 'scroll-float-wrap';
@@ -556,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (id) {
             const item = linksGrid.querySelector('.link-item[data-bookmark-id="' + id + '"]');
             if (item) item.style.animation = 'fadeOut 0.3s ease forwards';
-            BookmarkMaintenance.deleteBookmark(id, loadNavAndRender);
+            BookmarkMaintenance.deleteBookmark(id, refreshKeepView);
         }
         linkContextMenu.classList.remove('link-context-menu-visible');
     });

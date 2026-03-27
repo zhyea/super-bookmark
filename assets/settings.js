@@ -126,75 +126,97 @@
             const titleKey = BGK[idx] || 'bgpBlue';
             return '<button type="button" class="settings-btn settings-bg-swatch' + darkClass + ' ' + activeClass + '" data-setting="backgroundColor" data-value="' + c.value + '" style="background-color:' + c.value + '" title="' + escAttr(t(titleKey)) + '"></button>';
         }).join('');
-        var LANG_KEYS = { zh: 'langZh', 'zh-TW': 'langZhTW', en: 'langEn', es: 'langEs', de: 'langDe', fr: 'langFr', ja: 'langJa', ko: 'langKo' };
+        var LANG_KEYS = { zh: 'langZh', 'zh-TW': 'langZhTW', en: 'langEn', es: 'langEs', de: 'langDe', fr: 'langFr', it: 'langIt', ru: 'langRu', ar: 'langAr', ja: 'langJa', ko: 'langKo' };
         const langOpts = (L && L.CODES) ? L.CODES.map(function(code) {
             var lab = t(LANG_KEYS[code] || 'langEn');
             return '<option value="' + code + '"' + (locale === code ? ' selected' : '') + '>' + escAttr(lab) + '</option>';
         }).join('') : '';
 
         wrap.innerHTML = `
-            <button type="button" class="settings-toggle" aria-label="${escAttr(t('settingsAria'))}">⚙️</button>
+            <button type="button" class="settings-toggle" aria-label="${escAttr(t('settingsAria'))}">
+                <span class="settings-toggle-breadcrumb" aria-hidden="true"></span>
+            </button>
             <div class="settings-panel">
-                <div class="settings-row">
-                    <span class="settings-label">${escAttr(t('settingsLang'))}</span>
-                    <div class="settings-btns">
-                        <select class="settings-locale-select" id="settingsLocale" aria-label="${escAttr(t('settingsLang'))}">${langOpts}</select>
+                <div class="settings-panel-title">${escAttr(t('settingsTitle'))}</div>
+                <div class="settings-panel-content">
+                <div class="settings-section">
+                    <div class="settings-section-title">${escAttr(t('settingsGroupGeneral'))}</div>
+                    <div class="settings-row settings-row-inline">
+                        <span class="settings-label">${escAttr(t('settingsLang'))}</span>
+                        <div class="settings-btns">
+                            <select class="settings-locale-select" id="settingsLocale" aria-label="${escAttr(t('settingsLang'))}">${langOpts}</select>
+                        </div>
+                    </div>
+                    <div class="settings-row settings-row-inline">
+                        <span class="settings-label">${escAttr(t('settingsEditMode'))}</span>
+                        <div class="settings-btns settings-switch-row">
+                            <label class="settings-switch" title="${escAttr(t('settingsEditMode'))}">
+                                <input type="checkbox" id="settingsEditModeSwitch" ${showActions ? 'checked' : ''}>
+                                <span class="settings-switch-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-row settings-row-inline">
+                        <span class="settings-label">${escAttr(t('settingsNewTab'))}</span>
+                        <div class="settings-btns settings-switch-row">
+                            <label class="settings-switch" title="${escAttr(t('settingsNewTab'))}">
+                                <input type="checkbox" id="settingsReplaceNewTabSwitch" ${replaceDefaultNewTab ? 'checked' : ''}>
+                                <span class="settings-switch-slider"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="settings-row">
-                    <span class="settings-label">${escAttr(t('settingsEditMode'))}</span>
-                    <div class="settings-btns">
-                        <button type="button" class="settings-btn ${showActions ? 'active' : ''}" data-setting="editMode" data-value="on">${escAttr(t('on'))}</button>
-                        <button type="button" class="settings-btn ${!showActions ? 'active' : ''}" data-setting="editMode" data-value="off">${escAttr(t('off'))}</button>
+
+                <div class="settings-section">
+                    <div class="settings-section-title">${escAttr(t('settingsGroupView'))}</div>
+                    <div class="settings-row">
+                        <span class="settings-label">${escAttr(t('settingsColumns'))}</span>
+                        <div class="settings-btns">
+                            <button type="button" class="settings-btn ${cols === 3 ? 'active' : ''}" data-setting="columns" data-value="3">3</button>
+                            <button type="button" class="settings-btn ${cols === 4 ? 'active' : ''}" data-setting="columns" data-value="4">4</button>
+                            <button type="button" class="settings-btn ${cols === 5 ? 'active' : ''}" data-setting="columns" data-value="5">5</button>
+                        </div>
                     </div>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">${escAttr(t('settingsColumns'))}</span>
-                    <div class="settings-btns">
-                        <button type="button" class="settings-btn ${cols === 3 ? 'active' : ''}" data-setting="columns" data-value="3">3</button>
-                        <button type="button" class="settings-btn ${cols === 4 ? 'active' : ''}" data-setting="columns" data-value="4">4</button>
-                        <button type="button" class="settings-btn ${cols === 5 ? 'active' : ''}" data-setting="columns" data-value="5">5</button>
+                    <div class="settings-row">
+                        <span class="settings-label">${escAttr(t('settingsWidth'))}</span>
+                        <div class="settings-btns">
+                            ${contentWidthHtml}
+                        </div>
                     </div>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">${escAttr(t('settingsWidth'))}</span>
-                    <div class="settings-btns">
-                        ${contentWidthHtml}
-                    </div>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-label">${escAttr(t('settingsBg'))}</span>
-                    <div class="settings-btns settings-bg-row">
-                        ${bgColorHtml}
-                        <label class="settings-color-picker-wrap" title="${escAttr(t('bgPickTitle'))}">
-                            <span class="settings-color-picker-label">${escAttr(t('bgPick'))}</span>
+                    <div class="settings-row">
+                        <span class="settings-label">${escAttr(t('settingsBg'))}</span>
+                        <div class="settings-btns settings-bg-row">
+                            ${bgColorHtml}
+                            <button type="button" class="settings-btn settings-bg-swatch settings-bg-custom ${!isPresetActive ? 'active' : ''}" data-setting="backgroundColor" data-value="custom" title="${escAttr(t('bgPickTitle'))}" aria-label="${escAttr(t('bgPickAria'))}"></button>
                             <input type="color" id="settingsBgColorPicker" class="settings-color-picker" value="${pickerValue}" aria-label="${escAttr(t('bgPickAria'))}">
-                        </label>
+                        </div>
+                    </div>
+                    <div class="settings-row">
+                        <span class="settings-label">${escAttr(t('settingsBgImg'))}</span>
+                        <div class="settings-btns settings-bg-image-row">
+                            <input type="file" accept="image/*" id="settingsBackgroundImage" class="settings-file-input" style="display:none">
+                            <button type="button" class="settings-btn" id="settingsUploadBgBtn">${escAttr(t('chooseImg'))}</button>
+                            <button type="button" class="settings-btn ${hasBackgroundImage ? '' : 'disabled'}" id="settingsClearBgBtn" ${!hasBackgroundImage ? 'disabled' : ''}>${escAttr(t('clear'))}</button>
+                        </div>
                     </div>
                 </div>
-                <div class="settings-row">
-                    <span class="settings-label">${escAttr(t('settingsBgImg'))}</span>
-                    <div class="settings-btns settings-bg-image-row">
-                        <input type="file" accept="image/*" id="settingsBackgroundImage" class="settings-file-input" style="display:none">
-                        <button type="button" class="settings-btn" id="settingsUploadBgBtn">${escAttr(t('chooseImg'))}</button>
-                        <button type="button" class="settings-btn ${hasBackgroundImage ? '' : 'disabled'}" id="settingsClearBgBtn" ${!hasBackgroundImage ? 'disabled' : ''}>${escAttr(t('clear'))}</button>
+
+                <div class="settings-section">
+                    <div class="settings-section-title">${escAttr(t('settingsGroupManage'))}</div>
+                    <div class="settings-row">
+                        <span class="settings-label">${escAttr(t('settingsFolderManage'))}</span>
+                        <div class="settings-btns">
+                            <button type="button" class="settings-btn" id="settingsOpenBookmarkManager">${escAttr(t('openBookmarkManager'))}</button>
+                        </div>
                     </div>
                 </div>
-                <div class="settings-row">
-                    <span class="settings-label">${escAttr(t('settingsNewTab'))}</span>
-                    <div class="settings-btns">
-                        <button type="button" class="settings-btn ${replaceDefaultNewTab ? 'active' : ''}" data-setting="replaceDefaultNewTab" data-value="on">${escAttr(t('on'))}</button>
-                        <button type="button" class="settings-btn ${!replaceDefaultNewTab ? 'active' : ''}" data-setting="replaceDefaultNewTab" data-value="off">${escAttr(t('off'))}</button>
+
+                <div class="settings-section settings-section-about">
+                    <div class="settings-section-title">${escAttr(t('settingsGroupAbout'))}</div>
+                    <div class="settings-row settings-row-help">
+                        <a href="#" class="settings-help-link" id="settingsOpenGuide">${escAttr(t('helpLink'))}</a>
                     </div>
                 </div>
-                <div class="settings-row">
-                    <span class="settings-label">${escAttr(t('settingsFolderManage'))}</span>
-                    <div class="settings-btns">
-                        <button type="button" class="settings-btn" id="settingsOpenBookmarkManager">${escAttr(t('openBookmarkManager'))}</button>
-                    </div>
-                </div>
-                <div class="settings-row settings-row-help">
-                    <a href="#" class="settings-help-link" id="settingsOpenGuide">${escAttr(t('helpLink'))}</a>
                 </div>
             </div>
         `;
@@ -208,8 +230,13 @@
                 var v = L && L.normalizeLocale ? L.normalizeLocale(this.value) : 'zh';
                 if (L && L.setLocale) L.setLocale(v);
                 saveSettings({ locale: v });
+                var keepPanelOpen = panel.classList.contains('settings-panel-open');
                 wrap.remove();
                 renderSettingsUI(linksGrid);
+                if (keepPanelOpen) {
+                    var newPanel = document.querySelector('.settings-panel');
+                    if (newPanel) newPanel.classList.add('settings-panel-open');
+                }
                 if (L && L.applyMainPageStatic) L.applyMainPageStatic();
                 window.dispatchEvent(new CustomEvent('bookmark-locale-changed'));
             });
@@ -228,21 +255,22 @@
         function getCurrentBackgroundColor() {
             const bgBtn = wrap.querySelector('[data-setting="backgroundColor"].active');
             const picker = wrap.querySelector('#settingsBgColorPicker');
-            if (bgBtn) return normalizeHex(bgBtn.dataset.value);
+            if (bgBtn && bgBtn.dataset.value && bgBtn.dataset.value !== 'custom') return normalizeHex(bgBtn.dataset.value);
             if (picker && picker.value) return normalizeHex(picker.value);
             return normalizeHex(window.__settings.backgroundColor);
         }
 
         function applySettings() {
-            const editModeOn = wrap.querySelector('[data-setting="editMode"][data-value="on"]').classList.contains('active');
+            const editModeSwitch = wrap.querySelector('#settingsEditModeSwitch');
+            const editModeOn = !!(editModeSwitch && editModeSwitch.checked);
             const showActions = editModeOn;
             const colBtn = wrap.querySelector('[data-setting="columns"].active');
             const columns = colBtn ? parseInt(colBtn.dataset.value, 10) : 3;
             const widthBtn = wrap.querySelector('[data-setting="contentWidth"].active');
             const cw = widthBtn ? widthBtn.dataset.value : '1200';
             const bg = getCurrentBackgroundColor();
-            const replaceBtn = wrap.querySelector('[data-setting="replaceDefaultNewTab"][data-value="on"]');
-            const replaceDefaultNewTab = replaceBtn && replaceBtn.classList.contains('active');
+            const replaceSwitch = wrap.querySelector('#settingsReplaceNewTabSwitch');
+            const replaceDefaultNewTab = !!(replaceSwitch && replaceSwitch.checked);
             const loc = localeSel && L && L.normalizeLocale ? L.normalizeLocale(localeSel.value) : (window.__settings.locale || 'zh');
             saveSettings({
                 showActions: showActions,
@@ -265,7 +293,7 @@
 
         applyContentWidthAndBackground();
 
-        var TOGGLE_SETTINGS = ['editMode', 'columns', 'contentWidth', 'replaceDefaultNewTab'];
+        var TOGGLE_SETTINGS = ['columns', 'contentWidth'];
         TOGGLE_SETTINGS.forEach(function(name) {
             wrap.querySelectorAll('.settings-btn[data-setting="' + name + '"]').forEach(function(btn) {
                 btn.addEventListener('click', function() {
@@ -275,12 +303,21 @@
                 });
             });
         });
+        var editModeSwitchEl = wrap.querySelector('#settingsEditModeSwitch');
+        if (editModeSwitchEl) editModeSwitchEl.addEventListener('change', applySettings);
+        var replaceNewTabSwitchEl = wrap.querySelector('#settingsReplaceNewTabSwitch');
+        if (replaceNewTabSwitchEl) replaceNewTabSwitchEl.addEventListener('change', applySettings);
         wrap.querySelectorAll('.settings-btn[data-setting="backgroundColor"]').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 wrap.querySelectorAll('.settings-btn[data-setting="backgroundColor"]').forEach(function(b) { b.classList.remove('active'); });
                 this.classList.add('active');
                 var picker = wrap.querySelector('#settingsBgColorPicker');
-                if (picker) picker.value = normalizeHex(this.dataset.value);
+                if (picker && this.dataset.value !== 'custom') {
+                    picker.value = normalizeHex(this.dataset.value);
+                }
+                if (picker && this.dataset.value === 'custom') {
+                    picker.click();
+                }
                 applySettings();
             });
         });
@@ -288,6 +325,8 @@
         if (bgPicker) {
             bgPicker.addEventListener('input', function() {
                 wrap.querySelectorAll('.settings-btn[data-setting="backgroundColor"]').forEach(b => b.classList.remove('active'));
+                var customBtn = wrap.querySelector('.settings-btn[data-setting="backgroundColor"][data-value="custom"]');
+                if (customBtn) customBtn.classList.add('active');
                 saveSettings({ backgroundColor: normalizeHex(this.value) });
                 applyContentWidthAndBackground();
             });
