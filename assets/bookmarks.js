@@ -163,6 +163,101 @@
         };
     }
 
+    /**
+     * 多个书签根下可能出现同名的一级目录；同名项在标题后追加阿拉伯数字 1、2、…（从 1 起）。
+     * 若追加后与已有标题冲突，继续递增直至唯一。
+     */
+    function disambiguatePrimaryTitles(result) {
+        if (!result || !result.length) return;
+        const bases = result.map(function(p) {
+            return (p.title || '').trim() || '未命名';
+        });
+        const byBase = new Map();
+        bases.forEach(function(b, i) {
+            if (!byBase.has(b)) byBase.set(b, []);
+            byBase.get(b).push(i);
+        });
+        const proposed = bases.slice();
+        byBase.forEach(function(indices, b) {
+            if (indices.length <= 1) return;
+            indices.forEach(function(i, k) {
+                proposed[i] = b + String(k + 1);
+            });
+        });
+        const used = new Set();
+        result.forEach(function(p, i) {
+            let t = proposed[i];
+            if (!used.has(t)) {
+                used.add(t);
+                p.title = t;
+                return;
+            }
+            const b = bases[i];
+            let n = 1;
+            while (used.has(t)) {
+                t = b + String(n);
+                n++;
+            }
+            used.add(t);
+            p.title = t;
+        });
+    }
+
+    /**
+     * 同一 primary 下多个书签根合并或同根下重复名时，二级目录（header）可能同名；规则与一级相同。
+     * 带 titleI18nKey 的项（如「未分类」）按 id 单独处理，不参与同名合并。
+     * 与二级标题一致的单侧（整夹或 _direct）同步改名，避免侧栏与顶栏不一致。
+     */
+    function disambiguateSecondaryTitles(secondaries) {
+        if (!secondaries || !secondaries.length) return;
+        const bases = secondaries.map(function(s) {
+            if (s.titleI18nKey) return '\0_i18n_' + String(s.id);
+            return (s.title || '').trim() || '未命名';
+        });
+        const byBase = new Map();
+        bases.forEach(function(b, i) {
+            if (b.indexOf('\0_i18n_') === 0) return;
+            if (!byBase.has(b)) byBase.set(b, []);
+            byBase.get(b).push(i);
+        });
+        const proposed = bases.slice();
+        byBase.forEach(function(indices, b) {
+            if (indices.length <= 1) return;
+            indices.forEach(function(i, k) {
+                proposed[i] = b + String(k + 1);
+            });
+        });
+        const used = new Set();
+        secondaries.forEach(function(s, i) {
+            let t = proposed[i];
+            const origBase = bases[i].indexOf('\0_i18n_') === 0 ? null : bases[i];
+            if (origBase === null) return;
+            if (!used.has(t)) {
+                used.add(t);
+            } else {
+                const b = origBase;
+                let n = 1;
+                while (used.has(t)) {
+                    t = b + String(n);
+                    n++;
+                }
+                used.add(t);
+            }
+            const prevTitle = s.title;
+            s.title = t;
+            if (!s.sides || !s.sides.length) return;
+            const baseForSide = (prevTitle || '').trim() || '未命名';
+            s.sides.forEach(function(side) {
+                const st = (side.title || '').trim() || '未命名';
+                if (st !== baseForSide) return;
+                const sid = String(side.id);
+                if (sid === String(s.id) || sid.endsWith('_direct')) {
+                    side.title = t;
+                }
+            });
+        });
+    }
+
     /** 从 Chrome 书签树构建 navData：一级=primary，二级=header 菜单；直接在一级下的书签归为虚拟二级「未分类」并置于最后；
      *  书签栏 + 其它书签 + 移动设备书签合并为一级「书签」；每个二级下的分类：side 菜单 = 二级名称（直接书签）+ 三级目录名 */
     function buildNavData(tree, visibleRoots) {
@@ -240,6 +335,12 @@
                 }
             }
         }
+        result.forEach(function(p) {
+            if (p.secondaries && p.secondaries.length) {
+                disambiguateSecondaryTitles(p.secondaries);
+            }
+        });
+        disambiguatePrimaryTitles(result);
         return result;
     }
 
