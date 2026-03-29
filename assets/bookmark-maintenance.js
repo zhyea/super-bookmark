@@ -22,7 +22,7 @@
         const loadingEl = callbacks.loadingEl;
         const emptyState = callbacks.emptyState;
         const categoryPanel = callbacks.categoryPanel;
-        const primaryNavList = callbacks.primaryNavList;
+        const primaryNav = callbacks.primaryNav;
         const secondaryNav = callbacks.secondaryNav;
         const sideNavList = callbacks.sideNavList;
 
@@ -32,10 +32,12 @@
             if (!navData.length) {
                 emptyState.style.display = 'block';
                 categoryPanel.style.display = 'none';
-                if (primaryNavList) primaryNavList.innerHTML = '';
+                if (primaryNav) primaryNav.innerHTML = '';
                 if (secondaryNav) secondaryNav.innerHTML = '';
                 if (sideNavList) sideNavList.innerHTML = '';
                 state.currentSideId = null;
+                if (callbacks.renderPrimaryNav) callbacks.renderPrimaryNav();
+                if (callbacks.renderSideNav) callbacks.renderSideNav();
                 return;
             }
             emptyState.style.display = 'none';
@@ -65,6 +67,7 @@
                 state.currentSecondaryId = null;
                 if (callbacks.renderPrimaryNav) callbacks.renderPrimaryNav();
                 if (callbacks.renderSecondaryNav) callbacks.renderSecondaryNav();
+                if (callbacks.renderSideNav) callbacks.renderSideNav();
                 return;
             }
             emptyState.style.display = 'none';

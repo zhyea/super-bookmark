@@ -67,15 +67,26 @@
         return Array.from(tagSet).sort();
     }
 
-    /** 渲染到侧栏 primaryNavList */
-    function renderPrimaryNav(state, primaryNavList, escapeHtml) {
-        if (!primaryNavList) return;
-        if (!state.navData.length) {
-            primaryNavList.innerHTML = '';
+    /** 渲染一级目录到顶栏 #primaryNav；仅多个一级时显示 #primaryNavWrap */
+    function renderPrimaryNav(state, primaryNav, primaryNavWrap, escapeHtml) {
+        if (!primaryNav) return;
+        function hidePrimaryRow() {
+            primaryNav.innerHTML = '';
+            if (primaryNavWrap) {
+                primaryNavWrap.setAttribute('hidden', '');
+                primaryNavWrap.hidden = true;
+            }
+        }
+        if (!state.navData.length || state.navData.length <= 1) {
+            hidePrimaryRow();
             return;
         }
-        primaryNavList.innerHTML = state.navData.map((p, i) =>
-            `<li class="sidebar-item"><a href="#" class="primary-nav-item" data-primary-index="${i}" data-folder-id="${escapeHtml(String(p.folderId))}">${escapeHtml(p.title)}</a></li>`
+        if (primaryNavWrap) {
+            primaryNavWrap.removeAttribute('hidden');
+            primaryNavWrap.hidden = false;
+        }
+        primaryNav.innerHTML = state.navData.map((p, i) =>
+            `<li class="nav-item"><a href="#" class="primary-nav-item" data-primary-index="${i}" data-folder-id="${escapeHtml(String(p.folderId))}">${escapeHtml(p.title)}</a></li>`
         ).join('');
     }
 
@@ -146,9 +157,9 @@
 
         const tags = getCurrentScopeTags(state, secondary);
         const selectedTag = state.selectedTag;
-        var I18n = global.BookmarkManagerI18n;
-        var i18n = I18n && I18n.t ? I18n.t.bind(I18n) : function(k) {
-            var d = { tagAll: '全部', uncategorized: '未分类', cardDelete: '删除', cardEdit: '编辑' };
+        let I18n = global.BookmarkManagerI18n;
+        let i18n = I18n && I18n.t ? I18n.t.bind(I18n) : function(k) {
+            let d = { tagAll: '全部', uncategorized: '未分类', cardDelete: '删除', cardEdit: '编辑' };
             return d[k] || k;
         };
         tagBar.innerHTML = '<span class="tag-pill' + (selectedTag === null ? ' active' : '') + '" data-tag="">' + escapeHtml(i18n('tagAll')) + '</span>' +

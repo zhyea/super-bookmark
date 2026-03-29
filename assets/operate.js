@@ -1,6 +1,6 @@
 /**
  * 新标签页主逻辑：导航与渲染调度、拖拽、悬浮链接提示、双击编辑、右键菜单
- * 依赖：bookmarks.js、edit.js、bookmark-maintenance.js、render.js、settings.js
+ * 依赖：bookmark-nav-build.js、bookmarks.js、edit.js、bookmark-maintenance.js、render.js、settings.js
  */
 document.addEventListener('DOMContentLoaded', function() {
     const BM = window.BookmarkManager;
@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const NewTabRender = window.NewTabRender;
     if (!BM || !EditModal || !BookmarkMaintenance || !NewTabRender) return;
 
-    const primaryNavList = document.getElementById('primaryNavList');
+    const primaryNavWrap = document.getElementById('primaryNavWrap');
+    const primaryNav = document.getElementById('primaryNav');
     const secondaryNav = document.getElementById('secondaryNav');
     const sideNavList = document.getElementById('sideNavList');
     const loadingEl = document.getElementById('loading');
@@ -97,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePrimaryActive() {
-        if (!primaryNavList) return;
-        primaryNavList.querySelectorAll('.primary-nav-item').forEach((a, i) => {
+        if (!primaryNav) return;
+        primaryNav.querySelectorAll('.primary-nav-item').forEach((a, i) => {
             a.classList.toggle('active', i === state.currentPrimaryIndex);
         });
     }
@@ -128,9 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderPrimaryNav() {
-        NewTabRender.renderPrimaryNav(state, primaryNavList, escapeHtml);
-        if (primaryNavList) {
-            primaryNavList.querySelectorAll('.primary-nav-item').forEach(a => {
+        NewTabRender.renderPrimaryNav(state, primaryNav, primaryNavWrap, escapeHtml);
+        if (primaryNav) {
+            primaryNav.querySelectorAll('.primary-nav-item').forEach(a => {
                 a.addEventListener('click', function(e) {
                     e.preventDefault();
                     state.currentPrimaryIndex = parseInt(this.dataset.primaryIndex, 10);
@@ -247,8 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateTagBarArrows() {
         if (!tagBar || !tagBarOuter) return;
-        var maxScroll = tagBar.scrollWidth - tagBar.clientWidth;
-        var overflow = maxScroll > 6;
+        let maxScroll = tagBar.scrollWidth - tagBar.clientWidth;
+        let overflow = maxScroll > 6;
         tagBarOuter.classList.toggle('tag-bar-overflow', overflow);
         if (tagBarPrev) {
             tagBarPrev.classList.remove('tag-bar-arrow-visible');
@@ -259,9 +260,9 @@ document.addEventListener('DOMContentLoaded', function() {
             tagBarNext.classList.remove('tag-bar-arrow-disabled');
         }
         if (!overflow) return;
-        var left = tagBar.scrollLeft;
-        var canLeft = left > 2;
-        var canRight = left < maxScroll - 2;
+        let left = tagBar.scrollLeft;
+        let canLeft = left > 2;
+        let canRight = left < maxScroll - 2;
         if (tagBarPrev) {
             tagBarPrev.classList.toggle('tag-bar-arrow-visible', canLeft);
             tagBarPrev.classList.toggle('tag-bar-arrow-disabled', !canLeft);
@@ -273,19 +274,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (tagBar && tagBarPrev && tagBarNext) {
+        function tagBarScrollStep() {
+            return Math.max(120, Math.floor(tagBar.clientWidth * 0.55));
+        }
         tagBarPrev.addEventListener('click', function() {
             if (this.classList.contains('tag-bar-arrow-disabled')) return;
-            var step = Math.max(120, Math.floor(tagBar.clientWidth * 0.55));
-            tagBar.scrollBy({ left: -step, behavior: 'smooth' });
+            tagBar.scrollBy({ left: -tagBarScrollStep(), behavior: 'smooth' });
         });
         tagBarNext.addEventListener('click', function() {
             if (this.classList.contains('tag-bar-arrow-disabled')) return;
-            var step = Math.max(120, Math.floor(tagBar.clientWidth * 0.55));
-            tagBar.scrollBy({ left: step, behavior: 'smooth' });
+            tagBar.scrollBy({ left: tagBarScrollStep(), behavior: 'smooth' });
         });
         tagBar.addEventListener('scroll', function() { updateTagBarArrows(); }, { passive: true });
         if (typeof ResizeObserver !== 'undefined') {
-            var tagBarRo = new ResizeObserver(function() { updateTagBarArrows(); });
+            let tagBarRo = new ResizeObserver(function() { updateTagBarArrows(); });
             tagBarRo.observe(tagBar);
             if (tagBarOuter) tagBarRo.observe(tagBarOuter);
         }
@@ -309,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingEl,
         emptyState,
         categoryPanel,
-        primaryNavList,
+        primaryNav,
         secondaryNav,
         sideNavList,
         renderPrimaryNav,
@@ -385,25 +387,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    if (primaryNavList) {
-        primaryNavList.addEventListener('dragover', function(e) {
+    if (primaryNav) {
+        primaryNav.addEventListener('dragover', function(e) {
             const a = e.target.closest('.primary-nav-item');
             if (!a) return;
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            primaryNavList.querySelectorAll('.primary-nav-item').forEach(el => el.classList.remove('drop-target'));
+            primaryNav.querySelectorAll('.primary-nav-item').forEach(el => el.classList.remove('drop-target'));
             a.classList.add('drop-target');
         });
-        primaryNavList.addEventListener('dragleave', function(e) {
-            if (!primaryNavList.contains(e.relatedTarget)) {
-                primaryNavList.querySelectorAll('.primary-nav-item').forEach(el => el.classList.remove('drop-target'));
+        primaryNav.addEventListener('dragleave', function(e) {
+            if (!primaryNav.contains(e.relatedTarget)) {
+                primaryNav.querySelectorAll('.primary-nav-item').forEach(el => el.classList.remove('drop-target'));
             }
         });
-        primaryNavList.addEventListener('drop', function(e) {
+        primaryNav.addEventListener('drop', function(e) {
             const a = e.target.closest('.primary-nav-item');
             if (!a) return;
             e.preventDefault();
-            primaryNavList.querySelectorAll('.primary-nav-item').forEach(el => el.classList.remove('drop-target'));
+            primaryNav.querySelectorAll('.primary-nav-item').forEach(el => el.classList.remove('drop-target'));
             const bookmarkId = e.dataTransfer.getData('text/plain') || e.dataTransfer.getData('application/x-bookmark-id');
             const parentId = a.dataset.folderId;
             if (bookmarkId && parentId) BookmarkMaintenance.moveBookmark(bookmarkId, parentId, refreshKeepView);
@@ -485,9 +487,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollFloatWrap = document.createElement('div');
     scrollFloatWrap.className = 'scroll-float-wrap';
     scrollFloatWrap.setAttribute('aria-hidden', 'true');
-    var I18nScroll = window.BookmarkManagerI18n;
-    var scrollAria = I18nScroll && I18nScroll.t ? I18nScroll.t('scrollAria') : 'Scroll';
-    var scrollBottomT = I18nScroll && I18nScroll.t ? I18nScroll.t('scrollBottom') : 'Bottom';
+    let I18nScroll = window.BookmarkManagerI18n;
+    let scrollAria = I18nScroll && I18nScroll.t ? I18nScroll.t('scrollAria') : 'Scroll';
+    let scrollBottomT = I18nScroll && I18nScroll.t ? I18nScroll.t('scrollBottom') : 'Bottom';
     scrollFloatWrap.innerHTML = '<button type="button" class="scroll-float-btn scroll-to-bottom" aria-label="' + (scrollAria.replace(/"/g, '&quot;')) + '" title="' + (scrollBottomT.replace(/"/g, '&quot;')) + '"></button>';
     document.body.appendChild(scrollFloatWrap);
     const scrollFloatBtn = scrollFloatWrap.querySelector('.scroll-float-btn');
@@ -548,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
     linkContextMenu.id = 'linkContextMenu';
     linkContextMenu.className = 'link-context-menu';
     linkContextMenu.setAttribute('aria-hidden', 'true');
-    var ctxDel = window.BookmarkManagerI18n && window.BookmarkManagerI18n.t ? window.BookmarkManagerI18n.t('ctxDelete') : '删除书签';
+    let ctxDel = window.BookmarkManagerI18n && window.BookmarkManagerI18n.t ? window.BookmarkManagerI18n.t('ctxDelete') : '删除书签';
     linkContextMenu.innerHTML = '<button type="button" class="link-context-menu-item" data-action="delete">' + ctxDel.replace(/</g, '&lt;') + '</button>';
     document.body.appendChild(linkContextMenu);
     linkContextMenu.querySelector('[data-action="delete"]').addEventListener('click', function() {
@@ -566,9 +568,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     Settings.loadSettings(function() {
         if (window.BookmarkManagerI18n) window.BookmarkManagerI18n.applyMainPageStatic();
-        var ctxM = document.getElementById('linkContextMenu');
+        let ctxM = document.getElementById('linkContextMenu');
         if (ctxM && window.BookmarkManagerI18n) {
-            var delB = ctxM.querySelector('[data-action="delete"]');
+            let delB = ctxM.querySelector('[data-action="delete"]');
             if (delB) delB.textContent = window.BookmarkManagerI18n.t('ctxDelete');
         }
         loadNavAndRender();
@@ -582,9 +584,9 @@ document.addEventListener('DOMContentLoaded', function() {
         renderSecondaryNav();
         renderSideNav();
         renderContent();
-        var ctx = document.getElementById('linkContextMenu');
+        let ctx = document.getElementById('linkContextMenu');
         if (ctx && window.BookmarkManagerI18n) {
-            var del = ctx.querySelector('[data-action="delete"]');
+            let del = ctx.querySelector('[data-action="delete"]');
             if (del) del.textContent = window.BookmarkManagerI18n.t('ctxDelete');
         }
         updateScrollButtonVisibility();

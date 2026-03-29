@@ -9,7 +9,10 @@
 <body>
     <div class="container">
         <header class="header">
-            <nav class="nav" aria-label="二级菜单（顶部）">
+            <nav class="nav primary-nav-wrap" id="primaryNavWrap" hidden>
+                <ul class="nav-list" id="primaryNav"></ul>
+            </nav>
+            <nav class="nav nav-secondary" aria-label="二级菜单（顶部）">
                 <ul class="nav-list" id="secondaryNav"></ul>
             </nav>
             <div class="search-container">
@@ -54,6 +57,15 @@
         </footer>
     </div>
 
-    <script src="assets/bookmarks.js"></script><script src="assets/constants.js"></script><script src="assets/i18n.js"></script><script src="assets/bookmark-maintenance.js"></script><script src="assets/edit.js"></script><script src="assets/render.js"></script><script src="assets/settings.js"></script><script src="assets/operate.js"></script>
+    <script src="assets/bookmark-nav-build.js"></script>
+    <script src="assets/bookmarks.js"></script>
+    <script src="assets/constants.js"></script>
+    <script src="assets/i18n.js"></script>
+    <script src="assets/bookmark-maintenance.js"></script>
+    <script src="assets/edit.js"></script>
+    <script src="assets/render.js"></script>
+    <script src="assets/settings-panel-template.js"></script>
+    <script src="assets/settings.js"></script>
+    <script src="assets/operate.js"></script>
 </body>
 </html>

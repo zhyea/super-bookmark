@@ -12,7 +12,6 @@
     const saveDescription = BM.saveDescription;
 
     const editModalStyles = `
-        @keyframes fadeOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.8); } }
         .edit-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
         .edit-modal-content { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 400px; max-width: 90%; }
         .edit-modal h3 { margin-bottom: 20px; color: #1890ff; }
@@ -68,14 +67,14 @@
 
     /** 从书签树构建目录列表（树状展示用）：去掉“未命名”层级，pathDisplay 为显示路径，depth 为缩进层级 */
     function buildFolderTreeFlat(tree) {
-        var out = [];
+        let out = [];
         function recurse(nodes, pathParts) {
             if (!nodes) return;
-            for (var i = 0; i < nodes.length; i++) {
-                var node = nodes[i];
+            for (let i = 0; i < nodes.length; i++) {
+                let node = nodes[i];
                 if (node.url) continue;
-                var title = (node.title && node.title.trim()) ? node.title.trim() : '未命名';
-                var nextParts = title === '未命名' ? pathParts : pathParts.concat(title);
+                let title = (node.title && node.title.trim()) ? node.title.trim() : '未命名';
+                let nextParts = title === '未命名' ? pathParts : pathParts.concat(title);
                 if (title !== '未命名') {
                     out.push({
                         id: String(node.id),
@@ -86,9 +85,9 @@
                 recurse(node.children || [], nextParts);
             }
         }
-        for (var r = 0; r < tree.length; r++) {
-            var root = tree[r];
-            var rootTitle = (root.title && root.title.trim()) ? root.title.trim() : '未命名';
+        for (let r = 0; r < tree.length; r++) {
+            let root = tree[r];
+            let rootTitle = (root.title && root.title.trim()) ? root.title.trim() : '未命名';
             if (rootTitle !== '未命名') {
                 out.push({ id: String(root.id), pathDisplay: rootTitle, depth: 0 });
             }
@@ -114,57 +113,57 @@
         if (!linkItem || !context) return;
         injectEditStyles();
 
-        var id = linkItem.dataset.bookmarkId;
-        var titleEl = linkItem.querySelector('.card-title');
-        var title = titleEl ? titleEl.textContent : '';
-        var url = linkItem.querySelector('a').href;
-        var primary = context.getPrimary && context.getPrimary();
-        var secondary = context.getSecondary && context.getSecondary();
-        var userTags = (secondary && secondary._userTags && secondary._userTags[id]) || [];
-        var tagsArray = userTags.slice(0, 3).map(function(t) { return String(t).slice(0, 16); });
-        var description = (secondary && secondary._descriptions && secondary._descriptions[id]) ? String(secondary._descriptions[id]) : '';
+        let id = linkItem.dataset.bookmarkId;
+        let titleEl = linkItem.querySelector('.card-title');
+        let title = titleEl ? titleEl.textContent : '';
+        let url = linkItem.querySelector('a').href;
+        let primary = context.getPrimary && context.getPrimary();
+        let secondary = context.getSecondary && context.getSecondary();
+        let userTags = (secondary && secondary._userTags && secondary._userTags[id]) || [];
+        let tagsArray = userTags.slice(0, 3).map(function(t) { return String(t).slice(0, 16); });
+        let description = (secondary && secondary._descriptions && secondary._descriptions[id]) ? String(secondary._descriptions[id]) : '';
         chrome.bookmarks.get(id, function (bmNodes) {
             if (chrome.runtime.lastError) bmNodes = null;
-            var bm = bmNodes && bmNodes[0];
-            var actualParentId = (bm && bm.parentId) ? String(bm.parentId) : '';
-            var currentParentId = actualParentId || getCurrentParentId(primary, secondary);
+            let bm = bmNodes && bmNodes[0];
+            let actualParentId = (bm && bm.parentId) ? String(bm.parentId) : '';
+            let currentParentId = actualParentId || getCurrentParentId(primary, secondary);
 
             chrome.bookmarks.getTree(function(tree) {
-            var tt = function(k) {
-                var L = global.BookmarkManagerI18n;
+            let tt = function(k) {
+                let L = global.BookmarkManagerI18n;
                 if (L && L.t) return L.t(k);
-                var z = { editTitle: '编辑卡片', labelTitle: '标题', labelFolder: '所属目录', folderPick: '请选择', folderPanelAria: '选择目录', labelIcon: '图标背景色', labelTags: '标签', tagInputAria: '标签输入', tagPlaceholder: '最多3个，每标签最多16字', labelDesc: '描述', descPlaceholder: '选填，最多100字', labelUrl: '链接', cancel: '取消', save: '保存', autoColor: '自动', autoColorBtn: '自', colorAria: '颜色', removeTagAria: '移除' };
+                let z = { editTitle: '编辑卡片', labelTitle: '标题', labelFolder: '所属目录', folderPick: '请选择', folderPanelAria: '选择目录', labelIcon: '图标背景色', labelTags: '标签', tagInputAria: '标签输入', tagPlaceholder: '最多3个，每标签最多16字', labelDesc: '描述', descPlaceholder: '选填，最多100字', labelUrl: '链接', cancel: '取消', save: '保存', autoColor: '自动', autoColorBtn: '自', colorAria: '颜色', removeTagAria: '移除' };
                 return z[k] || k;
             };
             function escAttr(s) { return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
-            var folderRows = buildFolderTreeFlat(tree);
+            let folderRows = buildFolderTreeFlat(tree);
 
-            var ICON_COLORS = global.CARD_ICON_BACKGROUND_COLORS && global.CARD_ICON_BACKGROUND_COLORS.length
+            let ICON_COLORS = global.CARD_ICON_BACKGROUND_COLORS && global.CARD_ICON_BACKGROUND_COLORS.length
                 ? global.CARD_ICON_BACKGROUND_COLORS
                 : ['#42b883', '#e34c26', '#61dafb', '#764abc', '#f7df1e', '#3178c6', '#f97316', '#14b8a6', '#ec4899'];
-            var savedIconColor = (secondary && secondary._userIconColor && secondary._userIconColor[id]) || '';
-            var iconColorSwatchesHtml = '<button type="button" class="icon-color-swatch auto' + (!savedIconColor ? ' selected' : '') + '" data-color="" title="' + escAttr(tt('autoColor')) + '" aria-label="' + escAttr(tt('autoColor')) + '">' + escapeHtml(tt('autoColorBtn')) + '</button>' +
+            let savedIconColor = (secondary && secondary._userIconColor && secondary._userIconColor[id]) || '';
+            let iconColorSwatchesHtml = '<button type="button" class="icon-color-swatch auto' + (!savedIconColor ? ' selected' : '') + '" data-color="" title="' + escAttr(tt('autoColor')) + '" aria-label="' + escAttr(tt('autoColor')) + '">' + escapeHtml(tt('autoColorBtn')) + '</button>' +
                 ICON_COLORS.map(function(c) {
                     return '<button type="button" class="icon-color-swatch' + (c === savedIconColor ? ' selected' : '') + '" data-color="' + escapeHtml(c) + '" style="background:' + escapeHtml(c) + '" title="' + escapeHtml(c) + '" aria-label="' + escAttr(tt('colorAria')) + '"></button>';
                 }).join('');
 
-            var folderTreeHtml = folderRows.map(function(row) {
-                var isSelected = row.id === currentParentId || (String(currentParentId).indexOf('_direct') >= 0 && row.id === String(currentParentId).replace(/_direct$/, ''));
-                var sel = isSelected ? ' selected' : '';
-                var pad = (row.depth * 16) + 'px';
+            let folderTreeHtml = folderRows.map(function(row) {
+                let isSelected = row.id === currentParentId || (String(currentParentId).indexOf('_direct') >= 0 && row.id === String(currentParentId).replace(/_direct$/, ''));
+                let sel = isSelected ? ' selected' : '';
+                let pad = (row.depth * 16) + 'px';
                 return '<div class="folder-tree-item' + sel + '" data-id="' + escapeHtml(row.id) + '" style="padding-left:' + pad + '">' + escapeHtml(row.pathDisplay) + '</div>';
             }).join('');
 
-            var currentPathDisplay = tt('folderPick');
-            for (var r = 0; r < folderRows.length; r++) {
-                var row = folderRows[r];
+            let currentPathDisplay = tt('folderPick');
+            for (let r = 0; r < folderRows.length; r++) {
+                let row = folderRows[r];
                 if (row.id === currentParentId || (String(currentParentId).indexOf('_direct') >= 0 && row.id === String(currentParentId).replace(/_direct$/, ''))) {
                     currentPathDisplay = row.pathDisplay;
                     break;
                 }
             }
 
-            var modal = document.createElement('div');
+            let modal = document.createElement('div');
             modal.className = 'edit-modal';
             modal.innerHTML = `
             <div class="edit-modal-content">
@@ -212,25 +211,25 @@
         `;
             document.body.appendChild(modal);
 
-            var selectedFolderId = currentParentId;
+            let selectedFolderId = currentParentId;
             function updateDescHint() {
-                var ta = document.getElementById('edit-desc');
-                var hint = document.getElementById('edit-desc-hint');
+                let ta = document.getElementById('edit-desc');
+                let hint = document.getElementById('edit-desc-hint');
                 if (ta && hint) {
-                    var len = (ta.value || '').length;
+                    let len = (ta.value || '').length;
                     hint.textContent = len + ' / 100';
                 }
             }
-            var descEl = document.getElementById('edit-desc');
+            let descEl = document.getElementById('edit-desc');
             if (descEl) {
                 descEl.addEventListener('input', updateDescHint);
                 updateDescHint();
             }
 
-            var dropdown = document.getElementById('edit-folder-dropdown');
-            var trigger = document.getElementById('edit-folder-trigger');
-            var panel = document.getElementById('edit-folder-panel');
-            var treeEl = document.getElementById('edit-folder-tree');
+            let dropdown = document.getElementById('edit-folder-dropdown');
+            let trigger = document.getElementById('edit-folder-trigger');
+            let panel = document.getElementById('edit-folder-panel');
+            let treeEl = document.getElementById('edit-folder-tree');
             if (trigger && panel) {
                 trigger.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -259,7 +258,7 @@
                 }
             }
 
-            var selectedIconColor = savedIconColor;
+            let selectedIconColor = savedIconColor;
             modal.querySelectorAll('.icon-color-swatch').forEach(function(btn) {
                 btn.addEventListener('click', function () {
                     selectedIconColor = this.dataset.color || '';
@@ -268,33 +267,33 @@
                 });
             });
 
-            var wrap = document.getElementById('input-tag-wrap');
-            var input = document.getElementById('input-tag-input');
+            let wrap = document.getElementById('input-tag-wrap');
+            let input = document.getElementById('input-tag-input');
 
             function updateTagHint() {
-                var hint = document.getElementById('edit-tag-hint');
+                let hint = document.getElementById('edit-tag-hint');
                 if (hint) hint.textContent = tagsArray.length + ' / 3';
             }
 
             function renderPills() {
-                var existing = wrap.querySelectorAll('.input-tag-pill');
+                let existing = wrap.querySelectorAll('.input-tag-pill');
                 existing.forEach(function(el) { el.remove(); });
                 tagsArray = tagsArray.slice(0, 3).map(function(t) { return String(t).slice(0, 16); });
                 updateTagHint();
                 tagsArray.forEach(function(tag) {
-                    var span = document.createElement('span');
+                    let span = document.createElement('span');
                     span.className = 'input-tag-pill';
-                    var text = document.createElement('span');
+                    let text = document.createElement('span');
                     text.className = 'input-tag-pill-text';
                     text.textContent = tag;
-                    var btn = document.createElement('button');
+                    let btn = document.createElement('button');
                     btn.type = 'button';
                     btn.className = 'input-tag-remove';
                     btn.setAttribute('aria-label', tt('removeTagAria'));
                     btn.textContent = '×';
                     btn.addEventListener('click', function (e) {
                         e.preventDefault();
-                        var idx = tagsArray.indexOf(tag);
+                        let idx = tagsArray.indexOf(tag);
                         if (idx !== -1) tagsArray.splice(idx, 1);
                         renderPills();
                         updateTagHint();
@@ -309,7 +308,7 @@
             renderPills();
 
             function addTag(val) {
-                var t = String(val || '').trim().slice(0, 16);
+                let t = String(val || '').trim().slice(0, 16);
                 if (!t) return;
                 if (tagsArray.length >= 3) return;
                 if (tagsArray.indexOf(t) === -1) tagsArray.push(t);
@@ -317,8 +316,8 @@
             }
 
             function commitCurrentInput(e) {
-                var raw = input.value;
-                var trimmed = raw.trim();
+                let raw = input.value;
+                let trimmed = raw.trim();
                 if (!trimmed) {
                     if (e && (e.key === ',' || e.key === '，' || e.key === ' ' || e.code === 'Space')) e.preventDefault();
                     return;
@@ -358,10 +357,10 @@
                 }
             });
             input.addEventListener('input', function () {
-                var v = this.value;
+                let v = this.value;
                 if (/[,，\s]/.test(v)) {
-                    var segs = v.split(/[,，\s]+/).map(function(s) { return s.trim(); }).filter(Boolean);
-                    var trailing = /[,，\s]$/.test(v);
+                    let segs = v.split(/[,，\s]+/).map(function(s) { return s.trim(); }).filter(Boolean);
+                    let trailing = /[,，\s]$/.test(v);
                     if (!trailing && segs.length) {
                         segs.slice(0, -1).forEach(function(p) { addTag(p); });
                         this.value = segs[segs.length - 1] || '';
@@ -373,7 +372,7 @@
                 }
             });
             input.addEventListener('blur', function () {
-                var t = this.value.trim();
+                let t = this.value.trim();
                 if (t) {
                     addTag(t);
                     this.value = '';
@@ -387,17 +386,17 @@
             modal.querySelector('.cancel-btn').onclick = function() { modal.remove(); };
             modal.querySelector('#edit-form').onsubmit = function (e) {
                 e.preventDefault();
-                var newTitle = document.getElementById('edit-title').value;
-                var newDesc = (document.getElementById('edit-desc') && document.getElementById('edit-desc').value) ? document.getElementById('edit-desc').value.trim().slice(0, 100) : '';
-                var selectedParentId = selectedFolderId;
-                var moveApi = global.BookmarkMaintenance || window.BookmarkMaintenance;
-                var folderChanged = !!(moveApi && selectedParentId && String(selectedParentId) !== String(currentParentId));
+                let newTitle = document.getElementById('edit-title').value;
+                let newDesc = (document.getElementById('edit-desc') && document.getElementById('edit-desc').value) ? document.getElementById('edit-desc').value.trim().slice(0, 100) : '';
+                let selectedParentId = selectedFolderId;
+                let moveApi = global.BookmarkMaintenance || window.BookmarkMaintenance;
+                let folderChanged = !!(moveApi && selectedParentId && String(selectedParentId) !== String(currentParentId));
 
-                var tagsToSave = tagsArray.slice(0, 3).map(function(t) { return String(t).slice(0, 16); });
+                let tagsToSave = tagsArray.slice(0, 3).map(function(t) { return String(t).slice(0, 16); });
                 function doUpdateAndClose(targetParentIdForReload) {
                     chrome.bookmarks.update(id, {title: newTitle}, function () {
                         if (linkItem) {
-                            var titleEl = linkItem.querySelector('.card-title');
+                            let titleEl = linkItem.querySelector('.card-title');
                             if (titleEl) titleEl.textContent = newTitle;
                         }
                         saveTags(id, tagsToSave);
@@ -411,7 +410,7 @@
                 }
 
                 if (folderChanged && moveApi && moveApi.moveBookmark) {
-                    var realParentId = String(selectedParentId).replace(/_direct$/, '') || selectedParentId;
+                    let realParentId = String(selectedParentId).replace(/_direct$/, '') || selectedParentId;
                     moveApi.moveBookmark(id, realParentId, function (err) {
                         if (err) {
                             alert('移动书签失败：' + (err.message || '未知错误'));

@@ -3,15 +3,16 @@
  * 依赖：无。扩展页通过 chrome.storage 中的 locale 同步。
  */
 (function (global) {
-    var CODES = ['zh', 'zh-TW', 'en', 'es', 'de', 'fr', 'it', 'ru', 'ar', 'ja', 'ko'];
-    var HTML_LANG = { zh: 'zh-CN', 'zh-TW': 'zh-TW', en: 'en', es: 'es', de: 'de', fr: 'fr', it: 'it', ru: 'ru', ar: 'ar', ja: 'ja', ko: 'ko' };
+    let CODES = ['zh', 'zh-TW', 'en', 'es', 'de', 'fr', 'it', 'ru', 'ar', 'ja', 'ko'];
+    let HTML_LANG = { zh: 'zh-CN', 'zh-TW': 'zh-TW', en: 'en', es: 'es', de: 'de', fr: 'fr', it: 'it', ru: 'ru', ar: 'ar', ja: 'ja', ko: 'ko' };
 
-    var STRINGS = {
+    let STRINGS = {
         zh: {
             pageTitle: '超级书签 SuperBookmark',
             loading: '正在加载收藏夹…',
             emptyState: '暂无数据。请在浏览器书签栏创建文件夹并添加书签。',
             footer: '© 2026 SuperBookmark. 保留所有权利.',
+            navPrimaryAria: '一级书签目录（多个根目录时显示）',
             navSecondaryAria: '二级菜单（顶部）',
             sidebarAria: '侧边菜单',
             searchPlaceholder: '书签搜索',
@@ -110,12 +111,12 @@
             guideIntro: '本页说明如何从浏览器书签栏组织内容，以及扩展内的操作方式。',
             g1h: '一、书签目录怎么建',
             g1p: '扩展会按 Chrome 书签栏的<strong>文件夹层级</strong>自动归类：',
-            g1li1: '<strong>一级文件夹</strong>：对应左侧侧边栏的大类（主分类）。',
-            g1li2: '<strong>二级文件夹</strong>：选中某大类后，顶部横向为子分类；若该大类下没有二级文件夹，则会用一级名称作为唯一子类。',
+            g1li1: '<strong>一级文件夹</strong>：Chrome 书签的顶层结构，在扩展中作为主分类；<strong>存在多个顶层书签根</strong>时可在<strong>页顶第一行</strong>切换，仅有一个根时不显示该行。',
+            g1li2: '<strong>二级文件夹</strong>：选中主分类后，<strong>页顶第二行</strong>横向为子分类；若该主分类下没有二级文件夹，则会用一级名称作为唯一子类。',
             g1li3: '<strong>三级及以下文件夹</strong>：其名称会作为该书签的<strong>标签</strong>显示在卡片上，便于筛选。',
             g1note: '若列表为空，请先在 Chrome 书签栏中创建上述文件夹并添加网址书签。',
             g2h: '二、浏览与搜索',
-            g2li1: '点击左侧条目切换主分类；再点顶部横向菜单切换子分类。',
+            g2li1: '多个主分类时先点页顶第一行切换；再点其下第二行切换子分类。仅一个主分类时直接用第二行。有三级文件夹时左侧会出现子夹菜单。',
             g2li2: '内容区上方的<strong>标签条</strong>可筛选当前分类下的书签（含「全部」）。标签较多时可点左右箭头横向滚动。',
             g2li3: '顶部搜索框可按标题、网址及标签关键字过滤当前视图中的书签。',
             g3h: '三、编辑模式（维护按钮）',
@@ -124,7 +125,7 @@
             g3li2: '<strong>🗑 删除</strong>：从浏览器书签中移除该书签。',
             g3li3: '在卡片上<strong>右键</strong>可打开快捷菜单（编辑、删除等）。',
             g4h: '四、拖拽移动书签',
-            g4p: '开启编辑模式后，可将卡片<strong>拖到</strong>左侧侧边栏或顶部子分类上，书签会移动到对应文件夹（与 Chrome 书签结构同步）。在同一列表内也可拖拽调整排序。',
+            g4p: '开启编辑模式后，可将卡片<strong>拖到</strong>页顶主分类（多个根时第一行）、顶部子分类或左侧子文件夹上，书签会移动到对应文件夹（与 Chrome 书签结构同步）。在同一列表内也可拖拽调整排序。',
             g5h: '五、设置项说明',
             g5li1: '<strong>编辑模式</strong>：开/关卡片上的编辑、删除与拖拽。',
             g5li2: '<strong>卡片列数</strong>：3 / 4 / 5 列（实际列数会随窗口宽度自适应）。',
@@ -139,6 +140,7 @@
             loading: '正在載入書籤…',
             emptyState: '尚無資料。請在瀏覽器書籤列建立資料夾並新增書籤。',
             footer: '© 2026 SuperBookmark. 保留所有權利.',
+            navPrimaryAria: '一級書籤目錄（多個根目錄時顯示）',
             navSecondaryAria: '二級選單（頂部）',
             sidebarAria: '側邊選單',
             searchPlaceholder: '書籤搜尋',
@@ -211,12 +213,12 @@
             guideIntro: '本頁說明如何從瀏覽器書籤列組織內容，以及擴充功能內的操作方式。',
             g1h: '一、書籤目錄怎麼建',
             g1p: '擴充功能會依 Chrome 書籤列的<strong>資料夾層級</strong>自動歸類：',
-            g1li1: '<strong>一級資料夾</strong>：對應左側側邊欄的大類（主分類）。',
-            g1li2: '<strong>二級資料夾</strong>：選定某大類後，頂部橫向為子分類；若該大類下沒有二級資料夾，則會以一級名稱作為唯一子類。',
+            g1li1: '<strong>一級資料夾</strong>：Chrome 書籤的頂層結構，在擴充功能中作為主分類；<strong>有多個頂層書籤根</strong>時可在<strong>頁頂第一行</strong>切換，僅有一個根時不顯示該行。',
+            g1li2: '<strong>二級資料夾</strong>：選定主分類後，<strong>頁頂第二行</strong>橫向為子分類；若該主分類下沒有二級資料夾，則會以一級名稱作為唯一子類。',
             g1li3: '<strong>三級及以下資料夾</strong>：其名稱會作為該書籤的<strong>標籤</strong>顯示在卡片上，便於篩選。',
             g1note: '若列表為空，請先在 Chrome 書籤列中建立上述資料夾並新增網址書籤。',
             g2h: '二、瀏覽與搜尋',
-            g2li1: '點選左側項目切換主分類；再點頂部橫向選單切換子分類。',
+            g2li1: '多個主分類時先點頁頂第一行切換；再點其下第二行切換子分類。僅一個主分類時只需用第二行。有三級資料夾時左側會出現子夾選單。',
             g2li2: '內容區上方的<strong>標籤列</strong>可篩選目前分類下的書籤（含「全部」）。標籤較多時可點左右箭頭橫向捲動。',
             g2li3: '頂部搜尋框可依標題、網址及標籤關鍵字篩選目前檢視中的書籤。',
             g3h: '三、編輯模式（維護按鈕）',
@@ -225,7 +227,7 @@
             g3li2: '<strong>🗑 刪除</strong>：從瀏覽器書籤中移除此書籤。',
             g3li3: '在卡片上<strong>右鍵</strong>可開啟快捷選單（編輯、刪除等）。',
             g4h: '四、拖曳移動書籤',
-            g4p: '開啟編輯模式後，可將卡片<strong>拖到</strong>左側側邊欄或頂部子分類上，書籤會移動到對應資料夾（與 Chrome 書籤結構同步）。在同一清單內也可拖曳調整排序。',
+            g4p: '開啟編輯模式後，可將卡片<strong>拖到</strong>頁頂主分類（多個根時第一行）、頂部子分類或左側子資料夾上，書籤會移動到對應資料夾（與 Chrome 書籤結構同步）。在同一清單內也可拖曳調整排序。',
             g5h: '五、設定項說明',
             g5li1: '<strong>編輯模式</strong>：開／關卡片上的編輯、刪除與拖曳。',
             g5li2: '<strong>卡片欄數</strong>：3 / 4 / 5 欄（實際欄數會隨視窗寬度自動調整）。',
@@ -240,6 +242,7 @@
             loading: 'Loading bookmarks…',
             emptyState: 'No data yet. Create folders in the bookmarks bar and add bookmarks.',
             footer: '© 2026 SuperBookmark. All rights reserved.',
+            navPrimaryAria: 'Top-level bookmark roots (shown when multiple)',
             navSecondaryAria: 'Subcategories (top)',
             sidebarAria: 'Sidebar',
             searchPlaceholder: 'Search bookmarks',
@@ -312,12 +315,12 @@
             guideIntro: 'How to organize bookmarks in the bar and use this extension.',
             g1h: '1. Folder structure',
             g1p: 'The extension maps Chrome’s <strong>bookmark folder hierarchy</strong>:',
-            g1li1: '<strong>Top-level folders</strong>: main categories in the sidebar.',
-            g1li2: '<strong>Second-level folders</strong>: subcategories in the top bar; if none exist, the top-level name is used as the only subcategory.',
+            g1li1: '<strong>Top-level folders</strong>: Chrome’s top bookmark structure; in the extension they are <strong>main categories</strong>. If there are <strong>several roots</strong>, switch them on the <strong>first header row</strong>; with a single root that row is hidden.',
+            g1li2: '<strong>Second-level folders</strong>: after choosing a main category, the <strong>second header row</strong> lists subcategories; if there are none, the top-level name is the only subcategory.',
             g1li3: '<strong>Third level and below</strong>: folder names become <strong>tags</strong> on cards for filtering.',
             g1note: 'If the list is empty, create folders in the Chrome bookmarks bar and add bookmarks.',
             g2h: '2. Browse and search',
-            g2li1: 'Use the sidebar for main categories; the top bar for subcategories.',
+            g2li1: 'With several main categories, use the first header row, then the second row for subcategories. With one main category, only the second row is needed. When there are third-level folders, a submenu appears on the left.',
             g2li2: 'The <strong>tag bar</strong> filters bookmarks in the current view (including “All”). Use the arrows to scroll when there are many tags.',
             g2li3: 'The search box filters by title, URL and tag keywords.',
             g3h: '3. Edit mode',
@@ -326,7 +329,7 @@
             g3li2: '<strong>🗑 Delete</strong>: removes the bookmark from Chrome.',
             g3li3: '<strong>Right-click</strong> a card for the context menu.',
             g4h: '4. Drag and drop',
-            g4p: 'With edit mode on, drag cards onto the sidebar or top subcategories to move bookmarks. Reorder within the same list by dragging.',
+            g4p: 'With edit mode on, drag cards onto the top main row (when multiple roots), top subcategories, or left subfolders to move bookmarks. Reorder within the same list by dragging.',
             g5h: '5. Settings',
             g5li1: '<strong>Edit mode</strong>: show or hide edit, delete and drag.',
             g5li2: '<strong>Columns</strong>: 3 / 4 / 5 (adapts to window width).',
@@ -341,6 +344,7 @@
             loading: 'Cargando marcadores…',
             emptyState: 'Sin datos. Cree carpetas en la barra de marcadores y añada enlaces.',
             footer: '© 2026 SuperBookmark. Todos los derechos reservados.',
+            navPrimaryAria: 'Raíces de marcadores (si hay varias)',
             navSecondaryAria: 'Subcategorías (superior)',
             sidebarAria: 'Barra lateral',
             searchPlaceholder: 'Buscar marcadores',
@@ -413,12 +417,12 @@
             guideIntro: 'Cómo organizar marcadores y usar la extensión.',
             g1h: '1. Estructura de carpetas',
             g1p: 'La extensión usa la <strong>jerarquía de carpetas</strong> de Chrome:',
-            g1li1: '<strong>Carpetas de primer nivel</strong>: categorías principales en la barra lateral.',
-            g1li2: '<strong>Segundo nivel</strong>: subcategorías arriba; si no hay, se usa el nombre del primer nivel.',
+            g1li1: '<strong>Primer nivel</strong>: estructura superior de Chrome; categorías principales aquí. Con <strong>varias raíces</strong>, cámbialas en la <strong>primera fila superior</strong>; con una sola, esa fila no se muestra.',
+            g1li2: '<strong>Segundo nivel</strong>: la <strong>segunda fila superior</strong> son subcategorías; si no hay, solo el nombre del primer nivel.',
             g1li3: '<strong>Tercer nivel o más</strong>: los nombres son <strong>etiquetas</strong> en las tarjetas.',
             g1note: 'Si la lista está vacía, cree carpetas en la barra de marcadores.',
             g2h: '2. Navegar y buscar',
-            g2li1: 'Barra lateral para categorías; barra superior para subcategorías.',
+            g2li1: 'Con varias categorías principales, use la primera fila superior y luego la segunda. Con una sola, basta la segunda. Con carpetas de tercer nivel, aparece un submenú a la izquierda.',
             g2li2: 'La <strong>barra de etiquetas</strong> filtra la vista (incl. «Todos»). Flechas para desplazar.',
             g2li3: 'Búsqueda por título, URL y etiquetas.',
             g3h: '3. Modo edición',
@@ -427,7 +431,7 @@
             g3li2: '<strong>🗑 Eliminar</strong>: quita el marcador de Chrome.',
             g3li3: '<strong>Clic derecho</strong> para el menú contextual.',
             g4h: '4. Arrastrar',
-            g4p: 'Arrastre tarjetas a la barra lateral o subcategorías para mover. Reordene en la misma lista.',
+            g4p: 'Arrastre tarjetas a la fila principal superior (si hay varias raíces), a subcategorías o a subcarpetas izquierdas. Reordene en la misma lista.',
             g5h: '5. Ajustes',
             g5li1: '<strong>Modo edición</strong>: mostrar editar, eliminar y arrastrar.',
             g5li2: '<strong>Columnas</strong>: 3 / 4 / 5.',
@@ -442,6 +446,7 @@
             loading: 'Lesezeichen werden geladen…',
             emptyState: 'Keine Daten. Ordner in der Lesezeichenleiste anlegen und Lesezeichen hinzufügen.',
             footer: '© 2026 SuperBookmark. Alle Rechte vorbehalten.',
+            navPrimaryAria: 'Lesezeichen-Stammordner (bei mehreren)',
             navSecondaryAria: 'Unterkategorien (oben)',
             sidebarAria: 'Seitenleiste',
             searchPlaceholder: 'Lesezeichen suchen',
@@ -514,12 +519,12 @@
             guideIntro: 'Organisation der Lesezeichen und Bedienung der Erweiterung.',
             g1h: '1. Ordnerstruktur',
             g1p: 'Die Erweiterung nutzt die <strong>Ordnerhierarchie</strong> von Chrome:',
-            g1li1: '<strong>Oberste Ebene</strong>: Hauptkategorien in der Seitenleiste.',
-            g1li2: '<strong>Zweite Ebene</strong>: Unterkategorien oben; fehlen sie, wird der Hauptname genutzt.',
+            g1li1: '<strong>Oberste Ebene</strong>: Chromes oberste Lesezeichenstruktur; Hauptkategorien. Bei <strong>mehreren Wurzeln</strong> in der <strong>ersten Kopfzeile</strong> wechseln; bei nur einer wird sie ausgeblendet.',
+            g1li2: '<strong>Zweite Ebene</strong>: die <strong>zweite Kopfzeile</strong> mit Unterkategorien; fehlen sie, nur der Hauptname.',
             g1li3: '<strong>Ab dritter Ebene</strong>: Ordnernamen werden zu <strong>Tags</strong> auf den Karten.',
             g1note: 'Bei leerer Liste Ordner in der Lesezeichenleiste anlegen.',
             g2h: '2. Navigation und Suche',
-            g2li1: 'Seitenleiste für Hauptkategorien, oben für Unterkategorien.',
+            g2li1: 'Mehrere Hauptkategorien: zuerst erste Kopfzeile, dann zweite. Eine Hauptkategorie: nur zweite Zeile. Dritte Ebene: Untermenü links.',
             g2li2: '<strong>Tag-Leiste</strong> filtert die Ansicht. Pfeile zum Scrollen.',
             g2li3: 'Suche nach Titel, URL und Tags.',
             g3h: '3. Bearbeitungsmodus',
@@ -528,7 +533,7 @@
             g3li2: '<strong>🗑 Löschen</strong>: Lesezeichen in Chrome entfernen.',
             g3li3: '<strong>Rechtsklick</strong> für Kontextmenü.',
             g4h: '4. Ziehen und Ablegen',
-            g4p: 'Karten auf Seitenleiste oder Unterkategorien ziehen. Sortierung in derselben Liste.',
+            g4p: 'Karten auf die obere Hauptzeile (bei mehreren Wurzeln), Unterkategorien oder linke Unterordner ziehen. Sortierung in derselben Liste.',
             g5h: '5. Einstellungen',
             g5li1: '<strong>Bearbeitungsmodus</strong>: Aktionen ein/aus.',
             g5li2: '<strong>Spalten</strong>: 3 / 4 / 5.',
@@ -543,6 +548,7 @@
             loading: 'Chargement des favoris…',
             emptyState: 'Aucune donnée. Créez des dossiers dans la barre de favoris.',
             footer: '© 2026 SuperBookmark. Tous droits réservés.',
+            navPrimaryAria: 'Racines des favoris (si plusieurs)',
             navSecondaryAria: 'Sous-catégories (haut)',
             sidebarAria: 'Barre latérale',
             searchPlaceholder: 'Rechercher',
@@ -615,12 +621,12 @@
             guideIntro: 'Organisation des favoris et utilisation de l’extension.',
             g1h: '1. Structure des dossiers',
             g1p: 'L’extension suit la <strong>hiérarchie des dossiers</strong> Chrome :',
-            g1li1: '<strong>Premier niveau</strong> : catégories dans la barre latérale.',
-            g1li2: '<strong>Deuxième niveau</strong> : sous-catégories en haut.',
+            g1li1: '<strong>Premier niveau</strong> : structure supérieure Chrome ; catégories principales. <strong>Plusieurs racines</strong> : première ligne d’en-tête ; une seule : cette ligne est masquée.',
+            g1li2: '<strong>Deuxième niveau</strong> : la <strong>deuxième ligne</strong> du haut pour les sous-catégories ; sinon seul le nom du premier niveau.',
             g1li3: '<strong>Troisième niveau et plus</strong> : les noms deviennent des <strong>étiquettes de filtre</strong> dans la barre du haut, pas sur les cartes.',
             g1note: 'Si la liste est vide, créez des dossiers dans la barre de favoris.',
             g2h: '2. Parcourir et rechercher',
-            g2li1: 'Barre latérale et barre du haut pour la navigation.',
+            g2li1: 'Plusieurs catégories principales : d’abord la première ligne du haut, puis la deuxième. Une seule : seule la deuxième ligne. Troisième niveau : sous-menu à gauche.',
             g2li2: 'La <strong>barre d’étiquettes</strong> filtre la vue. Flèches pour défiler.',
             g2li3: 'Recherche par titre, URL et étiquettes.',
             g3h: '3. Mode édition',
@@ -629,7 +635,7 @@
             g3li2: '<strong>🗑 Supprimer</strong> : retire le favori de Chrome.',
             g3li3: '<strong>Clic droit</strong> pour le menu contextuel.',
             g4h: '4. Glisser-déposer',
-            g4p: 'Glissez les cartes vers la barre latérale ou les sous-catégories.',
+            g4p: 'Glissez les cartes vers la ligne principale du haut (si plusieurs racines), les sous-catégories ou les sous-dossiers à gauche. Réordonnez dans la même liste.',
             g5h: '5. Paramètres',
             g5li1: '<strong>Mode édition</strong> : afficher actions.',
             g5li2: '<strong>Colonnes</strong> : 3 / 4 / 5.',
@@ -644,6 +650,7 @@
             loading: 'Caricamento dei segnalibri…',
             emptyState: 'Nessun dato. Crea cartelle nella barra dei segnalibri e aggiungi segnalibri.',
             footer: '© 2026 SuperBookmark. Tutti i diritti riservati.',
+            navPrimaryAria: 'Radici segnalibri (se più di una)',
             navSecondaryAria: 'Sottocategorie (in alto)',
             sidebarAria: 'Barra laterale',
             searchPlaceholder: 'Cerca segnalibri',
@@ -719,12 +726,12 @@
             guideIntro: 'Come organizzare i segnalibri nella barra e usare questa estensione.',
             g1h: '1. Struttura cartelle',
             g1p: 'L’estensione usa la <strong>gerarchia cartelle</strong> dei segnalibri di Chrome:',
-            g1li1: '<strong>Cartelle di primo livello</strong>: categorie principali nella barra laterale.',
-            g1li2: '<strong>Cartelle di secondo livello</strong>: sottocategorie nella barra in alto; se assenti, si usa il nome del primo livello.',
+            g1li1: '<strong>Primo livello</strong>: struttura superiore di Chrome; categorie principali. Con <strong>più radici</strong>, usa la <strong>prima riga in alto</strong>; con una sola, quella riga non compare.',
+            g1li2: '<strong>Secondo livello</strong>: la <strong>seconda riga in alto</strong> per le sottocategorie; se assenti, solo il nome del primo livello.',
             g1li3: '<strong>Terzo livello e oltre</strong>: i nomi cartella diventano <strong>tag filtro</strong> nella barra in alto, non tag sulle card.',
             g1note: 'Se la lista è vuota, crea cartelle nella barra dei segnalibri di Chrome e aggiungi segnalibri.',
             g2h: '2. Navigazione e ricerca',
-            g2li1: 'Usa la barra laterale per le categorie principali e la barra in alto per le sottocategorie.',
+            g2li1: 'Più categorie principali: prima riga in alto, poi la seconda. Una sola: solo la seconda. Terzo livello: sottomenu a sinistra.',
             g2li2: 'La <strong>barra tag</strong> filtra i segnalibri nella vista corrente (incluso “Tutti”). Usa le frecce per scorrere orizzontalmente.',
             g2li3: 'La casella di ricerca filtra per titolo, URL e tag.',
             g3h: '3. Modalità modifica',
@@ -733,7 +740,7 @@
             g3li2: '<strong>🗑 Elimina</strong>: rimuove il segnalibro da Chrome.',
             g3li3: '<strong>Clic destro</strong> su una card per il menu contestuale.',
             g4h: '4. Trascina e rilascia',
-            g4p: 'Con modalità modifica attiva, trascina le card su barra laterale o sottocategorie in alto per spostare i segnalibri. Puoi anche riordinare nella stessa lista.',
+            g4p: 'Con modalità modifica, trascina le card sulla riga principale in alto (se più radici), sulle sottocategorie o sulle sottocartelle a sinistra. Riordina nella stessa lista.',
             g5h: '5. Impostazioni',
             g5li1: '<strong>Modalità modifica</strong>: mostra/nasconde modifica, elimina e trascina.',
             g5li2: '<strong>Colonne</strong>: 3 / 4 / 5 (adattate alla larghezza finestra).',
@@ -748,6 +755,7 @@
             loading: 'Загрузка закладок…',
             emptyState: 'Нет данных. Создайте папки на панели закладок браузера и добавьте ссылки.',
             footer: '© 2026 SuperBookmark. Все права защищены.',
+            navPrimaryAria: 'Корневые папки закладок (если несколько)',
             navSecondaryAria: 'Подкатегории (верх)',
             sidebarAria: 'Боковое меню',
             searchPlaceholder: 'Поиск закладок',
@@ -822,12 +830,12 @@
             guideIntro: 'Как организовать закладки на панели и пользоваться расширением.',
             g1h: '1. Структура папок',
             g1p: 'Расширение использует <strong>иерархию папок</strong> закладок Chrome:',
-            g1li1: '<strong>Корневые папки</strong>: основные категории в боковом меню.',
-            g1li2: '<strong>Папки второго уровня</strong>: подкатегории в верхнем меню; если их нет, используется только имя корневой папки.',
+            g1li1: '<strong>Верхний уровень</strong>: структура Chrome; основные категории. При <strong>нескольких корнях</strong> переключайте в <strong>первой строке шапки</strong>; при одном эта строка скрыта.',
+            g1li2: '<strong>Второй уровень</strong>: <strong>вторая строка сверху</strong> — подкатегории; если их нет — только имя верхнего уровня.',
             g1li3: '<strong>Третий уровень и ниже</strong>: имена папок используются как <strong>фильтрующие теги</strong> в верхней панели, а не в самих карточках.',
             g1note: 'Если список пуст, создайте папки и добавьте закладки на панели закладок Chrome.',
             g2h: '2. Просмотр и поиск',
-            g2li1: 'Переключайте основные категории в боковом меню и подкатегории в верхней панели.',
+            g2li1: 'Несколько основных категорий: сначала первая строка шапки, затем вторая. Одна категория — только вторая строка. Третий уровень — подменю слева.',
             g2li2: '<strong>Панель тегов</strong> фильтрует закладки в текущем представлении (включая «Все»). Используйте стрелки для горизонтальной прокрутки.',
             g2li3: 'Поле поиска фильтрует по заголовку, URL и тегам.',
             g3h: '3. Режим редактирования',
@@ -836,7 +844,7 @@
             g3li2: '<strong>🗑 Удалить</strong>: удалить закладку из Chrome.',
             g3li3: '<strong>Щёлкните правой кнопкой</strong> по карточке, чтобы открыть контекстное меню.',
             g4h: '4. Перетаскивание',
-            g4p: 'При включённом режиме редактирования перетаскивайте карточки на пункты бокового меню или подкатегории сверху, чтобы перемещать закладки. Можно менять порядок внутри списка.',
+            g4p: 'В режиме редактирования перетаскивайте карточки на верхнюю основную строку (при нескольких корнях), подкатегории или левые подпапки. Порядок в списке можно менять перетаскиванием.',
             g5h: '5. Настройки',
             g5li1: '<strong>Режим редактирования</strong>: показывать или скрывать действия редактирования, удаления и перетаскивания.',
             g5li2: '<strong>Колонки</strong>: 3 / 4 / 5 (адаптируются к ширине окна).',
@@ -851,6 +859,7 @@
             loading: 'جارٍ تحميل الإشارات المرجعية…',
             emptyState: 'لا توجد بيانات بعد. أنشئ مجلدات في شريط الإشارات المرجعية وأضف الروابط.',
             footer: '© 2026 SuperBookmark. جميع الحقوق محفوظة.',
+            navPrimaryAria: 'جذور الإشارات المرجعية (عند وجود أكثر من واحدة)',
             navSecondaryAria: 'التصنيفات الفرعية (أعلى)',
             sidebarAria: 'الشريط الجانبي',
             searchPlaceholder: 'ابحث في الإشارات المرجعية',
@@ -925,12 +934,12 @@
             guideIntro: 'تعرف على طريقة تنظيم الإشارات المرجعية واستخدام الإضافة.',
             g1h: '1. بنية المجلدات',
             g1p: 'تعتمد الإضافة على <strong>هيكل مجلدات</strong> الإشارات المرجعية في Chrome:',
-            g1li1: '<strong>المستوى الأول</strong>: التصنيفات الرئيسية في الشريط الجانبي.',
-            g1li2: '<strong>المستوى الثاني</strong>: التصنيفات الفرعية في الشريط العلوي؛ وإذا لم توجد، يُستخدم اسم المستوى الأول فقط.',
+            g1li1: '<strong>المستوى الأول</strong>: البنية العليا في Chrome؛ التصنيفات الرئيسية. عند <strong>وجود عدة جذور</strong> استخدم <strong>الصف الأول في الأعلى</strong>؛ عند جذر واحد يُخفى هذا الصف.',
+            g1li2: '<strong>المستوى الثاني</strong>: <strong>الصف الثاني في الأعلى</strong> للتصنيفات الفرعية؛ وإن لم توجد، يُستخدم اسم المستوى الأول فقط.',
             g1li3: '<strong>المستوى الثالث وما بعده</strong>: تُستخدم أسماء المجلدات كـ <strong>وسوم تصفية</strong> في الشريط العلوي، وليس كوسوم على البطاقات.',
             g1note: 'إذا كانت القائمة فارغة، أنشئ مجلدات في شريط الإشارات المرجعية ثم أضف الروابط.',
             g2h: '2. التصفح والبحث',
-            g2li1: 'استخدم الشريط الجانبي للتصنيفات الرئيسية، والشريط العلوي للتصنيفات الفرعية.',
+            g2li1: 'عدة تصنيفات رئيسية: الصف الأول ثم الثاني في الأعلى. تصنيف واحد: الصف الثاني فقط. المستوى الثالث: قائمة فرعية على اليسار.',
             g2li2: 'يُستخدم <strong>شريط الوسوم</strong> لتصفية العناصر في العرض الحالي (بما فيها «الكل»). استخدم الأسهم للتمرير الأفقي.',
             g2li3: 'حقل البحث يرشّح النتائج حسب العنوان أو الرابط أو الوسوم.',
             g3h: '3. وضع التحرير',
@@ -939,7 +948,7 @@
             g3li2: '<strong>🗑 حذف</strong>: حذف الإشارة المرجعية من Chrome.',
             g3li3: '<strong>انقر بزر الفأرة الأيمن</strong> على البطاقة لفتح القائمة السياقية.',
             g4h: '4. السحب والإفلات',
-            g4p: 'عند تفعيل وضع التحرير، اسحب البطاقات إلى عناصر الشريط الجانبي أو التصنيفات الفرعية العلوية لنقل الإشارات المرجعية. كما يمكنك إعادة الترتيب داخل نفس القائمة.',
+            g4p: 'في وضع التحرير، اسحب البطاقات إلى الصف الرئيسي العلوي (عند عدة جذور) أو التصنيفات الفرعية أو المجلدات الفرعية اليسرى. أعد الترتيب داخل القائمة بالسحب.',
             g5h: '5. الإعدادات',
             g5li1: '<strong>وضع التحرير</strong>: إظهار/إخفاء أزرار التعديل والحذف والسحب.',
             g5li2: '<strong>الأعمدة</strong>: 3 / 4 / 5 (تتكيّف مع عرض النافذة).',
@@ -954,6 +963,7 @@
             loading: '読み込み中…',
             emptyState: 'データがありません。ブックマークバーにフォルダを作成して追加してください。',
             footer: '© 2026 SuperBookmark. 無断転載禁止。',
+            navPrimaryAria: '最上位のブックマーク（複数あるとき）',
             navSecondaryAria: 'サブカテゴリ（上部）',
             sidebarAria: 'サイドメニュー',
             searchPlaceholder: 'ブックマークを検索',
@@ -1026,12 +1036,12 @@
             guideIntro: 'ブックマークバーの整理方法と拡張機能の操作です。',
             g1h: '1. フォルダの作り方',
             g1p: 'Chrome の<strong>フォルダ階層</strong>に対応します。',
-            g1li1: '<strong>第1階層</strong>：サイドバーの大分類。',
-            g1li2: '<strong>第2階層</strong>：上部のサブ分類。ない場合は第1階層名のみ。',
+            g1li1: '<strong>第1階層</strong>：Chrome の最上位構造・大分類。<strong>複数のルート</strong>があるときは<strong>ヘッダー1行目</strong>で切替。1つだけならその行は非表示。',
+            g1li2: '<strong>第2階層</strong>：<strong>ヘッダー2行目</strong>のサブ分類。ない場合は第1階層名のみ。',
             g1li3: '<strong>第3階層以下</strong>：フォルダ名がカードの<strong>タグ</strong>になります。',
             g1note: '一覧が空のときは、ブックマークバーにフォルダとブックマークを追加してください。',
             g2h: '2. 閲覧と検索',
-            g2li1: '左で大分類、上でサブ分類を切り替えます。',
+            g2li1: '大分類が複数のときは上段1行目→その下の2行目。1つのときは2行目だけ。第3階層があると左にサブメニュー。',
             g2li2: '<strong>タグバー</strong>で絞り込み（「すべて」含む）。矢印で横スクロール。',
             g2li3: '検索でタイトル・URL・タグを絞り込み。',
             g3h: '3. 編集モード',
@@ -1040,7 +1050,7 @@
             g3li2: '<strong>🗑 削除</strong>：Chrome からブックマークを削除。',
             g3li3: '<strong>右クリック</strong>でコンテキストメニュー。',
             g4h: '4. ドラッグで移動',
-            g4p: 'カードをサイドバーや上部のサブ分類にドラッグして移動。同じ一覧内で並べ替えも可能。',
+            g4p: 'カードをヘッダー上段（複数ルート時）、サブ分類、または左のサブフォルダへドラッグして移動。同じ一覧内で並べ替え可。',
             g5h: '5. 設定',
             g5li1: '<strong>編集モード</strong>：編集・削除・ドラッグの表示。',
             g5li2: '<strong>列数</strong>：3 / 4 / 5（幅に応じて調整）。',
@@ -1055,6 +1065,7 @@
             loading: '북마크를 불러오는 중…',
             emptyState: '데이터가 없습니다. 북마크 바에 폴더를 만들고 북마크를 추가하세요.',
             footer: '© 2026 SuperBookmark. 무단 복제 금지.',
+            navPrimaryAria: '최상위 북마크(여러 개일 때)',
             navSecondaryAria: '하위 분류(상단)',
             sidebarAria: '사이드 메뉴',
             searchPlaceholder: '북마크 검색',
@@ -1127,12 +1138,12 @@
             guideIntro: '북마크 바 구성 방법과 확장 프로그램 사용법입니다.',
             g1h: '1. 폴더 구조',
             g1p: 'Chrome <strong>폴더 계층</strong>에 맞춥니다.',
-            g1li1: '<strong>1단계 폴더</strong>: 사이드바의 대분류.',
-            g1li2: '<strong>2단계 폴더</strong>: 상단 하위 분류. 없으면 1단계 이름만 사용.',
+            g1li1: '<strong>1단계</strong>: Chrome 최상위 구조·대분류. <strong>루트가 여러 개</strong>이면 <strong>헤더 첫 줄</strong>에서 전환. 하나뿐이면 그 줄은 숨김.',
+            g1li2: '<strong>2단계</strong>: <strong>헤더 둘째 줄</strong>의 하위 분류. 없으면 1단계 이름만.',
             g1li3: '<strong>3단계 이하</strong>: 폴더 이름이 카드 <strong>태그</strong>로 표시됩니다.',
             g1note: '목록이 비어 있으면 북마크 바에 폴더와 북마크를 만드세요.',
             g2h: '2. 탐색 및 검색',
-            g2li1: '왼쪽에서 대분류, 상단에서 하위 분류를 전환합니다.',
+            g2li1: '대분류가 여러 개면 헤더 첫 줄·둘째 순서로 전환. 하나면 둘째 줄만. 3단계 폴더가 있으면 왼쪽에 하위 메뉴.',
             g2li2: '<strong>태그 바</strong>로 필터(「전체」 포함). 화살표로 가로 스크롤.',
             g2li3: '검색으로 제목·URL·태그 필터.',
             g3h: '3. 편집 모드',
@@ -1141,7 +1152,7 @@
             g3li2: '<strong>🗑 삭제</strong>: Chrome에서 북마크 제거.',
             g3li3: '<strong>우클릭</strong>으로 메뉴.',
             g4h: '4. 드래그로 이동',
-            g4p: '카드를 사이드바나 상단 하위 분류로 드래그해 이동. 같은 목록에서 순서 변경 가능.',
+            g4p: '카드를 헤더 첫 줄(루트 여러 개일 때)·상단 하위 분류·왼쪽 하위 폴더로 드래그해 이동. 같은 목록에서 순서 변경 가능.',
             g5h: '5. 설정',
             g5li1: '<strong>편집 모드</strong>: 편집·삭제·드래그 표시.',
             g5li2: '<strong>열 수</strong>: 3 / 4 / 5.',
@@ -1153,27 +1164,26 @@
             bgpBlue: '연한 파랑', bgpGreen: '연한 초록', bgpBeige: '베이지', bgpGray: '연한 회색', bgpWhite: '흰색', bgpDark: '어두움'        }
     };
 
-    var BG_PRESET_KEYS = ['bgpBlue', 'bgpGreen', 'bgpBeige', 'bgpGray', 'bgpWhite', 'bgpDark'];
+    let BG_PRESET_KEYS = ['bgpBlue', 'bgpGreen', 'bgpBeige', 'bgpGray', 'bgpWhite', 'bgpDark'];
 
-    var current = 'zh';
+    let current = 'zh';
 
     function normalizeLocale(code) {
         if (!code || typeof code !== 'string') return 'zh';
-        var lower = String(code).toLowerCase().replace(/_/g, '-');
+        let lower = String(code).toLowerCase().replace(/_/g, '-');
         if (lower === 'zh-tw' || lower === 'zh-hk' || lower === 'zh-hant') return 'zh-TW';
-        var z = lower.split('-');
+        let z = lower.split('-');
         if (z[0] === 'zh' && (z[1] === 'tw' || z[1] === 'hk' || z[1] === 'hant')) return 'zh-TW';
-        var i;
-        for (i = 0; i < CODES.length; i++) {
+        for (let i = 0; i < CODES.length; i++) {
             if (String(CODES[i]).toLowerCase() === lower) return CODES[i];
         }
-        var c = lower.split('-')[0];
+        let c = lower.split('-')[0];
         return CODES.indexOf(c) >= 0 ? c : 'zh';
     }
 
     function detectLocale() {
         try {
-            var nav = (global.navigator && global.navigator.language) || 'zh';
+            let nav = (global.navigator && global.navigator.language) || 'zh';
             return normalizeLocale(nav);
         } catch (e) {}
         return 'zh';
@@ -1191,7 +1201,7 @@
     }
 
     function t(key) {
-        var pack = STRINGS[current] || STRINGS.zh;
+        let pack = STRINGS[current] || STRINGS.zh;
         if (pack[key] != null && pack[key] !== '') return pack[key];
         return STRINGS.zh[key] != null ? STRINGS.zh[key] : key;
     }
@@ -1202,27 +1212,32 @@
 
     function applyMainPageStatic() {
         if (!global.document) return;
-        var d = global.document;
+        let d = global.document;
         d.title = t('pageTitle');
-        var loadEl = d.getElementById('loading');
+        let loadEl = d.getElementById('loading');
         if (loadEl) loadEl.textContent = t('loading');
-        var emptyP = d.querySelector('#emptyState p');
+        let emptyP = d.querySelector('#emptyState p');
         if (emptyP) emptyP.textContent = t('emptyState');
-        var foot = d.querySelector('.footer-content p');
+        let foot = d.querySelector('.footer-content p');
         if (foot) foot.textContent = t('footer');
-        var nav = d.querySelector('header .nav');
-        if (nav) nav.setAttribute('aria-label', t('navSecondaryAria'));
-        var side = d.querySelector('.sidebar');
+        let priWrap = d.getElementById('primaryNavWrap');
+        if (priWrap) priWrap.setAttribute('aria-label', t('navPrimaryAria'));
+        let secNav = d.getElementById('secondaryNav');
+        if (secNav) {
+            const wrap = secNav.closest('nav');
+            if (wrap) wrap.setAttribute('aria-label', t('navSecondaryAria'));
+        }
+        let side = d.querySelector('.sidebar');
         if (side) side.setAttribute('aria-label', t('sidebarAria'));
-        var si = d.getElementById('searchInput');
+        let si = d.getElementById('searchInput');
         if (si) {
             si.placeholder = t('searchPlaceholder');
             si.setAttribute('aria-label', t('searchPlaceholder'));
         }
-        var sb = d.getElementById('searchBtn');
+        let sb = d.getElementById('searchBtn');
         if (sb) sb.textContent = t('searchBtn');
-        var tp = d.getElementById('tagBarPrev');
-        var tn = d.getElementById('tagBarNext');
+        let tp = d.getElementById('tagBarPrev');
+        let tn = d.getElementById('tagBarNext');
         if (tp) {
             tp.setAttribute('aria-label', t('tagLeft'));
             tp.setAttribute('title', t('tagLeft'));
@@ -1231,17 +1246,17 @@
             tn.setAttribute('aria-label', t('tagRight'));
             tn.setAttribute('title', t('tagRight'));
         }
-        var ctx = d.getElementById('linkContextMenu');
+        let ctx = d.getElementById('linkContextMenu');
         if (ctx) {
-            var del = ctx.querySelector('[data-action="delete"]');
+            let del = ctx.querySelector('[data-action="delete"]');
             if (del) del.textContent = t('ctxDelete');
         }
-        var scrollBtn = d.querySelector('.scroll-float-btn');
+        let scrollBtn = d.querySelector('.scroll-float-btn');
         if (scrollBtn) {
             scrollBtn.setAttribute('aria-label', t('scrollAria'));
-            var nearBottom = false;
+            let nearBottom = false;
             try {
-                var cm = d.getElementById('contentMain');
+                let cm = d.getElementById('contentMain');
                 if (cm) nearBottom = cm.scrollTop + cm.clientHeight >= cm.scrollHeight - 20;
             } catch (e) {}
             scrollBtn.title = nearBottom ? t('scrollTop') : t('scrollBottom');
@@ -1282,7 +1297,7 @@
                 if (chrome.runtime && chrome.runtime.lastError) {
                     setLocale(detectLocale());
                 } else {
-                    var s = data && data.bookmarkManagerSettings;
+                    let s = data && data.bookmarkManagerSettings;
                     setLocale(s && s.locale ? s.locale : detectLocale());
                 }
                 applyGuide();

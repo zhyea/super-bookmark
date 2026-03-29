@@ -1,24 +1,19 @@
 /**
- * 设置模块：依赖 chrome.storage、BookmarkManagerI18n（i18n.js 需先加载）
+ * 设置模块：依赖 i18n.js、settings-panel-template.js（需先于本文件加载）、chrome.storage
  */
 (function() {
     const SETTINGS_STORAGE_KEY = 'bookmarkManagerSettings';
-    const CONTENT_WIDTH_VALUES = ['full', '1200', '960', '800'];
     const DEFAULT_BG_PATH = 'assets/imgs/default_bg.webp';
-    const BACKGROUND_COLORS = [
-        { value: '#e8f4fc' },
-        { value: '#e8f5e9' },
-        { value: '#f7f5f2' },
-        { value: '#f5f5f5' },
-        { value: '#ffffff' },
-        { value: '#2d2d2d' }
-    ];
+
+    function tpl() {
+        return window.SettingsPanelTemplate;
+    }
 
     function I18n() {
         return window.BookmarkManagerI18n;
     }
     function t(key) {
-        var L = I18n();
+        let L = I18n();
         return L && L.t ? L.t(key) : key;
     }
     function escAttr(s) {
@@ -27,14 +22,16 @@
 
     function normalizeHex(hex) {
         if (!hex || typeof hex !== 'string') return '#e8f4fc';
-        var h = hex.trim();
+        let h = hex.trim();
         if (/^#[0-9a-fA-F]{6}$/.test(h)) return h.toLowerCase();
         return '#e8f4fc';
     }
 
     function presetMatchesColor(hex) {
-        var n = normalizeHex(hex);
-        return BACKGROUND_COLORS.some(function(c) { return c.value.toLowerCase() === n; });
+        let n = normalizeHex(hex);
+        const SPT = tpl();
+        const BG = SPT && SPT.BACKGROUND_COLORS;
+        return BG ? BG.some(function(c) { return c.value.toLowerCase() === n; }) : false;
     }
 
     function loadSettings(cb) {
@@ -43,7 +40,8 @@
             const L = I18n();
             const locale = L && L.normalizeLocale ? L.normalizeLocale(s.locale || (L.detectLocale && L.detectLocale())) : 'zh';
             if (L && L.setLocale) L.setLocale(locale);
-            const contentWidth = s.contentWidth && CONTENT_WIDTH_VALUES.includes(s.contentWidth) ? s.contentWidth : '1200';
+            const CV = tpl() && tpl().CONTENT_WIDTH_VALUES;
+            const contentWidth = s.contentWidth && CV && CV.includes(s.contentWidth) ? s.contentWidth : '1200';
             const backgroundColor = normalizeHex(s.backgroundColor);
             const backgroundImage = (s.backgroundImage && typeof s.backgroundImage === 'string' && s.backgroundImage.startsWith('data:')) ? s.backgroundImage : '';
             const disableDefaultBg = s.disableDefaultBg === true;
@@ -81,7 +79,8 @@
         if (!s) return;
         const container = document.querySelector('.container');
         if (container) {
-            CONTENT_WIDTH_VALUES.forEach(function(v) { container.classList.remove('width-' + v); });
+            const CV = tpl() && tpl().CONTENT_WIDTH_VALUES;
+            if (CV) CV.forEach(function(v) { container.classList.remove('width-' + v); });
             if (s.contentWidth && s.contentWidth !== '1200') container.classList.add('width-' + s.contentWidth);
         }
         if (s.backgroundColor) {
@@ -107,8 +106,9 @@
     }
 
     function renderSettingsUI(linksGrid) {
+        const SPT = tpl();
+        if (!SPT || typeof SPT.buildSettingsPanelHtml !== 'function') return;
         const L = I18n();
-        const BGK = (L && L.BG_PRESET_KEYS) || ['bgpBlue', 'bgpGreen', 'bgpBeige', 'bgpGray', 'bgpWhite', 'bgpDark'];
         const wrap = document.createElement('div');
         wrap.className = 'settings-wrap';
         const showActions = window.__settings.showActions;
@@ -120,115 +120,21 @@
         const locale = (window.__settings.locale && L && L.normalizeLocale) ? L.normalizeLocale(window.__settings.locale) : 'zh';
         const isPresetActive = presetMatchesColor(backgroundColor);
         const pickerValue = backgroundColor;
-        const contentWidthHtml = CONTENT_WIDTH_VALUES.map(function(v) {
-            const label = v === 'full' ? t('fullWidth') : v + 'px';
-            return '<button type="button" class="settings-btn ' + (contentWidth === v ? 'active' : '') + '" data-setting="contentWidth" data-value="' + v + '">' + label + '</button>';
-        }).join('');
-        const bgColorHtml = BACKGROUND_COLORS.map(function(c, idx) {
-            const isDark = c.value === '#2d2d2d';
-            const activeClass = isPresetActive && backgroundColor.toLowerCase() === c.value.toLowerCase() ? 'active' : '';
-            const darkClass = isDark ? ' settings-bg-dark' : '';
-            const titleKey = BGK[idx] || 'bgpBlue';
-            return '<button type="button" class="settings-btn settings-bg-swatch' + darkClass + ' ' + activeClass + '" data-setting="backgroundColor" data-value="' + c.value + '" style="background-color:' + c.value + '" title="' + escAttr(t(titleKey)) + '"></button>';
-        }).join('');
-        var LANG_KEYS = { zh: 'langZh', 'zh-TW': 'langZhTW', en: 'langEn', es: 'langEs', de: 'langDe', fr: 'langFr', it: 'langIt', ru: 'langRu', ar: 'langAr', ja: 'langJa', ko: 'langKo' };
-        const langOpts = (L && L.CODES) ? L.CODES.map(function(code) {
-            var lab = t(LANG_KEYS[code] || 'langEn');
-            return '<option value="' + code + '"' + (locale === code ? ' selected' : '') + '>' + escAttr(lab) + '</option>';
-        }).join('') : '';
 
-        wrap.innerHTML = `
-            <button type="button" class="settings-toggle" aria-label="${escAttr(t('settingsAria'))}">
-                <span class="settings-toggle-breadcrumb" aria-hidden="true"></span>
-            </button>
-            <div class="settings-panel">
-                <div class="settings-panel-title">${escAttr(t('settingsTitle'))}</div>
-                <div class="settings-panel-content">
-                <div class="settings-section">
-                    <div class="settings-section-title">${escAttr(t('settingsGroupGeneral'))}</div>
-                    <div class="settings-row settings-row-inline">
-                        <span class="settings-label">${escAttr(t('settingsLang'))}</span>
-                        <div class="settings-btns">
-                            <select class="settings-locale-select" id="settingsLocale" aria-label="${escAttr(t('settingsLang'))}">${langOpts}</select>
-                        </div>
-                    </div>
-                    <div class="settings-row settings-row-inline">
-                        <span class="settings-label">${escAttr(t('settingsEditMode'))}</span>
-                        <div class="settings-btns settings-switch-row">
-                            <label class="settings-switch" title="${escAttr(t('settingsEditMode'))}">
-                                <input type="checkbox" id="settingsEditModeSwitch" ${showActions ? 'checked' : ''}>
-                                <span class="settings-switch-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="settings-row settings-row-inline">
-                        <span class="settings-label">${escAttr(t('settingsNewTab'))}</span>
-                        <div class="settings-btns settings-switch-row">
-                            <label class="settings-switch" title="${escAttr(t('settingsNewTab'))}">
-                                <input type="checkbox" id="settingsReplaceNewTabSwitch" ${replaceDefaultNewTab ? 'checked' : ''}>
-                                <span class="settings-switch-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="settings-section">
-                    <div class="settings-section-title">${escAttr(t('settingsGroupView'))}</div>
-                    <div class="settings-row">
-                        <span class="settings-label">${escAttr(t('settingsColumns'))}</span>
-                        <div class="settings-btns">
-                            <button type="button" class="settings-btn ${cols === 3 ? 'active' : ''}" data-setting="columns" data-value="3">3</button>
-                            <button type="button" class="settings-btn ${cols === 4 ? 'active' : ''}" data-setting="columns" data-value="4">4</button>
-                            <button type="button" class="settings-btn ${cols === 5 ? 'active' : ''}" data-setting="columns" data-value="5">5</button>
-                        </div>
-                    </div>
-                    <div class="settings-row">
-                        <span class="settings-label">${escAttr(t('settingsWidth'))}</span>
-                        <div class="settings-btns">
-                            ${contentWidthHtml}
-                        </div>
-                    </div>
-                    <div class="settings-row">
-                        <span class="settings-label">${escAttr(t('settingsBg'))}</span>
-                        <div class="settings-btns settings-bg-row">
-                            ${bgColorHtml}
-                            <button type="button" class="settings-btn settings-bg-swatch settings-bg-custom ${!isPresetActive ? 'active' : ''}" data-setting="backgroundColor" data-value="custom" title="${escAttr(t('bgPickTitle'))}" aria-label="${escAttr(t('bgPickAria'))}"></button>
-                            <input type="color" id="settingsBgColorPicker" class="settings-color-picker" value="${pickerValue}" aria-label="${escAttr(t('bgPickAria'))}">
-                        </div>
-                    </div>
-                    <div class="settings-row">
-                        <span class="settings-label">${escAttr(t('settingsBgImg'))}</span>
-                        <div class="settings-btns settings-bg-image-row">
-                            <input type="file" accept="image/*" id="settingsBackgroundImage" class="settings-file-input" style="display:none">
-                            <button type="button" class="settings-btn" id="settingsUploadBgBtn">${escAttr(t('chooseImg'))}</button>
-                            <button type="button" class="settings-btn ${hasBackgroundImage ? '' : 'disabled'}" id="settingsClearBgBtn" ${!hasBackgroundImage ? 'disabled' : ''}>${escAttr(t('clear'))}</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="settings-section">
-                    <div class="settings-section-title">${escAttr(t('settingsGroupManage'))}</div>
-                    <div class="settings-row">
-                        <span class="settings-label">${escAttr(t('settingsVisibleRoots'))}</span>
-                        <div class="settings-btns settings-root-btns" id="settingsVisibleRootsBtns"></div>
-                    </div>
-                    <div class="settings-row">
-                        <span class="settings-label">${escAttr(t('settingsFolderManage'))}</span>
-                        <div class="settings-btns">
-                            <button type="button" class="settings-btn" id="settingsOpenBookmarkManager">${escAttr(t('openBookmarkManager'))}</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="settings-section settings-section-about">
-                    <div class="settings-section-title">${escAttr(t('settingsGroupAbout'))}</div>
-                    <div class="settings-row settings-row-help">
-                        <a href="#" class="settings-help-link" id="settingsOpenGuide">${escAttr(t('helpLink'))}</a>
-                    </div>
-                </div>
-                </div>
-            </div>
-        `;
+        wrap.innerHTML = SPT.buildSettingsPanelHtml({
+            t: t,
+            escAttr: escAttr,
+            showActions: showActions,
+            cols: cols,
+            contentWidth: contentWidth,
+            backgroundColor: backgroundColor,
+            hasBackgroundImage: hasBackgroundImage,
+            replaceDefaultNewTab: replaceDefaultNewTab,
+            locale: locale,
+            isPresetActive: isPresetActive,
+            pickerValue: pickerValue,
+            L: L
+        });
         document.body.appendChild(wrap);
         const toggle = wrap.querySelector('.settings-toggle');
         const panel = wrap.querySelector('.settings-panel');
@@ -236,14 +142,14 @@
 
         if (localeSel) {
             localeSel.addEventListener('change', function() {
-                var v = L && L.normalizeLocale ? L.normalizeLocale(this.value) : 'zh';
+                let v = L && L.normalizeLocale ? L.normalizeLocale(this.value) : 'zh';
                 if (L && L.setLocale) L.setLocale(v);
                 saveSettings({ locale: v });
-                var keepPanelOpen = panel.classList.contains('settings-panel-open');
+                let keepPanelOpen = panel.classList.contains('settings-panel-open');
                 wrap.remove();
                 renderSettingsUI(linksGrid);
                 if (keepPanelOpen) {
-                    var newPanel = document.querySelector('.settings-panel');
+                    let newPanel = document.querySelector('.settings-panel');
                     if (newPanel) newPanel.classList.add('settings-panel-open');
                 }
                 if (L && L.applyMainPageStatic) L.applyMainPageStatic();
@@ -260,6 +166,22 @@
             panel.classList.remove('settings-panel-open');
         });
         panel.addEventListener('click', function(e) { e.stopPropagation(); });
+
+        (function bindSettingsPanelScrollbar() {
+            const panelContent = wrap.querySelector('.settings-panel-content');
+            if (!panelContent) return;
+            let hideTimer = null;
+            const HIDE_MS = 1200;
+            function showScrollbar() {
+                panelContent.classList.add('settings-scrollbar--visible');
+                if (hideTimer) clearTimeout(hideTimer);
+                hideTimer = setTimeout(function() {
+                    hideTimer = null;
+                    panelContent.classList.remove('settings-scrollbar--visible');
+                }, HIDE_MS);
+            }
+            panelContent.addEventListener('scroll', showScrollbar, { passive: true });
+        })();
 
         function getCurrentBackgroundColor() {
             const bgBtn = wrap.querySelector('[data-setting="backgroundColor"].active');
@@ -302,7 +224,7 @@
 
         applyContentWidthAndBackground();
 
-        var TOGGLE_SETTINGS = ['columns', 'contentWidth'];
+        let TOGGLE_SETTINGS = ['columns', 'contentWidth'];
         TOGGLE_SETTINGS.forEach(function(name) {
             wrap.querySelectorAll('.settings-btn[data-setting="' + name + '"]').forEach(function(btn) {
                 btn.addEventListener('click', function() {
@@ -312,15 +234,15 @@
                 });
             });
         });
-        var editModeSwitchEl = wrap.querySelector('#settingsEditModeSwitch');
+        let editModeSwitchEl = wrap.querySelector('#settingsEditModeSwitch');
         if (editModeSwitchEl) editModeSwitchEl.addEventListener('change', applySettings);
-        var replaceNewTabSwitchEl = wrap.querySelector('#settingsReplaceNewTabSwitch');
+        let replaceNewTabSwitchEl = wrap.querySelector('#settingsReplaceNewTabSwitch');
         if (replaceNewTabSwitchEl) replaceNewTabSwitchEl.addEventListener('change', applySettings);
         wrap.querySelectorAll('.settings-btn[data-setting="backgroundColor"]').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 wrap.querySelectorAll('.settings-btn[data-setting="backgroundColor"]').forEach(function(b) { b.classList.remove('active'); });
                 this.classList.add('active');
-                var picker = wrap.querySelector('#settingsBgColorPicker');
+                let picker = wrap.querySelector('#settingsBgColorPicker');
                 if (picker && this.dataset.value !== 'custom') {
                     picker.value = normalizeHex(this.dataset.value);
                 }
@@ -330,11 +252,11 @@
                 applySettings();
             });
         });
-        var bgPicker = wrap.querySelector('#settingsBgColorPicker');
+        let bgPicker = wrap.querySelector('#settingsBgColorPicker');
         if (bgPicker) {
             bgPicker.addEventListener('input', function() {
                 wrap.querySelectorAll('.settings-btn[data-setting="backgroundColor"]').forEach(b => b.classList.remove('active'));
-                var customBtn = wrap.querySelector('.settings-btn[data-setting="backgroundColor"][data-value="custom"]');
+                let customBtn = wrap.querySelector('.settings-btn[data-setting="backgroundColor"][data-value="custom"]');
                 if (customBtn) customBtn.classList.add('active');
                 saveSettings({ backgroundColor: normalizeHex(this.value) });
                 applyContentWidthAndBackground();
@@ -344,7 +266,7 @@
                 applySettings();
             });
         }
-        var guideA = wrap.querySelector('#settingsOpenGuide');
+        let guideA = wrap.querySelector('#settingsOpenGuide');
         if (guideA) {
             guideA.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -362,7 +284,7 @@
             });
         }
 
-        var openBookmarkManagerBtn = wrap.querySelector('#settingsOpenBookmarkManager');
+        let openBookmarkManagerBtn = wrap.querySelector('#settingsOpenBookmarkManager');
         if (openBookmarkManagerBtn) {
             openBookmarkManagerBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -372,17 +294,17 @@
             });
         }
 
-        var fileInput = wrap.querySelector('#settingsBackgroundImage');
-        var uploadBtn = wrap.querySelector('#settingsUploadBgBtn');
-        var clearBtn = wrap.querySelector('#settingsClearBgBtn');
+        let fileInput = wrap.querySelector('#settingsBackgroundImage');
+        let uploadBtn = wrap.querySelector('#settingsUploadBgBtn');
+        let clearBtn = wrap.querySelector('#settingsClearBgBtn');
         if (uploadBtn && fileInput) {
             uploadBtn.addEventListener('click', function() { fileInput.click(); });
             fileInput.addEventListener('change', function() {
-                var file = this.files && this.files[0];
+                let file = this.files && this.files[0];
                 if (!file || !file.type.startsWith('image/')) return;
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function() {
-                    var dataUrl = reader.result;
+                    let dataUrl = reader.result;
                     if (dataUrl.length > 900000) {
                         alert(t('imgTooBig'));
                         return;
@@ -410,41 +332,41 @@
         }
 
         (function bindVisibleRootButtons() {
-            var container = wrap.querySelector('#settingsVisibleRootsBtns');
+            let container = wrap.querySelector('#settingsVisibleRootsBtns');
             if (!container || typeof chrome === 'undefined' || !chrome.bookmarks || !chrome.bookmarks.getTree) return;
-            var BM = window.BookmarkManager;
+            let BM = window.BookmarkManager;
             if (!BM || !BM.classifyBuiltinRoot || !BM.normalizeVisibleRoots) return;
             chrome.bookmarks.getTree(function(tree) {
-                var roots = (tree && tree[0] && tree[0].children) ? tree[0].children : [];
-                var folders = roots.filter(function(n) { return !n.url && n.children; });
-                var vr = BM.normalizeVisibleRoots(window.__settings && window.__settings.visibleRoots);
-                var seen = { bar: false, other: false, mobile: false };
-                var html = [];
-                for (var i = 0; i < folders.length; i++) {
-                    var node = folders[i];
-                    var rk = BM.classifyBuiltinRoot(node);
+                let roots = (tree && tree[0] && tree[0].children) ? tree[0].children : [];
+                let folders = roots.filter(function(n) { return !n.url && n.children; });
+                let vr = BM.normalizeVisibleRoots(window.__settings && window.__settings.visibleRoots);
+                let seen = { bar: false, other: false, mobile: false };
+                let html = [];
+                for (let i = 0; i < folders.length; i++) {
+                    let node = folders[i];
+                    let rk = BM.classifyBuiltinRoot(node);
                     if (!rk || seen[rk]) continue;
                     seen[rk] = true;
-                    var on = vr[rk] !== false;
+                    let on = vr[rk] !== false;
                     html.push('<button type="button" class="settings-btn settings-root-toggle' + (on ? ' active' : '') + '" data-root-key="' + rk + '" aria-pressed="' + (on ? 'true' : 'false') + '">' + escAttr(node.title || '') + '</button>');
                 }
-                var othersOn = vr.others !== false;
+                let othersOn = vr.others !== false;
                 html.push('<button type="button" class="settings-btn settings-root-toggle' + (othersOn ? ' active' : '') + '" data-root-key="others" aria-pressed="' + (othersOn ? 'true' : 'false') + '">' + escAttr(t('settingsRootOthers')) + '</button>');
                 container.innerHTML = html.join('');
                 container.querySelectorAll('.settings-root-toggle').forEach(function(btn) {
                     btn.addEventListener('click', function(ev) {
                         ev.stopPropagation();
-                        var key = this.dataset.rootKey;
+                        let key = this.dataset.rootKey;
                         if (!key) return;
-                        var base = (window.__settings && window.__settings.visibleRoots) || BM.DEFAULT_VISIBLE_ROOTS;
-                        var next = {
+                        let base = (window.__settings && window.__settings.visibleRoots) || BM.DEFAULT_VISIBLE_ROOTS;
+                        let next = {
                             bar: !!base.bar,
                             other: !!base.other,
                             mobile: !!base.mobile,
                             others: !!base.others
                         };
                         if (next[key]) {
-                            var cnt = (next.bar ? 1 : 0) + (next.other ? 1 : 0) + (next.mobile ? 1 : 0) + (next.others ? 1 : 0);
+                            let cnt = (next.bar ? 1 : 0) + (next.other ? 1 : 0) + (next.mobile ? 1 : 0) + (next.others ? 1 : 0);
                             if (cnt <= 1) return;
                             next[key] = false;
                         } else {
@@ -453,8 +375,8 @@
                         next = BM.normalizeVisibleRoots(next);
                         saveSettings({ visibleRoots: next });
                         container.querySelectorAll('.settings-root-toggle').forEach(function(b) {
-                            var k2 = b.dataset.rootKey;
-                            var active = next[k2] !== false;
+                            let k2 = b.dataset.rootKey;
+                            let active = next[k2] !== false;
                             b.classList.toggle('active', active);
                             b.setAttribute('aria-pressed', active ? 'true' : 'false');
                         });
