@@ -1,9 +1,7 @@
 /**
  * 从 Chrome 书签树构建导航数据（一级 primary / 二级 secondaries / 侧栏三级 sides）
- * 需在 bookmarks.js 之前加载；结果挂到 global.BookmarkNavBuild
  */
-(function(global) {
-    const DEFAULT_VISIBLE_ROOTS = { bar: true, other: true, mobile: true, others: true };
+const DEFAULT_VISIBLE_ROOTS = { bar: true, other: true, mobile: true, others: true };
 
     function normalizeVisibleRoots(v) {
         const d = { bar: true, other: true, mobile: true, others: true };
@@ -327,11 +325,10 @@
         return result;
     }
 
-    global.BookmarkNavBuild = {
-        DEFAULT_VISIBLE_ROOTS,
-        normalizeVisibleRoots,
-        classifyBuiltinRoot,
-        collectBookmarks,
-        buildNavData
-    };
-})(typeof window !== 'undefined' ? window : this);
+export const BookmarkNavBuild = {
+    DEFAULT_VISIBLE_ROOTS,
+    normalizeVisibleRoots,
+    classifyBuiltinRoot,
+    collectBookmarks,
+    buildNavData
+};

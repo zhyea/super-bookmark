@@ -1,9 +1,7 @@
 /**
  * 备份 / 导入：书签树 + 扩展存储（标签、图标色、描述、设置），AES-GCM 加密后写入 .zhx
- * 依赖：chrome.bookmarks、chrome.storage、crypto.subtle、BookmarkManager
  */
-(function(global) {
-    const BM = global.BookmarkManager;
+import { BookmarkManager as BM } from './bookmarks.js';
     const DEFAULT_BACKUP_PASSWORD = 'SuperBookmark-backup-default-v1';
 
     function b64(u8) {
@@ -408,7 +406,7 @@
         }
         chrome.storage.local.remove([BM.TAGS_STORAGE_KEY, BM.ICON_COLOR_STORAGE_KEY, BM.DESCRIPTION_STORAGE_KEY], function() {
             if (chrome.runtime.lastError) return cb(chrome.runtime.lastError);
-            const L = global.BookmarkManagerI18n;
+            const L = typeof window !== 'undefined' ? window.BookmarkManagerI18n : null;
             const locale = L && L.normalizeLocale ? L.normalizeLocale(L.detectLocale && L.detectLocale()) : 'zh';
             const vr = BM.normalizeVisibleRoots ? BM.normalizeVisibleRoots(null) : { bar: true, other: true, mobile: true, others: true };
             const defaults = {
@@ -429,13 +427,16 @@
         });
     }
 
-    global.BookmarkBackup = {
-        DEFAULT_BACKUP_PASSWORD: DEFAULT_BACKUP_PASSWORD,
-        encryptJson: encryptJson,
-        decryptJsonFile: decryptJsonFile,
-        buildExportPayload: buildExportPayload,
-        exportBackupToFile: exportBackupToFile,
-        importBackupFromFile: importBackupFromFile,
-        restoreFactoryDefaults: restoreFactoryDefaults
-    };
-})(typeof window !== 'undefined' ? window : this);
+export const BookmarkBackup = {
+    DEFAULT_BACKUP_PASSWORD: DEFAULT_BACKUP_PASSWORD,
+    encryptJson: encryptJson,
+    decryptJsonFile: decryptJsonFile,
+    buildExportPayload: buildExportPayload,
+    exportBackupToFile: exportBackupToFile,
+    importBackupFromFile: importBackupFromFile,
+    restoreFactoryDefaults: restoreFactoryDefaults
+};
+
+if (typeof window !== 'undefined') {
+    window.BookmarkBackup = BookmarkBackup;
+}

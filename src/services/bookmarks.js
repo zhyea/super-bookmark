@@ -1,10 +1,7 @@
 /**
  * 书签存储与 API：标签/描述/图标色、拉取合并后的导航数据
- * 依赖 bookmark-nav-build.js（BookmarkNavBuild）
  */
-(function(global) {
-    const NB = global.BookmarkNavBuild;
-    if (!NB) return;
+import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
 
     const TAGS_STORAGE_KEY = 'bookmarkTags';
     const ICON_COLOR_STORAGE_KEY = 'bookmarkIconColors';
@@ -107,24 +104,27 @@
         });
     }
 
-    global.BookmarkManager = {
-        TAGS_STORAGE_KEY,
-        ICON_COLOR_STORAGE_KEY,
-        DESCRIPTION_STORAGE_KEY,
-        SETTINGS_STORAGE_KEY,
-        DEFAULT_VISIBLE_ROOTS: NB.DEFAULT_VISIBLE_ROOTS,
-        normalizeVisibleRoots: NB.normalizeVisibleRoots,
-        classifyBuiltinRoot: NB.classifyBuiltinRoot,
-        loadDescriptions,
-        saveDescription,
-        escapeHtml,
-        collectBookmarks: NB.collectBookmarks,
-        buildNavData: NB.buildNavData,
-        loadTags,
-        saveTags,
-        loadIconColors,
-        saveIconColor,
-        parseTagInput,
-        fetchNavData
-    };
-})(typeof window !== 'undefined' ? window : this);
+export const BookmarkManager = {
+    TAGS_STORAGE_KEY,
+    ICON_COLOR_STORAGE_KEY,
+    DESCRIPTION_STORAGE_KEY,
+    SETTINGS_STORAGE_KEY,
+    DEFAULT_VISIBLE_ROOTS: NB.DEFAULT_VISIBLE_ROOTS,
+    normalizeVisibleRoots: NB.normalizeVisibleRoots,
+    classifyBuiltinRoot: NB.classifyBuiltinRoot,
+    loadDescriptions,
+    saveDescription,
+    escapeHtml,
+    collectBookmarks: NB.collectBookmarks,
+    buildNavData: NB.buildNavData,
+    loadTags,
+    saveTags,
+    loadIconColors,
+    saveIconColor,
+    parseTagInput,
+    fetchNavData
+};
+
+if (typeof window !== 'undefined') {
+    window.BookmarkManager = BookmarkManager;
+}

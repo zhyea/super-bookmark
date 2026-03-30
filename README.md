@@ -24,9 +24,10 @@ Chrome 扩展：书签管理（从新标签页或工具栏打开）。
 
 ## 本地加载
 
-1. 打开 `chrome://extensions`，开启「开发者模式」。  
-2. 「加载已解压的扩展程序」，选择本仓库目录。  
-3. 图标生成：见 `tools/build_extension_png_icons.py`。
+1. 执行 `npm run build`，静态资源与清单来自 `public/`（含 `manifest.json`、`icons/`、`assets/`）。  
+2. 打开 `chrome://extensions`，开启「开发者模式」。  
+3. 「加载已解压的扩展程序」，选择本仓库下的 **`dist`** 目录（勿选仓库根目录）。  
+4. 从 `icon.png` 生成各尺寸 PNG：见 `tools/build_extension_png_icons.py`（输出到 `public/icons/`）。
 
 ## 许可证
 

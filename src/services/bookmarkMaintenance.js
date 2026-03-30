@@ -1,9 +1,7 @@
 /**
- * 书签维护：加载导航、删除/移动/排序书签。依赖 bookmarks.js
+ * 书签维护：加载导航、删除/移动/排序书签。
  */
-(function(global) {
-    const BM = global.BookmarkManager;
-    if (!BM) return;
+import { BookmarkManager as BM } from './bookmarks.js';
 
     function setCurrentSideId(state) {
         const primary = state.navData[state.currentPrimaryIndex];
@@ -26,12 +24,13 @@
         const secondaryNav = callbacks.secondaryNav;
         const sideNavList = callbacks.sideNavList;
 
-        loadingEl.style.display = 'none';
+        if (loadingEl) loadingEl.style.display = 'none';
         BM.fetchNavData(function(navData) {
             state.navData = navData;
+            if (typeof state.initialized !== 'undefined') state.initialized = true;
             if (!navData.length) {
-                emptyState.style.display = 'block';
-                categoryPanel.style.display = 'none';
+                if (emptyState) emptyState.style.display = 'block';
+                if (categoryPanel) categoryPanel.style.display = 'none';
                 if (primaryNav) primaryNav.innerHTML = '';
                 if (secondaryNav) secondaryNav.innerHTML = '';
                 if (sideNavList) sideNavList.innerHTML = '';
@@ -40,7 +39,7 @@
                 if (callbacks.renderSideNav) callbacks.renderSideNav();
                 return;
             }
-            emptyState.style.display = 'none';
+            if (emptyState) emptyState.style.display = 'none';
             state.currentPrimaryIndex = 0;
             state.currentSecondaryId = navData[0].secondaries[0].id;
             setCurrentSideId(state);
@@ -57,12 +56,13 @@
         const emptyState = callbacks.emptyState;
         const categoryPanel = callbacks.categoryPanel;
 
-        loadingEl.style.display = 'none';
+        if (loadingEl) loadingEl.style.display = 'none';
         BM.fetchNavData(function(navData) {
             state.navData = navData;
+            if (typeof state.initialized !== 'undefined') state.initialized = true;
             if (!navData.length) {
-                emptyState.style.display = 'block';
-                categoryPanel.style.display = 'none';
+                if (emptyState) emptyState.style.display = 'block';
+                if (categoryPanel) categoryPanel.style.display = 'none';
                 state.currentPrimaryIndex = 0;
                 state.currentSecondaryId = null;
                 if (callbacks.renderPrimaryNav) callbacks.renderPrimaryNav();
@@ -70,7 +70,7 @@
                 if (callbacks.renderSideNav) callbacks.renderSideNav();
                 return;
             }
-            emptyState.style.display = 'none';
+            if (emptyState) emptyState.style.display = 'none';
             const targetParentId = callbacks.targetParentId;
             if (targetParentId) {
                 outer: for (let i = 0; i < navData.length; i++) {
@@ -124,11 +124,14 @@
         });
     }
 
-    global.BookmarkMaintenance = {
-        loadNavAndRender,
-        refreshNavAndRender,
-        deleteBookmark,
-        moveBookmark,
-        reorderBookmark
-    };
-})(typeof window !== 'undefined' ? window : this);
+export const BookmarkMaintenance = {
+    loadNavAndRender,
+    refreshNavAndRender,
+    deleteBookmark,
+    moveBookmark,
+    reorderBookmark
+};
+
+if (typeof window !== 'undefined') {
+    window.BookmarkMaintenance = BookmarkMaintenance;
+}
