@@ -18,7 +18,7 @@ export function initBookmarkPage(ctx) {
     const secondaryNav = document.getElementById('secondaryNav');
     const sideNavList = document.getElementById('sideNavList');
     const contentMain = document.getElementById('contentMain');
-    const linksGrid = document.getElementById('linksGrid');
+    const categoryPanel = document.getElementById('categoryPanel');
 
     function currentScrollY() {
         return contentMain
@@ -54,7 +54,8 @@ export function initBookmarkPage(ctx) {
     function openEditForBookmarkId(id) {
         const safeId = id == null ? '' : String(id);
         if (!safeId) return;
-        const lg = linksGrid || (appRuntime.bookmarkLinksGridGetter ? appRuntime.bookmarkLinksGridGetter() : null);
+        const lg =
+            categoryPanel || (appRuntime.bookmarkLinksGridGetter ? appRuntime.bookmarkLinksGridGetter() : null);
         const item = lg && lg.querySelector ? lg.querySelector('.link-item[data-bookmark-id="' + safeId + '"]') : null;
         if (!item) return;
         openEditForItem(item);
@@ -96,6 +97,8 @@ export function initBookmarkPage(ctx) {
     }
 
     function canReorderCards() {
+        const sec = getCurrentSecondary(state);
+        if (sec && sec.isOverviewAll) return false;
         return state.selectedTag === null && !searchTerm.value;
     }
 
@@ -104,18 +107,20 @@ export function initBookmarkPage(ctx) {
     }
 
     function deleteBookmark(id) {
-        const item = linksGrid && linksGrid.querySelector('.link-item[data-bookmark-id="' + id + '"]');
+        const item =
+            categoryPanel && categoryPanel.querySelector('.link-item[data-bookmark-id="' + id + '"]');
         if (item) item.style.animation = 'fadeOut 0.3s ease forwards';
         BookmarkMaintenance.deleteBookmark(id, refreshKeepView);
     }
 
     appRuntime.bookmarkRefreshKeepView = refreshKeepView;
     appRuntime.bookmarkLinksGridGetter = function () {
-        return linksGrid;
+        return categoryPanel;
     };
     appRuntime.openEditForBookmarkId = openEditForBookmarkId;
 
     function resolveDropParentId(rawId) {
+        if (rawId === '__overview_all__') return '';
         let parentId = rawId;
         if (parentId === 'MERGED_UNCAT') {
             return '1';
@@ -170,8 +175,8 @@ export function initBookmarkPage(ctx) {
         return resolveDropParentId(a.dataset.sideId);
     });
 
-    if (linksGrid) {
-        linksGrid.addEventListener('dragstart', function (e) {
+    if (categoryPanel) {
+        categoryPanel.addEventListener('dragstart', function (e) {
             const item = e.target.closest('.link-item');
             if (!item) return;
             e.dataTransfer.setData('text/plain', item.dataset.bookmarkId);
@@ -179,7 +184,7 @@ export function initBookmarkPage(ctx) {
             e.dataTransfer.setData('application/x-bookmark-id', item.dataset.bookmarkId);
             item.classList.add('dragging');
         });
-        linksGrid.addEventListener('dragend', function () {
+        categoryPanel.addEventListener('dragend', function () {
             document.querySelectorAll('.link-item.dragging').forEach((el) => el.classList.remove('dragging'));
             document.querySelectorAll('.link-item.drop-target-reorder').forEach((el) =>
                 el.classList.remove('drop-target-reorder')
@@ -190,34 +195,34 @@ export function initBookmarkPage(ctx) {
                 )
                 .forEach((el) => el.classList.remove('drop-target'));
         });
-        linksGrid.addEventListener('dragover', function (e) {
+        categoryPanel.addEventListener('dragover', function (e) {
             const item = e.target.closest('.link-item');
             if (!item || !canReorderCards()) return;
             if (item.classList.contains('dragging')) return;
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            linksGrid.querySelectorAll('.link-item.drop-target-reorder').forEach((el) =>
+            categoryPanel.querySelectorAll('.link-item.drop-target-reorder').forEach((el) =>
                 el.classList.remove('drop-target-reorder')
             );
             item.classList.add('drop-target-reorder');
         });
-        linksGrid.addEventListener('dragleave', function (e) {
-            if (!linksGrid.contains(e.relatedTarget)) {
-                linksGrid.querySelectorAll('.link-item.drop-target-reorder').forEach((el) =>
+        categoryPanel.addEventListener('dragleave', function (e) {
+            if (!categoryPanel.contains(e.relatedTarget)) {
+                categoryPanel.querySelectorAll('.link-item.drop-target-reorder').forEach((el) =>
                     el.classList.remove('drop-target-reorder')
                 );
             }
         });
-        linksGrid.addEventListener('drop', function (e) {
+        categoryPanel.addEventListener('drop', function (e) {
             const item = e.target.closest('.link-item');
             if (!item || !canReorderCards()) return;
             e.preventDefault();
-            linksGrid.querySelectorAll('.link-item.drop-target-reorder').forEach((el) =>
+            categoryPanel.querySelectorAll('.link-item.drop-target-reorder').forEach((el) =>
                 el.classList.remove('drop-target-reorder')
             );
             const draggedId = bookmarkIdFromTransfer(e);
             if (!draggedId || item.dataset.bookmarkId === draggedId) return;
-            const items = linksGrid.querySelectorAll('.link-item');
+            const items = categoryPanel.querySelectorAll('.link-item');
             const index = Array.prototype.indexOf.call(items, item);
             if (index === -1) return;
             const savedScrollY = currentScrollY();
@@ -225,13 +230,13 @@ export function initBookmarkPage(ctx) {
                 refreshNavAndRender({ scrollY: savedScrollY });
             });
         });
-        linksGrid.addEventListener('contextmenu', function (e) {
+        categoryPanel.addEventListener('contextmenu', function (e) {
             const item = e.target.closest('.link-item');
             if (!item) return;
             e.preventDefault();
             appRuntime.linkContextMenu?.show?.(e.clientX, e.clientY, item.dataset.bookmarkId || '');
         });
-        linksGrid.addEventListener('dblclick', function (e) {
+        categoryPanel.addEventListener('dblclick', function (e) {
             const item = e.target.closest('.link-item');
             if (!item) return;
             if (e.target.closest('.actions')) return;
@@ -253,7 +258,7 @@ export function initBookmarkPage(ctx) {
     Settings.loadSettings(function () {
         applyMainPageStatic();
         loadNavAndRender();
-        if (linksGrid) Settings.renderSettingsUI(linksGrid);
+        if (categoryPanel) Settings.renderSettingsUI(categoryPanel.querySelector('#linksGrid') || categoryPanel);
         setTimeout(updateScrollButtonVisibility, 100);
     });
 
@@ -263,6 +268,10 @@ export function initBookmarkPage(ctx) {
     });
 
     window.addEventListener('bookmark-visible-roots-changed', function () {
+        refreshNavAndRender();
+    });
+
+    window.addEventListener('bookmark-overview-nav-changed', function () {
         refreshNavAndRender();
     });
 

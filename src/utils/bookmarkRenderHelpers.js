@@ -51,6 +51,9 @@ function mergedTags(secondary, b) {
 /** 当前侧栏/单屏下列表对应的书签数组（未做标签与搜索过滤） */
 export function getScopeBookmarksList(state, secondary) {
     if (!secondary) return [];
+    if (secondary.isOverviewAll) {
+        return secondary.bookmarks || [];
+    }
     if (secondary.sides && secondary.sides.length) {
         const side = secondary.sides.find((sd) => String(sd.id) === String(state.currentSideId));
         return side ? side.bookmarks || [] : secondary.sides[0].bookmarks || [];
@@ -82,6 +85,49 @@ export function getFilteredBookmarks(state, searchTerm) {
         });
     }
     return list;
+}
+
+/**
+ * 「全部」一览：按二级目录分组，并应用标签与搜索过滤（无匹配的分组不返回）
+ */
+export function getOverviewFilteredGroups(state, secondary, searchTerm) {
+    if (!secondary || !secondary.isOverviewAll || !secondary.overviewGroups) return [];
+    const term = (searchTerm || '').toLowerCase();
+    const selectedTag = state.selectedTag;
+    return secondary.overviewGroups
+        .map(function (g) {
+            let list = g.bookmarks.slice();
+            if (selectedTag) {
+                const tag = selectedTag;
+                list = list.filter(function (b) {
+                    const { folderTags, userTags } = mergedTags(secondary, b);
+                    return folderTags.includes(tag) || userTags.includes(tag);
+                });
+            }
+            if (term) {
+                list = list.filter(function (b) {
+                    const { allTags } = mergedTags(secondary, b);
+                    const titleMatch = b.title && b.title.toLowerCase().includes(term);
+                    const tagMatch = allTags.some(function (x) {
+                        return x && String(x).toLowerCase().includes(term);
+                    });
+                    const urlMatch = b.url && String(b.url).toLowerCase().includes(term);
+                    const desc = secondary._descriptions && secondary._descriptions[b.id];
+                    const descMatch = desc && String(desc).toLowerCase().includes(term);
+                    return titleMatch || tagMatch || urlMatch || descMatch;
+                });
+            }
+            return {
+                folderId: g.folderId,
+                title: g.title,
+                titleI18nKey: g.titleI18nKey || '',
+                primaryTitle: g.primaryTitle || '',
+                bookmarks: list
+            };
+        })
+        .filter(function (g) {
+            return g.bookmarks.length > 0;
+        });
 }
 
 export function getCurrentScopeTags(state, secondary) {

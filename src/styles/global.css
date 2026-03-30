@@ -389,6 +389,43 @@ body {
     gap: 10px;
 }
 
+.overview-all-wrap {
+    margin-top: 0;
+}
+
+.overview-group {
+    margin-bottom: 1.5rem;
+}
+
+.overview-group:last-child {
+    margin-bottom: 0;
+}
+
+.overview-group-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+    margin: 0 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.overview-group-grid {
+    margin-bottom: 4px;
+}
+
+.overview-all-empty {
+    padding: 24px 12px;
+    text-align: center;
+    color: #8c8c8c;
+    font-size: 14px;
+}
+
+body.theme-dark .overview-group-title {
+    color: #e0e0e0;
+    border-bottom-color: #333;
+}
+
 /* ========== 链接卡片（保持原样式） ========== */
 .link-item {
     background: #ffffff;

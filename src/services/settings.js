@@ -48,7 +48,8 @@ function loadSettings(cb) {
             replaceDefaultNewTab: s.replaceDefaultNewTab === true,
             locale: locale,
             visibleRoots: visibleRoots,
-            theme: theme
+            theme: theme,
+            showOverviewAllNav: s.showOverviewAllNav === true
         };
         if (typeof document !== 'undefined' && document.body) {
             document.body.classList.toggle('hide-card-actions', !appRuntime.settings.showActions);

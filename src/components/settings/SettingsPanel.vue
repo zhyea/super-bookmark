@@ -62,6 +62,20 @@
                             </label>
                         </div>
                     </div>
+                    <div class="settings-row settings-row-inline">
+                        <span class="settings-label">{{ t('settingsShowOverviewAllNav') }}</span>
+                        <div class="settings-btns settings-switch-row">
+                            <label class="settings-switch" :title="t('settingsShowOverviewAllNav')">
+                                <input
+                                    id="settingsShowOverviewAllNavSwitch"
+                                    v-model="showOverviewNav"
+                                    type="checkbox"
+                                    @change="onShowOverviewNavChange"
+                                />
+                                <span class="settings-switch-slider"></span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
@@ -309,6 +323,7 @@ const localeModel = ref('zh');
 const themeDark = ref(false);
 const editModeOn = ref(false);
 const replaceNewTab = ref(false);
+const showOverviewNav = ref(false);
 const contentWidth = ref('1200');
 const columns = ref(3);
 const pickerValue = ref('#e8f4fc');
@@ -332,6 +347,7 @@ function syncFromAppRuntime() {
     themeDark.value = w.theme === 'dark';
     editModeOn.value = !!w.showActions;
     replaceNewTab.value = !!w.replaceDefaultNewTab;
+    showOverviewNav.value = !!w.showOverviewAllNav;
     contentWidth.value = w.contentWidth || '1200';
     let c = [3, 4, 5].includes(parseInt(w.columns, 10)) ? parseInt(w.columns, 10) : 3;
     const mc = maxColumnsForContentWidth(contentWidth.value);
@@ -582,6 +598,11 @@ function backupImportFile(e) {
         alert(t('backupImportDone'));
         location.reload();
     });
+}
+
+function onShowOverviewNavChange() {
+    persistSettings({ showOverviewAllNav: !!showOverviewNav.value });
+    window.dispatchEvent(new CustomEvent('bookmark-overview-nav-changed'));
 }
 
 function onLocaleChange() {

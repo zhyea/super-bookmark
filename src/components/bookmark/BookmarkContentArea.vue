@@ -8,7 +8,11 @@
         >
             <p>{{ t('emptyState') }}</p>
         </div>
-        <div v-show="state.initialized && state.navData.length && secondary" id="categoryPanel">
+        <div
+            v-show="state.initialized && state.navData.length && secondary"
+            id="categoryPanel"
+            ref="categoryPanelRef"
+        >
             <h2 id="categoryTitle" class="category-title" style="display: none"></h2>
             <div id="tagBarOuter" ref="tagBarOuterRef" class="tag-bar-outer">
                 <button
@@ -47,6 +51,7 @@
                 ></button>
             </div>
             <div
+                v-show="secondary && !secondary.isOverviewAll"
                 id="linksGrid"
                 ref="linksGridRef"
                 class="links-grid"
@@ -60,6 +65,28 @@
                     @delete="onDeleteCard"
                     @edit="onEditCard"
                 />
+            </div>
+            <div v-show="secondary && secondary.isOverviewAll" class="overview-all-wrap">
+                <div v-if="overviewFilteredGroups.length === 0" class="overview-all-empty">
+                    <p>{{ t('emptyState') }}</p>
+                </div>
+                <section
+                    v-for="(g, gi) in overviewFilteredGroups"
+                    :key="String(g.folderId) + '-' + gi"
+                    class="overview-group"
+                >
+                    <h3 class="overview-group-title">{{ overviewGroupTitle(g) }}</h3>
+                    <div class="links-grid overview-group-grid" :style="{ gridTemplateColumns: gridTemplate }">
+                        <LinkCard
+                            v-for="b in g.bookmarks"
+                            :key="`${b.id}-${state.contentVersion}`"
+                            :bookmark="b"
+                            :secondary="secondary"
+                            @delete="onDeleteCard"
+                            @edit="onEditCard"
+                        />
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -79,6 +106,7 @@ const tagBarOuterRef = ref(null);
 const tagBarPrevRef = ref(null);
 const tagBarNextRef = ref(null);
 const linksGridRef = ref(null);
+const categoryPanelRef = ref(null);
 
 const bookmarkCore = inject('bookmarkCore');
 if (!bookmarkCore) throw new Error('bookmarkCore missing');
@@ -105,8 +133,21 @@ const bookmarkList = computed(() => {
     return H.getFilteredBookmarks(state, searchTerm.value);
 });
 
+const overviewFilteredGroups = computed(() => {
+    void state.contentVersion;
+    const sec = secondary.value;
+    if (!sec || !sec.isOverviewAll) return [];
+    return H.getOverviewFilteredGroups(state, sec, searchTerm.value);
+});
+
 function selectTag(tag) {
     state.selectedTag = tag;
+}
+
+function overviewGroupTitle(g) {
+    const secTitle = g.titleI18nKey ? t(g.titleI18nKey) : (g.title || '');
+    if (!g.primaryTitle) return secTitle;
+    return `${g.primaryTitle} / ${secTitle}`;
 }
 
 function effectiveColumns(containerW) {
@@ -116,8 +157,8 @@ function effectiveColumns(containerW) {
 const gridTemplate = ref(`repeat(3, minmax(${H.GRID_CARD_MIN_PX}px, 1fr))`);
 
 function updateGridCols() {
-    const el = linksGridRef.value;
-    const w = el && el.parentElement ? el.parentElement.clientWidth : 300;
+    const panel = categoryPanelRef.value;
+    const w = panel ? panel.clientWidth : 300;
     const ec = effectiveColumns(w);
     gridTemplate.value = `repeat(${ec}, minmax(${H.GRID_CARD_MIN_PX}px, 1fr))`;
 }
@@ -160,7 +201,8 @@ watch(
         () => state.currentSecondaryId,
         () => state.currentSideId,
         () => state.selectedTag,
-        () => searchTerm.value
+        () => searchTerm.value,
+        () => secondary.value && secondary.value.isOverviewAll
     ],
     () => {
         updateGridCols();
@@ -175,7 +217,7 @@ let tagBarRo;
 onMounted(() => {
     updateGridCols();
     ro = new ResizeObserver(() => updateGridCols());
-    if (linksGridRef.value) ro.observe(linksGridRef.value);
+    if (categoryPanelRef.value) ro.observe(categoryPanelRef.value);
     window.addEventListener('resize', updateGridCols);
 
     const tagBar = tagBarRef.value;
@@ -212,7 +254,7 @@ onMounted(() => {
     nextTick(() => updateTagBarArrows());
 });
 onUnmounted(() => {
-    if (ro && linksGridRef.value) ro.unobserve(linksGridRef.value);
+    if (ro && categoryPanelRef.value) ro.unobserve(categoryPanelRef.value);
     if (tagBarRo && tagBarRef.value) tagBarRo.unobserve(tagBarRef.value);
     window.removeEventListener('resize', updateGridCols);
 });
