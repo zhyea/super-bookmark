@@ -4,6 +4,14 @@
  */
 (function(global) {
     const CONTENT_WIDTH_VALUES = ['full', '1200', '960', '800'];
+    /** 与 links-grid minmax(240px) 一致：过窄时禁用更高列数 */
+    function maxColumnsForContentWidth(w) {
+        if (w === 'full') return 5;
+        const px = parseInt(w, 10);
+        if (!isFinite(px) || px <= 0) return 5;
+        const m = Math.floor(px / 240);
+        return Math.min(5, Math.max(3, m));
+    }
 
     const BACKGROUND_COLORS = [
         { value: '#e8f4fc' },
@@ -70,6 +78,15 @@
         }).join('') : '';
 
         const cols = o.cols;
+        const maxCols = maxColumnsForContentWidth(o.contentWidth);
+        const colBtns = [3, 4, 5].map(function(n) {
+            const active = cols === n ? ' active' : '';
+            const dis = n > maxCols;
+            const disAttr = dis ? ' disabled' : '';
+            const disClass = dis ? ' disabled' : '';
+            const tip = dis ? ' title="' + escAttr(t('settingsColumnDisabled')) + '"' : '';
+            return '<button type="button" class="settings-btn' + active + disClass + '" data-setting="columns" data-value="' + n + '"' + disAttr + tip + '>' + n + '</button>';
+        }).join('');
         const customActive = !o.isPresetActive ? 'active' : '';
 
         return (
@@ -111,11 +128,7 @@
                     '<div class="settings-section-title">' + escAttr(t('settingsGroupView')) + '</div>' +
                     '<div class="settings-row">' +
                         '<span class="settings-label">' + escAttr(t('settingsColumns')) + '</span>' +
-                        '<div class="settings-btns">' +
-                            '<button type="button" class="settings-btn' + (cols === 3 ? ' active' : '') + '" data-setting="columns" data-value="3">3</button>' +
-                            '<button type="button" class="settings-btn' + (cols === 4 ? ' active' : '') + '" data-setting="columns" data-value="4">4</button>' +
-                            '<button type="button" class="settings-btn' + (cols === 5 ? ' active' : '') + '" data-setting="columns" data-value="5">5</button>' +
-                        '</div>' +
+                        '<div class="settings-btns">' + colBtns + '</div>' +
                     '</div>' +
                     '<div class="settings-row">' +
                         '<span class="settings-label">' + escAttr(t('settingsWidth')) + '</span>' +
@@ -153,6 +166,19 @@
                     '</div>' +
                 '</div>' +
 
+                '<div class="settings-section">' +
+                    '<div class="settings-section-title">' + escAttr(t('settingsGroupBackup')) + '</div>' +
+                    '<div class="settings-row">' +
+                        '<span class="settings-label">' + escAttr(t('settingsBackupActions')) + '</span>' +
+                        '<div class="settings-btns settings-backup-btns">' +
+                            '<button type="button" class="settings-btn" id="settingsBackupRestoreDefault">' + escAttr(t('backupRestoreDefault')) + '</button>' +
+                            '<button type="button" class="settings-btn" id="settingsBackupExport">' + escAttr(t('backupExport')) + '</button>' +
+                            '<button type="button" class="settings-btn" id="settingsBackupImport">' + escAttr(t('backupImport')) + '</button>' +
+                            '<input type="file" accept=".zhx,application/json" id="settingsBackupFile" style="display:none" aria-hidden="true">' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+
                 '<div class="settings-section settings-section-about">' +
                     '<div class="settings-section-title">' + escAttr(t('settingsGroupAbout')) + '</div>' +
                     '<div class="settings-row settings-row-help">' +
@@ -167,6 +193,7 @@
     global.SettingsPanelTemplate = {
         CONTENT_WIDTH_VALUES: CONTENT_WIDTH_VALUES,
         BACKGROUND_COLORS: BACKGROUND_COLORS,
+        maxColumnsForContentWidth: maxColumnsForContentWidth,
         buildSettingsPanelHtml: buildSettingsPanelHtml
     };
 })(typeof window !== 'undefined' ? window : this);

@@ -42,6 +42,9 @@
             if (L && L.setLocale) L.setLocale(locale);
             const CV = tpl() && tpl().CONTENT_WIDTH_VALUES;
             const contentWidth = s.contentWidth && CV && CV.includes(s.contentWidth) ? s.contentWidth : '1200';
+            const maxC = tpl() && typeof tpl().maxColumnsForContentWidth === 'function' ? tpl().maxColumnsForContentWidth(contentWidth) : 5;
+            let colNum = [3, 4, 5].includes(parseInt(s.columns, 10)) ? parseInt(s.columns, 10) : 3;
+            if (colNum > maxC) colNum = maxC;
             const backgroundColor = normalizeHex(s.backgroundColor);
             const backgroundImage = (s.backgroundImage && typeof s.backgroundImage === 'string' && s.backgroundImage.startsWith('data:')) ? s.backgroundImage : '';
             const disableDefaultBg = s.disableDefaultBg === true;
@@ -52,7 +55,7 @@
             window.__settings = {
                 // 首次安装或未保存时：编辑模式默认关闭
                 showActions: s.showActions === true,
-                columns: [3, 4, 5].includes(parseInt(s.columns, 10)) ? parseInt(s.columns, 10) : 3,
+                columns: colNum,
                 contentWidth: contentWidth,
                 backgroundColor: backgroundColor,
                 backgroundImage: backgroundImage,
@@ -195,10 +198,19 @@
             const editModeSwitch = wrap.querySelector('#settingsEditModeSwitch');
             const editModeOn = !!(editModeSwitch && editModeSwitch.checked);
             const showActions = editModeOn;
-            const colBtn = wrap.querySelector('[data-setting="columns"].active');
-            const columns = colBtn ? parseInt(colBtn.dataset.value, 10) : 3;
             const widthBtn = wrap.querySelector('[data-setting="contentWidth"].active');
             const cw = widthBtn ? widthBtn.dataset.value : '1200';
+            const SPT = tpl();
+            const maxCols = SPT && SPT.maxColumnsForContentWidth ? SPT.maxColumnsForContentWidth(cw) : 5;
+            let colBtn = wrap.querySelector('[data-setting="columns"].active');
+            let columns = colBtn ? parseInt(colBtn.dataset.value, 10) : 3;
+            if (columns > maxCols) {
+                columns = maxCols;
+                wrap.querySelectorAll('[data-setting="columns"]').forEach(function(b) {
+                    b.classList.remove('active');
+                    if (parseInt(b.dataset.value, 10) === maxCols) b.classList.add('active');
+                });
+            }
             const bg = getCurrentBackgroundColor();
             const replaceSwitch = wrap.querySelector('#settingsReplaceNewTabSwitch');
             const replaceDefaultNewTab = !!(replaceSwitch && replaceSwitch.checked);
@@ -224,12 +236,44 @@
 
         applyContentWidthAndBackground();
 
+        function refreshColumnButtonStates() {
+            const SPT = tpl();
+            if (!SPT || typeof SPT.maxColumnsForContentWidth !== 'function') return;
+            const widthBtn = wrap.querySelector('[data-setting="contentWidth"].active');
+            const cw = widthBtn ? widthBtn.dataset.value : '1200';
+            const maxCols = SPT.maxColumnsForContentWidth(cw);
+            wrap.querySelectorAll('.settings-btn[data-setting="columns"]').forEach(function(btn) {
+                const n = parseInt(btn.dataset.value, 10);
+                const dis = n > maxCols;
+                btn.disabled = dis;
+                btn.classList.toggle('disabled', dis);
+                btn.title = dis ? t('settingsColumnDisabled') : '';
+            });
+        }
+        refreshColumnButtonStates();
+
         let TOGGLE_SETTINGS = ['columns', 'contentWidth'];
         TOGGLE_SETTINGS.forEach(function(name) {
             wrap.querySelectorAll('.settings-btn[data-setting="' + name + '"]').forEach(function(btn) {
                 btn.addEventListener('click', function() {
+                    if (name === 'columns' && this.disabled) return;
                     wrap.querySelectorAll('.settings-btn[data-setting="' + name + '"]').forEach(function(b) { b.classList.remove('active'); });
                     this.classList.add('active');
+                    if (name === 'contentWidth') {
+                        refreshColumnButtonStates();
+                        const SPT = tpl();
+                        const wb = wrap.querySelector('[data-setting="contentWidth"].active');
+                        const cw = wb ? wb.dataset.value : '1200';
+                        const maxCols = SPT && SPT.maxColumnsForContentWidth ? SPT.maxColumnsForContentWidth(cw) : 5;
+                        const activeCol = wrap.querySelector('[data-setting="columns"].active');
+                        const cur = activeCol ? parseInt(activeCol.dataset.value, 10) : 3;
+                        if (cur > maxCols) {
+                            wrap.querySelectorAll('[data-setting="columns"]').forEach(function(b) {
+                                b.classList.remove('active');
+                                if (parseInt(b.dataset.value, 10) === maxCols) b.classList.add('active');
+                            });
+                        }
+                    }
                     applySettings();
                 });
             });
@@ -384,6 +428,73 @@
                     });
                 });
             });
+        })();
+
+        (function bindBackupActions() {
+            const BB = window.BookmarkBackup;
+            if (!BB) return;
+            const restoreBtn = wrap.querySelector('#settingsBackupRestoreDefault');
+            const exportBtn = wrap.querySelector('#settingsBackupExport');
+            const importBtn = wrap.querySelector('#settingsBackupImport');
+            const fileInput = wrap.querySelector('#settingsBackupFile');
+            if (restoreBtn) {
+                restoreBtn.addEventListener('click', function(ev) {
+                    ev.stopPropagation();
+                    if (!confirm(t('backupConfirmRestore'))) return;
+                    BB.restoreFactoryDefaults(function(err) {
+                        if (err) {
+                            alert(t('backupFail') + (err.message || String(err)));
+                            return;
+                        }
+                        alert(t('backupRestoreDone'));
+                        location.reload();
+                    });
+                });
+            }
+            if (exportBtn) {
+                exportBtn.addEventListener('click', function(ev) {
+                    ev.stopPropagation();
+                    const pwd = prompt(t('backupPwdExport'), '');
+                    if (pwd === null) return;
+                    BB.exportBackupToFile(pwd, 'super-bookmark-backup', function(err) {
+                        if (err) {
+                            alert(t('backupFail') + (err.message || String(err)));
+                            return;
+                        }
+                        alert(t('backupExportDone'));
+                    });
+                });
+            }
+            if (importBtn && fileInput) {
+                importBtn.addEventListener('click', function(ev) {
+                    ev.stopPropagation();
+                    fileInput.value = '';
+                    fileInput.click();
+                });
+                fileInput.addEventListener('change', function() {
+                    const f = this.files && this.files[0];
+                    if (!f) return;
+                    if (!confirm(t('backupConfirmImport'))) {
+                        this.value = '';
+                        return;
+                    }
+                    const pwd = prompt(t('backupPwdImport'), '');
+                    if (pwd === null) {
+                        this.value = '';
+                        return;
+                    }
+                    BB.importBackupFromFile(f, pwd, function(err) {
+                        fileInput.value = '';
+                        if (err) {
+                            if (err.message === 'DECRYPT_FAIL') alert(t('backupWrongPwd'));
+                            else alert(t('backupFail') + (err.message || String(err)));
+                            return;
+                        }
+                        alert(t('backupImportDone'));
+                        location.reload();
+                    });
+                });
+            }
         })();
     }
 

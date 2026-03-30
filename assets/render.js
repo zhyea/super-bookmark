@@ -41,8 +41,12 @@
                 const folderTags = b.tags || [];
                 const userTags = (secondary._userTags && secondary._userTags[b.id]) || [];
                 const allTags = [...folderTags, ...userTags];
-                return (b.title && b.title.toLowerCase().includes(term)) ||
-                    allTags.some(t => t.toLowerCase().includes(term));
+                const titleMatch = b.title && b.title.toLowerCase().includes(term);
+                const tagMatch = allTags.some(t => t && String(t).toLowerCase().includes(term));
+                const urlMatch = b.url && String(b.url).toLowerCase().includes(term);
+                const desc = secondary._descriptions && secondary._descriptions[b.id];
+                const descMatch = desc && String(desc).toLowerCase().includes(term);
+                return titleMatch || tagMatch || urlMatch || descMatch;
             });
         }
         return list;

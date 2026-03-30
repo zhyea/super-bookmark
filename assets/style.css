@@ -911,6 +911,11 @@ body.hide-card-actions .link-item .actions {
     gap: 6px;
 }
 
+.settings-backup-btns {
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
 .settings-root-btns .settings-btn {
     white-space: normal;
     line-height: 1.35;
