@@ -417,6 +417,7 @@ import { BookmarkManager as BM } from './bookmarks.js';
                 backgroundImage: '',
                 disableDefaultBg: false,
                 replaceDefaultNewTab: false,
+                theme: 'light',
                 locale: locale,
                 visibleRoots: vr
             };

@@ -31,6 +31,20 @@
                         </div>
                     </div>
                     <div class="settings-row settings-row-inline">
+                        <span class="settings-label">{{ t('settingsNightTheme') }}</span>
+                        <div class="settings-btns settings-switch-row">
+                            <label class="settings-switch" :title="t('settingsNightTheme')">
+                                <input
+                                    id="settingsNightThemeSwitch"
+                                    v-model="themeDark"
+                                    type="checkbox"
+                                    @change="onThemeToggle"
+                                />
+                                <span class="settings-switch-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-row settings-row-inline">
                         <span class="settings-label">{{ t('settingsEditMode') }}</span>
                         <div class="settings-btns settings-switch-row">
                             <label class="settings-switch" :title="t('settingsEditMode')">
@@ -292,6 +306,7 @@ function onPanelScroll() {
 
 const s = () => appRuntime.settings || {};
 const localeModel = ref('zh');
+const themeDark = ref(false);
 const editModeOn = ref(false);
 const replaceNewTab = ref(false);
 const contentWidth = ref('1200');
@@ -314,6 +329,7 @@ function syncFromAppRuntime() {
     const w = s();
     const L = legacyI18n();
     localeModel.value = L && L.normalizeLocale ? L.normalizeLocale(w.locale || 'zh') : 'zh';
+    themeDark.value = w.theme === 'dark';
     editModeOn.value = !!w.showActions;
     replaceNewTab.value = !!w.replaceDefaultNewTab;
     contentWidth.value = w.contentWidth || '1200';
@@ -355,6 +371,12 @@ function applySettings() {
         const effectiveCols = effectiveGridColumnCount(w, col);
         lg.style.gridTemplateColumns = `repeat(${effectiveCols}, minmax(${GRID_CARD_MIN_PX}px, 1fr))`;
     }
+}
+
+function onThemeToggle() {
+    persistSettings({ theme: themeDark.value ? 'dark' : 'light' });
+    document.body.classList.toggle('theme-dark', themeDark.value);
+    applyLayout();
 }
 
 function setColumn(n) {

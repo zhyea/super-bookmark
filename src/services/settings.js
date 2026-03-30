@@ -35,6 +35,7 @@ function loadSettings(cb) {
                 ? s.backgroundImage
                 : '';
         const disableDefaultBg = s.disableDefaultBg === true;
+        const theme = s.theme === 'dark' ? 'dark' : 'light';
         const BM = window.BookmarkManager;
         const visibleRoots = BM && BM.normalizeVisibleRoots ? BM.normalizeVisibleRoots(s.visibleRoots) : { bar: true, other: true, mobile: true, others: true };
         appRuntime.settings = {
@@ -46,10 +47,12 @@ function loadSettings(cb) {
             disableDefaultBg: disableDefaultBg,
             replaceDefaultNewTab: s.replaceDefaultNewTab === true,
             locale: locale,
-            visibleRoots: visibleRoots
+            visibleRoots: visibleRoots,
+            theme: theme
         };
         if (typeof document !== 'undefined' && document.body) {
             document.body.classList.toggle('hide-card-actions', !appRuntime.settings.showActions);
+            document.body.classList.toggle('theme-dark', appRuntime.settings.theme === 'dark');
         }
         if (cb) cb(appRuntime.settings);
     });
@@ -72,7 +75,10 @@ function applyContentWidthAndBackground() {
         if (s.contentWidth && s.contentWidth !== '1200') container.classList.add('width-' + s.contentWidth);
     }
     if (s.backgroundColor) {
-        document.body.style.backgroundColor = s.backgroundColor;
+        let bg = s.backgroundColor;
+        // When user only toggles theme (not custom background), keep the page fully dark.
+        if (s.theme === 'dark' && bg === '#e8f4fc') bg = '#0b1220';
+        document.body.style.backgroundColor = bg;
     }
     if (s.backgroundImage) {
         document.body.style.backgroundImage = 'url(' + s.backgroundImage + ')';
@@ -89,6 +95,9 @@ function applyContentWidthAndBackground() {
         document.body.style.backgroundSize = '';
         document.body.style.backgroundPosition = '';
         document.body.style.backgroundRepeat = '';
+    }
+    if (typeof document !== 'undefined' && document.body) {
+        document.body.classList.toggle('theme-dark', s.theme === 'dark');
     }
 }
 
