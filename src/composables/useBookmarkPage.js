@@ -6,10 +6,13 @@ import { getCurrentPrimary, getCurrentSecondary } from '../utils/bookmarkRenderH
 
 export function initBookmarkPage(ctx) {
     const { state, searchTerm } = ctx;
-    const BM = window.BookmarkManager;
     const EditModal = window.EditModal;
     const BookmarkMaintenance = window.BookmarkMaintenance;
-    if (!BM || !EditModal || !BookmarkMaintenance) return {};
+    if (!window.BookmarkManager || !EditModal || !BookmarkMaintenance) return {};
+
+    function applyMainPageStatic() {
+        window.BookmarkManagerI18n?.applyMainPageStatic?.();
+    }
 
     const primaryNav = document.getElementById('primaryNav');
     const secondaryNav = document.getElementById('secondaryNav');
@@ -17,7 +20,11 @@ export function initBookmarkPage(ctx) {
     const contentMain = document.getElementById('contentMain');
     const linksGrid = document.getElementById('linksGrid');
 
-    const escapeHtml = BM.escapeHtml;
+    function currentScrollY() {
+        return contentMain
+            ? contentMain.scrollTop
+            : window.scrollY || document.documentElement.scrollTop;
+    }
 
     function getEditModalOptions() {
         return {
@@ -41,7 +48,7 @@ export function initBookmarkPage(ctx) {
 
     function openEditForItem(item) {
         if (!item || !item.classList.contains('link-item')) return;
-        EditModal.openEditModal(item, getEditModalOptions(item));
+        EditModal.openEditModal(item, getEditModalOptions());
     }
 
     function noop() {}
@@ -65,12 +72,7 @@ export function initBookmarkPage(ctx) {
 
     function refreshNavAndRender(opts) {
         opts = opts || {};
-        const scrollY =
-            opts.scrollY != null
-                ? opts.scrollY
-                : contentMain
-                  ? contentMain.scrollTop
-                  : window.scrollY || document.documentElement.scrollTop;
+        const scrollY = opts.scrollY != null ? opts.scrollY : currentScrollY();
         const callbacks = Object.assign({}, navCallbacks);
         if (scrollY > 0) {
             callbacks.scrollRestore = function () {
@@ -89,10 +91,7 @@ export function initBookmarkPage(ctx) {
     }
 
     function refreshKeepView() {
-        const savedScrollY = contentMain
-            ? contentMain.scrollTop
-            : window.scrollY || document.documentElement.scrollTop;
-        refreshNavAndRender({ scrollY: savedScrollY });
+        refreshNavAndRender({ scrollY: currentScrollY() });
     }
 
     function deleteBookmark(id) {
@@ -211,29 +210,17 @@ export function initBookmarkPage(ctx) {
             const items = linksGrid.querySelectorAll('.link-item');
             const index = Array.prototype.indexOf.call(items, item);
             if (index === -1) return;
-            const savedScrollY = contentMain
-                ? contentMain.scrollTop
-                : window.scrollY || document.documentElement.scrollTop;
+            const savedScrollY = currentScrollY();
             BookmarkMaintenance.reorderBookmark(draggedId, index, function () {
                 refreshNavAndRender({ scrollY: savedScrollY });
             });
         });
-    }
-
-    function bindContextMenu(container) {
-        container.addEventListener('contextmenu', function (e) {
+        linksGrid.addEventListener('contextmenu', function (e) {
             const item = e.target.closest('.link-item');
             if (!item) return;
             e.preventDefault();
-            const api = appRuntime.linkContextMenu;
-            if (api && typeof api.show === 'function') {
-                api.show(e.clientX, e.clientY, item.dataset.bookmarkId || '');
-            }
+            appRuntime.linkContextMenu?.show?.(e.clientX, e.clientY, item.dataset.bookmarkId || '');
         });
-    }
-
-    if (linksGrid) {
-        bindContextMenu(linksGrid);
         linksGrid.addEventListener('dblclick', function (e) {
             const item = e.target.closest('.link-item');
             if (!item) return;
@@ -250,21 +237,18 @@ export function initBookmarkPage(ctx) {
     chrome.bookmarks.onCreated.addListener(refreshKeepView);
 
     function updateScrollButtonVisibility() {
-        const sf = appRuntime.scrollFloat;
-        if (sf && typeof sf.update === 'function') {
-            sf.update();
-        }
+        appRuntime.scrollFloat?.update?.();
     }
 
     Settings.loadSettings(function () {
-        if (window.BookmarkManagerI18n) window.BookmarkManagerI18n.applyMainPageStatic();
+        applyMainPageStatic();
         loadNavAndRender();
         if (linksGrid) Settings.renderSettingsUI(linksGrid);
         setTimeout(updateScrollButtonVisibility, 100);
     });
 
     window.addEventListener('bookmark-locale-changed', function () {
-        if (window.BookmarkManagerI18n) window.BookmarkManagerI18n.applyMainPageStatic();
+        applyMainPageStatic();
         updateScrollButtonVisibility();
     });
 

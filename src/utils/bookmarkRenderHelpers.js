@@ -17,6 +17,16 @@ export function getFirstChar(title) {
     return match ? match[0].toUpperCase() : '?';
 }
 
+/** 书签卡片网格单列最小宽度（px），与 CSS minmax 一致 */
+export const GRID_CARD_MIN_PX = 240;
+
+/** 根据容器宽度与设置中的列数上限，得到实际 CSS grid 列数（与书签区 minmax 一致） */
+export function effectiveGridColumnCount(containerWidth, columnsSetting) {
+    const cols = columnsSetting ?? 3;
+    const w = containerWidth || 300;
+    return Math.min(cols, Math.max(1, Math.floor(w / GRID_CARD_MIN_PX)));
+}
+
 /** 当前一级导航项（与顶栏选中一致） */
 export function getCurrentPrimary(state) {
     const nav = state.navData;
@@ -29,6 +39,13 @@ export function getCurrentSecondary(state) {
     const primary = getCurrentPrimary(state);
     if (!primary || !primary.secondaries) return null;
     return primary.secondaries.find((s) => String(s.id) === String(state.currentSecondaryId)) || null;
+}
+
+/** 文件夹标签 + 用户标签（供过滤、搜索、标签栏聚合共用） */
+function mergedTags(secondary, b) {
+    const folderTags = b.tags || [];
+    const userTags = (secondary._userTags && secondary._userTags[b.id]) || [];
+    return { folderTags, userTags, allTags: [...folderTags, ...userTags] };
 }
 
 /** 当前侧栏/单屏下列表对应的书签数组（未做标签与搜索过滤） */
@@ -46,18 +63,16 @@ export function getFilteredBookmarks(state, searchTerm) {
     if (!secondary) return [];
     let list = getScopeBookmarksList(state, secondary);
     if (state.selectedTag) {
+        const tag = state.selectedTag;
         list = list.filter((b) => {
-            const folderTags = b.tags || [];
-            const userTags = (secondary._userTags && secondary._userTags[b.id]) || [];
-            return folderTags.includes(state.selectedTag) || userTags.includes(state.selectedTag);
+            const { folderTags, userTags } = mergedTags(secondary, b);
+            return folderTags.includes(tag) || userTags.includes(tag);
         });
     }
     if (searchTerm) {
         const term = searchTerm.toLowerCase();
         list = list.filter((b) => {
-            const folderTags = b.tags || [];
-            const userTags = (secondary._userTags && secondary._userTags[b.id]) || [];
-            const allTags = [...folderTags, ...userTags];
+            const { allTags } = mergedTags(secondary, b);
             const titleMatch = b.title && b.title.toLowerCase().includes(term);
             const tagMatch = allTags.some((x) => x && String(x).toLowerCase().includes(term));
             const urlMatch = b.url && String(b.url).toLowerCase().includes(term);
@@ -74,12 +89,7 @@ export function getCurrentScopeTags(state, secondary) {
     const scopeList = getScopeBookmarksList(state, secondary);
     const tagSet = new Set();
     scopeList.forEach(function (b) {
-        const folderTags = b.tags || [];
-        const userTags = (secondary._userTags && secondary._userTags[b.id]) || [];
-        folderTags.forEach(function (t) {
-            if (t) tagSet.add(t);
-        });
-        userTags.forEach(function (t) {
+        mergedTags(secondary, b).allTags.forEach(function (t) {
             if (t) tagSet.add(t);
         });
     });

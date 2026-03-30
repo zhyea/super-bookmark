@@ -110,18 +110,16 @@ function selectTag(tag) {
 }
 
 function effectiveColumns(containerW) {
-    const cols = appRuntime.settings?.columns ?? 3;
-    const w = containerW || 300;
-    return Math.min(cols, Math.max(1, Math.floor(w / 240)));
+    return H.effectiveGridColumnCount(containerW, appRuntime.settings?.columns ?? 3);
 }
 
-const gridTemplate = ref('repeat(3, minmax(240px, 1fr))');
+const gridTemplate = ref(`repeat(3, minmax(${H.GRID_CARD_MIN_PX}px, 1fr))`);
 
 function updateGridCols() {
     const el = linksGridRef.value;
     const w = el && el.parentElement ? el.parentElement.clientWidth : 300;
     const ec = effectiveColumns(w);
-    gridTemplate.value = `repeat(${ec}, minmax(240px, 1fr))`;
+    gridTemplate.value = `repeat(${ec}, minmax(${H.GRID_CARD_MIN_PX}px, 1fr))`;
 }
 
 function updateTagBarArrows() {
