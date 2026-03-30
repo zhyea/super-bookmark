@@ -7,6 +7,9 @@
             :style="menuStyle"
             aria-hidden="true"
         >
+            <button type="button" class="link-context-menu-item" data-action="edit" @click.stop="onEdit">
+                {{ t('ctxEdit') }}
+            </button>
             <button type="button" class="link-context-menu-item" data-action="delete" @click.stop="onDelete">
                 {{ t('ctxDelete') }}
             </button>
@@ -55,6 +58,16 @@ function onDelete() {
     BookmarkMaintenance.deleteBookmark(id, function () {
         appRuntime.bookmarkRefreshKeepView?.();
     });
+    hide();
+}
+
+function onEdit() {
+    const id = bookmarkId.value;
+    if (!id) {
+        hide();
+        return;
+    }
+    appRuntime.openEditForBookmarkId?.(id);
     hide();
 }
 

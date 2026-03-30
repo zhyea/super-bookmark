@@ -10,11 +10,7 @@
         </button>
         <div class="settings-panel" :class="{ 'settings-panel-open': panelOpen }" @click.stop>
             <div class="settings-panel-title">{{ t('settingsTitle') }}</div>
-            <div
-                ref="panelContentRef"
-                class="settings-panel-content"
-                @scroll.passive="onPanelScroll"
-            >
+            <div ref="panelContentRef" class="settings-panel-content" @scroll.passive="onPanelScroll">
                 <div class="settings-section">
                     <div class="settings-section-title">{{ t('settingsGroupGeneral') }}</div>
                     <div class="settings-row settings-row-inline">
@@ -504,7 +500,18 @@ function backupRestoreDefault(ev) {
             return;
         }
         alert(t('backupRestoreDone'));
-        location.reload();
+        const Settings = settingsModule();
+        const L = legacyI18n();
+        if (Settings) {
+            // 重新从 storage 读取默认设置，更新应用与抽屉，但不关闭抽屉
+            Settings.loadSettings(() => {
+                syncFromAppRuntime();
+                applyLayout();
+                if (L && L.applyMainPageStatic) L.applyMainPageStatic();
+                window.dispatchEvent(new CustomEvent('bookmark-visible-roots-changed'));
+                window.dispatchEvent(new CustomEvent('bookmark-locale-changed'));
+            });
+        }
     });
 }
 
@@ -560,13 +567,7 @@ function onLocaleChange() {
     const v = L && L.normalizeLocale ? L.normalizeLocale(localeModel.value) : localeModel.value;
     if (L && L.setLocale) L.setLocale(v);
     persistSettings({ locale: v });
-    const keep = panelOpen.value;
-    appRuntime.remountSettingsPanel?.();
     nextTick(() => {
-        if (keep) {
-            const p = document.querySelector('.settings-panel');
-            if (p) p.classList.add('settings-panel-open');
-        }
         if (L && L.applyMainPageStatic) L.applyMainPageStatic();
         window.dispatchEvent(new CustomEvent('bookmark-locale-changed'));
     });

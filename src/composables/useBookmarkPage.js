@@ -51,6 +51,15 @@ export function initBookmarkPage(ctx) {
         EditModal.openEditModal(item, getEditModalOptions());
     }
 
+    function openEditForBookmarkId(id) {
+        const safeId = id == null ? '' : String(id);
+        if (!safeId) return;
+        const lg = linksGrid || (appRuntime.bookmarkLinksGridGetter ? appRuntime.bookmarkLinksGridGetter() : null);
+        const item = lg && lg.querySelector ? lg.querySelector('.link-item[data-bookmark-id="' + safeId + '"]') : null;
+        if (!item) return;
+        openEditForItem(item);
+    }
+
     function noop() {}
 
     const navCallbacks = {
@@ -104,6 +113,7 @@ export function initBookmarkPage(ctx) {
     appRuntime.bookmarkLinksGridGetter = function () {
         return linksGrid;
     };
+    appRuntime.openEditForBookmarkId = openEditForBookmarkId;
 
     function resolveDropParentId(rawId) {
         let parentId = rawId;

@@ -24,10 +24,20 @@ body {
     overflow: hidden;
 }
 
+/* Vue 根节点占满视口，建立高度链，使 .main-content / .content 在内容多时可滚动、少时白底铺满 */
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+    min-height: 100dvh;
+}
+
 .container {
     width: 100%;
     max-width: 1200px;
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
     margin: 0 auto;
     background-color: #ffffff;
     box-shadow: 0 0 10px #0000001a;
@@ -756,14 +766,18 @@ body.hide-card-actions .link-item .actions {
     transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
 }
 
-/* 自定义滚动条：默认不占宽、隐藏；滚动时由 JS 加 .settings-scrollbar--visible */
+/* 设置抽屉内滚动条：
+ * - 默认隐藏（未滚动时不展示）
+ * - 滚动后短暂展示
+ * - 展示时宽度缩小一倍（约 2px）
+ */
 .settings-panel-content {
     height: calc(100vh - 66px);
     overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 2px;
+    padding-right: 4px;
     scrollbar-width: none;
-    scrollbar-color: #a8b0bd transparent;
+    -webkit-overflow-scrolling: touch;
 }
 
 .settings-panel-content::-webkit-scrollbar {
@@ -773,24 +787,26 @@ body.hide-card-actions .link-item .actions {
 
 .settings-panel-content.settings-scrollbar--visible {
     scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f5f5f5;
 }
 
 .settings-panel-content.settings-scrollbar--visible::-webkit-scrollbar {
-    width: 3px;
+    width: 2px;
     height: 0;
 }
 
 .settings-panel-content.settings-scrollbar--visible::-webkit-scrollbar-track {
-    background: transparent;
+    background: #f5f5f5;
+    border-radius: 2px;
 }
 
 .settings-panel-content.settings-scrollbar--visible::-webkit-scrollbar-thumb {
-    background: #b8c0cc;
-    border-radius: 3px;
+    background: #c1c1c1;
+    border-radius: 2px;
 }
 
 .settings-panel-content.settings-scrollbar--visible::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
+    background: #a8a8a8;
 }
 
 .settings-panel-title {

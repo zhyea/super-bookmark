@@ -74,6 +74,8 @@ export function installLegacyBookmarkI18n(i18n) {
         if (ctx) {
             const del = ctx.querySelector('[data-action="delete"]');
             if (del) del.textContent = t('ctxDelete');
+            const edit = ctx.querySelector('[data-action="edit"]');
+            if (edit) edit.textContent = t('ctxEdit');
         }
         const scrollBtn = d.querySelector('.scroll-float-btn');
         if (scrollBtn) {

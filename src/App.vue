@@ -161,8 +161,3 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.container {
-    min-height: 100%;
-}
-</style>
