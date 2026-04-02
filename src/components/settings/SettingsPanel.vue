@@ -8,8 +8,40 @@
         >
             <span class="settings-toggle-breadcrumb" aria-hidden="true"></span>
         </button>
-        <div class="settings-panel" :class="{ 'settings-panel-open': panelOpen }" @click.stop>
-            <div class="settings-panel-title">{{ t('settingsTitle') }}</div>
+        <aside
+            class="settings-panel"
+            :class="{ 'settings-panel-open': panelOpen }"
+            @click.stop
+            aria-labelledby="settings-panel-heading"
+        >
+            <div id="settings-panel-heading" class="settings-panel-title">{{ t('settingsTitle') }}</div>
+            <div class="settings-panel-title-accent" aria-hidden="true"></div>
+            <div class="settings-mode-group" role="group" aria-label="页面模式">
+                <button
+                    type="button"
+                    class="settings-mode-btn"
+                    :class="{ 'settings-mode-btn--active': uiMode === 'simple' }"
+                    @click.stop="setUiMode('simple')"
+                >
+                    极简模式
+                </button>
+                <button
+                    type="button"
+                    class="settings-mode-btn"
+                    :class="{ 'settings-mode-btn--active': uiMode === 'default' }"
+                    @click.stop="setUiMode('default')"
+                >
+                    默认模式
+                </button>
+                <button
+                    type="button"
+                    class="settings-mode-btn"
+                    :class="{ 'settings-mode-btn--active': uiMode === 'edit' }"
+                    @click.stop="setUiMode('edit')"
+                >
+                    编辑模式
+                </button>
+            </div>
             <div ref="panelContentRef" class="settings-panel-content" @scroll.passive="onPanelScroll">
                 <div class="settings-section">
                     <div class="settings-section-title">{{ t('settingsGroupGeneral') }}</div>
@@ -30,7 +62,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="settings-row settings-row-inline">
+                    <div v-if="uiMode !== 'simple'" class="settings-row settings-row-inline">
                         <span class="settings-label">{{ t('settingsNightTheme') }}</span>
                         <div class="settings-btns settings-switch-row">
                             <label class="settings-switch" :title="t('settingsNightTheme')">
@@ -40,29 +72,6 @@
                                     type="checkbox"
                                     @change="onThemeToggle"
                                 />
-                                <span class="settings-switch-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="settings-row settings-row-inline">
-                        <span class="settings-label">极简模式</span>
-                        <div class="settings-btns settings-switch-row">
-                            <label class="settings-switch" title="极简模式">
-                                <input
-                                    id="settingsSimpleModeSwitch"
-                                    v-model="simpleModeOn"
-                                    type="checkbox"
-                                    @change="onSimpleModeToggle"
-                                />
-                                <span class="settings-switch-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="settings-row settings-row-inline">
-                        <span class="settings-label">{{ t('settingsEditMode') }}</span>
-                        <div class="settings-btns settings-switch-row">
-                            <label class="settings-switch" :title="t('settingsEditMode')">
-                                <input id="settingsEditModeSwitch" v-model="editModeOn" type="checkbox" @change="applySettings" />
                                 <span class="settings-switch-slider"></span>
                             </label>
                         </div>
@@ -94,7 +103,7 @@
 
                 <div class="settings-section">
                     <div class="settings-section-title">{{ t('settingsGroupView') }}</div>
-                    <div class="settings-row">
+                    <div v-if="uiMode !== 'simple'" class="settings-row">
                         <span class="settings-label">{{ t('settingsColumns') }}</span>
                         <div class="settings-btns">
                             <button
@@ -111,7 +120,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="settings-row">
+                    <div v-if="uiMode !== 'simple'" class="settings-row">
                         <span class="settings-label">{{ t('settingsWidth') }}</span>
                         <div class="settings-btns">
                             <button
@@ -195,6 +204,58 @@
                     </div>
                 </div>
 
+                <div v-if="uiMode === 'simple'" class="settings-section">
+                    <div class="settings-section-title">搜索框</div>
+                    <div class="settings-row settings-row-range">
+                        <div class="settings-range-label">搜索框大小：{{ simpleSearchScaleLocal }}%</div>
+                        <input
+                            v-model.number="simpleSearchScaleLocal"
+                            type="range"
+                            min="80"
+                            max="140"
+                            step="1"
+                            class="settings-range-input"
+                            @input="onSimpleSearchScaleInput"
+                        />
+                    </div>
+                    <div class="settings-row settings-row-range">
+                        <div class="settings-range-label">背景遮罩透明度：{{ simpleOverlayOpacityLocal }}%</div>
+                        <input
+                            v-model.number="simpleOverlayOpacityLocal"
+                            type="range"
+                            min="0"
+                            max="100"
+                            step="1"
+                            class="settings-range-input"
+                            @input="persistSimpleSearchAppearancePanel"
+                        />
+                    </div>
+                    <div class="settings-row settings-row-range">
+                        <div class="settings-range-label">背景遮罩模糊：{{ simpleOverlayBlurLocal }}px</div>
+                        <input
+                            v-model.number="simpleOverlayBlurLocal"
+                            type="range"
+                            min="0"
+                            max="32"
+                            step="1"
+                            class="settings-range-input"
+                            @input="persistSimpleSearchAppearancePanel"
+                        />
+                    </div>
+                    <div class="settings-row settings-row-range">
+                        <div class="settings-range-label">搜索框圆角：{{ simpleSearchRadiusLocal }}px</div>
+                        <input
+                            v-model.number="simpleSearchRadiusLocal"
+                            type="range"
+                            min="0"
+                            max="40"
+                            step="1"
+                            class="settings-range-input"
+                            @input="persistSimpleSearchAppearancePanel"
+                        />
+                    </div>
+                </div>
+
                 <div class="settings-section">
                     <div class="settings-section-title">{{ t('settingsGroupManage') }}</div>
                     <div class="settings-row">
@@ -258,12 +319,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </aside>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, computed, inject, onMounted, onUnmounted, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
     CONTENT_WIDTH_VALUES,
@@ -314,6 +375,8 @@ const localeCodes = computed(() => {
     return (L && L.CODES) || ['zh', 'en'];
 });
 
+const simpleUiInjected = inject('simpleUi', null);
+
 const panelOpen = ref(false);
 const panelContentRef = ref(null);
 const colorPickerRef = ref(null);
@@ -336,8 +399,11 @@ const s = () => appRuntime.settings || {};
 const localeModel = ref('zh');
 const themeDark = ref(false);
 const editModeOn = ref(false);
-const currentMode = ref('default');
 const simpleModeOn = ref(false);
+const simpleSearchScaleLocal = ref(100);
+const simpleOverlayOpacityLocal = ref(0);
+const simpleOverlayBlurLocal = ref(0);
+const simpleSearchRadiusLocal = ref(32);
 const replaceNewTab = ref(false);
 const showOverviewNav = ref(false);
 const contentWidth = ref('1200');
@@ -348,6 +414,12 @@ const rootButtons = ref([]);
 
 const maxCols = computed(() => maxColumnsForContentWidth(contentWidth.value));
 
+const uiMode = computed(() => {
+    if (simpleModeOn.value) return 'simple';
+    if (editModeOn.value) return 'edit';
+    return 'default';
+});
+
 function columnDisabled(n) {
     return n > maxCols.value;
 }
@@ -355,6 +427,33 @@ function columnDisabled(n) {
 const hasBgImageEffective = computed(() => {
     return !!(s().backgroundImage) || s().disableDefaultBg !== true;
 });
+
+function syncSimpleSearchFieldsFromRuntime() {
+    const w = s();
+    simpleSearchScaleLocal.value =
+        Number.isFinite(Number(w.simpleSearchScale)) && Number(w.simpleSearchScale) >= 80 && Number(w.simpleSearchScale) <= 140
+            ? Number(w.simpleSearchScale)
+            : 100;
+    simpleOverlayOpacityLocal.value =
+        Number.isFinite(Number(w.simpleOverlayOpacity)) && Number(w.simpleOverlayOpacity) >= 0 && Number(w.simpleOverlayOpacity) <= 100
+            ? Math.round(Number(w.simpleOverlayOpacity))
+            : 0;
+    simpleOverlayBlurLocal.value =
+        Number.isFinite(Number(w.simpleOverlayBlurPx)) && Number(w.simpleOverlayBlurPx) >= 0 && Number(w.simpleOverlayBlurPx) <= 32
+            ? Math.round(Number(w.simpleOverlayBlurPx))
+            : 0;
+    simpleSearchRadiusLocal.value =
+        Number.isFinite(Number(w.simpleSearchBorderRadiusPx)) &&
+        Number(w.simpleSearchBorderRadiusPx) >= 0 &&
+        Number(w.simpleSearchBorderRadiusPx) <= 40
+            ? Math.round(Number(w.simpleSearchBorderRadiusPx))
+            : 32;
+    if (simpleUiInjected) {
+        simpleUiInjected.overlayOpacity = simpleOverlayOpacityLocal.value;
+        simpleUiInjected.overlayBlurPx = simpleOverlayBlurLocal.value;
+        simpleUiInjected.searchBorderRadiusPx = simpleSearchRadiusLocal.value;
+    }
+}
 
 function syncFromAppRuntime() {
     const w = s();
@@ -373,6 +472,71 @@ function syncFromAppRuntime() {
     const nh = normalizeHex(w.backgroundColor);
     pickerValue.value = nh;
     useCustomBg.value = !presetMatchesColor(nh);
+    syncSimpleSearchFieldsFromRuntime();
+}
+
+function onSimpleSearchScaleInput() {
+    const v = Math.max(80, Math.min(140, Math.round(Number(simpleSearchScaleLocal.value) || 100)));
+    simpleSearchScaleLocal.value = v;
+    persistSettings({ simpleSearchScale: v });
+    window.dispatchEvent(new CustomEvent('simple-search-ui-updated'));
+}
+
+function persistSimpleSearchAppearancePanel() {
+    const o = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
+    const b = Math.max(0, Math.min(32, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+    const raw = Number(simpleSearchRadiusLocal.value);
+    const r = Math.max(0, Math.min(40, Number.isFinite(raw) ? Math.round(raw) : 32));
+    simpleOverlayOpacityLocal.value = o;
+    simpleOverlayBlurLocal.value = b;
+    simpleSearchRadiusLocal.value = r;
+    if (simpleUiInjected) {
+        simpleUiInjected.overlayOpacity = o;
+        simpleUiInjected.overlayBlurPx = b;
+        simpleUiInjected.searchBorderRadiusPx = r;
+    }
+    persistSettings({
+        simpleOverlayOpacity: o,
+        simpleOverlayBlurPx: b,
+        simpleSearchBorderRadiusPx: r
+    });
+    window.dispatchEvent(new CustomEvent('simple-search-ui-updated'));
+}
+
+function setUiMode(mode) {
+    if (mode === 'simple') {
+        simpleModeOn.value = true;
+        editModeOn.value = false;
+        persistSettings({ useSimplePage: true, showActions: false });
+    } else if (mode === 'default') {
+        simpleModeOn.value = false;
+        editModeOn.value = false;
+        persistSettings({ useSimplePage: false, showActions: false });
+    } else if (mode === 'edit') {
+        simpleModeOn.value = false;
+        editModeOn.value = true;
+        persistSettings({ useSimplePage: false, showActions: true });
+    }
+    document.body.classList.toggle('hide-card-actions', !editModeOn.value);
+    applyLayout();
+    try {
+        const isSimple = window.location.pathname.endsWith('simple.html');
+        if (mode === 'simple' && !isSimple) {
+            const target =
+                typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL
+                    ? chrome.runtime.getURL('simple.html')
+                    : 'simple.html';
+            window.location.href = target;
+        } else if (mode !== 'simple' && isSimple) {
+            const target =
+                typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL
+                    ? chrome.runtime.getURL('index.html')
+                    : 'index.html';
+            window.location.href = target;
+        }
+    } catch (e) {
+        /* ignore */
+    }
 }
 
 function applySettings() {
@@ -653,25 +817,4 @@ function openBgFilePicker() {
     bgFileRef.value?.click();
 }
 
-function onSimpleModeToggle() {
-    persistSettings({ useSimplePage: !!simpleModeOn.value });
-    try {
-        const isSimple = window.location.pathname.endsWith('simple.html');
-        if (simpleModeOn.value && !isSimple) {
-            // 开启极简模式时，跳转到极简页面
-            const target = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL
-                ? chrome.runtime.getURL('simple.html')
-                : 'simple.html';
-            window.location.href = target;
-        } else if (!simpleModeOn.value && isSimple) {
-            // 关闭极简模式时，如果当前在极简页，则回到主页面
-            const target = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL
-                ? chrome.runtime.getURL('index.html')
-                : 'index.html';
-            window.location.href = target;
-        }
-    } catch (e) {
-        // ignore
-    }
-}
 </script>

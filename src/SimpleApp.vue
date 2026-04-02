@@ -10,37 +10,16 @@
       <div class="simple-search-anchor">
         <SimpleSearchBox/>
       </div>
-
-      <button type="button" class="simple-home-btn" :aria-label="homeAria" :title="homeAria" @click="goHome">
-      <svg
-          class="simple-nav-icon"
-          width="256"
-          height="256"
-          viewBox="0 0 256 256"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          focusable="false"
-      >
-        <path
-            d="M156 80V32L248 128L156 224V176C88 176 40 198 8 248C24 176 64 104 156 80Z"
-            fill="#2D2D39"
-        />
-      </svg>
-      </button>
     </div>
   </div>
 </template>
 
 <script setup>
 import {computed, onMounted, provide, reactive} from 'vue';
-import {useI18n} from 'vue-i18n';
 import SimpleSearchBox from './components/layout/SimpleSearchBox.vue';
 import SettingsPanel from './components/settings/SettingsPanel.vue';
 import {appRuntime} from './services/appRuntime.js';
 import {BookmarkManagerSettings} from './services/settings.js';
-
-const {t} = useI18n();
 
 const simpleUi = reactive({
   overlayOpacity: 0,
@@ -72,20 +51,6 @@ const overlayLayerStyle = computed(() => {
     WebkitBackdropFilter: bf
   };
 });
-
-const homeAria = computed(() => t('simpleGoHome'));
-
-function goHome() {
-  try {
-    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL) {
-      window.location.href = chrome.runtime.getURL('index.html');
-    } else {
-      window.location.href = 'index.html';
-    }
-  } catch {
-    window.location.href = 'index.html';
-  }
-}
 </script>
 
 <style scoped>
@@ -123,37 +88,6 @@ function goHome() {
 .simple-search-anchor > * {
   pointer-events: auto;
   margin: 0 auto;
-}
-
-.simple-home-btn {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 640;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid #e0e0e0;
-  background: #ffffff;
-  box-shadow: 0 2px 12px #00000026;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #595959;
-  opacity: 0.5;
-  transition: transform 0.2s, box-shadow 0.2s;
-  padding: 0;
-}
-
-.simple-home-btn:hover {
-  box-shadow: 0 4px 16px #00000033;
-  transform: translateY(-1px);
-}
-
-.simple-nav-icon {
-  width: 22px;
-  height: 22px;
 }
 </style>
 

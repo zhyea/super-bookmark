@@ -72,7 +72,7 @@ function loadSettings(cb) {
                     : 0,
             simpleSearchBorderRadiusPx:
                 Number.isFinite(Number(s.simpleSearchBorderRadiusPx)) &&
-                Number(s.simpleSearchBorderRadiusPx) >= 8 &&
+                Number(s.simpleSearchBorderRadiusPx) >= 0 &&
                 Number(s.simpleSearchBorderRadiusPx) <= 40
                     ? Math.round(Number(s.simpleSearchBorderRadiusPx))
                     : 32

@@ -97,54 +97,6 @@
         <div class="simple-drawer-body">
           <template v-if="activeTab === 'default'">
             <div class="simple-drawer-module">
-              <div class="simple-drawer-module-title">搜索框</div>
-
-              <div class="simple-drawer-module-control">
-                <div class="simple-drawer-scale-label">搜索框大小：{{ searchScale }}%</div>
-                <input v-model.number="searchScale" type="range" min="80" max="140" step="1" class="simple-drawer-range" @input="onScaleInput" />
-              </div>
-
-              <div v-if="simpleUi" class="simple-drawer-module-control">
-                <div class="simple-drawer-scale-label">背景遮罩透明度：{{ simpleUi.overlayOpacity }}%</div>
-                <input
-                  v-model.number="simpleUi.overlayOpacity"
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="1"
-                  class="simple-drawer-range"
-                  @input="persistSimpleAppearance"
-                />
-              </div>
-
-              <div v-if="simpleUi" class="simple-drawer-module-control">
-                <div class="simple-drawer-scale-label">背景遮罩模糊：{{ simpleUi.overlayBlurPx }}px</div>
-                <input
-                  v-model.number="simpleUi.overlayBlurPx"
-                  type="range"
-                  min="0"
-                  max="32"
-                  step="1"
-                  class="simple-drawer-range"
-                  @input="persistSimpleAppearance"
-                />
-              </div>
-
-              <div v-if="simpleUi" class="simple-drawer-module-control">
-                <div class="simple-drawer-scale-label">搜索框圆角：{{ simpleUi.searchBorderRadiusPx }}px</div>
-                <input
-                  v-model.number="simpleUi.searchBorderRadiusPx"
-                  type="range"
-                  min="8"
-                  max="40"
-                  step="1"
-                  class="simple-drawer-range"
-                  @input="persistSimpleAppearance"
-                />
-              </div>
-            </div>
-
-            <div class="simple-drawer-module">
               <div class="simple-drawer-module-title">默认可用搜索引擎</div>
               <div class="simple-drawer-module-list">
                 <div v-for="eng in catalog" :key="eng.key" class="simple-drawer-row">
@@ -436,8 +388,14 @@ function runBookmarkTitleSearch() {
   bookmarkSuggestVisible.value = false;
 }
 
+function onSimpleSearchUiUpdated() {
+  syncFromSettings();
+  nextTick(() => updateBookmarkResultPosition());
+}
+
 onMounted(() => {
   document.addEventListener('pointerdown', onDocumentPointerDown, true);
+  window.addEventListener('simple-search-ui-updated', onSimpleSearchUiUpdated);
   loadFlatBookmarks();
   BookmarkManagerSettings.loadSettings(() => syncFromSettings());
 
@@ -449,6 +407,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener('pointerdown', onDocumentPointerDown, true);
+  window.removeEventListener('simple-search-ui-updated', onSimpleSearchUiUpdated);
   clearTimeout(bookmarkSuggestBlurTimer);
 
   window.removeEventListener('resize', updateBookmarkResultPosition);
@@ -507,14 +466,20 @@ const quickGridStyle = computed(() => ({
   gridTemplateColumns: `repeat(${2 + quickKeys.value.length}, minmax(0, 1fr))`
 }));
 
+function clampSearchBorderRadiusPx(v) {
+  const n = Number(v);
+  if (!Number.isFinite(n)) return 32;
+  return Math.max(0, Math.min(40, Math.round(n)));
+}
+
 const searchShellStyle = computed(() => {
-  const r = simpleUi ? Math.max(8, Math.min(40, Number(simpleUi.searchBorderRadiusPx) || 32)) : 32;
+  const r = simpleUi ? clampSearchBorderRadiusPx(simpleUi.searchBorderRadiusPx) : 32;
   return { borderRadius: `${r}px` };
 });
 
 const quickPanelCombinedStyle = computed(() => {
-  const rMain = simpleUi ? Math.max(8, Math.min(40, Number(simpleUi.searchBorderRadiusPx) || 32)) : 32;
-  const rPanel = Math.max(10, Math.round((rMain * 26) / 32));
+  const rMain = simpleUi ? clampSearchBorderRadiusPx(simpleUi.searchBorderRadiusPx) : 32;
+  const rPanel = Math.max(0, Math.round((rMain * 26) / 32));
   return {
     ...quickGridStyle.value,
     borderRadius: `${rPanel}px`
@@ -664,27 +629,6 @@ function toggleEngineSwitch(key) {
 
 function clearFormError() {
   customFormError.value = '';
-}
-
-function onScaleInput() {
-  BookmarkManagerSettings.saveSettings({ simpleSearchScale: searchScale.value });
-  // transform scale 影响 wrapRef 的布局尺寸，更新结果卡片固定定位
-  nextTick(() => updateBookmarkResultPosition());
-}
-
-function persistSimpleAppearance() {
-  if (!simpleUi) return;
-  const o = Math.max(0, Math.min(100, Math.round(Number(simpleUi.overlayOpacity) || 0)));
-  const b = Math.max(0, Math.min(32, Math.round(Number(simpleUi.overlayBlurPx) || 0)));
-  const r = Math.max(8, Math.min(40, Math.round(Number(simpleUi.searchBorderRadiusPx) || 32)));
-  simpleUi.overlayOpacity = o;
-  simpleUi.overlayBlurPx = b;
-  simpleUi.searchBorderRadiusPx = r;
-  BookmarkManagerSettings.saveSettings({
-    simpleOverlayOpacity: o,
-    simpleOverlayBlurPx: b,
-    simpleSearchBorderRadiusPx: r
-  });
 }
 
 function normalizeUrlTemplateInput(raw) {
@@ -845,9 +789,18 @@ function removeCustomEngine(key) {
 .simple-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 14px; border-bottom: 1px solid #dbe6f1; background: #fff; }
 .simple-drawer-title { font-size: 15px; font-weight: 700; color: #374151; margin: 0; }
 .simple-drawer-close { border: none; background: transparent; font-size: 24px; line-height: 1; cursor: pointer; color: #6b7280; padding: 4px 8px; }
-.simple-drawer-tabs { display: flex; background: #fff; border-bottom: 1px solid #e5e7eb; }
-.simple-tab-btn { flex: 1; border: none; background: #fff; padding: 10px 0; cursor: pointer; color: #666; }
-.simple-tab-btn.active { color: #222; font-weight: 600; border-bottom: 2px solid #111; }
+.simple-drawer-tabs { display: flex; background: #fff; border-bottom: none; }
+.simple-tab-btn {
+  flex: 1;
+  border: none;
+  background: #fff;
+  padding: 10px 0;
+  cursor: pointer;
+  color: #666;
+  border-bottom: 1px solid transparent;
+  box-sizing: border-box;
+}
+.simple-tab-btn.active { color: #222; font-weight: 600; border-bottom-color: #93c5fd; }
 .simple-drawer-body { flex: 1; overflow-y: auto; padding: 12px; }
 .simple-drawer-scale { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
 .simple-drawer-scale-label { font-size: 14px; color: #374151; margin-bottom: 8px; }
