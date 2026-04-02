@@ -258,7 +258,6 @@ export function initBookmarkPage(ctx) {
     Settings.loadSettings(function () {
         applyMainPageStatic();
         loadNavAndRender();
-        if (categoryPanel) Settings.renderSettingsUI(categoryPanel.querySelector('#linksGrid') || categoryPanel);
         setTimeout(updateScrollButtonVisibility, 100);
     });
 

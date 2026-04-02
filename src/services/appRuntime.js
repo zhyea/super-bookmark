@@ -7,6 +7,5 @@ export const appRuntime = {
     scrollFloat: null,
     bookmarkRefreshKeepView: null,
     bookmarkLinksGridGetter: null,
-    settings: null,
-    remountSettingsPanel: null
+    settings: null
 };

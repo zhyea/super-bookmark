@@ -85,7 +85,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="settings-row settings-row-inline">
+                    <div v-if="uiMode !== 'simple'" class="settings-row settings-row-inline">
                         <span class="settings-label">{{ t('settingsShowOverviewAllNav') }}</span>
                         <div class="settings-btns settings-switch-row">
                             <label class="settings-switch" :title="t('settingsShowOverviewAllNav')">
@@ -216,6 +216,18 @@
                             step="1"
                             class="settings-range-input"
                             @input="onSimpleSearchScaleInput"
+                        />
+                    </div>
+                    <div class="settings-row settings-row-range">
+                        <div class="settings-range-label">搜索框不透明度：{{ simpleSearchOpacityLocal }}%</div>
+                        <input
+                            v-model.number="simpleSearchOpacityLocal"
+                            type="range"
+                            min="10"
+                            max="100"
+                            step="1"
+                            class="settings-range-input"
+                            @input="persistSimpleSearchAppearancePanel"
                         />
                     </div>
                     <div class="settings-row settings-row-range">
@@ -401,6 +413,7 @@ const themeDark = ref(false);
 const editModeOn = ref(false);
 const simpleModeOn = ref(false);
 const simpleSearchScaleLocal = ref(100);
+const simpleSearchOpacityLocal = ref(100);
 const simpleOverlayOpacityLocal = ref(0);
 const simpleOverlayBlurLocal = ref(0);
 const simpleSearchRadiusLocal = ref(32);
@@ -434,6 +447,14 @@ function syncSimpleSearchFieldsFromRuntime() {
         Number.isFinite(Number(w.simpleSearchScale)) && Number(w.simpleSearchScale) >= 80 && Number(w.simpleSearchScale) <= 140
             ? Number(w.simpleSearchScale)
             : 100;
+    {
+        const rawOp = Number(w.simpleSearchOpacity);
+        if (Number.isFinite(rawOp) && rawOp >= 0 && rawOp <= 100) {
+            simpleSearchOpacityLocal.value = Math.max(10, Math.min(100, Math.round(rawOp)));
+        } else {
+            simpleSearchOpacityLocal.value = 100;
+        }
+    }
     simpleOverlayOpacityLocal.value =
         Number.isFinite(Number(w.simpleOverlayOpacity)) && Number(w.simpleOverlayOpacity) >= 0 && Number(w.simpleOverlayOpacity) <= 100
             ? Math.round(Number(w.simpleOverlayOpacity))
@@ -452,6 +473,7 @@ function syncSimpleSearchFieldsFromRuntime() {
         simpleUiInjected.overlayOpacity = simpleOverlayOpacityLocal.value;
         simpleUiInjected.overlayBlurPx = simpleOverlayBlurLocal.value;
         simpleUiInjected.searchBorderRadiusPx = simpleSearchRadiusLocal.value;
+        simpleUiInjected.searchOpacity = simpleSearchOpacityLocal.value;
     }
 }
 
@@ -483,19 +505,23 @@ function onSimpleSearchScaleInput() {
 }
 
 function persistSimpleSearchAppearancePanel() {
+    const searchOp = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
     const o = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
     const b = Math.max(0, Math.min(32, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
     const raw = Number(simpleSearchRadiusLocal.value);
     const r = Math.max(0, Math.min(40, Number.isFinite(raw) ? Math.round(raw) : 32));
+    simpleSearchOpacityLocal.value = searchOp;
     simpleOverlayOpacityLocal.value = o;
     simpleOverlayBlurLocal.value = b;
     simpleSearchRadiusLocal.value = r;
     if (simpleUiInjected) {
+        simpleUiInjected.searchOpacity = searchOp;
         simpleUiInjected.overlayOpacity = o;
         simpleUiInjected.overlayBlurPx = b;
         simpleUiInjected.searchBorderRadiusPx = r;
     }
     persistSettings({
+        simpleSearchOpacity: searchOp,
         simpleOverlayOpacity: o,
         simpleOverlayBlurPx: b,
         simpleSearchBorderRadiusPx: r
@@ -519,24 +545,6 @@ function setUiMode(mode) {
     }
     document.body.classList.toggle('hide-card-actions', !editModeOn.value);
     applyLayout();
-    try {
-        const isSimple = window.location.pathname.endsWith('simple.html');
-        if (mode === 'simple' && !isSimple) {
-            const target =
-                typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL
-                    ? chrome.runtime.getURL('simple.html')
-                    : 'simple.html';
-            window.location.href = target;
-        } else if (mode !== 'simple' && isSimple) {
-            const target =
-                typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL
-                    ? chrome.runtime.getURL('index.html')
-                    : 'index.html';
-            window.location.href = target;
-        }
-    } catch (e) {
-        /* ignore */
-    }
 }
 
 function applySettings() {

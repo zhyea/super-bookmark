@@ -862,7 +862,8 @@ body.hide-card-actions .link-item .actions {
     margin-left: -1px;
 }
 
-.settings-mode-btn:hover {
+/* 仅非选中项 hover 变浅灰；选中项保持蓝底白字，避免 hover 覆盖背景导致文字「消失」 */
+.settings-mode-btn:hover:not(.settings-mode-btn--active) {
     background: #f9fafb;
 }
 

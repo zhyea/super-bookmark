@@ -1,9 +1,6 @@
 /**
- * 设置模块：storage、应用样式；设置抽屉由 SettingsPanel.vue + createApp 挂载
+ * 设置模块：storage、应用样式；设置抽屉由 App.vue 挂载 SettingsPanel
  */
-import { createApp } from 'vue';
-import SettingsPanel from '../components/settings/SettingsPanel.vue';
-import { i18n } from '../i18n/instance.js';
 import { CONTENT_WIDTH_VALUES, maxColumnsForContentWidth } from './settingsConstants.js';
 import { normalizeHex } from './settingsUtils.js';
 import { appRuntime } from './appRuntime.js';
@@ -11,10 +8,6 @@ import { normalizeCustomEngines, normalizeQuickEngineKeys } from './simpleSearch
 
 const SETTINGS_STORAGE_KEY = 'bookmarkManagerSettings';
 const DEFAULT_BG_PATH = 'assets/imgs/default_bg.webp';
-
-let storedLinksGrid = null;
-let settingsApp = null;
-let settingsContainer = null;
 
 function I18n() {
     return window.BookmarkManagerI18n;
@@ -62,6 +55,11 @@ function loadSettings(cb) {
                 Number.isFinite(Number(s.simpleSearchScale)) && Number(s.simpleSearchScale) >= 80 && Number(s.simpleSearchScale) <= 140
                     ? Number(s.simpleSearchScale)
                     : 100,
+            simpleSearchOpacity: (function () {
+                const v = Number(s.simpleSearchOpacity);
+                if (!Number.isFinite(v) || v < 0 || v > 100) return 100;
+                return Math.max(10, Math.min(100, Math.round(v)));
+            })(),
             simpleOverlayOpacity:
                 Number.isFinite(Number(s.simpleOverlayOpacity)) && Number(s.simpleOverlayOpacity) >= 0 && Number(s.simpleOverlayOpacity) <= 100
                     ? Math.round(Number(s.simpleOverlayOpacity))
@@ -89,6 +87,9 @@ function saveSettings(partial) {
     if (!appRuntime.settings) appRuntime.settings = {};
     Object.assign(appRuntime.settings, partial);
     chrome.storage.local.set({ [SETTINGS_STORAGE_KEY]: appRuntime.settings });
+    if (typeof window !== 'undefined' && window.dispatchEvent) {
+        window.dispatchEvent(new CustomEvent('bookmark-settings-saved'));
+    }
 }
 
 function applyContentWidthAndBackground() {
@@ -128,32 +129,10 @@ function applyContentWidthAndBackground() {
     }
 }
 
-function renderSettingsUI(linksGrid) {
-    if (linksGrid) storedLinksGrid = linksGrid;
-    if (settingsContainer && settingsApp) {
-        settingsApp.unmount();
-        settingsContainer.remove();
-        settingsContainer = null;
-        settingsApp = null;
-    }
-    settingsContainer = document.createElement('div');
-    settingsContainer.className = 'settings-wrap';
-    document.body.appendChild(settingsContainer);
-    settingsApp = createApp(SettingsPanel, {
-        linksGrid: storedLinksGrid
-    });
-    settingsApp.use(i18n);
-    settingsApp.mount(settingsContainer);
-    appRuntime.remountSettingsPanel = function () {
-        renderSettingsUI(null);
-    };
-}
-
 export const BookmarkManagerSettings = {
     loadSettings: loadSettings,
     saveSettings: saveSettings,
-    applyContentWidthAndBackground: applyContentWidthAndBackground,
-    renderSettingsUI: renderSettingsUI
+    applyContentWidthAndBackground: applyContentWidthAndBackground
 };
 
 if (typeof window !== 'undefined') {

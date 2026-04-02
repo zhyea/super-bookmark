@@ -1,177 +1,73 @@
 <template>
-    <div class="container">
-        <header class="header">
-            <PrimaryNavBar
-                :nav-data="state.navData"
-                :current-primary-index="state.currentPrimaryIndex"
-                @select="onSelectPrimary"
-            />
-            <SecondaryNavBar
-                :secondaries="secondaries"
-                :current-secondary-id="state.currentSecondaryId"
-                @select="onSelectSecondary"
-            />
-            <SearchBar v-model="searchInputRaw" @search="onSearchImmediate" />
-        </header>
-
-        <div class="main-content" :class="{ 'sidebar-hidden': !hasSidebar }">
-            <aside class="sidebar" :aria-label="t('sidebarAria')">
-                <div id="sideSection" class="sidebar-section">
-                    <SideNavList :sides="sides" :current-side-id="state.currentSideId" @select="onSelectSide" />
-                </div>
-            </aside>
-
-            <main id="contentMain" class="content">
-                <BookmarkContentArea @edit="onEditCard" @delete="onDeleteCard" />
-            </main>
-        </div>
-
-        <footer class="footer">
-            <div class="footer-content">
-                <p>{{ t('footer') }}</p>
-            </div>
-        </footer>
-
-        <BookmarkEditModal ref="bookmarkEditModalRef" />
-
-        <Teleport to="body">
-            <LinkContextMenu ref="linkContextMenuRef" />
-            <ScrollFloatButton ref="scrollFloatRef" />
-        </Teleport>
+  <template v-if="layoutReady">
+    <SimpleMinimalLayout v-if="useSimplePage" />
+    <BookmarkMainLayout v-else />
+    <!-- 与布局同级常驻，切换极简/默认时抽屉状态不丢失 -->
+    <div class="settings-wrap">
+      <SettingsPanel :links-grid="settingsLinksGrid" />
     </div>
+  </template>
 </template>
 
 <script setup>
-import { reactive, ref, provide, computed, watch, onMounted, nextTick } from 'vue';
-import { useI18n } from 'vue-i18n';
-import PrimaryNavBar from './components/nav/PrimaryNavBar.vue';
-import SecondaryNavBar from './components/nav/SecondaryNavBar.vue';
-import SideNavList from './components/nav/SideNavList.vue';
-import SearchBar from './components/layout/SearchBar.vue';
-import BookmarkContentArea from './components/bookmark/BookmarkContentArea.vue';
-import BookmarkEditModal from './components/edit/BookmarkEditModal.vue';
-import LinkContextMenu from './components/chrome/LinkContextMenu.vue';
-import ScrollFloatButton from './components/chrome/ScrollFloatButton.vue';
+import { ref, reactive, provide, onMounted, onUnmounted } from 'vue';
+import SimpleMinimalLayout from './components/simple/SimpleMinimalLayout.vue';
+import BookmarkMainLayout from './components/bookmark/BookmarkMainLayout.vue';
+import SettingsPanel from './components/settings/SettingsPanel.vue';
 import { appRuntime } from './services/appRuntime.js';
-import { getCurrentPrimary, getCurrentSecondary } from './utils/bookmarkRenderHelpers.js';
-import { initBookmarkPage } from './composables/useBookmarkPage';
+import { BookmarkManagerSettings } from './services/settings.js';
 
-const { t } = useI18n();
+/** 在 loadSettings 完成前不挂载布局，避免极简/完整模式误判导致首屏闪烁 */
+const layoutReady = ref(false);
+const useSimplePage = ref(false);
 
-const state = reactive({
-    navData: [],
-    currentPrimaryIndex: 0,
-    currentSecondaryId: null,
-    currentSideId: null,
-    selectedTag: null,
-    initialized: false,
-    /** 书签元数据就地更新时 bump，驱动列表/标签重算 */
-    contentVersion: 0
+/** 主书签页 #linksGrid，极简模式为 null；由 BookmarkContentArea 注册 */
+const settingsLinksGrid = ref(null);
+provide('registerSettingsLinksGrid', (el) => {
+  settingsLinksGrid.value = el;
 });
 
-const searchInputRaw = ref('');
-const searchTerm = ref('');
-let debounceTimer;
-
-watch(searchInputRaw, (v) => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-        searchTerm.value = String(v || '').trim();
-    }, 300);
+/** 极简页搜索框与设置内「搜索框」滑块共用 */
+const simpleUi = reactive({
+  overlayOpacity: 0,
+  overlayBlurPx: 0,
+  searchBorderRadiusPx: 32,
+  searchOpacity: 100
 });
+provide('simpleUi', simpleUi);
 
-provide('bookmarkCore', { state, searchTerm });
-
-const secondaries = computed(() => {
-    const p = getCurrentPrimary(state);
-    return (p && p.secondaries) || [];
-});
-
-const currentSecondary = computed(() => getCurrentSecondary(state));
-
-const sides = computed(() => {
-    const sec = currentSecondary.value;
-    return (sec && sec.sides) || [];
-});
-
-const hasSidebar = computed(() => sides.value.length > 1);
-
-const bookmarkPageApi = ref(null);
-const bookmarkEditModalRef = ref(null);
-const linkContextMenuRef = ref(null);
-const scrollFloatRef = ref(null);
-
-function setCurrentSideFromSecondary() {
-    const secondary = getCurrentSecondary(state);
-    if (secondary && secondary.sides && secondary.sides.length) {
-        state.currentSideId = secondary.sides[0].id;
-    } else {
-        state.currentSideId = null;
-    }
+function syncSimpleUiFromRuntime() {
+  const s = appRuntime.settings;
+  if (!s) return;
+  simpleUi.overlayOpacity = s.simpleOverlayOpacity;
+  simpleUi.overlayBlurPx = s.simpleOverlayBlurPx;
+  simpleUi.searchBorderRadiusPx = s.simpleSearchBorderRadiusPx;
+  simpleUi.searchOpacity = (function () {
+    const v = Number(s.simpleSearchOpacity);
+    if (!Number.isFinite(v) || v < 0 || v > 100) return 100;
+    return Math.max(10, Math.min(100, Math.round(v)));
+  })();
 }
 
-function onSelectPrimary(i) {
-    state.currentPrimaryIndex = i;
-    const primary = state.navData[i];
-    if (!primary || !primary.secondaries || !primary.secondaries.length) return;
-    state.currentSecondaryId = primary.secondaries[0].id;
-    setCurrentSideFromSecondary();
-    state.selectedTag = null;
+function syncMode() {
+  useSimplePage.value = !!(appRuntime.settings && appRuntime.settings.useSimplePage);
 }
 
-function onSelectSecondary(id) {
-    state.currentSecondaryId = id;
-    setCurrentSideFromSecondary();
-    state.selectedTag = null;
-}
-
-function onSelectSide(id) {
-    state.currentSideId = id;
-    state.selectedTag = null;
-}
-
-function onSearchImmediate() {
-    clearTimeout(debounceTimer);
-    searchTerm.value = String(searchInputRaw.value || '').trim();
-}
-
-function onEditCard(el) {
-    bookmarkPageApi.value?.openEditForItem?.(el);
-}
-
-function onDeleteCard(id) {
-    bookmarkPageApi.value?.deleteBookmark?.(id);
+function onSettingsSaved() {
+  syncMode();
+  syncSimpleUiFromRuntime();
 }
 
 onMounted(() => {
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const bm = params.get('bookmarkSearch');
-        if (bm != null && bm !== '') {
-            searchInputRaw.value = bm;
-            searchTerm.value = bm.trim();
-            const u = new URL(window.location.href);
-            u.searchParams.delete('bookmarkSearch');
-            const clean = u.pathname + (u.search || '') + (u.hash || '');
-            history.replaceState({}, '', clean);
-        }
-    } catch {
-        /* ignore */
-    }
-    nextTick(() => {
-        appRuntime.openBookmarkEditModal = (linkItem, context) => {
-            bookmarkEditModalRef.value?.open(linkItem, context);
-        };
-        appRuntime.linkContextMenu = {
-            show: (clientX, clientY, bookmarkId) =>
-                linkContextMenuRef.value?.show(clientX, clientY, bookmarkId),
-            hide: () => linkContextMenuRef.value?.hide()
-        };
-        appRuntime.scrollFloat = {
-            update: () => scrollFloatRef.value?.updateVisibility()
-        };
-        bookmarkPageApi.value = initBookmarkPage({ state, searchTerm });
-    });
+  BookmarkManagerSettings.loadSettings(() => {
+    syncMode();
+    syncSimpleUiFromRuntime();
+    layoutReady.value = true;
+  });
+  window.addEventListener('bookmark-settings-saved', onSettingsSaved);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('bookmark-settings-saved', onSettingsSaved);
 });
 </script>
-

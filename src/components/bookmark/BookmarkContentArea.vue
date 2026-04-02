@@ -112,6 +112,16 @@ const bookmarkCore = inject('bookmarkCore');
 if (!bookmarkCore) throw new Error('bookmarkCore missing');
 const { state, searchTerm } = bookmarkCore;
 
+/** 供 App 顶层 SettingsPanel 绑定列宽调整的 #linksGrid 元素 */
+const registerSettingsLinksGrid = inject('registerSettingsLinksGrid', null);
+watch(
+    linksGridRef,
+    (el) => {
+        registerSettingsLinksGrid?.(el ?? null);
+    },
+    { immediate: true }
+);
+
 const primary = computed(() => H.getCurrentPrimary(state));
 const secondary = computed(() => H.getCurrentSecondary(state));
 
@@ -254,6 +264,7 @@ onMounted(() => {
     nextTick(() => updateTagBarArrows());
 });
 onUnmounted(() => {
+    registerSettingsLinksGrid?.(null);
     if (ro && categoryPanelRef.value) ro.unobserve(categoryPanelRef.value);
     if (tagBarRo && tagBarRef.value) tagBarRo.unobserve(tagBarRef.value);
     window.removeEventListener('resize', updateGridCols);

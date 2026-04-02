@@ -20,7 +20,6 @@
           v-model.trim="keyword"
           type="text"
           class="simple-search-input"
-          placeholder="输入并搜索"
           @keydown.enter.prevent="submitSearch()"
           @input="onKeywordInput"
           @focus="onSearchInputFocus"
@@ -316,6 +315,11 @@ function syncFromSettings() {
     simpleUi.overlayOpacity = s.simpleOverlayOpacity;
     simpleUi.overlayBlurPx = s.simpleOverlayBlurPx;
     simpleUi.searchBorderRadiusPx = s.simpleSearchBorderRadiusPx;
+    {
+      const v = Number(s.simpleSearchOpacity);
+      simpleUi.searchOpacity =
+        Number.isFinite(v) && v >= 0 && v <= 100 ? Math.max(10, Math.min(100, Math.round(v))) : 100;
+    }
   }
   if (!quickKeys.value.includes(engineKey.value)) {
     engineKey.value = quickKeys.value[0];
@@ -459,9 +463,16 @@ const bookmarkSuggestions = computed(() => {
   // 输入框下方提示选项最多 5 个
   return flatBookmarks.value.filter((b) => bookmarkMatchesQuery(b, q)).slice(0, 5);
 });
-const wrapScaleStyle = computed(() => ({
-  transform: `scale(${Math.max(80, Math.min(140, searchScale.value)) / 100})`
-}));
+const wrapScaleStyle = computed(() => {
+  const scale = Math.max(80, Math.min(140, searchScale.value)) / 100;
+  const op = simpleUi
+    ? Math.max(10, Math.min(100, Number(simpleUi.searchOpacity))) / 100
+    : 1;
+  return {
+    transform: `scale(${scale})`,
+    opacity: op
+  };
+});
 const quickGridStyle = computed(() => ({
   gridTemplateColumns: `repeat(${2 + quickKeys.value.length}, minmax(0, 1fr))`
 }));
@@ -774,7 +785,6 @@ function removeCustomEngine(key) {
 .engine-custom-icon { width: 22px; height: 22px; border-radius: 6px; color: #fff; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
 .engine-caret { opacity: 0.7; font-size: 12px; }
 .simple-search-input { border: none; outline: none; background: transparent; color: #2b2b2b; width: 100%; font-size: 22px; }
-.simple-search-input::placeholder { color: #999; font-size: 22px; }
 .quick-panel { position: absolute; left: 0; right: 0; top: calc(100% + 10px); z-index: 30; background: #fff; min-height: 120px; display: grid; box-shadow: 0 8px 24px #00000022; overflow: hidden; }
 .quick-item { border: none; border-right: 1px solid #ececec; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; padding: 12px 6px; }
 .quick-item:last-child { border-right: none; }
@@ -846,7 +856,30 @@ function removeCustomEngine(key) {
 }
 .form-title { font-size: 16px; color: #333; margin-bottom: 10px; }
 .form-subtitle { font-size: 14px; color: #444; margin: 10px 0 6px; }
-.custom-input, .custom-textarea { width: 100%; border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 10px; box-sizing: border-box; }
+.custom-input,
+.custom-textarea {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-family: inherit;
+  color: #374151;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.custom-input::placeholder,
+.custom-textarea::placeholder {
+  color: #9ca3af;
+}
+.custom-input:focus,
+.custom-textarea:focus {
+  outline: none;
+  color: #374151;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
 .custom-textarea { min-height: 74px; resize: vertical; }
 .custom-form-actions { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
 .custom-submit-btn {
