@@ -16,6 +16,7 @@ import BookmarkMainLayout from './components/bookmark/BookmarkMainLayout.vue';
 import SettingsPanel from './components/settings/SettingsPanel.vue';
 import { appRuntime } from './services/appRuntime.js';
 import { BookmarkManagerSettings } from './services/settings.js';
+import { normalizeBookmarkCardTextColor } from './services/settingsUtils.js';
 
 /** 在 loadSettings 完成前不挂载布局，避免极简/完整模式误判导致首屏闪烁 */
 const layoutReady = ref(false);
@@ -32,7 +33,8 @@ const simpleUi = reactive({
   overlayOpacity: 0,
   overlayBlurPx: 0,
   searchBorderRadiusPx: 32,
-  searchOpacity: 100
+  searchOpacity: 100,
+  bookmarkCardTextColor: '#1f2937'
 });
 provide('simpleUi', simpleUi);
 
@@ -47,6 +49,7 @@ function syncSimpleUiFromRuntime() {
     if (!Number.isFinite(v) || v < 0 || v > 100) return 100;
     return Math.max(10, Math.min(100, Math.round(v)));
   })();
+  simpleUi.bookmarkCardTextColor = normalizeBookmarkCardTextColor(s.simpleBookmarkCardTextColor);
 }
 
 function syncMode() {

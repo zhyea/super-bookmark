@@ -26,7 +26,11 @@
           @blur="onSearchInputBlur"
         />
         <ul
-          v-show="bookmarkSuggestVisible && bookmarkSuggestions.length"
+          v-show="
+            bookmarkSuggestVisible &&
+              bookmarkSuggestions.length &&
+              bookmarkResultCards.length === 0
+          "
           class="bookmark-suggest-list"
           role="listbox"
           @mousedown.prevent
@@ -51,6 +55,7 @@
           :key="b.id"
           type="button"
           class="bookmark-crystal-card"
+          :style="bookmarkCrystalCardTextStyle"
           @click="openBookmarkUrl(b.url)"
         >
           {{ b.title }}
@@ -60,7 +65,9 @@
 
     <div v-show="showQuickPanel" class="quick-panel" :style="quickPanelCombinedStyle">
       <button type="button" class="quick-item" title="书签搜索" @click="selectBookmarkMode">
-        <span class="quick-icon quick-bookmark-icon" aria-hidden="true">🔖</span>
+        <span class="quick-icon-img-wrap">
+          <img class="quick-icon-img" :src="bookmarkQuickPanelIconUrl()" alt="" />
+        </span>
         <span class="quick-label">书签</span>
       </button>
       <button v-for="key in quickKeys" :key="key" type="button" class="quick-item" @click="selectEngineFromBar(key)">
@@ -124,7 +131,8 @@
                 v-model.trim="customForm.urlTemplate"
                 class="custom-textarea"
                 placeholder="https://example.com/search?q=%s"
-                @input="clearFormError"
+                @input="onCustomUrlTemplateInput"
+                @blur="onCustomUrlTemplateBlur"
               ></textarea>
               <p v-if="customFormError" class="custom-form-error" role="alert">{{ customFormError }}</p>
 
@@ -170,11 +178,14 @@ import { computed, inject, nextTick, onMounted, onUnmounted, reactive, ref, watc
 import { appRuntime } from '../../services/appRuntime.js';
 import { BookmarkManager } from '../../services/bookmarks.js';
 import { BookmarkManagerSettings } from '../../services/settings.js';
+import { normalizeBookmarkCardTextColor } from '../../services/settingsUtils.js';
 import {
   SIMPLE_ENGINE_CATALOG,
   DEFAULT_SIMPLE_QUICK_ENGINE_KEYS,
+  bookmarkQuickPanelIconUrl,
   engineIconPath,
   inferHostFromUrlTemplate,
+  expandSimpleCustomUrlTemplate,
   normalizeCustomEngines,
   normalizeQuickEngineKeys
 } from '../../services/simpleSearchEngines.js';
@@ -196,6 +207,7 @@ const customForm = reactive({
 });
 const editingCustomKey = ref(null);
 const customFormError = ref('');
+let customUrlExpandTimer = null;
 
 const simpleUi = inject('simpleUi', null);
 
@@ -320,6 +332,7 @@ function syncFromSettings() {
       simpleUi.searchOpacity =
         Number.isFinite(v) && v >= 0 && v <= 100 ? Math.max(10, Math.min(100, Math.round(v))) : 100;
     }
+    simpleUi.bookmarkCardTextColor = normalizeBookmarkCardTextColor(s.simpleBookmarkCardTextColor);
   }
   if (!quickKeys.value.includes(engineKey.value)) {
     engineKey.value = quickKeys.value[0];
@@ -413,6 +426,7 @@ onUnmounted(() => {
   document.removeEventListener('pointerdown', onDocumentPointerDown, true);
   window.removeEventListener('simple-search-ui-updated', onSimpleSearchUiUpdated);
   clearTimeout(bookmarkSuggestBlurTimer);
+  clearTimeout(customUrlExpandTimer);
 
   window.removeEventListener('resize', updateBookmarkResultPosition);
   window.removeEventListener('scroll', updateBookmarkResultPosition, true);
@@ -451,7 +465,7 @@ const currentEngineLabel = computed(() => {
 });
 const currentEngineMeta = computed(() => {
   if (bookmarkMode.value) {
-    return { type: 'text', text: '🔖', bg: '#fef3c7', textColor: '#92400e' };
+    return { type: 'img', src: bookmarkQuickPanelIconUrl(), text: '', bg: '' };
   }
   return engineIconMeta(engineKey.value);
 });
@@ -463,6 +477,10 @@ const bookmarkSuggestions = computed(() => {
   // 输入框下方提示选项最多 5 个
   return flatBookmarks.value.filter((b) => bookmarkMatchesQuery(b, q)).slice(0, 5);
 });
+const bookmarkCrystalCardTextStyle = computed(() => ({
+  color: simpleUi ? normalizeBookmarkCardTextColor(simpleUi.bookmarkCardTextColor) : '#1f2937'
+}));
+
 const wrapScaleStyle = computed(() => {
   const scale = Math.max(80, Math.min(140, searchScale.value)) / 100;
   const op = simpleUi
@@ -563,6 +581,10 @@ function quickFallbackText(key) {
 
 function toggleQuickPanel() {
   showQuickPanel.value = !showQuickPanel.value;
+  if (showQuickPanel.value) {
+    bookmarkResultCards.value = [];
+    bookmarkSuggestVisible.value = false;
+  }
 }
 
 function selectEngineFromBar(key) {
@@ -573,11 +595,16 @@ function selectEngineFromBar(key) {
 
 function buildSearchUrl(eng, q) {
   const encoded = encodeURIComponent(q);
-  if (String(eng.url || '').includes('%s')) {
-    return String(eng.url).replace('%s', encoded);
+  const base = String(eng.url || '').trim();
+  if (base.includes('%s')) {
+    return base.replace(/%s/g, encoded);
   }
-  const sep = String(eng.url || '').includes('?') ? '&' : '?';
-  return `${eng.url}${sep}q=${encoded}`;
+  // 内置引擎 URL 以「参数名=」结尾时直接拼接关键词，避免误加 &q= 导致丢词
+  if (/=$/.test(base)) {
+    return base + encoded;
+  }
+  const sep = base.includes('?') ? '&' : '?';
+  return `${base}${sep}q=${encoded}`;
 }
 
 function submitSearch() {
@@ -640,6 +667,29 @@ function toggleEngineSwitch(key) {
 
 function clearFormError() {
   customFormError.value = '';
+}
+
+function onCustomUrlTemplateInput() {
+  clearFormError();
+  clearTimeout(customUrlExpandTimer);
+  customUrlExpandTimer = setTimeout(() => {
+    customUrlExpandTimer = null;
+    const t = String(customForm.urlTemplate || '').trim();
+    if (!t || t.includes('%s')) return;
+    if (t.includes('/') || t.includes('?')) return;
+    if (!/^[\w.-]+\.[a-zA-Z]{2,}$/.test(t)) return;
+    const next = expandSimpleCustomUrlTemplate(t);
+    if (next && next !== t) customForm.urlTemplate = next;
+  }, 350);
+}
+
+function onCustomUrlTemplateBlur() {
+  clearTimeout(customUrlExpandTimer);
+  customUrlExpandTimer = null;
+  const t = String(customForm.urlTemplate || '').trim();
+  if (!t) return;
+  const next = expandSimpleCustomUrlTemplate(t);
+  if (next && next !== t) customForm.urlTemplate = next;
 }
 
 function normalizeUrlTemplateInput(raw) {
@@ -784,12 +834,11 @@ function removeCustomEngine(key) {
 .engine-icon { width: 20px; height: 20px; object-fit: contain; }
 .engine-custom-icon { width: 22px; height: 22px; border-radius: 6px; color: #fff; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
 .engine-caret { opacity: 0.7; font-size: 12px; }
-.simple-search-input { border: none; outline: none; background: transparent; color: #2b2b2b; width: 100%; font-size: 22px; }
+.simple-search-input { border: none; outline: none; background: transparent; color: #2b2b2b; width: 100%; font-size: 17px; }
 .quick-panel { position: absolute; left: 0; right: 0; top: calc(100% + 10px); z-index: 30; background: #fff; min-height: 120px; display: grid; box-shadow: 0 8px 24px #00000022; overflow: hidden; }
 .quick-item { border: none; border-right: 1px solid #ececec; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; padding: 12px 6px; }
 .quick-item:last-child { border-right: none; }
 .quick-icon { font-size: 28px; line-height: 1; color: #3a3a44; }
-.quick-bookmark-icon { font-size: 36px; }
 .quick-icon-img-wrap { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
 .quick-icon-img { width: 28px; height: 28px; object-fit: contain; }
 .quick-icon-fallback { width: 24px; height: 24px; border-radius: 6px; color: #fff; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; }

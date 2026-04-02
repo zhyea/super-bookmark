@@ -2,7 +2,7 @@
  * 设置模块：storage、应用样式；设置抽屉由 App.vue 挂载 SettingsPanel
  */
 import { CONTENT_WIDTH_VALUES, maxColumnsForContentWidth } from './settingsConstants.js';
-import { normalizeHex } from './settingsUtils.js';
+import { normalizeHex, normalizeBookmarkCardTextColor } from './settingsUtils.js';
 import { appRuntime } from './appRuntime.js';
 import { normalizeCustomEngines, normalizeQuickEngineKeys } from './simpleSearchEngines.js';
 
@@ -73,7 +73,8 @@ function loadSettings(cb) {
                 Number(s.simpleSearchBorderRadiusPx) >= 0 &&
                 Number(s.simpleSearchBorderRadiusPx) <= 40
                     ? Math.round(Number(s.simpleSearchBorderRadiusPx))
-                    : 32
+                    : 32,
+            simpleBookmarkCardTextColor: normalizeBookmarkCardTextColor(s.simpleBookmarkCardTextColor)
         };
         if (typeof document !== 'undefined' && document.body) {
             document.body.classList.toggle('hide-card-actions', !appRuntime.settings.showActions);

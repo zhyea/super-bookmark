@@ -202,6 +202,29 @@
                             </button>
                         </div>
                     </div>
+                    <div v-if="uiMode === 'simple'" class="settings-row settings-row-inline settings-simple-text-color-row">
+                        <span class="settings-label">{{ t('settingsSimpleBookmarkCardTextColor') }}</span>
+                        <div class="settings-btns settings-bg-row settings-simple-text-color-btns">
+                            <button
+                                type="button"
+                                class="settings-btn settings-bg-swatch settings-bg-custom"
+                                data-setting="simpleBookmarkCardTextColor"
+                                data-value="custom"
+                                :title="t('settingsSimpleBookmarkCardTextColorPick')"
+                                :aria-label="t('settingsSimpleBookmarkCardTextColorPick')"
+                                @click="openSimpleBookmarkTextColorPicker"
+                            ></button>
+                            <input
+                                id="settingsSimpleBookmarkCardTextColor"
+                                ref="simpleBookmarkTextColorPickerRef"
+                                v-model="simpleBookmarkCardTextColorLocal"
+                                type="color"
+                                class="settings-color-picker"
+                                :aria-label="t('settingsSimpleBookmarkCardTextColorPick')"
+                                @input="onSimpleBookmarkCardTextColorPick"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <div v-if="uiMode === 'simple'" class="settings-section">
@@ -345,7 +368,7 @@ import {
     LANG_KEYS,
     DEFAULT_BGK
 } from '../../services/settingsConstants.js';
-import { normalizeHex, presetMatchesColor } from '../../services/settingsUtils.js';
+import { normalizeHex, normalizeBookmarkCardTextColor, presetMatchesColor } from '../../services/settingsUtils.js';
 import { appRuntime } from '../../services/appRuntime.js';
 import { effectiveGridColumnCount, GRID_CARD_MIN_PX } from '../../utils/bookmarkRenderHelpers.js';
 
@@ -392,6 +415,7 @@ const simpleUiInjected = inject('simpleUi', null);
 const panelOpen = ref(false);
 const panelContentRef = ref(null);
 const colorPickerRef = ref(null);
+const simpleBookmarkTextColorPickerRef = ref(null);
 const bgFileRef = ref(null);
 const backupFileRef = ref(null);
 
@@ -417,6 +441,7 @@ const simpleSearchOpacityLocal = ref(100);
 const simpleOverlayOpacityLocal = ref(0);
 const simpleOverlayBlurLocal = ref(0);
 const simpleSearchRadiusLocal = ref(32);
+const simpleBookmarkCardTextColorLocal = ref('#1f2937');
 const replaceNewTab = ref(false);
 const showOverviewNav = ref(false);
 const contentWidth = ref('1200');
@@ -469,11 +494,13 @@ function syncSimpleSearchFieldsFromRuntime() {
         Number(w.simpleSearchBorderRadiusPx) <= 40
             ? Math.round(Number(w.simpleSearchBorderRadiusPx))
             : 32;
+    simpleBookmarkCardTextColorLocal.value = normalizeBookmarkCardTextColor(w.simpleBookmarkCardTextColor);
     if (simpleUiInjected) {
         simpleUiInjected.overlayOpacity = simpleOverlayOpacityLocal.value;
         simpleUiInjected.overlayBlurPx = simpleOverlayBlurLocal.value;
         simpleUiInjected.searchBorderRadiusPx = simpleSearchRadiusLocal.value;
         simpleUiInjected.searchOpacity = simpleSearchOpacityLocal.value;
+        simpleUiInjected.bookmarkCardTextColor = simpleBookmarkCardTextColorLocal.value;
     }
 }
 
@@ -501,6 +528,20 @@ function onSimpleSearchScaleInput() {
     const v = Math.max(80, Math.min(140, Math.round(Number(simpleSearchScaleLocal.value) || 100)));
     simpleSearchScaleLocal.value = v;
     persistSettings({ simpleSearchScale: v });
+    window.dispatchEvent(new CustomEvent('simple-search-ui-updated'));
+}
+
+function openSimpleBookmarkTextColorPicker() {
+    nextTick(() => simpleBookmarkTextColorPickerRef.value?.click());
+}
+
+function onSimpleBookmarkCardTextColorPick() {
+    const hex = normalizeBookmarkCardTextColor(simpleBookmarkCardTextColorLocal.value);
+    simpleBookmarkCardTextColorLocal.value = hex;
+    if (simpleUiInjected) {
+        simpleUiInjected.bookmarkCardTextColor = hex;
+    }
+    persistSettings({ simpleBookmarkCardTextColor: hex });
     window.dispatchEvent(new CustomEvent('simple-search-ui-updated'));
 }
 
@@ -737,6 +778,8 @@ function backupRestoreDefault(ev) {
                 if (L && L.applyMainPageStatic) L.applyMainPageStatic();
                 window.dispatchEvent(new CustomEvent('bookmark-visible-roots-changed'));
                 window.dispatchEvent(new CustomEvent('bookmark-locale-changed'));
+                // 与 saveSettings 一致，让 App 根组件同步 useSimplePage（恢复默认后应回到默认/编辑布局）
+                window.dispatchEvent(new CustomEvent('bookmark-settings-saved'));
             });
         }
     });

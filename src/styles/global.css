@@ -1176,6 +1176,11 @@ body.hide-card-actions .link-item .actions {
     border: 1px solid #d1d5db;
 }
 
+/* 与背景色「自选」色块同一套 .settings-bg-swatch.settings-bg-custom；保留相对定位供隐藏 color input */
+.settings-simple-text-color-btns {
+    position: relative;
+}
+
 .settings-color-picker-wrap {
     display: inline-flex;
     align-items: center;

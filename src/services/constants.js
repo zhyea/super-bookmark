@@ -3,7 +3,7 @@
  */
 export const CARD_ICON_BACKGROUND_COLORS = [
     '#ff6a00', '#42b883', '#e1251b', '#336666', '#f7df1e',
-    '#d6d6dc', '#ffd100', '#764abc', '#3178c6'
+    '#d6d6dc', '#57a0ee', '#764abc', '#3178c6'
 ];
 
 if (typeof window !== 'undefined') {

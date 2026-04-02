@@ -419,7 +419,9 @@ import { BookmarkManager as BM } from './bookmarks.js';
                 replaceDefaultNewTab: false,
                 theme: 'light',
                 locale: locale,
-                visibleRoots: vr
+                visibleRoots: vr,
+                useSimplePage: false,
+                showOverviewAllNav: false
             };
             chrome.storage.local.set({ [BM.SETTINGS_STORAGE_KEY]: defaults }, function() {
                 if (chrome.runtime.lastError) return cb(chrome.runtime.lastError);
