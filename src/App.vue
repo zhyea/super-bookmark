@@ -144,6 +144,20 @@ function onDeleteCard(id) {
 }
 
 onMounted(() => {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const bm = params.get('bookmarkSearch');
+        if (bm != null && bm !== '') {
+            searchInputRaw.value = bm;
+            searchTerm.value = bm.trim();
+            const u = new URL(window.location.href);
+            u.searchParams.delete('bookmarkSearch');
+            const clean = u.pathname + (u.search || '') + (u.hash || '');
+            history.replaceState({}, '', clean);
+        }
+    } catch {
+        /* ignore */
+    }
     nextTick(() => {
         appRuntime.openBookmarkEditModal = (linkItem, context) => {
             bookmarkEditModalRef.value?.open(linkItem, context);

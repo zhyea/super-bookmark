@@ -45,6 +45,20 @@
                         </div>
                     </div>
                     <div class="settings-row settings-row-inline">
+                        <span class="settings-label">极简模式</span>
+                        <div class="settings-btns settings-switch-row">
+                            <label class="settings-switch" title="极简模式">
+                                <input
+                                    id="settingsSimpleModeSwitch"
+                                    v-model="simpleModeOn"
+                                    type="checkbox"
+                                    @change="onSimpleModeToggle"
+                                />
+                                <span class="settings-switch-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-row settings-row-inline">
                         <span class="settings-label">{{ t('settingsEditMode') }}</span>
                         <div class="settings-btns settings-switch-row">
                             <label class="settings-switch" :title="t('settingsEditMode')">
@@ -322,6 +336,8 @@ const s = () => appRuntime.settings || {};
 const localeModel = ref('zh');
 const themeDark = ref(false);
 const editModeOn = ref(false);
+const currentMode = ref('default');
+const simpleModeOn = ref(false);
 const replaceNewTab = ref(false);
 const showOverviewNav = ref(false);
 const contentWidth = ref('1200');
@@ -346,6 +362,7 @@ function syncFromAppRuntime() {
     localeModel.value = L && L.normalizeLocale ? L.normalizeLocale(w.locale || 'zh') : 'zh';
     themeDark.value = w.theme === 'dark';
     editModeOn.value = !!w.showActions;
+    simpleModeOn.value = !!w.useSimplePage;
     replaceNewTab.value = !!w.replaceDefaultNewTab;
     showOverviewNav.value = !!w.showOverviewAllNav;
     contentWidth.value = w.contentWidth || '1200';
@@ -634,5 +651,27 @@ onUnmounted(() => {
 
 function openBgFilePicker() {
     bgFileRef.value?.click();
+}
+
+function onSimpleModeToggle() {
+    persistSettings({ useSimplePage: !!simpleModeOn.value });
+    try {
+        const isSimple = window.location.pathname.endsWith('simple.html');
+        if (simpleModeOn.value && !isSimple) {
+            // 开启极简模式时，跳转到极简页面
+            const target = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL
+                ? chrome.runtime.getURL('simple.html')
+                : 'simple.html';
+            window.location.href = target;
+        } else if (!simpleModeOn.value && isSimple) {
+            // 关闭极简模式时，如果当前在极简页，则回到主页面
+            const target = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL
+                ? chrome.runtime.getURL('index.html')
+                : 'index.html';
+            window.location.href = target;
+        }
+    } catch (e) {
+        // ignore
+    }
 }
 </script>

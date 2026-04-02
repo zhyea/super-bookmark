@@ -7,6 +7,7 @@ import { i18n } from '../i18n/instance.js';
 import { CONTENT_WIDTH_VALUES, maxColumnsForContentWidth } from './settingsConstants.js';
 import { normalizeHex } from './settingsUtils.js';
 import { appRuntime } from './appRuntime.js';
+import { normalizeCustomEngines, normalizeQuickEngineKeys } from './simpleSearchEngines.js';
 
 const SETTINGS_STORAGE_KEY = 'bookmarkManagerSettings';
 const DEFAULT_BG_PATH = 'assets/imgs/default_bg.webp';
@@ -38,6 +39,7 @@ function loadSettings(cb) {
         const theme = s.theme === 'dark' ? 'dark' : 'light';
         const BM = window.BookmarkManager;
         const visibleRoots = BM && BM.normalizeVisibleRoots ? BM.normalizeVisibleRoots(s.visibleRoots) : { bar: true, other: true, mobile: true, others: true };
+        const simpleCustomEngines = normalizeCustomEngines(s.simpleCustomEngines);
         appRuntime.settings = {
             showActions: s.showActions === true,
             columns: colNum,
@@ -49,7 +51,31 @@ function loadSettings(cb) {
             locale: locale,
             visibleRoots: visibleRoots,
             theme: theme,
-            showOverviewAllNav: s.showOverviewAllNav === true
+            showOverviewAllNav: s.showOverviewAllNav === true,
+            useSimplePage: s.useSimplePage === true,
+            simpleCustomEngines: simpleCustomEngines,
+            simpleQuickEngines: normalizeQuickEngineKeys(
+                s.simpleQuickEngines,
+                simpleCustomEngines.map((e) => e.key)
+            ),
+            simpleSearchScale:
+                Number.isFinite(Number(s.simpleSearchScale)) && Number(s.simpleSearchScale) >= 80 && Number(s.simpleSearchScale) <= 140
+                    ? Number(s.simpleSearchScale)
+                    : 100,
+            simpleOverlayOpacity:
+                Number.isFinite(Number(s.simpleOverlayOpacity)) && Number(s.simpleOverlayOpacity) >= 0 && Number(s.simpleOverlayOpacity) <= 100
+                    ? Math.round(Number(s.simpleOverlayOpacity))
+                    : 0,
+            simpleOverlayBlurPx:
+                Number.isFinite(Number(s.simpleOverlayBlurPx)) && Number(s.simpleOverlayBlurPx) >= 0 && Number(s.simpleOverlayBlurPx) <= 32
+                    ? Math.round(Number(s.simpleOverlayBlurPx))
+                    : 0,
+            simpleSearchBorderRadiusPx:
+                Number.isFinite(Number(s.simpleSearchBorderRadiusPx)) &&
+                Number(s.simpleSearchBorderRadiusPx) >= 8 &&
+                Number(s.simpleSearchBorderRadiusPx) <= 40
+                    ? Math.round(Number(s.simpleSearchBorderRadiusPx))
+                    : 32
         };
         if (typeof document !== 'undefined' && document.body) {
             document.body.classList.toggle('hide-card-actions', !appRuntime.settings.showActions);
