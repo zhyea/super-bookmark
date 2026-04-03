@@ -233,7 +233,7 @@ function isUsableBookmarkUrl(url) {
   return true;
 }
 
-function flattenFromChromeTree(tree) {
+function flattenFromBookmarkTree(tree) {
   const map = new Map();
   function walk(nodes) {
     if (!nodes || !nodes.length) return;
@@ -289,7 +289,7 @@ function loadFlatBookmarks() {
           tryLoadBookmarksFromNavData();
           return;
         }
-        flatBookmarks.value = flattenFromChromeTree(tree);
+        flatBookmarks.value = flattenFromBookmarkTree(tree);
       });
       return;
     } catch {

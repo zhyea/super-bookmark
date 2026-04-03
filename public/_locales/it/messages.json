@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "Trasforma i segnalibri nel tuo hub di navigazione privato nella nuova scheda.",
@@ -516,11 +516,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "L’estensione usa la <strong>gerarchia cartelle</strong> dei segnalibri di Chrome:",
+    "message": "L’estensione usa la <strong>gerarchia cartelle</strong> dei segnalibri di Edge:",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>Primo livello</strong>: struttura superiore di Chrome; categorie principali. Con <strong>più radici</strong>, usa la <strong>prima riga in alto</strong>; con una sola, quella riga non compare.",
+    "message": "<strong>Primo livello</strong>: struttura superiore di Edge; categorie principali. Con <strong>più radici</strong>, usa la <strong>prima riga in alto</strong>; con una sola, quella riga non compare.",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -532,7 +532,7 @@
     "description": "UI string: g1li3"
   },
   "g1note": {
-    "message": "Se la lista è vuota, crea cartelle nella barra dei segnalibri di Chrome e aggiungi segnalibri.",
+    "message": "Se la lista è vuota, crea cartelle nella barra dei segnalibri di Edge e aggiungi segnalibri.",
     "description": "UI string: g1note"
   },
   "g2h": {
@@ -564,7 +564,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 Elimina</strong>: rimuove il segnalibro da Chrome.",
+    "message": "<strong>🗑 Elimina</strong>: rimuove il segnalibro da Edge.",
     "description": "UI string: g3li2"
   },
   "g3li3": {

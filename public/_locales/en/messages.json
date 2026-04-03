@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "Turn your bookmarks into your private navigation hub on the new tab page.",
@@ -564,11 +564,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "The extension maps Chrome’s <strong>bookmark folder hierarchy</strong>:",
+    "message": "The extension maps Edge’s <strong>bookmark folder hierarchy</strong>:",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>Top-level folders</strong>: Chrome’s top bookmark structure; in the extension they are <strong>main categories</strong>. If there are <strong>several roots</strong>, switch them on the <strong>first header row</strong>; with a single root that row is hidden.",
+    "message": "<strong>Top-level folders</strong>: Edge’s top bookmark structure; in the extension they are <strong>main categories</strong>. If there are <strong>several roots</strong>, switch them on the <strong>first header row</strong>; with a single root that row is hidden.",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -580,7 +580,7 @@
     "description": "UI string: g1li3"
   },
   "g1note": {
-    "message": "If the list is empty, create folders in the Chrome bookmarks bar and add bookmarks.",
+    "message": "If the list is empty, create folders in the Edge favorites bar and add bookmarks.",
     "description": "UI string: g1note"
   },
   "g2h": {
@@ -612,7 +612,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 Delete</strong>: removes the bookmark from Chrome.",
+    "message": "<strong>🗑 Delete</strong>: removes the bookmark from Edge.",
     "description": "UI string: g3li2"
   },
   "g3li3": {

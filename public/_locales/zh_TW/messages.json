@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "超級書籤 SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "在新分頁中整理書籤與搜尋，打造私人導航首頁。",
@@ -564,11 +564,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "擴充功能會依 Chrome 書籤列的<strong>資料夾層級</strong>自動歸類：",
+    "message": "擴充功能會依 Edge 我的最愛列的<strong>資料夾層級</strong>自動歸類：",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>一級資料夾</strong>：Chrome 書籤的頂層結構，在擴充功能中作為主分類；<strong>有多個頂層書籤根</strong>時可在<strong>頁頂第一行</strong>切換，僅有一個根時不顯示該行。",
+    "message": "<strong>一級資料夾</strong>：Edge 我的最愛的頂層結構，在擴充功能中作為主分類；<strong>有多個頂層書籤根</strong>時可在<strong>頁頂第一行</strong>切換，僅有一個根時不顯示該行。",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -580,7 +580,7 @@
     "description": "UI string: g1li3"
   },
   "g1note": {
-    "message": "若列表為空，請先在 Chrome 書籤列中建立上述資料夾並新增網址書籤。",
+    "message": "若列表為空，請先在 Edge 我的最愛列中建立上述資料夾並新增網址書籤。",
     "description": "UI string: g1note"
   },
   "g2h": {
@@ -612,7 +612,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 刪除</strong>：從瀏覽器書籤中移除此書籤。",
+    "message": "<strong>🗑 刪除</strong>：從 Edge 我的最愛中移除此書籤。",
     "description": "UI string: g3li2"
   },
   "g3li3": {
@@ -624,7 +624,7 @@
     "description": "UI string: g4h"
   },
   "g4p": {
-    "message": "開啟編輯模式後，可將卡片<strong>拖到</strong>頁頂主分類（多個根時第一行）、頂部子分類或左側子資料夾上，書籤會移動到對應資料夾（與 Chrome 書籤結構同步）。在同一清單內也可拖曳調整排序。",
+    "message": "開啟編輯模式後，可將卡片<strong>拖到</strong>頁頂主分類（多個根時第一行）、頂部子分類或左側子資料夾上，書籤會移動到對應資料夾（與 Edge 我的最愛結構同步）。在同一清單內也可拖曳調整排序。",
     "description": "UI string: g4p"
   },
   "g5h": {

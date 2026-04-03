@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "새 탭에서 북마크를 나만의 내비게이션 허브로 만듭니다.",
@@ -504,11 +504,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "Chrome <strong>폴더 계층</strong>에 맞춥니다.",
+    "message": "Edge <strong>폴더 계층</strong>에 맞춥니다.",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>1단계</strong>: Chrome 최상위 구조·대분류. <strong>루트가 여러 개</strong>이면 <strong>헤더 첫 줄</strong>에서 전환. 하나뿐이면 그 줄은 숨김.",
+    "message": "<strong>1단계</strong>: Edge 최상위 구조·대분류. <strong>루트가 여러 개</strong>이면 <strong>헤더 첫 줄</strong>에서 전환. 하나뿐이면 그 줄은 숨김.",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -552,7 +552,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 삭제</strong>: Chrome에서 북마크 제거.",
+    "message": "<strong>🗑 삭제</strong>: Edge에서 북마크 제거.",
     "description": "UI string: g3li2"
   },
   "g3li3": {

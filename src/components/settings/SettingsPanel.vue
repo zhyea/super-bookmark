@@ -877,9 +877,10 @@ function toggleRoot(key) {
 }
 
 function openBookmarkManager() {
-    if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
-        chrome.tabs.create({ url: 'chrome://bookmarks/' });
-    }
+    if (typeof chrome === 'undefined' || !chrome.tabs || !chrome.tabs.create) return;
+    let ua = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+    let url = /Edg\//.test(ua) ? 'edge://favorites' : 'chrome://bookmarks/';
+    chrome.tabs.create({ url: url });
 }
 
 function openGuide() {

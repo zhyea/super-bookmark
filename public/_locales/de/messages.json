@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "Mach deine Lesezeichen auf der neuen Registerkarte zu deinem privaten Navigations-Hub.",
@@ -504,11 +504,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "Die Erweiterung nutzt die <strong>Ordnerhierarchie</strong> von Chrome:",
+    "message": "Die Erweiterung nutzt die <strong>Ordnerhierarchie</strong> von Edge:",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>Oberste Ebene</strong>: Chromes oberste Lesezeichenstruktur; Hauptkategorien. Bei <strong>mehreren Wurzeln</strong> in der <strong>ersten Kopfzeile</strong> wechseln; bei nur einer wird sie ausgeblendet.",
+    "message": "<strong>Oberste Ebene</strong>: die oberste Lesezeichenstruktur von Edge; Hauptkategorien. Bei <strong>mehreren Wurzeln</strong> in der <strong>ersten Kopfzeile</strong> wechseln; bei nur einer wird sie ausgeblendet.",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -552,7 +552,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 Löschen</strong>: Lesezeichen in Chrome entfernen.",
+    "message": "<strong>🗑 Löschen</strong>: Lesezeichen in Edge entfernen.",
     "description": "UI string: g3li2"
   },
   "g3li3": {

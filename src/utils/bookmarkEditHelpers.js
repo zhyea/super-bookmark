@@ -2,7 +2,7 @@
  * 书签编辑弹窗：目录树与 parentId 解析（纯函数，供 Vue 与测试复用）
  */
 
-/** 根据 navData 生成当前书签所在目录的 parentId（用于 Chrome API） */
+/** 根据 navData 生成当前书签所在目录的 parentId（用于 extensions bookmarks API） */
 export function getCurrentParentId(primary, secondary) {
     if (!primary || !secondary) return '';
     if (String(secondary.id).endsWith('_direct')) return String(primary.folderId);

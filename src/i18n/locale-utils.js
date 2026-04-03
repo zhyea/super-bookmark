@@ -32,7 +32,7 @@ export function normalizeLocale(code) {
 
 export function detectLocale() {
     try {
-        /* 扩展环境：优先使用 Chrome 界面语言（与 _locales 一致），参见 chrome.i18n.getUILanguage */
+        /* 扩展环境：优先使用浏览器界面语言（与 _locales 一致），参见 chrome.i18n.getUILanguage */
         if (typeof chrome !== 'undefined' && chrome.i18n && typeof chrome.i18n.getUILanguage === 'function') {
             const uil = chrome.i18n.getUILanguage();
             if (uil && typeof uil === 'string') {

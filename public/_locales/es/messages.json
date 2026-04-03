@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "Convierte tus marcadores en tu centro de navegación privado en la nueva pestaña.",
@@ -504,11 +504,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "La extensión usa la <strong>jerarquía de carpetas</strong> de Chrome:",
+    "message": "La extensión usa la <strong>jerarquía de carpetas</strong> de Edge:",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>Primer nivel</strong>: estructura superior de Chrome; categorías principales aquí. Con <strong>varias raíces</strong>, cámbialas en la <strong>primera fila superior</strong>; con una sola, esa fila no se muestra.",
+    "message": "<strong>Primer nivel</strong>: estructura superior de Edge; categorías principales aquí. Con <strong>varias raíces</strong>, cámbialas en la <strong>primera fila superior</strong>; con una sola, esa fila no se muestra.",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -552,7 +552,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 Eliminar</strong>: quita el marcador de Chrome.",
+    "message": "<strong>🗑 Eliminar</strong>: quita el marcador de Edge.",
     "description": "UI string: g3li2"
   },
   "g3li3": {

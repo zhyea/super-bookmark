@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "Transformez vos favoris en hub de navigation privé sur la page Nouvel onglet.",
@@ -504,11 +504,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "L’extension suit la <strong>hiérarchie des dossiers</strong> Chrome :",
+    "message": "L’extension suit la <strong>hiérarchie des dossiers</strong> Edge :",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>Premier niveau</strong> : structure supérieure Chrome ; catégories principales. <strong>Plusieurs racines</strong> : première ligne d’en-tête ; une seule : cette ligne est masquée.",
+    "message": "<strong>Premier niveau</strong> : structure supérieure Edge ; catégories principales. <strong>Plusieurs racines</strong> : première ligne d’en-tête ; une seule : cette ligne est masquée.",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -552,7 +552,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 Supprimer</strong> : retire le favori de Chrome.",
+    "message": "<strong>🗑 Supprimer</strong> : retire le favori d’Edge.",
     "description": "UI string: g3li2"
   },
   "g3li3": {

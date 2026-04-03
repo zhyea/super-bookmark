@@ -1,6 +1,6 @@
 /**
  * vue-i18n：文案来自 strings-export.js。
- * Chrome 扩展标准 _locales 由 scripts/sync-chrome-locales.mjs 生成（供 manifest __MSG_*__ 与 chrome.i18n）。
+ * 扩展标准 _locales 由 scripts/sync-chrome-locales.mjs 生成（供 manifest __MSG_*__ 与 chrome.i18n）。
  */
 import { createI18n } from 'vue-i18n';
 import { STRINGS } from './strings-export.js';

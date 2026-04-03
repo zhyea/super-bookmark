@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "Превратите закладки в личный навигационный центр на странице новой вкладки.",
@@ -512,11 +512,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "Расширение использует <strong>иерархию папок</strong> закладок Chrome:",
+    "message": "Расширение использует <strong>иерархию папок</strong> закладок Edge:",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>Верхний уровень</strong>: структура Chrome; основные категории. При <strong>нескольких корнях</strong> переключайте в <strong>первой строке шапки</strong>; при одном эта строка скрыта.",
+    "message": "<strong>Верхний уровень</strong>: структура Edge; основные категории. При <strong>нескольких корнях</strong> переключайте в <strong>первой строке шапки</strong>; при одном эта строка скрыта.",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -528,7 +528,7 @@
     "description": "UI string: g1li3"
   },
   "g1note": {
-    "message": "Если список пуст, создайте папки и добавьте закладки на панели закладок Chrome.",
+    "message": "Если список пуст, создайте папки и добавьте закладки на панели избранного Edge.",
     "description": "UI string: g1note"
   },
   "g2h": {
@@ -560,7 +560,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 Удалить</strong>: удалить закладку из Chrome.",
+    "message": "<strong>🗑 Удалить</strong>: удалить закладку из Edge.",
     "description": "UI string: g3li2"
   },
   "g3li3": {

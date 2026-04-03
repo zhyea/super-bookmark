@@ -1,5 +1,5 @@
 /**
- * 从 Chrome 书签树构建导航数据（一级 primary / 二级 secondaries / 侧栏三级 sides）
+ * 从浏览器书签树构建导航数据（一级 primary / 二级 secondaries / 侧栏三级 sides）
  */
 const DEFAULT_VISIBLE_ROOTS = { bar: true, other: true, mobile: true, others: true };
 

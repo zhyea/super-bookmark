@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "新しいタブでブックマークをプライベートなナビゲーションハブに。",
@@ -504,11 +504,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "Chrome の<strong>フォルダ階層</strong>に対応します。",
+    "message": "Edge の<strong>フォルダ階層</strong>に対応します。",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>第1階層</strong>：Chrome の最上位構造・大分類。<strong>複数のルート</strong>があるときは<strong>ヘッダー1行目</strong>で切替。1つだけならその行は非表示。",
+    "message": "<strong>第1階層</strong>：Edge の最上位構造・大分類。<strong>複数のルート</strong>があるときは<strong>ヘッダー1行目</strong>で切替。1つだけならその行は非表示。",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -552,7 +552,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 削除</strong>：Chrome からブックマークを削除。",
+    "message": "<strong>🗑 削除</strong>：Edge からブックマークを削除。",
     "description": "UI string: g3li2"
   },
   "g3li3": {

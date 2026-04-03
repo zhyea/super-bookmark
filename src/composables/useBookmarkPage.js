@@ -1,5 +1,5 @@
 /**
- * 新标签页：拖拽、悬浮滚动、双击编辑、右键菜单、Chrome 书签事件（导航与列表由 Vue 响应式渲染）
+ * 新标签页：拖拽、悬浮滚动、双击编辑、右键菜单、浏览器书签事件（导航与列表由 Vue 响应式渲染）
  */
 import { appRuntime } from '../services/appRuntime.js';
 import { getCurrentPrimary, getCurrentSecondary } from '../utils/bookmarkRenderHelpers.js';

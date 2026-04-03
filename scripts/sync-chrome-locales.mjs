@@ -72,7 +72,7 @@ function buildChromeMessages(appLocale) {
 
     out.extName = {
         message: escapeChromeMessageDollar(EXT_NAME[appLocale] || EXT_NAME.en),
-        description: 'Extension name shown in browser and Chrome Web Store.'
+        description: 'Extension name shown in browser and Microsoft Edge Add-ons.'
     };
     out.extDescription = {
         message: escapeChromeMessageDollar(EXT_DESCRIPTION[appLocale] || EXT_DESCRIPTION.en),

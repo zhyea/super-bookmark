@@ -1,7 +1,7 @@
 {
   "extName": {
     "message": "SuperBookmark",
-    "description": "Extension name shown in browser and Chrome Web Store."
+    "description": "Extension name shown in browser and Microsoft Edge Add-ons."
   },
   "extDescription": {
     "message": "حوّل الإشارات المرجعية إلى مركز تنقل خاص في صفحة علامة التبويب الجديدة.",
@@ -512,11 +512,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "تعتمد الإضافة على <strong>هيكل مجلدات</strong> الإشارات المرجعية في Chrome:",
+    "message": "تعتمد الإضافة على <strong>هيكل مجلدات</strong> الإشارات المرجعية في Edge:",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>المستوى الأول</strong>: البنية العليا في Chrome؛ التصنيفات الرئيسية. عند <strong>وجود عدة جذور</strong> استخدم <strong>الصف الأول في الأعلى</strong>؛ عند جذر واحد يُخفى هذا الصف.",
+    "message": "<strong>المستوى الأول</strong>: البنية العليا في Edge؛ التصنيفات الرئيسية. عند <strong>وجود عدة جذور</strong> استخدم <strong>الصف الأول في الأعلى</strong>؛ عند جذر واحد يُخفى هذا الصف.",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -560,7 +560,7 @@
     "description": "UI string: g3li1"
   },
   "g3li2": {
-    "message": "<strong>🗑 حذف</strong>: حذف الإشارة المرجعية من Chrome.",
+    "message": "<strong>🗑 حذف</strong>: حذف الإشارة المرجعية من Edge.",
     "description": "UI string: g3li2"
   },
   "g3li3": {
