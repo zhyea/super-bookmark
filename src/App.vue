@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, provide, onMounted, onUnmounted } from 'vue';
+import { ref, reactive, provide, onMounted, onUnmounted, nextTick } from 'vue';
 import SimpleMinimalLayout from './components/simple/SimpleMinimalLayout.vue';
 import BookmarkMainLayout from './components/bookmark/BookmarkMainLayout.vue';
 import SettingsPanel from './components/settings/SettingsPanel.vue';
@@ -66,6 +66,9 @@ onMounted(() => {
     syncMode();
     syncSimpleUiFromRuntime();
     layoutReady.value = true;
+    nextTick(() => {
+      BookmarkManagerSettings.applyContentWidthAndBackground();
+    });
   });
   window.addEventListener('bookmark-settings-saved', onSettingsSaved);
 });

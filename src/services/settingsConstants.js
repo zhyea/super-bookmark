@@ -1,11 +1,56 @@
 /**
  * 设置面板常量（原 settingsPanelTemplate 中与 DOM 字符串无关部分）
  */
+/** 旧版内容宽度 class 名，仅用于清除 DOM 上的遗留 class */
 export const CONTENT_WIDTH_VALUES = ['full', '1200', '960', '800'];
 
+export const CONTENT_WIDTH_PERCENT_MIN = 50;
+export const CONTENT_WIDTH_PERCENT_MAX = 100;
+export const CONTENT_WIDTH_MIN_PX = 400;
+
+export function clampContentWidthPercent(p) {
+    const n = Math.round(Number(p));
+    if (!Number.isFinite(n)) return 100;
+    return Math.min(CONTENT_WIDTH_PERCENT_MAX, Math.max(CONTENT_WIDTH_PERCENT_MIN, n));
+}
+
 /**
- * 与内容区实际可用宽度一致：固定宽度下侧边栏与内边距会吃掉宽度，
- * 不能仅用「设置宽度 / 240」推断列数（否则 1200 仍可选 5、960 仍可选 4，但实际排不下）。
+ * 从 storage 读取：优先 contentWidthPercent；否则从旧版 contentWidth 迁移。
+ */
+export function normalizeContentWidthPercentFromStorage(s) {
+    const raw = s && s.contentWidthPercent;
+    const num = Number(raw);
+    if (Number.isFinite(num)) {
+        return clampContentWidthPercent(num);
+    }
+    const w = s && s.contentWidth;
+    if (w === 'full') return 100;
+    if (w === '1200') return 100;
+    if (w === '960') return 80;
+    if (w === '800') return 67;
+    return 100;
+}
+
+/** 视口比例 + 最小 400px 下的内容区 max-width（px） */
+export function effectiveContentMaxWidthPx(percent, viewportWidth) {
+    const vw = Math.max(1, Number(viewportWidth) || 1200);
+    const p = clampContentWidthPercent(percent);
+    const cap = (vw * p) / 100;
+    return Math.max(CONTENT_WIDTH_MIN_PX, Math.min(vw, cap));
+}
+
+/**
+ * 与内容区实际可用宽度一致：按有效 max-width（含 400px 下限）推断可选列数上限。
+ */
+export function maxColumnsForContentWidthPercent(percent, viewportWidth) {
+    const w = effectiveContentMaxWidthPx(percent, viewportWidth);
+    if (w <= 960) return 3;
+    if (w <= 1200) return 4;
+    return 5;
+}
+
+/**
+ * @deprecated 旧版离散宽度，仅兼容外部仍传入字符串的场景
  */
 export function maxColumnsForContentWidth(w) {
     if (w === 'full') return 5;
@@ -47,8 +92,12 @@ export const DEFAULT_BGK = ['bgpBlue', 'bgpGreen', 'bgpBeige', 'bgpGray', 'bgpWh
 /** 兼容旧代码（仅常量 + 空壳 HTML 构建器） */
 export const SettingsPanelTemplate = {
     CONTENT_WIDTH_VALUES,
+    CONTENT_WIDTH_PERCENT_MIN,
+    CONTENT_WIDTH_PERCENT_MAX,
     BACKGROUND_COLORS,
     maxColumnsForContentWidth,
+    maxColumnsForContentWidthPercent,
+    clampContentWidthPercent,
     buildSettingsPanelHtml: function () {
         return '';
     }

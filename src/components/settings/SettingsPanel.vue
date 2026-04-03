@@ -120,20 +120,21 @@
                             </button>
                         </div>
                     </div>
-                    <div v-if="uiMode !== 'simple'" class="settings-row">
-                        <span class="settings-label">{{ t('settingsWidth') }}</span>
-                        <div class="settings-btns">
-                            <button
-                                v-for="v in CONTENT_WIDTH_VALUES"
-                                :key="v"
-                                type="button"
-                                class="settings-btn"
-                                :class="{ active: contentWidth === v }"
-                                @click="setContentWidth(v)"
-                            >
-                                {{ v === 'full' ? t('fullWidth') : v + 'px' }}
-                            </button>
-                        </div>
+                    <div v-if="uiMode !== 'simple'" class="settings-row settings-row-range">
+                        <div class="settings-range-label">{{ t('settingsWidth') }}：{{ contentWidthPercent }}%</div>
+                        <input
+                            v-model.number="contentWidthPercent"
+                            type="range"
+                            class="settings-range-input"
+                            :min="CONTENT_WIDTH_PERCENT_MIN"
+                            :max="CONTENT_WIDTH_PERCENT_MAX"
+                            step="1"
+                            :aria-valuemin="CONTENT_WIDTH_PERCENT_MIN"
+                            :aria-valuemax="CONTENT_WIDTH_PERCENT_MAX"
+                            :aria-valuenow="contentWidthPercent"
+                            :aria-label="t('settingsWidth')"
+                            @input="onContentWidthPercentInput"
+                        />
                     </div>
                     <div class="settings-row">
                         <span class="settings-label">{{ t('settingsBg') }}</span>
@@ -201,6 +202,38 @@
                                 {{ t('clear') }}
                             </button>
                         </div>
+                    </div>
+                    <div v-if="uiMode !== 'simple'" class="settings-row settings-row-range">
+                        <div class="settings-range-label">{{ t('settingsBgTransparency') }}：{{ backgroundTransparencyLocal }}%</div>
+                        <input
+                            v-model.number="backgroundTransparencyLocal"
+                            type="range"
+                            class="settings-range-input"
+                            min="0"
+                            max="100"
+                            step="1"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            :aria-valuenow="backgroundTransparencyLocal"
+                            :aria-label="t('settingsBgTransparency')"
+                            @input="onBackgroundTransparencyInput"
+                        />
+                    </div>
+                    <div v-if="uiMode !== 'simple'" class="settings-row settings-row-range">
+                        <div class="settings-range-label">{{ t('settingsContentTransparency') }}：{{ contentChromeTransparencyLocal }}%</div>
+                        <input
+                            v-model.number="contentChromeTransparencyLocal"
+                            type="range"
+                            class="settings-range-input"
+                            min="0"
+                            max="100"
+                            step="1"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            :aria-valuenow="contentChromeTransparencyLocal"
+                            :aria-label="t('settingsContentTransparency')"
+                            @input="onContentChromeTransparencyInput"
+                        />
                     </div>
                     <div v-if="uiMode === 'simple'" class="settings-row settings-row-inline settings-simple-text-color-row">
                         <span class="settings-label">{{ t('settingsSimpleBookmarkCardTextColor') }}</span>
@@ -359,12 +392,14 @@
 </template>
 
 <script setup>
-import { ref, computed, inject, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, computed, inject, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
-    CONTENT_WIDTH_VALUES,
+    CONTENT_WIDTH_PERCENT_MIN,
+    CONTENT_WIDTH_PERCENT_MAX,
     BACKGROUND_COLORS,
-    maxColumnsForContentWidth,
+    maxColumnsForContentWidthPercent,
+    clampContentWidthPercent,
     LANG_KEYS,
     DEFAULT_BGK
 } from '../../services/settingsConstants.js';
@@ -388,6 +423,19 @@ function persistSettings(partial) {
 
 function applyLayout() {
     settingsModule()?.applyContentWidthAndBackground();
+}
+
+/** 合并到下一帧再应用布局，避免 range 连续 input 时同步重排打断拖动；取消未执行的帧并只跑最后一次 */
+let layoutEffectsRafId = null;
+function scheduleLayoutEffects() {
+    if (layoutEffectsRafId !== null) {
+        cancelAnimationFrame(layoutEffectsRafId);
+    }
+    layoutEffectsRafId = requestAnimationFrame(() => {
+        layoutEffectsRafId = null;
+        applyLayout();
+        applyLinksGridTemplate();
+    });
 }
 
 function bookmarkManager() {
@@ -442,15 +490,56 @@ const simpleOverlayOpacityLocal = ref(0);
 const simpleOverlayBlurLocal = ref(0);
 const simpleSearchRadiusLocal = ref(32);
 const simpleBookmarkCardTextColorLocal = ref('#1f2937');
+
+/** 极简搜索条：rAF 合并 simple-search-ui-updated；storage 短防抖；appRuntime 在各自 input 内立即写入 */
+let simpleSearchUiRafId = null;
+let simpleScaleStorageTimer = null;
+let simpleAppearStorageTimer = null;
+
+function scheduleSimpleSearchUiRefresh() {
+    if (simpleSearchUiRafId !== null) cancelAnimationFrame(simpleSearchUiRafId);
+    simpleSearchUiRafId = requestAnimationFrame(() => {
+        simpleSearchUiRafId = null;
+        window.dispatchEvent(new CustomEvent('simple-search-ui-updated'));
+    });
+}
+
+function flushDebouncedSimplePersist() {
+    if (simpleScaleStorageTimer !== null) {
+        clearTimeout(simpleScaleStorageTimer);
+        simpleScaleStorageTimer = null;
+        const sv = Math.max(80, Math.min(140, Math.round(Number(simpleSearchScaleLocal.value) || 100)));
+        persistSettings({ simpleSearchScale: sv });
+    }
+    if (simpleAppearStorageTimer !== null) {
+        clearTimeout(simpleAppearStorageTimer);
+        simpleAppearStorageTimer = null;
+        const searchOp = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
+        const o = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
+        const b = Math.max(0, Math.min(32, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+        const raw = Number(simpleSearchRadiusLocal.value);
+        const r = Math.max(0, Math.min(40, Number.isFinite(raw) ? Math.round(raw) : 32));
+        persistSettings({
+            simpleSearchOpacity: searchOp,
+            simpleOverlayOpacity: o,
+            simpleOverlayBlurPx: b,
+            simpleSearchBorderRadiusPx: r
+        });
+    }
+}
+
 const replaceNewTab = ref(false);
 const showOverviewNav = ref(false);
-const contentWidth = ref('1200');
+const backgroundTransparencyLocal = ref(0);
+const contentChromeTransparencyLocal = ref(0);
+const contentWidthPercent = ref(100);
+const viewportW = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
 const columns = ref(3);
 const pickerValue = ref('#e8f4fc');
 const useCustomBg = ref(false);
 const rootButtons = ref([]);
 
-const maxCols = computed(() => maxColumnsForContentWidth(contentWidth.value));
+const maxCols = computed(() => maxColumnsForContentWidthPercent(contentWidthPercent.value, viewportW.value));
 
 const uiMode = computed(() => {
     if (simpleModeOn.value) return 'simple';
@@ -464,6 +553,10 @@ function columnDisabled(n) {
 
 const hasBgImageEffective = computed(() => {
     return !!(s().backgroundImage) || s().disableDefaultBg !== true;
+});
+
+watch(panelOpen, (open) => {
+    if (!open) flushDebouncedSimplePersist();
 });
 
 function syncSimpleSearchFieldsFromRuntime() {
@@ -513,22 +606,58 @@ function syncFromAppRuntime() {
     simpleModeOn.value = !!w.useSimplePage;
     replaceNewTab.value = !!w.replaceDefaultNewTab;
     showOverviewNav.value = !!w.showOverviewAllNav;
-    contentWidth.value = w.contentWidth || '1200';
+    contentWidthPercent.value = clampContentWidthPercent(w.contentWidthPercent ?? 100);
     let c = [3, 4, 5].includes(parseInt(w.columns, 10)) ? parseInt(w.columns, 10) : 3;
-    const mc = maxColumnsForContentWidth(contentWidth.value);
+    const mc = maxColumnsForContentWidthPercent(contentWidthPercent.value, viewportW.value);
     if (c > mc) c = mc;
     columns.value = c;
     const nh = normalizeHex(w.backgroundColor);
     pickerValue.value = nh;
     useCustomBg.value = !presetMatchesColor(nh);
+    {
+        const tr = Number(w.backgroundTransparency);
+        if (Number.isFinite(tr) && tr >= 0 && tr <= 100) {
+            backgroundTransparencyLocal.value = Math.round(tr);
+        } else {
+            const op = Number(w.backgroundOpacity);
+            backgroundTransparencyLocal.value =
+                Number.isFinite(op) && op >= 0 && op <= 100 ? Math.round(100 - op) : 0;
+        }
+    }
+    {
+        const ct = Number(w.contentChromeTransparency);
+        contentChromeTransparencyLocal.value =
+            Number.isFinite(ct) && ct >= 0 && ct <= 100 ? Math.round(ct) : 0;
+    }
     syncSimpleSearchFieldsFromRuntime();
+}
+
+function onBackgroundTransparencyInput() {
+    const v = Math.max(0, Math.min(100, Math.round(Number(backgroundTransparencyLocal.value) || 0)));
+    backgroundTransparencyLocal.value = v;
+    persistSettings({ backgroundTransparency: v });
+    scheduleLayoutEffects();
+}
+
+function onContentChromeTransparencyInput() {
+    const v = Math.max(0, Math.min(100, Math.round(Number(contentChromeTransparencyLocal.value) || 0)));
+    contentChromeTransparencyLocal.value = v;
+    persistSettings({ contentChromeTransparency: v });
+    scheduleLayoutEffects();
 }
 
 function onSimpleSearchScaleInput() {
     const v = Math.max(80, Math.min(140, Math.round(Number(simpleSearchScaleLocal.value) || 100)));
     simpleSearchScaleLocal.value = v;
-    persistSettings({ simpleSearchScale: v });
-    window.dispatchEvent(new CustomEvent('simple-search-ui-updated'));
+    if (!appRuntime.settings) appRuntime.settings = {};
+    appRuntime.settings.simpleSearchScale = v;
+    scheduleSimpleSearchUiRefresh();
+    clearTimeout(simpleScaleStorageTimer);
+    simpleScaleStorageTimer = setTimeout(() => {
+        simpleScaleStorageTimer = null;
+        const sv = Math.max(80, Math.min(140, Math.round(Number(simpleSearchScaleLocal.value) || 100)));
+        persistSettings({ simpleSearchScale: sv });
+    }, 120);
 }
 
 function openSimpleBookmarkTextColorPicker() {
@@ -561,13 +690,29 @@ function persistSimpleSearchAppearancePanel() {
         simpleUiInjected.overlayBlurPx = b;
         simpleUiInjected.searchBorderRadiusPx = r;
     }
-    persistSettings({
+    if (!appRuntime.settings) appRuntime.settings = {};
+    Object.assign(appRuntime.settings, {
         simpleSearchOpacity: searchOp,
         simpleOverlayOpacity: o,
         simpleOverlayBlurPx: b,
         simpleSearchBorderRadiusPx: r
     });
-    window.dispatchEvent(new CustomEvent('simple-search-ui-updated'));
+    scheduleSimpleSearchUiRefresh();
+    clearTimeout(simpleAppearStorageTimer);
+    simpleAppearStorageTimer = setTimeout(() => {
+        simpleAppearStorageTimer = null;
+        const so = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
+        const o2 = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
+        const b2 = Math.max(0, Math.min(32, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+        const raw2 = Number(simpleSearchRadiusLocal.value);
+        const r2 = Math.max(0, Math.min(40, Number.isFinite(raw2) ? Math.round(raw2) : 32));
+        persistSettings({
+            simpleSearchOpacity: so,
+            simpleOverlayOpacity: o2,
+            simpleOverlayBlurPx: b2,
+            simpleSearchBorderRadiusPx: r2
+        });
+    }, 120);
 }
 
 function setUiMode(mode) {
@@ -588,11 +733,34 @@ function setUiMode(mode) {
     applyLayout();
 }
 
+function applyLinksGridTemplate() {
+    const lg = props.linksGrid;
+    if (lg && lg.parentElement) {
+        const w = lg.parentElement.clientWidth;
+        const effectiveCols = effectiveGridColumnCount(w, columns.value);
+        lg.style.gridTemplateColumns = `repeat(${effectiveCols}, minmax(${GRID_CARD_MIN_PX}px, 1fr))`;
+    }
+}
+
+function onContentWidthPercentInput() {
+    const v = clampContentWidthPercent(contentWidthPercent.value);
+    if (v !== contentWidthPercent.value) contentWidthPercent.value = v;
+    const mc = maxColumnsForContentWidthPercent(v, viewportW.value);
+    let col = columns.value;
+    if (col > mc) {
+        col = mc;
+        columns.value = col;
+    }
+    persistSettings({ contentWidthPercent: v, columns: col });
+    scheduleLayoutEffects();
+}
+
 function applySettings() {
     const L = legacyI18n();
-    const cw = contentWidth.value;
+    const p = clampContentWidthPercent(contentWidthPercent.value);
+    contentWidthPercent.value = p;
     let col = columns.value;
-    const mc = maxColumnsForContentWidth(cw);
+    const mc = maxColumnsForContentWidthPercent(p, viewportW.value);
     if (col > mc) {
         col = mc;
         columns.value = col;
@@ -602,8 +770,10 @@ function applySettings() {
     persistSettings({
         showActions: !!editModeOn.value,
         columns: col,
-        contentWidth: cw,
+        contentWidthPercent: p,
         backgroundColor: bg,
+        backgroundTransparency: Math.max(0, Math.min(100, Math.round(Number(backgroundTransparencyLocal.value) || 0))),
+        contentChromeTransparency: Math.max(0, Math.min(100, Math.round(Number(contentChromeTransparencyLocal.value) || 0))),
         backgroundImage: s().backgroundImage || '',
         disableDefaultBg: s().disableDefaultBg === true,
         replaceDefaultNewTab: !!replaceNewTab.value,
@@ -611,12 +781,7 @@ function applySettings() {
     });
     document.body.classList.toggle('hide-card-actions', !editModeOn.value);
     applyLayout();
-    const lg = props.linksGrid;
-    if (lg && lg.parentElement) {
-        const w = lg.parentElement.clientWidth;
-        const effectiveCols = effectiveGridColumnCount(w, col);
-        lg.style.gridTemplateColumns = `repeat(${effectiveCols}, minmax(${GRID_CARD_MIN_PX}px, 1fr))`;
-    }
+    applyLinksGridTemplate();
 }
 
 function onThemeToggle() {
@@ -628,13 +793,6 @@ function onThemeToggle() {
 function setColumn(n) {
     if (columnDisabled(n)) return;
     columns.value = n;
-    applySettings();
-}
-
-function setContentWidth(v) {
-    contentWidth.value = v;
-    const mc = maxColumnsForContentWidth(v);
-    if (columns.value > mc) columns.value = mc;
     applySettings();
 }
 
@@ -652,7 +810,7 @@ function openCustomPicker() {
 function onPickerInput() {
     useCustomBg.value = true;
     persistSettings({ backgroundColor: normalizeHex(pickerValue.value) });
-    applyLayout();
+    scheduleLayoutEffects();
 }
 
 function onPickerChange() {
@@ -660,16 +818,20 @@ function onPickerChange() {
     applySettings();
 }
 
+/** 背景图文件大小上限（与 chrome.storage 容量兼顾） */
+const MAX_BG_IMAGE_FILE_BYTES = 3 * 1024 * 1024;
+
 function onBgFile(e) {
     const file = e.target.files && e.target.files[0];
     if (!file || !file.type.startsWith('image/')) return;
+    if (file.size > MAX_BG_IMAGE_FILE_BYTES) {
+        alert(t('imgTooBig'));
+        e.target.value = '';
+        return;
+    }
     const reader = new FileReader();
     reader.onload = () => {
         const dataUrl = reader.result;
-        if (dataUrl.length > 900000) {
-            alert(t('imgTooBig'));
-            return;
-        }
         persistSettings({ backgroundImage: dataUrl, disableDefaultBg: false });
         applyLayout();
     };
@@ -848,20 +1010,39 @@ function onLocaleChange() {
     });
 }
 
-function onDocClick() {
+/** 仅在按下起点在设置区域外时关抽屉；用 document click 会在 range 拖出面板后松开时误关并打断拖动 */
+function onDocPointerDownOutside(event) {
+    if (event.button !== 0 && event.button !== undefined) return;
+    const el = event.target;
+    if (el && typeof el.closest === 'function' && el.closest('.settings-vue-root')) return;
     panelOpen.value = false;
+}
+
+function onViewportResize() {
+    viewportW.value = window.innerWidth;
 }
 
 onMounted(() => {
     syncFromAppRuntime();
     loadRootButtons();
     applyLayout();
-    document.addEventListener('click', onDocClick);
+    document.addEventListener('pointerdown', onDocPointerDownOutside);
+    window.addEventListener('resize', onViewportResize);
 });
 
 onUnmounted(() => {
-    document.removeEventListener('click', onDocClick);
+    document.removeEventListener('pointerdown', onDocPointerDownOutside);
+    window.removeEventListener('resize', onViewportResize);
     if (scrollHideTimer) clearTimeout(scrollHideTimer);
+    if (layoutEffectsRafId !== null) {
+        cancelAnimationFrame(layoutEffectsRafId);
+        layoutEffectsRafId = null;
+    }
+    if (simpleSearchUiRafId !== null) {
+        cancelAnimationFrame(simpleSearchUiRafId);
+        simpleSearchUiRafId = null;
+    }
+    flushDebouncedSimplePersist();
 });
 
 function openBgFilePicker() {

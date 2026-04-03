@@ -24,8 +24,22 @@ body {
     overflow: hidden;
 }
 
+/* 全页背景层：由 settings.js 写入色/图与不透明度；#app 叠在其上避免子元素被淡出 */
+.page-bg-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: #e8f4fc;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 /* Vue 根节点占满视口，建立高度链，使 .main-content / .content 在内容多时可滚动、少时白底铺满 */
 #app {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -35,7 +49,8 @@ body {
 
 .container {
     width: 100%;
-    max-width: 1200px;
+    /* 设置：视口 50%～100%，且不小于 400px（与 settingsConstants 中逻辑一致） */
+    max-width: max(400px, min(100vw, calc(var(--content-width-percent, 100) * 1vw)));
     flex: 1 1 auto;
     min-height: 0;
     margin: 0 auto;
@@ -44,18 +59,6 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-}
-
-.container.width-full {
-    max-width: none;
-}
-
-.container.width-960 {
-    max-width: 960px;
-}
-
-.container.width-800 {
-    max-width: 800px;
 }
 
 /* ========== 主内容区域（侧栏 + 中间区） ========== */
@@ -1347,7 +1350,7 @@ body.hide-card-actions .link-item .actions {
 
 /* ========== 夜间主题（暗色） ========== */
 body.theme-dark {
-    background-color: #0b1220;
+    background-color: transparent;
     color: #e5e7eb;
 }
 
