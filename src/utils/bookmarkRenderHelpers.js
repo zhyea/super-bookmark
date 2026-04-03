@@ -2,6 +2,7 @@
  * 纯函数：过滤书签、标签、favicon、图标色（供 Vue 与旧 render 共用）
  */
 import { CARD_ICON_BACKGROUND_COLORS } from '../services/constants.js';
+import { BookmarkNavBuild } from '../services/bookmarkNavBuild.js';
 
 export const ICON_COLORS = CARD_ICON_BACKGROUND_COLORS;
 
@@ -27,18 +28,50 @@ export function effectiveGridColumnCount(containerWidth, columnsSetting) {
     return Math.min(cols, Math.max(1, Math.floor(w / GRID_CARD_MIN_PX)));
 }
 
-/** 当前一级导航项（与顶栏选中一致） */
+/** 当前一级导航项：含当前二级目录所属根目录（多根合并顶栏时由 currentSecondaryId 反查） */
 export function getCurrentPrimary(state) {
     const nav = state.navData;
     if (!nav || !nav.length) return null;
+    const sid = state.currentSecondaryId;
+    if (sid != null) {
+        for (const p of nav) {
+            if (p.secondaries && p.secondaries.some((s) => String(s.id) === String(sid))) {
+                return p;
+            }
+        }
+    }
     return nav[state.currentPrimaryIndex] || null;
 }
 
-/** 当前二级导航项（与次栏选中一致） */
+/** 当前二级导航项：在所有根目录下查找（与合并后的顶栏二级菜单一致） */
 export function getCurrentSecondary(state) {
-    const primary = getCurrentPrimary(state);
-    if (!primary || !primary.secondaries) return null;
-    return primary.secondaries.find((s) => String(s.id) === String(state.currentSecondaryId)) || null;
+    const nav = state.navData;
+    if (!nav || !nav.length) return null;
+    const sid = state.currentSecondaryId;
+    if (sid == null) return null;
+    for (const p of nav) {
+        if (!p.secondaries) continue;
+        const s = p.secondaries.find((x) => String(x.id) === String(sid));
+        if (s) return s;
+    }
+    return null;
+}
+
+/**
+ * 多个一级根目录时：合并所有二级目录到顶栏一行展示，并做跨根重名区分
+ */
+export function mergeSecondariesForTopNav(navData) {
+    if (!navData || navData.length <= 1) return [];
+    const out = [];
+    for (const p of navData) {
+        if (p.secondaries && p.secondaries.length) {
+            out.push(...p.secondaries);
+        }
+    }
+    if (out.length && BookmarkNavBuild.disambiguateSecondaryTitles) {
+        BookmarkNavBuild.disambiguateSecondaryTitles(out);
+    }
+    return out;
 }
 
 /** 文件夹标签 + 用户标签（供过滤、搜索、标签栏聚合共用） */

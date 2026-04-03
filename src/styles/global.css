@@ -634,7 +634,7 @@ body.theme-dark .overview-group-title {
     flex-wrap: wrap;
     gap: 6px;
     margin-top: 5px;
-    margin-bottom: -6px;
+    margin-bottom: 3px;
     padding-top: 5px;
     border-top: 1px solid #f0f0f0;
 }

@@ -24,9 +24,13 @@ const DEFAULT_VISIBLE_ROOTS = { bar: true, other: true, mobile: true, others: tr
         if (id === '3') return 'mobile';
         const title = (node.title || '').trim();
         const tl = title.toLowerCase();
-        if (['Bookmarks bar', '书签栏'].indexOf(title) !== -1) return 'bar';
-        if (['Other bookmarks', '其它书签'].indexOf(title) !== -1) return 'other';
+        // Chrome：Bookmarks bar / Other bookmarks / Mobile bookmarks（及常见中文）
+        if (tl === 'bookmarks bar' || title === '书签栏') return 'bar';
+        if (tl === 'other bookmarks' || title === '其它书签' || title === '其他书签') return 'other';
         if (tl === 'mobile bookmarks' || title === '移动设备书签') return 'mobile';
+        // Firefox 桌面：与 Chrome 标题不同，id 也未必为 1/2/3
+        if (tl === 'bookmarks toolbar' || title === '书签工具栏') return 'bar';
+        if (tl === 'bookmarks menu' || title === '书签菜单') return 'mobile';
         return null;
     }
 
@@ -47,14 +51,7 @@ const DEFAULT_VISIBLE_ROOTS = { bar: true, other: true, mobile: true, others: tr
     }
 
     function isChromeBarOrOtherRoot(node) {
-        if (!node || node.url || !node.children) return false;
-        const id = String(node.id);
-        if (id === '1' || id === '2' || id === '3') return true;
-        const t = (node.title || '').trim();
-        if (['Bookmarks bar', 'Other bookmarks', '书签栏', '其它书签'].indexOf(t) !== -1) return true;
-        const tl = t.toLowerCase();
-        if (tl === 'mobile bookmarks') return true;
-        return t === '移动设备书签';
+        return !!classifyBuiltinRoot(node);
     }
 
     function secondaryFromL2Folder(l2) {
@@ -104,11 +101,17 @@ const DEFAULT_VISIBLE_ROOTS = { bar: true, other: true, mobile: true, others: tr
 
     function buildMergedBarOtherPrimary(mergeRoots) {
         if (!mergeRoots || !mergeRoots.length) return null;
-        const order = ['1', '2', '3'];
+        const chromeIds = ['1', '2', '3'];
+        const builtinMergeOrder = { bar: 0, mobile: 1, other: 2 };
         mergeRoots.sort(function(a, b) {
-            const ia = order.indexOf(String(a.id));
-            const ib = order.indexOf(String(b.id));
-            return (ia >= 0 ? ia : 99) - (ib >= 0 ? ib : 99);
+            const ia = chromeIds.indexOf(String(a.id));
+            const ib = chromeIds.indexOf(String(b.id));
+            if (ia >= 0 && ib >= 0) return ia - ib;
+            if (ia >= 0) return -1;
+            if (ib >= 0) return 1;
+            const ka = classifyBuiltinRoot(a);
+            const kb = classifyBuiltinRoot(b);
+            return (builtinMergeOrder[ka] ?? 99) - (builtinMergeOrder[kb] ?? 99);
         });
         const secondaries = [];
         const uncatDirect = [];
@@ -330,5 +333,6 @@ export const BookmarkNavBuild = {
     normalizeVisibleRoots,
     classifyBuiltinRoot,
     collectBookmarks,
-    buildNavData
+    buildNavData,
+    disambiguateSecondaryTitles
 };

@@ -4,12 +4,32 @@
 import { BookmarkManager as BM } from './bookmarks.js';
 
     function setCurrentSideId(state) {
-        const primary = state.navData[state.currentPrimaryIndex];
-        const secondary = primary && primary.secondaries.find(function(s) { return String(s.id) === String(state.currentSecondaryId); });
+        const nav = state.navData;
+        if (!nav || !nav.length) {
+            state.currentSideId = null;
+            return;
+        }
+        let secondary = null;
+        const sid = state.currentSecondaryId;
+        if (sid != null) {
+            for (let pi = 0; pi < nav.length; pi++) {
+                const p = nav[pi];
+                if (!p.secondaries) continue;
+                const s = p.secondaries.find(function(x) {
+                    return String(x.id) === String(sid);
+                });
+                if (s) {
+                    secondary = s;
+                    break;
+                }
+            }
+        }
         if (secondary && secondary.sides && secondary.sides.length) {
-            const hasCurrent = state.currentSideId != null && secondary.sides.some(function(sd) {
-                return String(sd.id) === String(state.currentSideId);
-            });
+            const hasCurrent =
+                state.currentSideId != null &&
+                secondary.sides.some(function(sd) {
+                    return String(sd.id) === String(state.currentSideId);
+                });
             state.currentSideId = hasCurrent ? state.currentSideId : secondary.sides[0].id;
         } else {
             state.currentSideId = null;
@@ -31,9 +51,9 @@ import { BookmarkManager as BM } from './bookmarks.js';
             if (!navData.length) {
                 if (emptyState) emptyState.style.display = 'block';
                 if (categoryPanel) categoryPanel.style.display = 'none';
-                if (primaryNav) primaryNav.innerHTML = '';
-                if (secondaryNav) secondaryNav.innerHTML = '';
-                if (sideNavList) sideNavList.innerHTML = '';
+                if (primaryNav) primaryNav.replaceChildren();
+                if (secondaryNav) secondaryNav.replaceChildren();
+                if (sideNavList) sideNavList.replaceChildren();
                 state.currentSideId = null;
                 if (callbacks.renderPrimaryNav) callbacks.renderPrimaryNav();
                 if (callbacks.renderSideNav) callbacks.renderSideNav();
@@ -85,11 +105,18 @@ import { BookmarkManager as BM } from './bookmarks.js';
                     }
                 }
             } else {
-                const pi = state.currentPrimaryIndex;
                 const sid = state.currentSecondaryId;
-                const primary = navData[pi];
-                const hasSecondary = primary && primary.secondaries && primary.secondaries.some(function(s) { return String(s.id) === String(sid); });
-                if (!hasSecondary) {
+                let foundPi = -1;
+                for (let i = 0; i < navData.length; i++) {
+                    const p = navData[i];
+                    if (p.secondaries && p.secondaries.some(function(s) { return String(s.id) === String(sid); })) {
+                        foundPi = i;
+                        break;
+                    }
+                }
+                if (foundPi >= 0) {
+                    state.currentPrimaryIndex = foundPi;
+                } else if (navData.length && navData[0].secondaries && navData[0].secondaries.length) {
                     state.currentPrimaryIndex = 0;
                     state.currentSecondaryId = navData[0].secondaries[0].id;
                 }

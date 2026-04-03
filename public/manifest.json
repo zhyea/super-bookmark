@@ -2,10 +2,19 @@
   "manifest_version": 3,
   "default_locale": "zh_CN",
   "name": "__MSG_extName__",
-  "version": "1.0.8",
+  "version": "1.0.1",
   "description": "__MSG_extDescription__",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "superbookmark@superbookmark.app",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
   "background": {
-    "service_worker": "assets/background.js"
+    "scripts": ["assets/background.js"]
   },
   "action": {
     "default_icon": {

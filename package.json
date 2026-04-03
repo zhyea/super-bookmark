@@ -8,15 +8,19 @@
     "dev": "vite",
     "prebuild": "node scripts/sync-chrome-locales.mjs",
     "build": "vite build",
+    "build:chrome": "vite build && node scripts/strip-manifest-for-chrome.mjs",
+    "lint:firefox": "addons-linter dist --disable-linter-rules no-unsanitized/property",
     "preview": "vite preview",
     "gen:engine-icons": "node scripts/export-engine-icons.mjs",
     "gen:locales": "node scripts/sync-chrome-locales.mjs"
   },
   "dependencies": {
+    "dompurify": "^3.3.3",
     "vue": "^3.5.13",
     "vue-i18n": "^11.3.0"
   },
   "devDependencies": {
+    "addons-linter": "^10.3.0",
     "@fortawesome/free-brands-svg-icons": "^7.2.0",
     "@iconify-json/logos": "^1.2.11",
     "@vitejs/plugin-vue": "^5.2.1",

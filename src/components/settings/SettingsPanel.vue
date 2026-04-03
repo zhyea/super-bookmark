@@ -398,6 +398,7 @@ import {
 } from '../../services/settingsConstants.js';
 import { normalizeHex, normalizeBookmarkCardTextColor, presetMatchesColor } from '../../services/settingsUtils.js';
 import { appRuntime } from '../../services/appRuntime.js';
+import { bookmarkManagerTabUrl } from '../../utils/extensionEnv.js';
 import { effectiveGridColumnCount, GRID_CARD_MIN_PX } from '../../utils/bookmarkRenderHelpers.js';
 
 /** 兼容层 i18n（与 legacyI18n 挂载一致） */
@@ -821,8 +822,14 @@ function clearBgImage() {
 
 function loadRootButtons() {
     const BM = bookmarkManager();
-    if (typeof chrome === 'undefined' || !chrome.bookmarks || !chrome.bookmarks.getTree || !BM) return;
-    chrome.bookmarks.getTree(function (tree) {
+    const bookmarksApi =
+        typeof chrome !== 'undefined' && chrome.bookmarks
+            ? chrome.bookmarks
+            : typeof browser !== 'undefined' && browser.bookmarks
+              ? browser.bookmarks
+              : null;
+    if (!bookmarksApi || !bookmarksApi.getTree || !BM) return;
+    bookmarksApi.getTree(function (tree) {
         const roots = tree && tree[0] && tree[0].children ? tree[0].children : [];
         const folders = roots.filter(function (n) {
             return !n.url && n.children;
@@ -877,8 +884,9 @@ function toggleRoot(key) {
 }
 
 function openBookmarkManager() {
-    if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
-        chrome.tabs.create({ url: 'chrome://bookmarks/' });
+    const tabsApi = typeof chrome !== 'undefined' && chrome.tabs ? chrome : typeof browser !== 'undefined' && browser.tabs ? browser : null;
+    if (tabsApi && tabsApi.tabs && tabsApi.tabs.create) {
+        tabsApi.tabs.create({ url: bookmarkManagerTabUrl() });
     }
 }
 

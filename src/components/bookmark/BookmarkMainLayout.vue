@@ -1,11 +1,6 @@
 <template>
   <div class="container">
     <header class="header">
-      <PrimaryNavBar
-        :nav-data="state.navData"
-        :current-primary-index="state.currentPrimaryIndex"
-        @select="onSelectPrimary"
-      />
       <SecondaryNavBar
         :secondaries="secondaries"
         :current-secondary-id="state.currentSecondaryId"
@@ -44,7 +39,6 @@
 <script setup>
 import { computed, reactive, ref, provide, watch, onMounted, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
-import PrimaryNavBar from '../nav/PrimaryNavBar.vue';
 import SecondaryNavBar from '../nav/SecondaryNavBar.vue';
 import SideNavList from '../nav/SideNavList.vue';
 import SearchBar from '../layout/SearchBar.vue';
@@ -53,7 +47,11 @@ import BookmarkEditModal from '../edit/BookmarkEditModal.vue';
 import LinkContextMenu from '../chrome/LinkContextMenu.vue';
 import ScrollFloatButton from '../chrome/ScrollFloatButton.vue';
 import { appRuntime } from '../../services/appRuntime.js';
-import { getCurrentPrimary, getCurrentSecondary } from '../../utils/bookmarkRenderHelpers.js';
+import {
+  getCurrentPrimary,
+  getCurrentSecondary,
+  mergeSecondariesForTopNav
+} from '../../utils/bookmarkRenderHelpers.js';
 import { initBookmarkPage } from '../../composables/useBookmarkPage.js';
 
 const { t } = useI18n();
@@ -82,8 +80,12 @@ watch(searchInputRaw, (v) => {
 provide('bookmarkCore', { state, searchTerm });
 
 const secondaries = computed(() => {
-  const p = getCurrentPrimary(state);
-  return (p && p.secondaries) || [];
+  if (!state.navData.length) return [];
+  if (state.navData.length <= 1) {
+    const p = getCurrentPrimary(state);
+    return (p && p.secondaries) || [];
+  }
+  return mergeSecondariesForTopNav(state.navData);
 });
 
 const currentSecondary = computed(() => getCurrentSecondary(state));
@@ -109,17 +111,15 @@ function setCurrentSideFromSecondary() {
   }
 }
 
-function onSelectPrimary(i) {
-  state.currentPrimaryIndex = i;
-  const primary = state.navData[i];
-  if (!primary || !primary.secondaries || !primary.secondaries.length) return;
-  state.currentSecondaryId = primary.secondaries[0].id;
-  setCurrentSideFromSecondary();
-  state.selectedTag = null;
-}
-
 function onSelectSecondary(id) {
   state.currentSecondaryId = id;
+  for (let i = 0; i < state.navData.length; i++) {
+    const p = state.navData[i];
+    if (p.secondaries && p.secondaries.some((s) => String(s.id) === String(id))) {
+      state.currentPrimaryIndex = i;
+      break;
+    }
+  }
   setCurrentSideFromSecondary();
   state.selectedTag = null;
 }

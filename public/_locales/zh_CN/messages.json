@@ -668,11 +668,11 @@
     "description": "UI string: g1h"
   },
   "g1p": {
-    "message": "扩展会按 Chrome 书签栏的<strong>文件夹层级</strong>自动归类：",
+    "message": "扩展会按浏览器书签栏（如 Firefox 书签工具栏 / 其他书签）的<strong>文件夹层级</strong>自动归类：",
     "description": "UI string: g1p"
   },
   "g1li1": {
-    "message": "<strong>一级文件夹</strong>：Chrome 书签的顶层结构，在扩展中作为主分类；<strong>存在多个顶层书签根</strong>时可在<strong>页顶第一行</strong>切换，仅有一个根时不显示该行。",
+    "message": "<strong>一级文件夹</strong>：浏览器书签的顶层结构，在扩展中作为主分类；<strong>存在多个顶层书签根</strong>时可在<strong>页顶第一行</strong>切换，仅有一个根时不显示该行。",
     "description": "UI string: g1li1"
   },
   "g1li2": {
@@ -684,7 +684,7 @@
     "description": "UI string: g1li3"
   },
   "g1note": {
-    "message": "若列表为空，请先在 Chrome 书签栏中创建上述文件夹并添加网址书签。",
+    "message": "若列表为空，请先在浏览器书签栏中创建上述文件夹并添加网址书签。",
     "description": "UI string: g1note"
   },
   "g2h": {
@@ -728,7 +728,7 @@
     "description": "UI string: g4h"
   },
   "g4p": {
-    "message": "开启编辑模式后，可将卡片<strong>拖到</strong>页顶主分类（多个根时第一行）、顶部子分类或左侧子文件夹上，书签会移动到对应文件夹（与 Chrome 书签结构同步）。在同一列表内也可拖拽调整排序。",
+    "message": "开启编辑模式后，可将卡片<strong>拖到</strong>页顶主分类（多个根时第一行）、顶部子分类或左侧子文件夹上，书签会移动到对应文件夹（与浏览器书签结构同步）。在同一列表内也可拖拽调整排序。",
     "description": "UI string: g4p"
   },
   "g5h": {

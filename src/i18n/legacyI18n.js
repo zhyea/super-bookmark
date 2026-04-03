@@ -1,7 +1,15 @@
 /**
  * 兼容原 window.BookmarkManagerI18n API（供 settings、render、edit 等脚本使用）
  */
+import DOMPurify from 'dompurify';
 import { CODES, HTML_LANG, BG_PRESET_KEYS, normalizeLocale, detectLocale } from './locale-utils.js';
+
+/** 使用说明页 HTML：仅允许来自 i18n 的安全标签（再经 DOMPurify 净化） */
+const GUIDE_SANITIZE = {
+    ALLOWED_TAGS: ['div', 'header', 'section', 'footer', 'h1', 'h2', 'p', 'ul', 'li', 'strong', 'em', 'br', 'span'],
+    ALLOWED_ATTR: ['class'],
+    ALLOW_DATA_ATTR: false
+};
 
 function escapeAttr(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
@@ -111,7 +119,9 @@ export function installLegacyBookmarkI18n(i18n) {
     function initGuidePage() {
         function applyGuide() {
             document.title = t('guidePageTitle');
-            document.body.innerHTML = buildGuideHTML();
+            const clean = DOMPurify.sanitize(buildGuideHTML(), GUIDE_SANITIZE);
+            const parsed = new DOMParser().parseFromString(clean, 'text/html');
+            document.body.replaceChildren(...parsed.body.childNodes);
         }
         if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) {
             setLocale(detectLocale());
