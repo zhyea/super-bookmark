@@ -36,7 +36,7 @@
           @mousedown.prevent
         >
           <li v-for="b in bookmarkSuggestions" :key="b.id" role="option">
-            <button type="button" class="bookmark-suggest-item" @mousedown.prevent="pickBookmarkSuggestion(b)">
+            <button type="button" class="bookmark-suggest-item" :style="bookmarkCrystalCardTextStyle" @mousedown.prevent="pickBookmarkSuggestion(b)">
               {{ b.title }}
             </button>
           </li>
@@ -64,11 +64,11 @@
     </Teleport>
 
     <div v-show="showQuickPanel" class="quick-panel" :style="quickPanelCombinedStyle">
-      <button type="button" class="quick-item" title="书签搜索" @click="selectBookmarkMode">
+      <button type="button" class="quick-item" :title="t('simpleUiBookmarkSearchTip')" @click="selectBookmarkMode">
         <span class="quick-icon-img-wrap">
           <img class="quick-icon-img" :src="bookmarkQuickPanelIconUrl()" alt="" />
         </span>
-        <span class="quick-label">书签</span>
+        <span class="quick-label">{{ t('simpleUiBookmarksMode') }}</span>
       </button>
       <button v-for="key in quickKeys" :key="key" type="button" class="quick-item" @click="selectEngineFromBar(key)">
         <span class="quick-icon-img-wrap">
@@ -85,25 +85,25 @@
       </button>
       <button type="button" class="quick-item" @click="openDrawer">
         <span class="quick-icon" aria-hidden="true">＋</span>
-        <span class="quick-label">添加</span>
+        <span class="quick-label">{{ t('simpleUiQuickAdd') }}</span>
       </button>
     </div>
 
     <Teleport to="body">
       <div v-if="drawerOpen" class="simple-drawer-backdrop" @click.self="closeDrawer"></div>
-      <aside v-if="drawerOpen" class="simple-drawer" aria-label="搜索设置">
+      <aside v-if="drawerOpen" class="simple-drawer" :aria-label="t('simpleUiDrawerTitle')">
         <div class="simple-drawer-head">
-          <span class="simple-drawer-title">搜索设置</span>
-          <button type="button" class="simple-drawer-close" aria-label="关闭" @click="closeDrawer">×</button>
+          <span class="simple-drawer-title">{{ t('simpleUiDrawerTitle') }}</span>
+          <button type="button" class="simple-drawer-close" :aria-label="t('simpleUiClose')" @click="closeDrawer">×</button>
         </div>
         <div class="simple-drawer-tabs">
-          <button type="button" class="simple-tab-btn" :class="{ active: activeTab === 'default' }" @click="activeTab = 'default'">默认</button>
-          <button type="button" class="simple-tab-btn" :class="{ active: activeTab === 'custom' }" @click="activeTab = 'custom'">自定义</button>
+          <button type="button" class="simple-tab-btn" :class="{ active: activeTab === 'default' }" @click="activeTab = 'default'">{{ t('simpleUiTabDefault') }}</button>
+          <button type="button" class="simple-tab-btn" :class="{ active: activeTab === 'custom' }" @click="activeTab = 'custom'">{{ t('simpleUiTabCustom') }}</button>
         </div>
         <div class="simple-drawer-body">
           <template v-if="activeTab === 'default'">
             <div class="simple-drawer-module">
-              <div class="simple-drawer-module-title">默认可用搜索引擎</div>
+              <div class="simple-drawer-module-title">{{ t('simpleUiBuiltinEngines') }}</div>
               <div class="simple-drawer-module-list">
                 <div v-for="eng in catalog" :key="eng.key" class="simple-drawer-row">
                   <img class="simple-drawer-icon" :src="engineIconPath(eng.key)" :alt="eng.label" />
@@ -113,7 +113,7 @@
                     :class="['simple-drawer-switch', { 'simple-drawer-switch--on': quickKeys.includes(eng.key) }]"
                     role="switch"
                     :aria-checked="quickKeys.includes(eng.key)"
-                    :aria-label="`${eng.label} 在快捷栏显示`"
+                    :aria-label="t('simpleUiEngineQuickBar', { name: eng.label })"
                     :disabled="quickKeys.includes(eng.key) && quickKeys.length <= 1"
                     @click="toggleEngineSwitch(eng.key)"
                   />
@@ -124,13 +124,13 @@
 
           <template v-else>
             <div class="simple-drawer-module">
-              <div class="simple-drawer-module-title">{{ editingCustomKey ? '编辑搜索引擎' : '添加搜索引擎' }}</div>
-              <input v-model.trim="customForm.name" class="custom-input" placeholder="名称" @input="clearFormError" />
-              <div class="form-subtitle">网址（用%s代替搜索字词，图标由网址自动获取 favicon）</div>
+              <div class="simple-drawer-module-title">{{ editingCustomKey ? t('simpleUiEditEngineTitle') : t('simpleUiAddEngineTitle') }}</div>
+              <input v-model.trim="customForm.name" class="custom-input" :placeholder="t('simpleUiNamePh')" @input="clearFormError" />
+              <div class="form-subtitle">{{ t('simpleUiUrlHint') }}</div>
               <textarea
                 v-model.trim="customForm.urlTemplate"
                 class="custom-textarea"
-                placeholder="https://example.com/search?q=%s"
+                :placeholder="t('simpleUiUrlPh')"
                 @input="onCustomUrlTemplateInput"
                 @blur="onCustomUrlTemplateBlur"
               ></textarea>
@@ -138,14 +138,14 @@
 
               <div class="custom-form-actions">
                 <button type="button" class="custom-submit-btn" @click="submitCustomForm">
-                  {{ editingCustomKey ? '保存修改' : '添加搜索引擎' }}
+                  {{ editingCustomKey ? t('simpleUiBtnSave') : t('simpleUiBtnAdd') }}
                 </button>
-                <button v-if="editingCustomKey" type="button" class="custom-cancel-btn" @click="cancelEditCustom">取消编辑</button>
+                <button v-if="editingCustomKey" type="button" class="custom-cancel-btn" @click="cancelEditCustom">{{ t('simpleUiCancelEdit') }}</button>
               </div>
             </div>
 
             <div v-if="customEngines.length" class="simple-drawer-module">
-              <div class="simple-drawer-module-title">自定义搜索引擎</div>
+              <div class="simple-drawer-module-title">{{ t('simpleUiCustomEnginesTitle') }}</div>
               <div
                 v-for="eng in customEngines"
                 :key="eng.key"
@@ -158,12 +158,12 @@
                   :class="['simple-drawer-switch', { 'simple-drawer-switch--on': quickKeys.includes(eng.key) }]"
                   role="switch"
                   :aria-checked="quickKeys.includes(eng.key)"
-                  :aria-label="`${eng.name} 在快捷栏显示`"
-                  :disabled="quickKeys.includes(eng.key) && quickKeys.length <= 1"
-                  @click="toggleEngineSwitch(eng.key)"
-                />
-                <button type="button" class="custom-edit-btn" @click="startEditCustomEngine(eng)">编辑</button>
-                <button type="button" class="custom-remove-btn" @click="removeCustomEngine(eng.key)">删除</button>
+                    :aria-label="t('simpleUiEngineQuickBar', { name: eng.name })"
+                    :disabled="quickKeys.includes(eng.key) && quickKeys.length <= 1"
+                    @click="toggleEngineSwitch(eng.key)"
+                  />
+                <button type="button" class="custom-edit-btn" @click="startEditCustomEngine(eng)">{{ t('simpleUiEdit') }}</button>
+                <button type="button" class="custom-remove-btn" @click="removeCustomEngine(eng.key)">{{ t('simpleUiDelete') }}</button>
               </div>
             </div>
           </template>
@@ -175,6 +175,7 @@
 
 <script setup>
 import { computed, inject, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { appRuntime } from '../../services/appRuntime.js';
 import { BookmarkManager } from '../../services/bookmarks.js';
 import { BookmarkManagerSettings } from '../../services/settings.js';
@@ -190,7 +191,13 @@ import {
   normalizeQuickEngineKeys
 } from '../../services/simpleSearchEngines.js';
 
-const catalog = SIMPLE_ENGINE_CATALOG;
+const { t, locale } = useI18n();
+const catalog = computed(() =>
+  SIMPLE_ENGINE_CATALOG.map((e) => ({
+    ...e,
+    label: t(`simpleEngine_${e.key}`)
+  }))
+);
 const activeTab = ref('default');
 const keyword = ref('');
 const engineKey = ref('baidu');
@@ -307,8 +314,9 @@ function bookmarkMatchesQuery(b, q) {
 }
 
 function allEngines() {
+  locale.value;
   return [
-    ...catalog.map((e) => ({ ...e, isCustom: false })),
+    ...catalog.value.map((e) => ({ ...e, isCustom: false })),
     ...customEngines.value.map((e) => ({ ...e, isCustom: true, label: e.name, url: e.urlTemplate }))
   ];
 }
@@ -460,8 +468,8 @@ watch(
 
 const currentEngine = computed(() => getEngineByKeyLocal(engineKey.value));
 const currentEngineLabel = computed(() => {
-  if (bookmarkMode.value) return '书签';
-  return currentEngine.value.label || currentEngine.value.name || '搜索';
+  if (bookmarkMode.value) return t('simpleUiBookmarksMode');
+  return currentEngine.value.label || currentEngine.value.name || t('simpleUiSearchFallback');
 });
 const currentEngineMeta = computed(() => {
   if (bookmarkMode.value) {
@@ -478,7 +486,7 @@ const bookmarkSuggestions = computed(() => {
   return flatBookmarks.value.filter((b) => bookmarkMatchesQuery(b, q)).slice(0, 5);
 });
 const bookmarkCrystalCardTextStyle = computed(() => ({
-  color: simpleUi ? normalizeBookmarkCardTextColor(simpleUi.bookmarkCardTextColor) : '#1f2937'
+  color: simpleUi ? normalizeBookmarkCardTextColor(simpleUi.bookmarkCardTextColor) : '#dddddd'
 }));
 
 const wrapScaleStyle = computed(() => {
@@ -534,7 +542,7 @@ watch(keyword, (v) => {
 
 function labelForKey(key) {
   const eng = getEngineByKeyLocal(key);
-  return eng.label || eng.name || '搜索';
+  return eng.label || eng.name || t('simpleUiSearchFallback');
 }
 
 function engineIconMeta(key) {
@@ -674,22 +682,22 @@ function onCustomUrlTemplateInput() {
   clearTimeout(customUrlExpandTimer);
   customUrlExpandTimer = setTimeout(() => {
     customUrlExpandTimer = null;
-    const t = String(customForm.urlTemplate || '').trim();
-    if (!t || t.includes('%s')) return;
-    if (t.includes('/') || t.includes('?')) return;
-    if (!/^[\w.-]+\.[a-zA-Z]{2,}$/.test(t)) return;
-    const next = expandSimpleCustomUrlTemplate(t);
-    if (next && next !== t) customForm.urlTemplate = next;
+    const urlTrim = String(customForm.urlTemplate || '').trim();
+    if (!urlTrim || urlTrim.includes('%s')) return;
+    if (urlTrim.includes('/') || urlTrim.includes('?')) return;
+    if (!/^[\w.-]+\.[a-zA-Z]{2,}$/.test(urlTrim)) return;
+    const next = expandSimpleCustomUrlTemplate(urlTrim);
+    if (next && next !== urlTrim) customForm.urlTemplate = next;
   }, 350);
 }
 
 function onCustomUrlTemplateBlur() {
   clearTimeout(customUrlExpandTimer);
   customUrlExpandTimer = null;
-  const t = String(customForm.urlTemplate || '').trim();
-  if (!t) return;
-  const next = expandSimpleCustomUrlTemplate(t);
-  if (next && next !== t) customForm.urlTemplate = next;
+  const urlTrim = String(customForm.urlTemplate || '').trim();
+  if (!urlTrim) return;
+  const next = expandSimpleCustomUrlTemplate(urlTrim);
+  if (next && next !== urlTrim) customForm.urlTemplate = next;
 }
 
 function normalizeUrlTemplateInput(raw) {
@@ -703,16 +711,16 @@ function submitCustomForm() {
   const name = customForm.name.trim();
   const rawUrl = customForm.urlTemplate.trim();
   const missing = [];
-  if (!name) missing.push('名称');
-  if (!rawUrl) missing.push('网址');
+  if (!name) missing.push(t('simpleUiFieldName'));
+  if (!rawUrl) missing.push(t('simpleUiFieldUrl'));
   if (missing.length) {
-    customFormError.value = `请填写：${missing.join('、')}`;
+    customFormError.value = t('simpleUiErrorIncomplete', { list: missing.join(t('simpleUiListSep')) });
     return;
   }
   customFormError.value = '';
   const urlTemplate = normalizeUrlTemplateInput(customForm.urlTemplate);
   if (!urlTemplate) {
-    customFormError.value = '请填写有效的网址';
+    customFormError.value = t('simpleUiInvalidUrl');
     return;
   }
 
@@ -786,7 +794,7 @@ function removeCustomEngine(key) {
   background: transparent;
   padding: 10px 14px;
   font-size: 15px;
-  color: #1f2937;
+  color: #dddddd;
   cursor: pointer;
 }
 .bookmark-suggest-item:hover { background: #f3f4f6; }
@@ -811,7 +819,7 @@ function removeCustomEngine(key) {
   border-radius: 14px;
   padding: 12px 16px;
   font-size: 15px;
-  color: #1f2937;
+  color: #dddddd;
   text-align: left;
   cursor: pointer;
   width: 100%;

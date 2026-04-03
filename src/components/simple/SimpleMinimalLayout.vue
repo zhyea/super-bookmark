@@ -17,12 +17,12 @@ import SimpleSearchBox from '../layout/SimpleSearchBox.vue';
 const simpleUi = inject('simpleUi');
 if (!simpleUi) throw new Error('simpleUi missing (provided by App)');
 
+/** 背景色/图透明度由 settings.js 写入 #page-bg-backdrop；此处仅保留可选背景模糊，不再叠暗色层以免与内容混淆 */
 const overlayLayerStyle = computed(() => {
-  const a = Math.max(0, Math.min(100, Number(simpleUi.overlayOpacity) || 0)) / 100;
   const blur = Math.max(0, Math.min(32, Number(simpleUi.overlayBlurPx) || 0));
   const bf = blur > 0 ? `blur(${blur}px)` : 'none';
   return {
-    backgroundColor: `rgba(0, 0, 0, ${a})`,
+    backgroundColor: 'transparent',
     backdropFilter: bf,
     WebkitBackdropFilter: bf
   };

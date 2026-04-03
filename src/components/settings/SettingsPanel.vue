@@ -16,14 +16,14 @@
         >
             <div id="settings-panel-heading" class="settings-panel-title">{{ t('settingsTitle') }}</div>
             <div class="settings-panel-title-accent" aria-hidden="true"></div>
-            <div class="settings-mode-group" role="group" aria-label="页面模式">
+            <div class="settings-mode-group" role="group" :aria-label="t('settingsModeGroupAria')">
                 <button
                     type="button"
                     class="settings-mode-btn"
                     :class="{ 'settings-mode-btn--active': uiMode === 'simple' }"
                     @click.stop="setUiMode('simple')"
                 >
-                    极简模式
+                    {{ t('settingsModeSimple') }}
                 </button>
                 <button
                     type="button"
@@ -31,7 +31,7 @@
                     :class="{ 'settings-mode-btn--active': uiMode === 'default' }"
                     @click.stop="setUiMode('default')"
                 >
-                    默认模式
+                    {{ t('settingsModeDefault') }}
                 </button>
                 <button
                     type="button"
@@ -39,7 +39,7 @@
                     :class="{ 'settings-mode-btn--active': uiMode === 'edit' }"
                     @click.stop="setUiMode('edit')"
                 >
-                    编辑模式
+                    {{ t('settingsModeEdit') }}
                 </button>
             </div>
             <div ref="panelContentRef" class="settings-panel-content" @scroll.passive="onPanelScroll">
@@ -277,9 +277,9 @@
                 </div>
 
                 <div v-if="uiMode === 'simple'" class="settings-section">
-                    <div class="settings-section-title">搜索框</div>
+                    <div class="settings-section-title">{{ t('settingsGroupSimpleSearch') }}</div>
                     <div class="settings-row settings-row-range">
-                        <div class="settings-range-label">搜索框大小：{{ simpleSearchScaleLocal }}%</div>
+                        <div class="settings-range-label">{{ t('settingsSimpleSearchScale') }}：{{ simpleSearchScaleLocal }}%</div>
                         <input
                             v-model.number="simpleSearchScaleLocal"
                             type="range"
@@ -291,7 +291,7 @@
                         />
                     </div>
                     <div class="settings-row settings-row-range">
-                        <div class="settings-range-label">搜索框不透明度：{{ simpleSearchOpacityLocal }}%</div>
+                        <div class="settings-range-label">{{ t('settingsSimpleSearchOpacity') }}：{{ simpleSearchOpacityLocal }}%</div>
                         <input
                             v-model.number="simpleSearchOpacityLocal"
                             type="range"
@@ -303,7 +303,7 @@
                         />
                     </div>
                     <div class="settings-row settings-row-range">
-                        <div class="settings-range-label">搜索框圆角：{{ simpleSearchRadiusLocal }}px</div>
+                        <div class="settings-range-label">{{ t('settingsSimpleSearchRadius') }}：{{ simpleSearchRadiusLocal }}px</div>
                         <input
                             v-model.number="simpleSearchRadiusLocal"
                             type="range"
@@ -350,9 +350,6 @@
                     <div class="settings-row">
                         <span class="settings-label">{{ t('settingsBackupActions') }}</span>
                         <div class="settings-btns settings-backup-btns">
-                            <button type="button" class="settings-btn" id="settingsBackupRestoreDefault" @click.stop="backupRestoreDefault">
-                                {{ t('backupRestoreDefault') }}
-                            </button>
                             <button type="button" class="settings-btn" id="settingsBackupExport" @click.stop="backupExport">
                                 {{ t('backupExport') }}
                             </button>
@@ -368,6 +365,9 @@
                                 aria-hidden="true"
                                 @change="backupImportFile"
                             />
+                          <button type="button" class="settings-btn" id="settingsBackupRestoreDefault" @click.stop="backupRestoreDefault">
+                            {{ t('backupRestoreDefault') }}
+                          </button>
                         </div>
                     </div>
                 </div>
@@ -482,7 +482,7 @@ const simpleSearchOpacityLocal = ref(100);
 const simpleOverlayOpacityLocal = ref(0);
 const simpleOverlayBlurLocal = ref(0);
 const simpleSearchRadiusLocal = ref(32);
-const simpleBookmarkCardTextColorLocal = ref('#1f2937');
+const simpleBookmarkCardTextColorLocal = ref('#dddddd');
 
 /** 极简搜索条：rAF 合并 simple-search-ui-updated；storage 短防抖；appRuntime 在各自 input 内立即写入 */
 let simpleSearchUiRafId = null;
@@ -672,6 +672,7 @@ function persistSimpleSearchAppearancePanel() {
         simpleOverlayBlurPx: b,
         simpleSearchBorderRadiusPx: r
     });
+    scheduleLayoutEffects();
     scheduleSimpleSearchUiRefresh();
     clearTimeout(simpleAppearStorageTimer);
     simpleAppearStorageTimer = setTimeout(() => {

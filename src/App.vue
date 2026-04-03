@@ -34,7 +34,7 @@ const simpleUi = reactive({
   overlayBlurPx: 0,
   searchBorderRadiusPx: 32,
   searchOpacity: 100,
-  bookmarkCardTextColor: '#1f2937'
+  bookmarkCardTextColor: '#dddddd'
 });
 provide('simpleUi', simpleUi);
 

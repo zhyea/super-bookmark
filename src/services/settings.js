@@ -51,12 +51,35 @@ function applyLayoutChromeSurfaces(s) {
     const mainEl = document.querySelector('.main-content');
     const footerEl = document.querySelector('.footer');
     const sidebarEl = document.querySelector('.sidebar');
-    if (containerEl) containerEl.style.backgroundColor = rgbaFromHex(containerHex, alpha);
-    if (headerEl) headerEl.style.backgroundColor = rgbaFromHex(headerHex, alpha);
+    const blurRaw = Number(s.simpleOverlayBlurPx);
+    const blur = Number.isFinite(blurRaw) && blurRaw >= 0 && blurRaw <= 32 ? Math.round(blurRaw) : 0;
+    const blurValue = blur > 0 ? 'blur(' + blur + 'px)' : 'none';
+    if (containerEl) {
+        containerEl.style.backgroundColor = rgbaFromHex(containerHex, alpha);
+        containerEl.style.backdropFilter = blurValue;
+        containerEl.style.webkitBackdropFilter = blurValue;
+    }
+    if (headerEl) {
+        headerEl.style.backgroundColor = rgbaFromHex(headerHex, alpha);
+        headerEl.style.backdropFilter = blurValue;
+        headerEl.style.webkitBackdropFilter = blurValue;
+    }
     /* 中间列表区底色来自 .container，避免与 container 同色的双层半透明叠加发灰 */
-    if (mainEl) mainEl.style.backgroundColor = 'transparent';
-    if (footerEl) footerEl.style.backgroundColor = rgbaFromHex(footerHex, alpha);
-    if (sidebarEl) sidebarEl.style.backgroundColor = rgbaFromHex(sidebarHex, alpha);
+    if (mainEl) {
+        mainEl.style.backgroundColor = 'transparent';
+        mainEl.style.backdropFilter = blurValue;
+        mainEl.style.webkitBackdropFilter = blurValue;
+    }
+    if (footerEl) {
+        footerEl.style.backgroundColor = rgbaFromHex(footerHex, alpha);
+        footerEl.style.backdropFilter = blurValue;
+        footerEl.style.webkitBackdropFilter = blurValue;
+    }
+    if (sidebarEl) {
+        sidebarEl.style.backgroundColor = rgbaFromHex(sidebarHex, alpha);
+        sidebarEl.style.backdropFilter = blurValue;
+        sidebarEl.style.webkitBackdropFilter = blurValue;
+    }
 }
 
 function ensurePageBgBackdrop() {
@@ -191,7 +214,12 @@ function applyContentWidthAndBackground() {
         backdrop.style.backgroundPosition = '';
         backdrop.style.backgroundRepeat = '';
     }
-    backdrop.style.opacity = '1';
+    /* 背景透明度：仅作用于 body 下全页背景层（色/图），0=不透明 100=完全透明；勿与内容区 chrome 混用 */
+    const bgTrans = Number(s.simpleOverlayOpacity);
+    const t = Number.isFinite(bgTrans) && bgTrans >= 0 && bgTrans <= 100 ? bgTrans : 0;
+    backdrop.style.opacity = String(1 - t / 100);
+    /* 背景模糊度：磨砂玻璃效果由 applyLayoutChromeSurfaces 控制（backdrop-filter）；背景层本身不再做 blur */
+    backdrop.style.filter = 'none';
     document.body.style.backgroundColor = 'transparent';
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundSize = '';

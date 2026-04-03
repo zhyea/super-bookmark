@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <div class="bookmark-page-overlay" aria-hidden="true" :style="overlayLayerStyle" />
     <header class="header">
       <PrimaryNavBar
         :nav-data="state.navData"
@@ -43,7 +42,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, provide, computed, watch, onMounted, nextTick, inject } from 'vue';
+import { computed, reactive, ref, provide, watch, onMounted, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PrimaryNavBar from '../nav/PrimaryNavBar.vue';
 import SecondaryNavBar from '../nav/SecondaryNavBar.vue';
@@ -58,20 +57,6 @@ import { getCurrentPrimary, getCurrentSecondary } from '../../utils/bookmarkRend
 import { initBookmarkPage } from '../../composables/useBookmarkPage.js';
 
 const { t } = useI18n();
-
-const simpleUi = inject('simpleUi');
-if (!simpleUi) throw new Error('simpleUi missing (provided by App)');
-
-const overlayLayerStyle = computed(() => {
-  const a = Math.max(0, Math.min(100, Number(simpleUi.overlayOpacity) || 0)) / 100;
-  const blur = Math.max(0, Math.min(32, Number(simpleUi.overlayBlurPx) || 0));
-  const bf = blur > 0 ? `blur(${blur}px)` : 'none';
-  return {
-    backgroundColor: `rgba(0, 0, 0, ${a})`,
-    backdropFilter: bf,
-    WebkitBackdropFilter: bf
-  };
-});
 
 const state = reactive({
   navData: [],
@@ -194,12 +179,5 @@ onMounted(() => {
 .container {
   position: relative;
   z-index: 1;
-}
-
-.bookmark-page-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
 }
 </style>

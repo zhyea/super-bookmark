@@ -17,10 +17,10 @@ export function presetMatchesColor(hex) {
     });
 }
 
-/** 极简书签搜索结果卡片文字色，默认与原先样式一致 */
+/** 极简书签搜索结果卡片文字色（极简页默认 #dddddd） */
 export function normalizeBookmarkCardTextColor(hex) {
-    if (!hex || typeof hex !== 'string') return '#1f2937';
+    if (!hex || typeof hex !== 'string') return '#dddddd';
     const h = hex.trim();
     if (/^#[0-9a-fA-F]{6}$/.test(h)) return h.toLowerCase();
-    return '#1f2937';
+    return '#dddddd';
 }

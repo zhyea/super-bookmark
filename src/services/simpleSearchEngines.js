@@ -1,34 +1,30 @@
 /**
  * 极简搜索页：可选搜索引擎目录（图标见 public/assets/imgs/search-engine/*.svg）
  */
+/** 显示名见 i18n：simpleEngine_{key} */
 export const SIMPLE_ENGINE_CATALOG = [
     {
         key: 'google',
-        label: 'Google',
         domain: 'www.google.com',
         url: 'https://www.google.com/search?q='
     },
     {
         key: 'baidu',
-        label: '百度',
         domain: 'www.baidu.com',
         url: 'https://www.baidu.com/s?wd='
     },
     {
         key: 'bing',
-        label: '必应',
         domain: 'www.bing.com',
         url: 'https://www.bing.com/search?q='
     },
     {
         key: 'sogou',
-        label: '搜狗',
         domain: 'www.sogou.com',
         url: 'https://www.sogou.com/web?query='
     },
     {
         key: 'yandex',
-        label: 'Yandex',
         domain: 'yandex.com',
         url: 'https://yandex.com/search/?text='
     }
