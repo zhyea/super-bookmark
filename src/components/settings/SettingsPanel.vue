@@ -204,22 +204,6 @@
                         </div>
                     </div>
                     <div v-if="uiMode !== 'simple'" class="settings-row settings-row-range">
-                        <div class="settings-range-label">{{ t('settingsBgTransparency') }}：{{ backgroundTransparencyLocal }}%</div>
-                        <input
-                            v-model.number="backgroundTransparencyLocal"
-                            type="range"
-                            class="settings-range-input"
-                            min="0"
-                            max="100"
-                            step="1"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            :aria-valuenow="backgroundTransparencyLocal"
-                            :aria-label="t('settingsBgTransparency')"
-                            @input="onBackgroundTransparencyInput"
-                        />
-                    </div>
-                    <div v-if="uiMode !== 'simple'" class="settings-row settings-row-range">
                         <div class="settings-range-label">{{ t('settingsContentTransparency') }}：{{ contentChromeTransparencyLocal }}%</div>
                         <input
                             v-model.number="contentChromeTransparencyLocal"
@@ -233,6 +217,38 @@
                             :aria-valuenow="contentChromeTransparencyLocal"
                             :aria-label="t('settingsContentTransparency')"
                             @input="onContentChromeTransparencyInput"
+                        />
+                    </div>
+                    <div class="settings-row settings-row-range">
+                        <div class="settings-range-label">{{ t('settingsOverlayTransparency') }}：{{ simpleOverlayOpacityLocal }}%</div>
+                        <input
+                            v-model.number="simpleOverlayOpacityLocal"
+                            type="range"
+                            class="settings-range-input"
+                            min="0"
+                            max="100"
+                            step="1"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            :aria-valuenow="simpleOverlayOpacityLocal"
+                            :aria-label="t('settingsOverlayTransparency')"
+                            @input="persistSimpleSearchAppearancePanel"
+                        />
+                    </div>
+                    <div class="settings-row settings-row-range">
+                        <div class="settings-range-label">{{ t('settingsOverlayBlur') }}：{{ simpleOverlayBlurLocal }}px</div>
+                        <input
+                            v-model.number="simpleOverlayBlurLocal"
+                            type="range"
+                            class="settings-range-input"
+                            min="0"
+                            max="32"
+                            step="1"
+                            aria-valuemin="0"
+                            aria-valuemax="32"
+                            :aria-valuenow="simpleOverlayBlurLocal"
+                            :aria-label="t('settingsOverlayBlur')"
+                            @input="persistSimpleSearchAppearancePanel"
                         />
                     </div>
                     <div v-if="uiMode === 'simple'" class="settings-row settings-row-inline settings-simple-text-color-row">
@@ -281,30 +297,6 @@
                             type="range"
                             min="10"
                             max="100"
-                            step="1"
-                            class="settings-range-input"
-                            @input="persistSimpleSearchAppearancePanel"
-                        />
-                    </div>
-                    <div class="settings-row settings-row-range">
-                        <div class="settings-range-label">背景遮罩透明度：{{ simpleOverlayOpacityLocal }}%</div>
-                        <input
-                            v-model.number="simpleOverlayOpacityLocal"
-                            type="range"
-                            min="0"
-                            max="100"
-                            step="1"
-                            class="settings-range-input"
-                            @input="persistSimpleSearchAppearancePanel"
-                        />
-                    </div>
-                    <div class="settings-row settings-row-range">
-                        <div class="settings-range-label">背景遮罩模糊：{{ simpleOverlayBlurLocal }}px</div>
-                        <input
-                            v-model.number="simpleOverlayBlurLocal"
-                            type="range"
-                            min="0"
-                            max="32"
                             step="1"
                             class="settings-range-input"
                             @input="persistSimpleSearchAppearancePanel"
@@ -397,6 +389,7 @@ import { useI18n } from 'vue-i18n';
 import {
     CONTENT_WIDTH_PERCENT_MIN,
     CONTENT_WIDTH_PERCENT_MAX,
+    CONTENT_WIDTH_PERCENT_DEFAULT,
     BACKGROUND_COLORS,
     maxColumnsForContentWidthPercent,
     clampContentWidthPercent,
@@ -530,9 +523,8 @@ function flushDebouncedSimplePersist() {
 
 const replaceNewTab = ref(false);
 const showOverviewNav = ref(false);
-const backgroundTransparencyLocal = ref(0);
 const contentChromeTransparencyLocal = ref(0);
-const contentWidthPercent = ref(100);
+const contentWidthPercent = ref(CONTENT_WIDTH_PERCENT_DEFAULT);
 const viewportW = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
 const columns = ref(3);
 const pickerValue = ref('#e8f4fc');
@@ -606,7 +598,7 @@ function syncFromAppRuntime() {
     simpleModeOn.value = !!w.useSimplePage;
     replaceNewTab.value = !!w.replaceDefaultNewTab;
     showOverviewNav.value = !!w.showOverviewAllNav;
-    contentWidthPercent.value = clampContentWidthPercent(w.contentWidthPercent ?? 100);
+    contentWidthPercent.value = clampContentWidthPercent(w.contentWidthPercent ?? CONTENT_WIDTH_PERCENT_DEFAULT);
     let c = [3, 4, 5].includes(parseInt(w.columns, 10)) ? parseInt(w.columns, 10) : 3;
     const mc = maxColumnsForContentWidthPercent(contentWidthPercent.value, viewportW.value);
     if (c > mc) c = mc;
@@ -615,28 +607,11 @@ function syncFromAppRuntime() {
     pickerValue.value = nh;
     useCustomBg.value = !presetMatchesColor(nh);
     {
-        const tr = Number(w.backgroundTransparency);
-        if (Number.isFinite(tr) && tr >= 0 && tr <= 100) {
-            backgroundTransparencyLocal.value = Math.round(tr);
-        } else {
-            const op = Number(w.backgroundOpacity);
-            backgroundTransparencyLocal.value =
-                Number.isFinite(op) && op >= 0 && op <= 100 ? Math.round(100 - op) : 0;
-        }
-    }
-    {
         const ct = Number(w.contentChromeTransparency);
         contentChromeTransparencyLocal.value =
             Number.isFinite(ct) && ct >= 0 && ct <= 100 ? Math.round(ct) : 0;
     }
     syncSimpleSearchFieldsFromRuntime();
-}
-
-function onBackgroundTransparencyInput() {
-    const v = Math.max(0, Math.min(100, Math.round(Number(backgroundTransparencyLocal.value) || 0)));
-    backgroundTransparencyLocal.value = v;
-    persistSettings({ backgroundTransparency: v });
-    scheduleLayoutEffects();
 }
 
 function onContentChromeTransparencyInput() {
@@ -772,7 +747,6 @@ function applySettings() {
         columns: col,
         contentWidthPercent: p,
         backgroundColor: bg,
-        backgroundTransparency: Math.max(0, Math.min(100, Math.round(Number(backgroundTransparencyLocal.value) || 0))),
         contentChromeTransparency: Math.max(0, Math.min(100, Math.round(Number(contentChromeTransparencyLocal.value) || 0))),
         backgroundImage: s().backgroundImage || '',
         disableDefaultBg: s().disableDefaultBg === true,

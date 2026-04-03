@@ -5,7 +5,8 @@ import {
     CONTENT_WIDTH_VALUES,
     normalizeContentWidthPercentFromStorage,
     maxColumnsForContentWidthPercent,
-    clampContentWidthPercent
+    clampContentWidthPercent,
+    CONTENT_WIDTH_PERCENT_DEFAULT
 } from './settingsConstants.js';
 import { normalizeHex, normalizeBookmarkCardTextColor } from './settingsUtils.js';
 import { appRuntime } from './appRuntime.js';
@@ -28,14 +29,6 @@ function rgbaFromHex(hex, alpha) {
     const rgb = hexToRgb(hex);
     const a = Math.max(0, Math.min(1, alpha));
     return 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + a + ')';
-}
-
-function normalizeBackgroundTransparency(s) {
-    const t = Number(s.backgroundTransparency);
-    if (Number.isFinite(t) && t >= 0 && t <= 100) return Math.round(t);
-    const op = Number(s.backgroundOpacity);
-    if (Number.isFinite(op) && op >= 0 && op <= 100) return Math.round(100 - op);
-    return 0;
 }
 
 function normalizeContentChromeTransparency(s) {
@@ -145,7 +138,6 @@ function loadSettings(cb) {
                     ? Math.round(Number(s.simpleSearchBorderRadiusPx))
                     : 32,
             simpleBookmarkCardTextColor: normalizeBookmarkCardTextColor(s.simpleBookmarkCardTextColor),
-            backgroundTransparency: normalizeBackgroundTransparency(s),
             contentChromeTransparency: normalizeContentChromeTransparency(s)
         };
         if (typeof document !== 'undefined' && document.body) {
@@ -170,7 +162,7 @@ function applyContentWidthAndBackground() {
     if (!s) return;
     const root = document.documentElement;
     if (root) {
-        const p = clampContentWidthPercent(s.contentWidthPercent ?? 100);
+        const p = clampContentWidthPercent(s.contentWidthPercent ?? CONTENT_WIDTH_PERCENT_DEFAULT);
         root.style.setProperty('--content-width-percent', String(p));
     }
     const container = document.querySelector('.container');
@@ -199,9 +191,7 @@ function applyContentWidthAndBackground() {
         backdrop.style.backgroundPosition = '';
         backdrop.style.backgroundRepeat = '';
     }
-    const tr = Number(s.backgroundTransparency);
-    const transparencyPct = Number.isFinite(tr) && tr >= 0 && tr <= 100 ? Math.round(tr) : 0;
-    backdrop.style.opacity = String(1 - transparencyPct / 100);
+    backdrop.style.opacity = '1';
     document.body.style.backgroundColor = 'transparent';
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundSize = '';

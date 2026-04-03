@@ -6,11 +6,13 @@ export const CONTENT_WIDTH_VALUES = ['full', '1200', '960', '800'];
 
 export const CONTENT_WIDTH_PERCENT_MIN = 50;
 export const CONTENT_WIDTH_PERCENT_MAX = 100;
+/** 新用户 / 无存储时的默认内容宽度（视口百分比） */
+export const CONTENT_WIDTH_PERCENT_DEFAULT = 70;
 export const CONTENT_WIDTH_MIN_PX = 400;
 
 export function clampContentWidthPercent(p) {
     const n = Math.round(Number(p));
-    if (!Number.isFinite(n)) return 100;
+    if (!Number.isFinite(n)) return CONTENT_WIDTH_PERCENT_DEFAULT;
     return Math.min(CONTENT_WIDTH_PERCENT_MAX, Math.max(CONTENT_WIDTH_PERCENT_MIN, n));
 }
 
@@ -28,7 +30,7 @@ export function normalizeContentWidthPercentFromStorage(s) {
     if (w === '1200') return 100;
     if (w === '960') return 80;
     if (w === '800') return 67;
-    return 100;
+    return CONTENT_WIDTH_PERCENT_DEFAULT;
 }
 
 /** 视口比例 + 最小 400px 下的内容区 max-width（px） */
@@ -94,6 +96,7 @@ export const SettingsPanelTemplate = {
     CONTENT_WIDTH_VALUES,
     CONTENT_WIDTH_PERCENT_MIN,
     CONTENT_WIDTH_PERCENT_MAX,
+    CONTENT_WIDTH_PERCENT_DEFAULT,
     BACKGROUND_COLORS,
     maxColumnsForContentWidth,
     maxColumnsForContentWidthPercent,

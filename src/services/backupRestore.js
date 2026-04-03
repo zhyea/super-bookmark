@@ -412,9 +412,8 @@ import { BookmarkManager as BM } from './bookmarks.js';
             const defaults = {
                 showActions: false,
                 columns: 3,
-                contentWidthPercent: 100,
+                contentWidthPercent: 70,
                 backgroundColor: '#e8f4fc',
-                backgroundTransparency: 0,
                 contentChromeTransparency: 0,
                 backgroundImage: '',
                 disableDefaultBg: false,
