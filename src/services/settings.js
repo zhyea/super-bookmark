@@ -8,7 +8,12 @@ import {
     clampContentWidthPercent,
     CONTENT_WIDTH_PERCENT_DEFAULT
 } from './settingsConstants.js';
-import { normalizeHex, normalizeBookmarkCardTextColor } from './settingsUtils.js';
+import {
+    normalizeHex,
+    normalizeBookmarkCardTextColor,
+    normalizeSimpleOverlayBlurStored,
+    overlayBlurPercentToFilterPx
+} from './settingsUtils.js';
 import { appRuntime } from './appRuntime.js';
 import { normalizeCustomEngines, normalizeQuickEngineKeys } from './simpleSearchEngines.js';
 
@@ -51,34 +56,33 @@ function applyLayoutChromeSurfaces(s) {
     const mainEl = document.querySelector('.main-content');
     const footerEl = document.querySelector('.footer');
     const sidebarEl = document.querySelector('.sidebar');
-    const blurRaw = Number(s.simpleOverlayBlurPx);
-    const blur = Number.isFinite(blurRaw) && blurRaw >= 0 && blurRaw <= 32 ? Math.round(blurRaw) : 0;
-    const blurValue = blur > 0 ? 'blur(' + blur + 'px)' : 'none';
+    /* 默认模式下整屏模糊由 #page-bg-blur-layer 承担（与背景透明度同范围）；此处仅铺半透明色，勿再叠局部 backdrop-filter */
+    const noBlur = 'none';
     if (containerEl) {
         containerEl.style.backgroundColor = rgbaFromHex(containerHex, alpha);
-        containerEl.style.backdropFilter = blurValue;
-        containerEl.style.webkitBackdropFilter = blurValue;
+        containerEl.style.backdropFilter = noBlur;
+        containerEl.style.webkitBackdropFilter = noBlur;
     }
     if (headerEl) {
         headerEl.style.backgroundColor = rgbaFromHex(headerHex, alpha);
-        headerEl.style.backdropFilter = blurValue;
-        headerEl.style.webkitBackdropFilter = blurValue;
+        headerEl.style.backdropFilter = noBlur;
+        headerEl.style.webkitBackdropFilter = noBlur;
     }
     /* 中间列表区底色来自 .container，避免与 container 同色的双层半透明叠加发灰 */
     if (mainEl) {
         mainEl.style.backgroundColor = 'transparent';
-        mainEl.style.backdropFilter = blurValue;
-        mainEl.style.webkitBackdropFilter = blurValue;
+        mainEl.style.backdropFilter = noBlur;
+        mainEl.style.webkitBackdropFilter = noBlur;
     }
     if (footerEl) {
         footerEl.style.backgroundColor = rgbaFromHex(footerHex, alpha);
-        footerEl.style.backdropFilter = blurValue;
-        footerEl.style.webkitBackdropFilter = blurValue;
+        footerEl.style.backdropFilter = noBlur;
+        footerEl.style.webkitBackdropFilter = noBlur;
     }
     if (sidebarEl) {
         sidebarEl.style.backgroundColor = rgbaFromHex(sidebarHex, alpha);
-        sidebarEl.style.backdropFilter = blurValue;
-        sidebarEl.style.webkitBackdropFilter = blurValue;
+        sidebarEl.style.backdropFilter = noBlur;
+        sidebarEl.style.webkitBackdropFilter = noBlur;
     }
 }
 
@@ -90,6 +94,24 @@ function ensurePageBgBackdrop() {
         el.className = 'page-bg-backdrop';
         el.setAttribute('aria-hidden', 'true');
         document.body.insertBefore(el, document.body.firstChild);
+    }
+    return el;
+}
+
+/** 默认模式：整屏 backdrop-filter，叠在 #page-bg-backdrop 之上、#app 之下，与「背景透明度」作用范围一致；极简模式隐藏（由 SimpleMinimalLayout 自行模糊） */
+function ensurePageBgBlurLayer() {
+    let el = document.getElementById('page-bg-blur-layer');
+    if (!el) {
+        el = document.createElement('div');
+        el.id = 'page-bg-blur-layer';
+        el.className = 'page-bg-blur-layer';
+        el.setAttribute('aria-hidden', 'true');
+        const backdrop = document.getElementById('page-bg-backdrop');
+        if (backdrop && backdrop.parentNode) {
+            backdrop.parentNode.insertBefore(el, backdrop.nextSibling);
+        } else {
+            document.body.insertBefore(el, document.body.firstChild);
+        }
     }
     return el;
 }
@@ -150,10 +172,8 @@ function loadSettings(cb) {
                 Number.isFinite(Number(s.simpleOverlayOpacity)) && Number(s.simpleOverlayOpacity) >= 0 && Number(s.simpleOverlayOpacity) <= 100
                     ? Math.round(Number(s.simpleOverlayOpacity))
                     : 0,
-            simpleOverlayBlurPx:
-                Number.isFinite(Number(s.simpleOverlayBlurPx)) && Number(s.simpleOverlayBlurPx) >= 0 && Number(s.simpleOverlayBlurPx) <= 32
-                    ? Math.round(Number(s.simpleOverlayBlurPx))
-                    : 0,
+            /* 键名沿用 simpleOverlayBlurPx，语义为 0–100（与 simpleOverlayOpacity 一致）；旧版存 0–32 的像素值会在读取时换算 */
+            simpleOverlayBlurPx: normalizeSimpleOverlayBlurStored(s.simpleOverlayBlurPx),
             simpleSearchBorderRadiusPx:
                 Number.isFinite(Number(s.simpleSearchBorderRadiusPx)) &&
                 Number(s.simpleSearchBorderRadiusPx) >= 0 &&
@@ -218,8 +238,22 @@ function applyContentWidthAndBackground() {
     const bgTrans = Number(s.simpleOverlayOpacity);
     const t = Number.isFinite(bgTrans) && bgTrans >= 0 && bgTrans <= 100 ? bgTrans : 0;
     backdrop.style.opacity = String(1 - t / 100);
-    /* 背景模糊度：磨砂玻璃效果由 applyLayoutChromeSurfaces 控制（backdrop-filter）；背景层本身不再做 blur */
     backdrop.style.filter = 'none';
+
+    const blurLayer = ensurePageBgBlurLayer();
+    if (s.useSimplePage === true) {
+        blurLayer.style.display = 'none';
+        blurLayer.style.backdropFilter = 'none';
+        blurLayer.style.webkitBackdropFilter = 'none';
+    } else {
+        blurLayer.style.display = '';
+        const blurPct = Number(s.simpleOverlayBlurPx);
+        const blurP = Number.isFinite(blurPct) && blurPct >= 0 && blurPct <= 100 ? Math.round(blurPct) : 0;
+        const blurPx = overlayBlurPercentToFilterPx(blurP);
+        const blurVal = blurPx > 0 ? 'blur(' + blurPx + 'px)' : 'none';
+        blurLayer.style.backdropFilter = blurVal;
+        blurLayer.style.webkitBackdropFilter = blurVal;
+    }
     document.body.style.backgroundColor = 'transparent';
     document.body.style.backgroundImage = 'none';
     document.body.style.backgroundSize = '';

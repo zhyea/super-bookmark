@@ -236,16 +236,16 @@
                         />
                     </div>
                     <div class="settings-row settings-row-range">
-                        <div class="settings-range-label">{{ t('settingsOverlayBlur') }}：{{ simpleOverlayBlurLocal }}px</div>
+                        <div class="settings-range-label">{{ t('settingsOverlayBlur') }}：{{ simpleOverlayBlurLocal }}%</div>
                         <input
                             v-model.number="simpleOverlayBlurLocal"
                             type="range"
                             class="settings-range-input"
                             min="0"
-                            max="32"
+                            max="100"
                             step="1"
                             aria-valuemin="0"
-                            aria-valuemax="32"
+                            aria-valuemax="100"
                             :aria-valuenow="simpleOverlayBlurLocal"
                             :aria-label="t('settingsOverlayBlur')"
                             @input="persistSimpleSearchAppearancePanel"
@@ -509,7 +509,7 @@ function flushDebouncedSimplePersist() {
         simpleAppearStorageTimer = null;
         const searchOp = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
         const o = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
-        const b = Math.max(0, Math.min(32, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+        const b = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
         const raw = Number(simpleSearchRadiusLocal.value);
         const r = Math.max(0, Math.min(40, Number.isFinite(raw) ? Math.round(raw) : 32));
         persistSettings({
@@ -570,7 +570,7 @@ function syncSimpleSearchFieldsFromRuntime() {
             ? Math.round(Number(w.simpleOverlayOpacity))
             : 0;
     simpleOverlayBlurLocal.value =
-        Number.isFinite(Number(w.simpleOverlayBlurPx)) && Number(w.simpleOverlayBlurPx) >= 0 && Number(w.simpleOverlayBlurPx) <= 32
+        Number.isFinite(Number(w.simpleOverlayBlurPx)) && Number(w.simpleOverlayBlurPx) >= 0 && Number(w.simpleOverlayBlurPx) <= 100
             ? Math.round(Number(w.simpleOverlayBlurPx))
             : 0;
     simpleSearchRadiusLocal.value =
@@ -652,7 +652,7 @@ function onSimpleBookmarkCardTextColorPick() {
 function persistSimpleSearchAppearancePanel() {
     const searchOp = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
     const o = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
-    const b = Math.max(0, Math.min(32, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+    const b = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
     const raw = Number(simpleSearchRadiusLocal.value);
     const r = Math.max(0, Math.min(40, Number.isFinite(raw) ? Math.round(raw) : 32));
     simpleSearchOpacityLocal.value = searchOp;
@@ -679,7 +679,7 @@ function persistSimpleSearchAppearancePanel() {
         simpleAppearStorageTimer = null;
         const so = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
         const o2 = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
-        const b2 = Math.max(0, Math.min(32, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+        const b2 = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
         const raw2 = Number(simpleSearchRadiusLocal.value);
         const r2 = Math.max(0, Math.min(40, Number.isFinite(raw2) ? Math.round(raw2) : 32));
         persistSettings({

@@ -36,7 +36,7 @@
           @mousedown.prevent
         >
           <li v-for="b in bookmarkSuggestions" :key="b.id" role="option">
-            <button type="button" class="bookmark-suggest-item" :style="bookmarkCrystalCardTextStyle" @mousedown.prevent="pickBookmarkSuggestion(b)">
+            <button type="button" class="bookmark-suggest-item" @mousedown.prevent="pickBookmarkSuggestion(b)">
               {{ b.title }}
             </button>
           </li>
@@ -794,10 +794,13 @@ function removeCustomEngine(key) {
   background: transparent;
   padding: 10px 14px;
   font-size: 15px;
-  color: #dddddd;
+  color: #1f2937;
   cursor: pointer;
 }
-.bookmark-suggest-item:hover { background: #f3f4f6; }
+.bookmark-suggest-item:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
 .bookmark-result-block {
   margin-top: 12px;
   width: 100%;
