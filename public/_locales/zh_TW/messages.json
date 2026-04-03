@@ -1,0 +1,686 @@
+{
+  "extName": {
+    "message": "超級書籤 SuperBookmark",
+    "description": "Extension name shown in browser and Chrome Web Store."
+  },
+  "extDescription": {
+    "message": "在新分頁中整理書籤與搜尋，打造私人導航首頁。",
+    "description": "Short description for manifest and store listing."
+  },
+  "pageTitle": {
+    "message": "超級書籤 SuperBookmark",
+    "description": "UI string: pageTitle"
+  },
+  "loading": {
+    "message": "正在載入書籤…",
+    "description": "UI string: loading"
+  },
+  "emptyState": {
+    "message": "尚無資料。請在瀏覽器書籤列建立資料夾並新增書籤。",
+    "description": "UI string: emptyState"
+  },
+  "footer": {
+    "message": "© 2026 SuperBookmark. 保留所有權利.",
+    "description": "UI string: footer"
+  },
+  "navPrimaryAria": {
+    "message": "一級書籤目錄（多個根目錄時顯示）",
+    "description": "UI string: navPrimaryAria"
+  },
+  "navSecondaryAria": {
+    "message": "二級選單（頂部）",
+    "description": "UI string: navSecondaryAria"
+  },
+  "sidebarAria": {
+    "message": "側邊選單",
+    "description": "UI string: sidebarAria"
+  },
+  "searchPlaceholder": {
+    "message": "書籤搜尋",
+    "description": "UI string: searchPlaceholder"
+  },
+  "searchBtn": {
+    "message": "搜尋",
+    "description": "UI string: searchBtn"
+  },
+  "tagAll": {
+    "message": "全部",
+    "description": "UI string: tagAll"
+  },
+  "uncategorized": {
+    "message": "未分類",
+    "description": "UI string: uncategorized"
+  },
+  "overviewAllNav": {
+    "message": "全部",
+    "description": "UI string: overviewAllNav"
+  },
+  "settingsShowOverviewAllNav": {
+    "message": "顯示頂部「全部」",
+    "description": "UI string: settingsShowOverviewAllNav"
+  },
+  "tagLeft": {
+    "message": "向左捲動",
+    "description": "UI string: tagLeft"
+  },
+  "tagRight": {
+    "message": "向右捲動",
+    "description": "UI string: tagRight"
+  },
+  "scrollAria": {
+    "message": "捲動至頂部或底部",
+    "description": "UI string: scrollAria"
+  },
+  "scrollBottom": {
+    "message": "捲動到底部",
+    "description": "UI string: scrollBottom"
+  },
+  "scrollTop": {
+    "message": "捲動到頂部",
+    "description": "UI string: scrollTop"
+  },
+  "ctxDelete": {
+    "message": "刪除書籤",
+    "description": "UI string: ctxDelete"
+  },
+  "ctxEdit": {
+    "message": "編輯書籤",
+    "description": "UI string: ctxEdit"
+  },
+  "cardDelete": {
+    "message": "刪除",
+    "description": "UI string: cardDelete"
+  },
+  "cardEdit": {
+    "message": "編輯",
+    "description": "UI string: cardEdit"
+  },
+  "settingsAria": {
+    "message": "設定",
+    "description": "UI string: settingsAria"
+  },
+  "simpleGoHome": {
+    "message": "返回導航主頁",
+    "description": "UI string: simpleGoHome"
+  },
+  "settingsEditMode": {
+    "message": "編輯模式",
+    "description": "UI string: settingsEditMode"
+  },
+  "settingsColumns": {
+    "message": "卡片欄數",
+    "description": "UI string: settingsColumns"
+  },
+  "settingsWidth": {
+    "message": "內容寬度",
+    "description": "UI string: settingsWidth"
+  },
+  "settingsBg": {
+    "message": "背景色",
+    "description": "UI string: settingsBg"
+  },
+  "settingsBgImg": {
+    "message": "背景圖",
+    "description": "UI string: settingsBgImg"
+  },
+  "settingsContentTransparency": {
+    "message": "內容透明度",
+    "description": "UI string: settingsContentTransparency"
+  },
+  "settingsOverlayTransparency": {
+    "message": "背景透明度",
+    "description": "UI string: settingsOverlayTransparency"
+  },
+  "settingsOverlayBlur": {
+    "message": "背景模糊度",
+    "description": "UI string: settingsOverlayBlur"
+  },
+  "settingsNewTab": {
+    "message": "取代預設新分頁",
+    "description": "UI string: settingsNewTab"
+  },
+  "settingsLang": {
+    "message": "介面語言",
+    "description": "UI string: settingsLang"
+  },
+  "settingsNightTheme": {
+    "message": "夜間主題",
+    "description": "UI string: settingsNightTheme"
+  },
+  "settingsTitle": {
+    "message": "設定",
+    "description": "UI string: settingsTitle"
+  },
+  "settingsGroupGeneral": {
+    "message": "通用",
+    "description": "UI string: settingsGroupGeneral"
+  },
+  "settingsGroupView": {
+    "message": "檢視",
+    "description": "UI string: settingsGroupView"
+  },
+  "settingsSimpleBookmarkCardTextColor": {
+    "message": "書籤卡片文字顏色",
+    "description": "UI string: settingsSimpleBookmarkCardTextColor"
+  },
+  "settingsSimpleBookmarkCardTextColorPick": {
+    "message": "選擇書籤卡片文字顏色",
+    "description": "UI string: settingsSimpleBookmarkCardTextColorPick"
+  },
+  "settingsModeGroupAria": {
+    "message": "頁面模式",
+    "description": "UI string: settingsModeGroupAria"
+  },
+  "settingsModeSimple": {
+    "message": "極簡模式",
+    "description": "UI string: settingsModeSimple"
+  },
+  "settingsModeDefault": {
+    "message": "預設模式",
+    "description": "UI string: settingsModeDefault"
+  },
+  "settingsModeEdit": {
+    "message": "編輯模式",
+    "description": "UI string: settingsModeEdit"
+  },
+  "settingsGroupSimpleSearch": {
+    "message": "搜尋框",
+    "description": "UI string: settingsGroupSimpleSearch"
+  },
+  "settingsSimpleSearchScale": {
+    "message": "搜尋框大小",
+    "description": "UI string: settingsSimpleSearchScale"
+  },
+  "settingsSimpleSearchOpacity": {
+    "message": "搜尋框不透明度",
+    "description": "UI string: settingsSimpleSearchOpacity"
+  },
+  "settingsSimpleSearchRadius": {
+    "message": "搜尋框圓角",
+    "description": "UI string: settingsSimpleSearchRadius"
+  },
+  "simpleUiDrawerTitle": {
+    "message": "搜尋設定",
+    "description": "UI string: simpleUiDrawerTitle"
+  },
+  "simpleUiClose": {
+    "message": "關閉",
+    "description": "UI string: simpleUiClose"
+  },
+  "simpleUiTabDefault": {
+    "message": "預設",
+    "description": "UI string: simpleUiTabDefault"
+  },
+  "simpleUiTabCustom": {
+    "message": "自訂",
+    "description": "UI string: simpleUiTabCustom"
+  },
+  "simpleUiBuiltinEngines": {
+    "message": "預設可用搜尋引擎",
+    "description": "UI string: simpleUiBuiltinEngines"
+  },
+  "simpleUiEngineQuickBar": {
+    "message": "{name} 在快捷列顯示",
+    "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "simpleUiAddEngineTitle": {
+    "message": "新增搜尋引擎",
+    "description": "UI string: simpleUiAddEngineTitle"
+  },
+  "simpleUiEditEngineTitle": {
+    "message": "編輯搜尋引擎",
+    "description": "UI string: simpleUiEditEngineTitle"
+  },
+  "simpleUiNamePh": {
+    "message": "名稱",
+    "description": "UI string: simpleUiNamePh"
+  },
+  "simpleUiUrlHint": {
+    "message": "網址（以 %s 取代搜尋字詞；圖示由網址自動取得 favicon）",
+    "description": "UI string: simpleUiUrlHint"
+  },
+  "simpleUiUrlPh": {
+    "message": "https://example.com/search?q=%s",
+    "description": "UI string: simpleUiUrlPh"
+  },
+  "simpleUiBtnSave": {
+    "message": "儲存修改",
+    "description": "UI string: simpleUiBtnSave"
+  },
+  "simpleUiBtnAdd": {
+    "message": "新增搜尋引擎",
+    "description": "UI string: simpleUiBtnAdd"
+  },
+  "simpleUiCancelEdit": {
+    "message": "取消編輯",
+    "description": "UI string: simpleUiCancelEdit"
+  },
+  "simpleUiCustomEnginesTitle": {
+    "message": "自訂搜尋引擎",
+    "description": "UI string: simpleUiCustomEnginesTitle"
+  },
+  "simpleUiEdit": {
+    "message": "編輯",
+    "description": "UI string: simpleUiEdit"
+  },
+  "simpleUiDelete": {
+    "message": "刪除",
+    "description": "UI string: simpleUiDelete"
+  },
+  "simpleUiQuickBookmarks": {
+    "message": "書籤",
+    "description": "UI string: simpleUiQuickBookmarks"
+  },
+  "simpleUiQuickAdd": {
+    "message": "新增",
+    "description": "UI string: simpleUiQuickAdd"
+  },
+  "simpleUiBookmarkSearchTip": {
+    "message": "書籤搜尋",
+    "description": "UI string: simpleUiBookmarkSearchTip"
+  },
+  "simpleUiSearchFallback": {
+    "message": "搜尋",
+    "description": "UI string: simpleUiSearchFallback"
+  },
+  "simpleUiBookmarksMode": {
+    "message": "書籤",
+    "description": "UI string: simpleUiBookmarksMode"
+  },
+  "simpleUiInvalidUrl": {
+    "message": "請填寫有效的網址",
+    "description": "UI string: simpleUiInvalidUrl"
+  },
+  "simpleUiErrorIncomplete": {
+    "message": "請填寫：{list}",
+    "description": "UI string: simpleUiErrorIncomplete"
+  },
+  "simpleUiFieldName": {
+    "message": "名稱",
+    "description": "UI string: simpleUiFieldName"
+  },
+  "simpleUiFieldUrl": {
+    "message": "網址",
+    "description": "UI string: simpleUiFieldUrl"
+  },
+  "simpleUiListSep": {
+    "message": "、",
+    "description": "UI string: simpleUiListSep"
+  },
+  "simpleEngine_google": {
+    "message": "Google",
+    "description": "UI string: simpleEngine_google"
+  },
+  "simpleEngine_baidu": {
+    "message": "百度",
+    "description": "UI string: simpleEngine_baidu"
+  },
+  "simpleEngine_bing": {
+    "message": "必應",
+    "description": "UI string: simpleEngine_bing"
+  },
+  "simpleEngine_sogou": {
+    "message": "搜狗",
+    "description": "UI string: simpleEngine_sogou"
+  },
+  "simpleEngine_yandex": {
+    "message": "Yandex",
+    "description": "UI string: simpleEngine_yandex"
+  },
+  "settingsGroupManage": {
+    "message": "管理",
+    "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupBackup": {
+    "message": "備份與重設",
+    "description": "UI string: settingsGroupBackup"
+  },
+  "settingsBackupActions": {
+    "message": "備份操作",
+    "description": "UI string: settingsBackupActions"
+  },
+  "backupRestoreDefault": {
+    "message": "恢復預設",
+    "description": "UI string: backupRestoreDefault"
+  },
+  "backupExport": {
+    "message": "匯出備份",
+    "description": "UI string: backupExport"
+  },
+  "backupImport": {
+    "message": "匯入備份",
+    "description": "UI string: backupImport"
+  },
+  "settingsColumnDisabled": {
+    "message": "目前內容寬度不足以顯示該欄數",
+    "description": "UI string: settingsColumnDisabled"
+  },
+  "backupPwdExport": {
+    "message": "請輸入備份密碼（可留空；留空則使用內建金鑰）：",
+    "description": "UI string: backupPwdExport"
+  },
+  "backupPwdImport": {
+    "message": "請輸入備份密碼（若匯出時未設定請直接按確定）：",
+    "description": "UI string: backupPwdImport"
+  },
+  "backupExportDone": {
+    "message": "已匯出 .zhx 備份檔。",
+    "description": "UI string: backupExportDone"
+  },
+  "backupImportDone": {
+    "message": "匯入完成。已依備份增量合併書籤（未刪除本機既有項目），設定與標籤資料已合併。",
+    "description": "UI string: backupImportDone"
+  },
+  "backupRestoreDone": {
+    "message": "已恢復預設並清除擴充功能內的標籤、顏色與描述資料。",
+    "description": "UI string: backupRestoreDone"
+  },
+  "backupConfirmRestore": {
+    "message": "將重設所有設定為預設值，並清除標籤、圖示顏色與描述（不會刪除瀏覽器書籤）。是否繼續？",
+    "description": "UI string: backupConfirmRestore"
+  },
+  "backupConfirmImport": {
+    "message": "將依備份增量合併書籤：以 id／相同連結／相同名稱比對並更新，其餘新建；不會刪除本機既有書籤。擴充設定將採用備份中的值，標籤等資料將與本機合併（備份優先）。是否繼續？",
+    "description": "UI string: backupConfirmImport"
+  },
+  "backupFail": {
+    "message": "操作失敗：",
+    "description": "UI string: backupFail"
+  },
+  "backupWrongPwd": {
+    "message": "解密失敗，請檢查密碼或檔案是否損毀。",
+    "description": "UI string: backupWrongPwd"
+  },
+  "settingsGroupAbout": {
+    "message": "關於",
+    "description": "UI string: settingsGroupAbout"
+  },
+  "on": {
+    "message": "開",
+    "description": "UI string: on"
+  },
+  "off": {
+    "message": "關",
+    "description": "UI string: off"
+  },
+  "bgPickTitle": {
+    "message": "自訂顏色",
+    "description": "UI string: bgPickTitle"
+  },
+  "bgPickAria": {
+    "message": "自訂背景色",
+    "description": "UI string: bgPickAria"
+  },
+  "chooseImg": {
+    "message": "選擇圖片",
+    "description": "UI string: chooseImg"
+  },
+  "clear": {
+    "message": "清除",
+    "description": "UI string: clear"
+  },
+  "settingsFolderManage": {
+    "message": "書籤分類目錄管理",
+    "description": "UI string: settingsFolderManage"
+  },
+  "settingsVisibleRoots": {
+    "message": "顯示的根目錄",
+    "description": "UI string: settingsVisibleRoots"
+  },
+  "settingsRootOthers": {
+    "message": "其他",
+    "description": "UI string: settingsRootOthers"
+  },
+  "openBookmarkManager": {
+    "message": "開啟書籤管理員",
+    "description": "UI string: openBookmarkManager"
+  },
+  "helpLink": {
+    "message": "使用說明",
+    "description": "UI string: helpLink"
+  },
+  "imgTooBig": {
+    "message": "圖片過大，請選擇小於 3MB 的圖片。",
+    "description": "UI string: imgTooBig"
+  },
+  "langZh": {
+    "message": "简体中文",
+    "description": "UI string: langZh"
+  },
+  "langZhTW": {
+    "message": "繁體中文",
+    "description": "UI string: langZhTW"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "UI string: langEn"
+  },
+  "langEs": {
+    "message": "Español",
+    "description": "UI string: langEs"
+  },
+  "langDe": {
+    "message": "Deutsch",
+    "description": "UI string: langDe"
+  },
+  "langFr": {
+    "message": "Français",
+    "description": "UI string: langFr"
+  },
+  "langJa": {
+    "message": "日本語",
+    "description": "UI string: langJa"
+  },
+  "langKo": {
+    "message": "한국어",
+    "description": "UI string: langKo"
+  },
+  "editTitle": {
+    "message": "編輯卡片",
+    "description": "UI string: editTitle"
+  },
+  "labelTitle": {
+    "message": "標題",
+    "description": "UI string: labelTitle"
+  },
+  "labelFolder": {
+    "message": "所屬目錄",
+    "description": "UI string: labelFolder"
+  },
+  "labelIcon": {
+    "message": "圖示背景色",
+    "description": "UI string: labelIcon"
+  },
+  "labelTags": {
+    "message": "標籤",
+    "description": "UI string: labelTags"
+  },
+  "labelDesc": {
+    "message": "描述",
+    "description": "UI string: labelDesc"
+  },
+  "labelUrl": {
+    "message": "連結",
+    "description": "UI string: labelUrl"
+  },
+  "folderPick": {
+    "message": "請選擇",
+    "description": "UI string: folderPick"
+  },
+  "folderPanelAria": {
+    "message": "選擇目錄",
+    "description": "UI string: folderPanelAria"
+  },
+  "tagInputAria": {
+    "message": "標籤，Enter、空白鍵、Tab 或中英文逗號分隔，最多 3 個，每標籤最多 16 字",
+    "description": "UI string: tagInputAria"
+  },
+  "tagPlaceholder": {
+    "message": "最多 3 個，每標籤最多 16 字",
+    "description": "UI string: tagPlaceholder"
+  },
+  "descPlaceholder": {
+    "message": "選填，最多 100 字",
+    "description": "UI string: descPlaceholder"
+  },
+  "cancel": {
+    "message": "取消",
+    "description": "UI string: cancel"
+  },
+  "save": {
+    "message": "儲存",
+    "description": "UI string: save"
+  },
+  "autoColor": {
+    "message": "自動",
+    "description": "UI string: autoColor"
+  },
+  "autoColorBtn": {
+    "message": "自",
+    "description": "UI string: autoColorBtn"
+  },
+  "colorAria": {
+    "message": "顏色",
+    "description": "UI string: colorAria"
+  },
+  "removeTagAria": {
+    "message": "移除",
+    "description": "UI string: removeTagAria"
+  },
+  "guidePageTitle": {
+    "message": "使用說明",
+    "description": "UI string: guidePageTitle"
+  },
+  "guideH1": {
+    "message": "超級書籤 SuperBookmark · 使用說明",
+    "description": "UI string: guideH1"
+  },
+  "guideIntro": {
+    "message": "本頁說明如何從瀏覽器書籤列組織內容，以及擴充功能內的操作方式。",
+    "description": "UI string: guideIntro"
+  },
+  "g1h": {
+    "message": "一、書籤目錄怎麼建",
+    "description": "UI string: g1h"
+  },
+  "g1p": {
+    "message": "擴充功能會依 Chrome 書籤列的<strong>資料夾層級</strong>自動歸類：",
+    "description": "UI string: g1p"
+  },
+  "g1li1": {
+    "message": "<strong>一級資料夾</strong>：Chrome 書籤的頂層結構，在擴充功能中作為主分類；<strong>有多個頂層書籤根</strong>時可在<strong>頁頂第一行</strong>切換，僅有一個根時不顯示該行。",
+    "description": "UI string: g1li1"
+  },
+  "g1li2": {
+    "message": "<strong>二級資料夾</strong>：選定主分類後，<strong>頁頂第二行</strong>橫向為子分類；若該主分類下沒有二級資料夾，則會以一級名稱作為唯一子類。",
+    "description": "UI string: g1li2"
+  },
+  "g1li3": {
+    "message": "<strong>三級及以下資料夾</strong>：其名稱會作為該書籤的<strong>標籤</strong>顯示在卡片上，便於篩選。",
+    "description": "UI string: g1li3"
+  },
+  "g1note": {
+    "message": "若列表為空，請先在 Chrome 書籤列中建立上述資料夾並新增網址書籤。",
+    "description": "UI string: g1note"
+  },
+  "g2h": {
+    "message": "二、瀏覽與搜尋",
+    "description": "UI string: g2h"
+  },
+  "g2li1": {
+    "message": "多個主分類時先點頁頂第一行切換；再點其下第二行切換子分類。僅一個主分類時只需用第二行。有三級資料夾時左側會出現子夾選單。",
+    "description": "UI string: g2li1"
+  },
+  "g2li2": {
+    "message": "內容區上方的<strong>標籤列</strong>可篩選目前分類下的書籤（含「全部」）。標籤較多時可點左右箭頭橫向捲動。",
+    "description": "UI string: g2li2"
+  },
+  "g2li3": {
+    "message": "頂部搜尋框可依標題、網址及標籤關鍵字篩選目前檢視中的書籤。",
+    "description": "UI string: g2li3"
+  },
+  "g3h": {
+    "message": "三、編輯模式（維護按鈕）",
+    "description": "UI string: g3h"
+  },
+  "g3p": {
+    "message": "在右下角 <strong>⚙ 設定</strong> 中開啟「編輯模式」後，每張卡片會顯示維護按鈕：",
+    "description": "UI string: g3p"
+  },
+  "g3li1": {
+    "message": "<strong>✏️ 編輯</strong>：修改標題、書籤所在資料夾（分類）、自訂標籤（最多 3 個，每標籤最多 16 字）。標籤可用 Enter、空白、Tab 或中英文逗號分隔輸入。",
+    "description": "UI string: g3li1"
+  },
+  "g3li2": {
+    "message": "<strong>🗑 刪除</strong>：從瀏覽器書籤中移除此書籤。",
+    "description": "UI string: g3li2"
+  },
+  "g3li3": {
+    "message": "在卡片上<strong>右鍵</strong>可開啟快捷選單（編輯、刪除等）。",
+    "description": "UI string: g3li3"
+  },
+  "g4h": {
+    "message": "四、拖曳移動書籤",
+    "description": "UI string: g4h"
+  },
+  "g4p": {
+    "message": "開啟編輯模式後，可將卡片<strong>拖到</strong>頁頂主分類（多個根時第一行）、頂部子分類或左側子資料夾上，書籤會移動到對應資料夾（與 Chrome 書籤結構同步）。在同一清單內也可拖曳調整排序。",
+    "description": "UI string: g4p"
+  },
+  "g5h": {
+    "message": "五、設定項說明",
+    "description": "UI string: g5h"
+  },
+  "g5li1": {
+    "message": "<strong>編輯模式</strong>：開／關卡片上的編輯、刪除與拖曳。",
+    "description": "UI string: g5li1"
+  },
+  "g5li2": {
+    "message": "<strong>卡片欄數</strong>：3 / 4 / 5 欄（實際欄數會隨視窗寬度自動調整）。",
+    "description": "UI string: g5li2"
+  },
+  "g5li3": {
+    "message": "<strong>內容寬度</strong>：主區域為視窗寬度的 50%～100%（且不小於 400px），可以滑桿調整。",
+    "description": "UI string: g5li3"
+  },
+  "g5li4": {
+    "message": "<strong>背景色／自選色／背景圖</strong>：頁面背景；背景圖建議較小圖片以節省擴充功能儲存空間。",
+    "description": "UI string: g5li4"
+  },
+  "g5li5": {
+    "message": "<strong>取代預設新分頁</strong>：開啟後，新建分頁將開啟本書籤頁（需在擴充功能中開啟對應選項後生效）。",
+    "description": "UI string: g5li5"
+  },
+  "g5li6": {
+    "message": "<strong>介面語言</strong>：簡體中文、繁體中文、英文、西班牙文、德文、法文、日文、韓文。",
+    "description": "UI string: g5li6"
+  },
+  "guideFoot": {
+    "message": "SuperBookmark · 返回擴充功能主介面請開啟新分頁或點選擴充功能圖示",
+    "description": "UI string: guideFoot"
+  },
+  "bgpBlue": {
+    "message": "淺藍",
+    "description": "UI string: bgpBlue"
+  },
+  "bgpGreen": {
+    "message": "淺綠",
+    "description": "UI string: bgpGreen"
+  },
+  "bgpBeige": {
+    "message": "米色",
+    "description": "UI string: bgpBeige"
+  },
+  "bgpGray": {
+    "message": "淺灰",
+    "description": "UI string: bgpGray"
+  },
+  "bgpWhite": {
+    "message": "純白",
+    "description": "UI string: bgpWhite"
+  },
+  "bgpDark": {
+    "message": "深色",
+    "description": "UI string: bgpDark"
+  }
+}

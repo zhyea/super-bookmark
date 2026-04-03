@@ -1,0 +1,634 @@
+{
+  "extName": {
+    "message": "SuperBookmark",
+    "description": "Extension name shown in browser and Chrome Web Store."
+  },
+  "extDescription": {
+    "message": "Превратите закладки в личный навигационный центр на странице новой вкладки.",
+    "description": "Short description for manifest and store listing."
+  },
+  "pageTitle": {
+    "message": "SuperBookmark",
+    "description": "UI string: pageTitle"
+  },
+  "loading": {
+    "message": "Загрузка закладок…",
+    "description": "UI string: loading"
+  },
+  "emptyState": {
+    "message": "Нет данных. Создайте папки на панели закладок браузера и добавьте ссылки.",
+    "description": "UI string: emptyState"
+  },
+  "footer": {
+    "message": "© 2026 SuperBookmark. Все права защищены.",
+    "description": "UI string: footer"
+  },
+  "navPrimaryAria": {
+    "message": "Корневые папки закладок (если несколько)",
+    "description": "UI string: navPrimaryAria"
+  },
+  "navSecondaryAria": {
+    "message": "Подкатегории (верх)",
+    "description": "UI string: navSecondaryAria"
+  },
+  "sidebarAria": {
+    "message": "Боковое меню",
+    "description": "UI string: sidebarAria"
+  },
+  "searchPlaceholder": {
+    "message": "Поиск закладок",
+    "description": "UI string: searchPlaceholder"
+  },
+  "searchBtn": {
+    "message": "Поиск",
+    "description": "UI string: searchBtn"
+  },
+  "tagAll": {
+    "message": "Все",
+    "description": "UI string: tagAll"
+  },
+  "uncategorized": {
+    "message": "Без категории",
+    "description": "UI string: uncategorized"
+  },
+  "overviewAllNav": {
+    "message": "Все",
+    "description": "UI string: overviewAllNav"
+  },
+  "settingsShowOverviewAllNav": {
+    "message": "Показать обзор «Все» в верхнем меню",
+    "description": "UI string: settingsShowOverviewAllNav"
+  },
+  "tagLeft": {
+    "message": "Прокрутить влево",
+    "description": "UI string: tagLeft"
+  },
+  "tagRight": {
+    "message": "Прокрутить вправо",
+    "description": "UI string: tagRight"
+  },
+  "scrollAria": {
+    "message": "Прокрутка в начало или конец страницы",
+    "description": "UI string: scrollAria"
+  },
+  "scrollBottom": {
+    "message": "В самый низ",
+    "description": "UI string: scrollBottom"
+  },
+  "scrollTop": {
+    "message": "В самый верх",
+    "description": "UI string: scrollTop"
+  },
+  "ctxDelete": {
+    "message": "Удалить закладку",
+    "description": "UI string: ctxDelete"
+  },
+  "ctxEdit": {
+    "message": "Редактировать закладку",
+    "description": "UI string: ctxEdit"
+  },
+  "cardDelete": {
+    "message": "Удалить",
+    "description": "UI string: cardDelete"
+  },
+  "cardEdit": {
+    "message": "Редактировать",
+    "description": "UI string: cardEdit"
+  },
+  "settingsAria": {
+    "message": "Настройки",
+    "description": "UI string: settingsAria"
+  },
+  "simpleGoHome": {
+    "message": "На главную",
+    "description": "UI string: simpleGoHome"
+  },
+  "settingsEditMode": {
+    "message": "Режим редактирования",
+    "description": "UI string: settingsEditMode"
+  },
+  "settingsColumns": {
+    "message": "Колонки",
+    "description": "UI string: settingsColumns"
+  },
+  "settingsWidth": {
+    "message": "Ширина содержимого",
+    "description": "UI string: settingsWidth"
+  },
+  "settingsBg": {
+    "message": "Цвет фона",
+    "description": "UI string: settingsBg"
+  },
+  "settingsBgImg": {
+    "message": "Фоновое изображение",
+    "description": "UI string: settingsBgImg"
+  },
+  "settingsContentTransparency": {
+    "message": "Прозрачность контента",
+    "description": "UI string: settingsContentTransparency"
+  },
+  "settingsOverlayTransparency": {
+    "message": "Прозрачность фона",
+    "description": "UI string: settingsOverlayTransparency"
+  },
+  "settingsOverlayBlur": {
+    "message": "Размытие фона",
+    "description": "UI string: settingsOverlayBlur"
+  },
+  "settingsNewTab": {
+    "message": "Заменить страницу новой вкладки",
+    "description": "UI string: settingsNewTab"
+  },
+  "settingsLang": {
+    "message": "Язык интерфейса",
+    "description": "UI string: settingsLang"
+  },
+  "settingsNightTheme": {
+    "message": "Тёмная тема",
+    "description": "UI string: settingsNightTheme"
+  },
+  "settingsTitle": {
+    "message": "Настройки",
+    "description": "UI string: settingsTitle"
+  },
+  "settingsGroupGeneral": {
+    "message": "Общие",
+    "description": "UI string: settingsGroupGeneral"
+  },
+  "settingsGroupView": {
+    "message": "Вид",
+    "description": "UI string: settingsGroupView"
+  },
+  "settingsSimpleBookmarkCardTextColor": {
+    "message": "Цвет текста на карточках закладок",
+    "description": "UI string: settingsSimpleBookmarkCardTextColor"
+  },
+  "settingsSimpleBookmarkCardTextColorPick": {
+    "message": "Выбрать цвет текста на карточках",
+    "description": "UI string: settingsSimpleBookmarkCardTextColorPick"
+  },
+  "settingsModeGroupAria": {
+    "message": "Режим страницы",
+    "description": "UI string: settingsModeGroupAria"
+  },
+  "settingsModeSimple": {
+    "message": "Минимальный",
+    "description": "UI string: settingsModeSimple"
+  },
+  "settingsModeDefault": {
+    "message": "Обычный",
+    "description": "UI string: settingsModeDefault"
+  },
+  "settingsModeEdit": {
+    "message": "Редактирование",
+    "description": "UI string: settingsModeEdit"
+  },
+  "settingsGroupSimpleSearch": {
+    "message": "Поле поиска",
+    "description": "UI string: settingsGroupSimpleSearch"
+  },
+  "settingsSimpleSearchScale": {
+    "message": "Размер поля поиска",
+    "description": "UI string: settingsSimpleSearchScale"
+  },
+  "settingsSimpleSearchOpacity": {
+    "message": "Непрозрачность поля поиска",
+    "description": "UI string: settingsSimpleSearchOpacity"
+  },
+  "settingsSimpleSearchRadius": {
+    "message": "Скругление углов поля",
+    "description": "UI string: settingsSimpleSearchRadius"
+  },
+  "simpleUiDrawerTitle": {
+    "message": "Настройки поиска",
+    "description": "UI string: simpleUiDrawerTitle"
+  },
+  "simpleUiClose": {
+    "message": "Закрыть",
+    "description": "UI string: simpleUiClose"
+  },
+  "simpleUiTabDefault": {
+    "message": "Встроенные",
+    "description": "UI string: simpleUiTabDefault"
+  },
+  "simpleUiTabCustom": {
+    "message": "Свои",
+    "description": "UI string: simpleUiTabCustom"
+  },
+  "simpleUiBuiltinEngines": {
+    "message": "Встроенные поисковые системы",
+    "description": "UI string: simpleUiBuiltinEngines"
+  },
+  "simpleUiEngineQuickBar": {
+    "message": "Показать «{name}» в быстрой панели",
+    "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "simpleUiAddEngineTitle": {
+    "message": "Добавить поисковую систему",
+    "description": "UI string: simpleUiAddEngineTitle"
+  },
+  "simpleUiEditEngineTitle": {
+    "message": "Изменить поисковую систему",
+    "description": "UI string: simpleUiEditEngineTitle"
+  },
+  "simpleUiNamePh": {
+    "message": "Название",
+    "description": "UI string: simpleUiNamePh"
+  },
+  "simpleUiUrlHint": {
+    "message": "URL (используйте %s для запроса; значок favicon берётся с URL)",
+    "description": "UI string: simpleUiUrlHint"
+  },
+  "simpleUiUrlPh": {
+    "message": "https://example.com/search?q=%s",
+    "description": "UI string: simpleUiUrlPh"
+  },
+  "simpleUiBtnSave": {
+    "message": "Сохранить изменения",
+    "description": "UI string: simpleUiBtnSave"
+  },
+  "simpleUiBtnAdd": {
+    "message": "Добавить",
+    "description": "UI string: simpleUiBtnAdd"
+  },
+  "simpleUiCancelEdit": {
+    "message": "Отменить редактирование",
+    "description": "UI string: simpleUiCancelEdit"
+  },
+  "simpleUiCustomEnginesTitle": {
+    "message": "Свои поисковые системы",
+    "description": "UI string: simpleUiCustomEnginesTitle"
+  },
+  "simpleUiEdit": {
+    "message": "Изменить",
+    "description": "UI string: simpleUiEdit"
+  },
+  "simpleUiDelete": {
+    "message": "Удалить",
+    "description": "UI string: simpleUiDelete"
+  },
+  "simpleUiQuickBookmarks": {
+    "message": "Закладки",
+    "description": "UI string: simpleUiQuickBookmarks"
+  },
+  "simpleUiQuickAdd": {
+    "message": "Добавить",
+    "description": "UI string: simpleUiQuickAdd"
+  },
+  "simpleUiBookmarkSearchTip": {
+    "message": "Поиск по закладкам",
+    "description": "UI string: simpleUiBookmarkSearchTip"
+  },
+  "simpleUiSearchFallback": {
+    "message": "Поиск",
+    "description": "UI string: simpleUiSearchFallback"
+  },
+  "simpleUiBookmarksMode": {
+    "message": "Закладки",
+    "description": "UI string: simpleUiBookmarksMode"
+  },
+  "simpleUiInvalidUrl": {
+    "message": "Введите корректный URL",
+    "description": "UI string: simpleUiInvalidUrl"
+  },
+  "simpleUiErrorIncomplete": {
+    "message": "Заполните: {list}",
+    "description": "UI string: simpleUiErrorIncomplete"
+  },
+  "simpleUiFieldName": {
+    "message": "Название",
+    "description": "UI string: simpleUiFieldName"
+  },
+  "simpleUiFieldUrl": {
+    "message": "URL",
+    "description": "UI string: simpleUiFieldUrl"
+  },
+  "simpleUiListSep": {
+    "message": ", ",
+    "description": "UI string: simpleUiListSep"
+  },
+  "simpleEngine_google": {
+    "message": "Google",
+    "description": "UI string: simpleEngine_google"
+  },
+  "simpleEngine_baidu": {
+    "message": "Baidu",
+    "description": "UI string: simpleEngine_baidu"
+  },
+  "simpleEngine_bing": {
+    "message": "Bing",
+    "description": "UI string: simpleEngine_bing"
+  },
+  "simpleEngine_sogou": {
+    "message": "Sogou",
+    "description": "UI string: simpleEngine_sogou"
+  },
+  "simpleEngine_yandex": {
+    "message": "Яндекс",
+    "description": "UI string: simpleEngine_yandex"
+  },
+  "settingsGroupManage": {
+    "message": "Управление",
+    "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupAbout": {
+    "message": "О программе",
+    "description": "UI string: settingsGroupAbout"
+  },
+  "on": {
+    "message": "Вкл",
+    "description": "UI string: on"
+  },
+  "off": {
+    "message": "Выкл",
+    "description": "UI string: off"
+  },
+  "bgPickTitle": {
+    "message": "Выбрать цвет",
+    "description": "UI string: bgPickTitle"
+  },
+  "bgPickAria": {
+    "message": "Произвольный цвет фона",
+    "description": "UI string: bgPickAria"
+  },
+  "chooseImg": {
+    "message": "Выбрать изображение",
+    "description": "UI string: chooseImg"
+  },
+  "clear": {
+    "message": "Очистить",
+    "description": "UI string: clear"
+  },
+  "settingsFolderManage": {
+    "message": "Управление папками закладок",
+    "description": "UI string: settingsFolderManage"
+  },
+  "settingsVisibleRoots": {
+    "message": "Корневые папки закладок",
+    "description": "UI string: settingsVisibleRoots"
+  },
+  "settingsRootOthers": {
+    "message": "Другие",
+    "description": "UI string: settingsRootOthers"
+  },
+  "openBookmarkManager": {
+    "message": "Открыть менеджер закладок",
+    "description": "UI string: openBookmarkManager"
+  },
+  "helpLink": {
+    "message": "Руководство",
+    "description": "UI string: helpLink"
+  },
+  "imgTooBig": {
+    "message": "Файл слишком большой. Используйте изображение размером до 3 МБ.",
+    "description": "UI string: imgTooBig"
+  },
+  "langZh": {
+    "message": "简体中文",
+    "description": "UI string: langZh"
+  },
+  "langZhTW": {
+    "message": "繁體中文",
+    "description": "UI string: langZhTW"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "UI string: langEn"
+  },
+  "langEs": {
+    "message": "Español",
+    "description": "UI string: langEs"
+  },
+  "langDe": {
+    "message": "Deutsch",
+    "description": "UI string: langDe"
+  },
+  "langFr": {
+    "message": "Français",
+    "description": "UI string: langFr"
+  },
+  "langRu": {
+    "message": "Русский",
+    "description": "UI string: langRu"
+  },
+  "langAr": {
+    "message": "العربية",
+    "description": "UI string: langAr"
+  },
+  "langJa": {
+    "message": "日本語",
+    "description": "UI string: langJa"
+  },
+  "langKo": {
+    "message": "한국어",
+    "description": "UI string: langKo"
+  },
+  "editTitle": {
+    "message": "Редактирование закладки",
+    "description": "UI string: editTitle"
+  },
+  "labelTitle": {
+    "message": "Заголовок",
+    "description": "UI string: labelTitle"
+  },
+  "labelFolder": {
+    "message": "Папка",
+    "description": "UI string: labelFolder"
+  },
+  "labelIcon": {
+    "message": "Цвет значка",
+    "description": "UI string: labelIcon"
+  },
+  "labelTags": {
+    "message": "Теги",
+    "description": "UI string: labelTags"
+  },
+  "labelDesc": {
+    "message": "Описание",
+    "description": "UI string: labelDesc"
+  },
+  "labelUrl": {
+    "message": "Ссылка",
+    "description": "UI string: labelUrl"
+  },
+  "folderPick": {
+    "message": "Выберите папку",
+    "description": "UI string: folderPick"
+  },
+  "folderPanelAria": {
+    "message": "Выбор папки",
+    "description": "UI string: folderPanelAria"
+  },
+  "tagInputAria": {
+    "message": "Теги: Enter, пробел, Tab или запятая. Не более 3 тегов, по 16 символов каждый.",
+    "description": "UI string: tagInputAria"
+  },
+  "tagPlaceholder": {
+    "message": "До 3 тегов, по 16 символов",
+    "description": "UI string: tagPlaceholder"
+  },
+  "descPlaceholder": {
+    "message": "Необязательно, до 100 символов",
+    "description": "UI string: descPlaceholder"
+  },
+  "cancel": {
+    "message": "Отмена",
+    "description": "UI string: cancel"
+  },
+  "save": {
+    "message": "Сохранить",
+    "description": "UI string: save"
+  },
+  "autoColor": {
+    "message": "Авто",
+    "description": "UI string: autoColor"
+  },
+  "autoColorBtn": {
+    "message": "A",
+    "description": "UI string: autoColorBtn"
+  },
+  "colorAria": {
+    "message": "Цвет",
+    "description": "UI string: colorAria"
+  },
+  "removeTagAria": {
+    "message": "Удалить",
+    "description": "UI string: removeTagAria"
+  },
+  "guidePageTitle": {
+    "message": "Руководство",
+    "description": "UI string: guidePageTitle"
+  },
+  "guideH1": {
+    "message": "SuperBookmark · Руководство",
+    "description": "UI string: guideH1"
+  },
+  "guideIntro": {
+    "message": "Как организовать закладки на панели и пользоваться расширением.",
+    "description": "UI string: guideIntro"
+  },
+  "g1h": {
+    "message": "1. Структура папок",
+    "description": "UI string: g1h"
+  },
+  "g1p": {
+    "message": "Расширение использует <strong>иерархию папок</strong> закладок Chrome:",
+    "description": "UI string: g1p"
+  },
+  "g1li1": {
+    "message": "<strong>Верхний уровень</strong>: структура Chrome; основные категории. При <strong>нескольких корнях</strong> переключайте в <strong>первой строке шапки</strong>; при одном эта строка скрыта.",
+    "description": "UI string: g1li1"
+  },
+  "g1li2": {
+    "message": "<strong>Второй уровень</strong>: <strong>вторая строка сверху</strong> — подкатегории; если их нет — только имя верхнего уровня.",
+    "description": "UI string: g1li2"
+  },
+  "g1li3": {
+    "message": "<strong>Третий уровень и ниже</strong>: имена папок используются как <strong>фильтрующие теги</strong> в верхней панели, а не в самих карточках.",
+    "description": "UI string: g1li3"
+  },
+  "g1note": {
+    "message": "Если список пуст, создайте папки и добавьте закладки на панели закладок Chrome.",
+    "description": "UI string: g1note"
+  },
+  "g2h": {
+    "message": "2. Просмотр и поиск",
+    "description": "UI string: g2h"
+  },
+  "g2li1": {
+    "message": "Несколько основных категорий: сначала первая строка шапки, затем вторая. Одна категория — только вторая строка. Третий уровень — подменю слева.",
+    "description": "UI string: g2li1"
+  },
+  "g2li2": {
+    "message": "<strong>Панель тегов</strong> фильтрует закладки в текущем представлении (включая «Все»). Используйте стрелки для горизонтальной прокрутки.",
+    "description": "UI string: g2li2"
+  },
+  "g2li3": {
+    "message": "Поле поиска фильтрует по заголовку, URL и тегам.",
+    "description": "UI string: g2li3"
+  },
+  "g3h": {
+    "message": "3. Режим редактирования",
+    "description": "UI string: g3h"
+  },
+  "g3p": {
+    "message": "Включите <strong>режим редактирования</strong> через ☰ Настройки в правом верхнем углу, чтобы на карточках появились дополнительные действия:",
+    "description": "UI string: g3p"
+  },
+  "g3li1": {
+    "message": "<strong>✏️ Редактировать</strong>: изменить заголовок, папку и пользовательские теги (до 3, по 16 символов).",
+    "description": "UI string: g3li1"
+  },
+  "g3li2": {
+    "message": "<strong>🗑 Удалить</strong>: удалить закладку из Chrome.",
+    "description": "UI string: g3li2"
+  },
+  "g3li3": {
+    "message": "<strong>Щёлкните правой кнопкой</strong> по карточке, чтобы открыть контекстное меню.",
+    "description": "UI string: g3li3"
+  },
+  "g4h": {
+    "message": "4. Перетаскивание",
+    "description": "UI string: g4h"
+  },
+  "g4p": {
+    "message": "В режиме редактирования перетаскивайте карточки на верхнюю основную строку (при нескольких корнях), подкатегории или левые подпапки. Порядок в списке можно менять перетаскиванием.",
+    "description": "UI string: g4p"
+  },
+  "g5h": {
+    "message": "5. Настройки",
+    "description": "UI string: g5h"
+  },
+  "g5li1": {
+    "message": "<strong>Режим редактирования</strong>: показывать или скрывать действия редактирования, удаления и перетаскивания.",
+    "description": "UI string: g5li1"
+  },
+  "g5li2": {
+    "message": "<strong>Колонки</strong>: 3 / 4 / 5 (адаптируются к ширине окна).",
+    "description": "UI string: g5li2"
+  },
+  "g5li3": {
+    "message": "<strong>Ширина содержимого</strong>: 50%–100% ширины окна (не менее 400px), настраивается ползунком.",
+    "description": "UI string: g5li3"
+  },
+  "g5li4": {
+    "message": "<strong>Цвета / фоновое изображение</strong>: фон страницы; рекомендуется использовать небольшие изображения.",
+    "description": "UI string: g5li4"
+  },
+  "g5li5": {
+    "message": "<strong>Новая вкладка</strong>: при включении новая вкладка открывает эту страницу.",
+    "description": "UI string: g5li5"
+  },
+  "g5li6": {
+    "message": "<strong>Язык</strong>: выбор языка интерфейса.",
+    "description": "UI string: g5li6"
+  },
+  "guideFoot": {
+    "message": "SuperBookmark · Откройте новую вкладку или значок расширения, чтобы вернуться",
+    "description": "UI string: guideFoot"
+  },
+  "bgpBlue": {
+    "message": "Светло-синий",
+    "description": "UI string: bgpBlue"
+  },
+  "bgpGreen": {
+    "message": "Светло-зелёный",
+    "description": "UI string: bgpGreen"
+  },
+  "bgpBeige": {
+    "message": "Бежевый",
+    "description": "UI string: bgpBeige"
+  },
+  "bgpGray": {
+    "message": "Светло-серый",
+    "description": "UI string: bgpGray"
+  },
+  "bgpWhite": {
+    "message": "Белый",
+    "description": "UI string: bgpWhite"
+  },
+  "bgpDark": {
+    "message": "Тёмный",
+    "description": "UI string: bgpDark"
+  }
+}

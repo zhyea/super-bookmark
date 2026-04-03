@@ -32,7 +32,18 @@ export function normalizeLocale(code) {
 
 export function detectLocale() {
     try {
-        let nav = (typeof navigator !== 'undefined' && navigator.language) || 'zh';
+        /* 扩展环境：优先使用 Chrome 界面语言（与 _locales 一致），参见 chrome.i18n.getUILanguage */
+        if (typeof chrome !== 'undefined' && chrome.i18n && typeof chrome.i18n.getUILanguage === 'function') {
+            const uil = chrome.i18n.getUILanguage();
+            if (uil && typeof uil === 'string') {
+                return normalizeLocale(uil);
+            }
+        }
+    } catch (e) {
+        /* 非扩展页或未注入 chrome */
+    }
+    try {
+        const nav = (typeof navigator !== 'undefined' && navigator.language) || 'zh';
         return normalizeLocale(nav);
     } catch (e) {
         return 'zh';

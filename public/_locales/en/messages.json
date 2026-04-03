@@ -1,0 +1,686 @@
+{
+  "extName": {
+    "message": "SuperBookmark",
+    "description": "Extension name shown in browser and Chrome Web Store."
+  },
+  "extDescription": {
+    "message": "Turn your bookmarks into your private navigation hub on the new tab page.",
+    "description": "Short description for manifest and store listing."
+  },
+  "pageTitle": {
+    "message": "SuperBookmark",
+    "description": "UI string: pageTitle"
+  },
+  "loading": {
+    "message": "Loading bookmarks…",
+    "description": "UI string: loading"
+  },
+  "emptyState": {
+    "message": "No data yet. Create folders in the bookmarks bar and add bookmarks.",
+    "description": "UI string: emptyState"
+  },
+  "footer": {
+    "message": "© 2026 SuperBookmark. All rights reserved.",
+    "description": "UI string: footer"
+  },
+  "navPrimaryAria": {
+    "message": "Top-level bookmark roots (shown when multiple)",
+    "description": "UI string: navPrimaryAria"
+  },
+  "navSecondaryAria": {
+    "message": "Subcategories (top)",
+    "description": "UI string: navSecondaryAria"
+  },
+  "sidebarAria": {
+    "message": "Sidebar",
+    "description": "UI string: sidebarAria"
+  },
+  "searchPlaceholder": {
+    "message": "Search bookmarks",
+    "description": "UI string: searchPlaceholder"
+  },
+  "searchBtn": {
+    "message": "Search",
+    "description": "UI string: searchBtn"
+  },
+  "tagAll": {
+    "message": "All",
+    "description": "UI string: tagAll"
+  },
+  "uncategorized": {
+    "message": "Uncategorized",
+    "description": "UI string: uncategorized"
+  },
+  "overviewAllNav": {
+    "message": "All",
+    "description": "UI string: overviewAllNav"
+  },
+  "settingsShowOverviewAllNav": {
+    "message": "Show “All” overview in top menu",
+    "description": "UI string: settingsShowOverviewAllNav"
+  },
+  "tagLeft": {
+    "message": "Scroll left",
+    "description": "UI string: tagLeft"
+  },
+  "tagRight": {
+    "message": "Scroll right",
+    "description": "UI string: tagRight"
+  },
+  "scrollAria": {
+    "message": "Scroll to top or bottom",
+    "description": "UI string: scrollAria"
+  },
+  "scrollBottom": {
+    "message": "Scroll to bottom",
+    "description": "UI string: scrollBottom"
+  },
+  "scrollTop": {
+    "message": "Scroll to top",
+    "description": "UI string: scrollTop"
+  },
+  "ctxDelete": {
+    "message": "Delete bookmark",
+    "description": "UI string: ctxDelete"
+  },
+  "ctxEdit": {
+    "message": "Edit bookmark",
+    "description": "UI string: ctxEdit"
+  },
+  "cardDelete": {
+    "message": "Delete",
+    "description": "UI string: cardDelete"
+  },
+  "cardEdit": {
+    "message": "Edit",
+    "description": "UI string: cardEdit"
+  },
+  "settingsAria": {
+    "message": "Settings",
+    "description": "UI string: settingsAria"
+  },
+  "simpleGoHome": {
+    "message": "Go to main page",
+    "description": "UI string: simpleGoHome"
+  },
+  "settingsEditMode": {
+    "message": "Edit mode",
+    "description": "UI string: settingsEditMode"
+  },
+  "settingsColumns": {
+    "message": "Columns",
+    "description": "UI string: settingsColumns"
+  },
+  "settingsWidth": {
+    "message": "Content width",
+    "description": "UI string: settingsWidth"
+  },
+  "settingsBg": {
+    "message": "Background color",
+    "description": "UI string: settingsBg"
+  },
+  "settingsBgImg": {
+    "message": "Background image",
+    "description": "UI string: settingsBgImg"
+  },
+  "settingsContentTransparency": {
+    "message": "Content transparency",
+    "description": "UI string: settingsContentTransparency"
+  },
+  "settingsOverlayTransparency": {
+    "message": "Background transparency",
+    "description": "UI string: settingsOverlayTransparency"
+  },
+  "settingsOverlayBlur": {
+    "message": "Background blur",
+    "description": "UI string: settingsOverlayBlur"
+  },
+  "settingsNewTab": {
+    "message": "Replace default new tab",
+    "description": "UI string: settingsNewTab"
+  },
+  "settingsLang": {
+    "message": "Language",
+    "description": "UI string: settingsLang"
+  },
+  "settingsNightTheme": {
+    "message": "Night theme",
+    "description": "UI string: settingsNightTheme"
+  },
+  "settingsTitle": {
+    "message": "Settings",
+    "description": "UI string: settingsTitle"
+  },
+  "settingsGroupGeneral": {
+    "message": "General",
+    "description": "UI string: settingsGroupGeneral"
+  },
+  "settingsGroupView": {
+    "message": "View",
+    "description": "UI string: settingsGroupView"
+  },
+  "settingsSimpleBookmarkCardTextColor": {
+    "message": "Bookmark card text color",
+    "description": "UI string: settingsSimpleBookmarkCardTextColor"
+  },
+  "settingsSimpleBookmarkCardTextColorPick": {
+    "message": "Choose bookmark card text color",
+    "description": "UI string: settingsSimpleBookmarkCardTextColorPick"
+  },
+  "settingsModeGroupAria": {
+    "message": "Page mode",
+    "description": "UI string: settingsModeGroupAria"
+  },
+  "settingsModeSimple": {
+    "message": "Minimal",
+    "description": "UI string: settingsModeSimple"
+  },
+  "settingsModeDefault": {
+    "message": "Default",
+    "description": "UI string: settingsModeDefault"
+  },
+  "settingsModeEdit": {
+    "message": "Edit",
+    "description": "UI string: settingsModeEdit"
+  },
+  "settingsGroupSimpleSearch": {
+    "message": "Search box",
+    "description": "UI string: settingsGroupSimpleSearch"
+  },
+  "settingsSimpleSearchScale": {
+    "message": "Search box size",
+    "description": "UI string: settingsSimpleSearchScale"
+  },
+  "settingsSimpleSearchOpacity": {
+    "message": "Search box opacity",
+    "description": "UI string: settingsSimpleSearchOpacity"
+  },
+  "settingsSimpleSearchRadius": {
+    "message": "Search box corner radius",
+    "description": "UI string: settingsSimpleSearchRadius"
+  },
+  "simpleUiDrawerTitle": {
+    "message": "Search settings",
+    "description": "UI string: simpleUiDrawerTitle"
+  },
+  "simpleUiClose": {
+    "message": "Close",
+    "description": "UI string: simpleUiClose"
+  },
+  "simpleUiTabDefault": {
+    "message": "Default",
+    "description": "UI string: simpleUiTabDefault"
+  },
+  "simpleUiTabCustom": {
+    "message": "Custom",
+    "description": "UI string: simpleUiTabCustom"
+  },
+  "simpleUiBuiltinEngines": {
+    "message": "Built-in search engines",
+    "description": "UI string: simpleUiBuiltinEngines"
+  },
+  "simpleUiEngineQuickBar": {
+    "message": "Show {name} in quick bar",
+    "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "simpleUiAddEngineTitle": {
+    "message": "Add search engine",
+    "description": "UI string: simpleUiAddEngineTitle"
+  },
+  "simpleUiEditEngineTitle": {
+    "message": "Edit search engine",
+    "description": "UI string: simpleUiEditEngineTitle"
+  },
+  "simpleUiNamePh": {
+    "message": "Name",
+    "description": "UI string: simpleUiNamePh"
+  },
+  "simpleUiUrlHint": {
+    "message": "URL (use %s for the query; favicon is fetched from the URL)",
+    "description": "UI string: simpleUiUrlHint"
+  },
+  "simpleUiUrlPh": {
+    "message": "https://example.com/search?q=%s",
+    "description": "UI string: simpleUiUrlPh"
+  },
+  "simpleUiBtnSave": {
+    "message": "Save changes",
+    "description": "UI string: simpleUiBtnSave"
+  },
+  "simpleUiBtnAdd": {
+    "message": "Add search engine",
+    "description": "UI string: simpleUiBtnAdd"
+  },
+  "simpleUiCancelEdit": {
+    "message": "Cancel edit",
+    "description": "UI string: simpleUiCancelEdit"
+  },
+  "simpleUiCustomEnginesTitle": {
+    "message": "Custom search engines",
+    "description": "UI string: simpleUiCustomEnginesTitle"
+  },
+  "simpleUiEdit": {
+    "message": "Edit",
+    "description": "UI string: simpleUiEdit"
+  },
+  "simpleUiDelete": {
+    "message": "Delete",
+    "description": "UI string: simpleUiDelete"
+  },
+  "simpleUiQuickBookmarks": {
+    "message": "Bookmarks",
+    "description": "UI string: simpleUiQuickBookmarks"
+  },
+  "simpleUiQuickAdd": {
+    "message": "Add",
+    "description": "UI string: simpleUiQuickAdd"
+  },
+  "simpleUiBookmarkSearchTip": {
+    "message": "Bookmark search",
+    "description": "UI string: simpleUiBookmarkSearchTip"
+  },
+  "simpleUiSearchFallback": {
+    "message": "Search",
+    "description": "UI string: simpleUiSearchFallback"
+  },
+  "simpleUiBookmarksMode": {
+    "message": "Bookmarks",
+    "description": "UI string: simpleUiBookmarksMode"
+  },
+  "simpleUiInvalidUrl": {
+    "message": "Enter a valid URL",
+    "description": "UI string: simpleUiInvalidUrl"
+  },
+  "simpleUiErrorIncomplete": {
+    "message": "Please fill in: {list}",
+    "description": "UI string: simpleUiErrorIncomplete"
+  },
+  "simpleUiFieldName": {
+    "message": "Name",
+    "description": "UI string: simpleUiFieldName"
+  },
+  "simpleUiFieldUrl": {
+    "message": "URL",
+    "description": "UI string: simpleUiFieldUrl"
+  },
+  "simpleUiListSep": {
+    "message": ", ",
+    "description": "UI string: simpleUiListSep"
+  },
+  "simpleEngine_google": {
+    "message": "Google",
+    "description": "UI string: simpleEngine_google"
+  },
+  "simpleEngine_baidu": {
+    "message": "Baidu",
+    "description": "UI string: simpleEngine_baidu"
+  },
+  "simpleEngine_bing": {
+    "message": "Bing",
+    "description": "UI string: simpleEngine_bing"
+  },
+  "simpleEngine_sogou": {
+    "message": "Sogou",
+    "description": "UI string: simpleEngine_sogou"
+  },
+  "simpleEngine_yandex": {
+    "message": "Yandex",
+    "description": "UI string: simpleEngine_yandex"
+  },
+  "settingsGroupManage": {
+    "message": "Management",
+    "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupBackup": {
+    "message": "Backup & Reset",
+    "description": "UI string: settingsGroupBackup"
+  },
+  "settingsBackupActions": {
+    "message": "Backup",
+    "description": "UI string: settingsBackupActions"
+  },
+  "backupRestoreDefault": {
+    "message": "Restore defaults",
+    "description": "UI string: backupRestoreDefault"
+  },
+  "backupExport": {
+    "message": "Export backup",
+    "description": "UI string: backupExport"
+  },
+  "backupImport": {
+    "message": "Import backup",
+    "description": "UI string: backupImport"
+  },
+  "settingsColumnDisabled": {
+    "message": "Not enough content width for this column count",
+    "description": "UI string: settingsColumnDisabled"
+  },
+  "backupPwdExport": {
+    "message": "Backup password (optional; leave empty to use built-in key):",
+    "description": "UI string: backupPwdExport"
+  },
+  "backupPwdImport": {
+    "message": "Enter backup password (press OK if none was set):",
+    "description": "UI string: backupPwdImport"
+  },
+  "backupExportDone": {
+    "message": "Backup exported as .zhx file.",
+    "description": "UI string: backupExportDone"
+  },
+  "backupImportDone": {
+    "message": "Import finished. Bookmarks merged incrementally (nothing deleted locally); settings and tag data merged.",
+    "description": "UI string: backupImportDone"
+  },
+  "backupRestoreDone": {
+    "message": "Defaults restored; extension tags, colors and descriptions cleared.",
+    "description": "UI string: backupRestoreDone"
+  },
+  "backupConfirmRestore": {
+    "message": "Reset all settings to defaults and clear tags, icon colors and descriptions (browser bookmarks are not deleted). Continue?",
+    "description": "UI string: backupConfirmRestore"
+  },
+  "backupConfirmImport": {
+    "message": "Bookmarks will be merged: match by id / same URL / same folder name and update; otherwise create new. Existing bookmarks are not deleted. Settings come from the backup; tags and colors merge with local (backup wins on conflicts). Continue?",
+    "description": "UI string: backupConfirmImport"
+  },
+  "backupFail": {
+    "message": "Operation failed: ",
+    "description": "UI string: backupFail"
+  },
+  "backupWrongPwd": {
+    "message": "Decryption failed. Check password or file.",
+    "description": "UI string: backupWrongPwd"
+  },
+  "settingsGroupAbout": {
+    "message": "About",
+    "description": "UI string: settingsGroupAbout"
+  },
+  "on": {
+    "message": "On",
+    "description": "UI string: on"
+  },
+  "off": {
+    "message": "Off",
+    "description": "UI string: off"
+  },
+  "bgPickTitle": {
+    "message": "Pick color",
+    "description": "UI string: bgPickTitle"
+  },
+  "bgPickAria": {
+    "message": "Custom background color",
+    "description": "UI string: bgPickAria"
+  },
+  "chooseImg": {
+    "message": "Choose image",
+    "description": "UI string: chooseImg"
+  },
+  "clear": {
+    "message": "Clear",
+    "description": "UI string: clear"
+  },
+  "settingsFolderManage": {
+    "message": "Bookmark folder management",
+    "description": "UI string: settingsFolderManage"
+  },
+  "settingsVisibleRoots": {
+    "message": "Bookmark roots to show",
+    "description": "UI string: settingsVisibleRoots"
+  },
+  "settingsRootOthers": {
+    "message": "Other",
+    "description": "UI string: settingsRootOthers"
+  },
+  "openBookmarkManager": {
+    "message": "Open bookmark manager",
+    "description": "UI string: openBookmarkManager"
+  },
+  "helpLink": {
+    "message": "User guide",
+    "description": "UI string: helpLink"
+  },
+  "imgTooBig": {
+    "message": "Image too large. Please use a file under 3MB.",
+    "description": "UI string: imgTooBig"
+  },
+  "langZh": {
+    "message": "简体中文",
+    "description": "UI string: langZh"
+  },
+  "langZhTW": {
+    "message": "繁體中文",
+    "description": "UI string: langZhTW"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "UI string: langEn"
+  },
+  "langEs": {
+    "message": "Español",
+    "description": "UI string: langEs"
+  },
+  "langDe": {
+    "message": "Deutsch",
+    "description": "UI string: langDe"
+  },
+  "langFr": {
+    "message": "Français",
+    "description": "UI string: langFr"
+  },
+  "langJa": {
+    "message": "日本語",
+    "description": "UI string: langJa"
+  },
+  "langKo": {
+    "message": "한국어",
+    "description": "UI string: langKo"
+  },
+  "editTitle": {
+    "message": "Edit bookmark",
+    "description": "UI string: editTitle"
+  },
+  "labelTitle": {
+    "message": "Title",
+    "description": "UI string: labelTitle"
+  },
+  "labelFolder": {
+    "message": "Folder",
+    "description": "UI string: labelFolder"
+  },
+  "labelIcon": {
+    "message": "Icon color",
+    "description": "UI string: labelIcon"
+  },
+  "labelTags": {
+    "message": "Tags",
+    "description": "UI string: labelTags"
+  },
+  "labelDesc": {
+    "message": "Description",
+    "description": "UI string: labelDesc"
+  },
+  "labelUrl": {
+    "message": "URL",
+    "description": "UI string: labelUrl"
+  },
+  "folderPick": {
+    "message": "Select folder",
+    "description": "UI string: folderPick"
+  },
+  "folderPanelAria": {
+    "message": "Select folder",
+    "description": "UI string: folderPanelAria"
+  },
+  "tagInputAria": {
+    "message": "Tags: Enter, Space, Tab or comma to separate. Max 3 tags, 16 chars each.",
+    "description": "UI string: tagInputAria"
+  },
+  "tagPlaceholder": {
+    "message": "Up to 3 tags, 16 chars each",
+    "description": "UI string: tagPlaceholder"
+  },
+  "descPlaceholder": {
+    "message": "Optional, max 100 characters",
+    "description": "UI string: descPlaceholder"
+  },
+  "cancel": {
+    "message": "Cancel",
+    "description": "UI string: cancel"
+  },
+  "save": {
+    "message": "Save",
+    "description": "UI string: save"
+  },
+  "autoColor": {
+    "message": "Auto",
+    "description": "UI string: autoColor"
+  },
+  "autoColorBtn": {
+    "message": "A",
+    "description": "UI string: autoColorBtn"
+  },
+  "colorAria": {
+    "message": "Color",
+    "description": "UI string: colorAria"
+  },
+  "removeTagAria": {
+    "message": "Remove",
+    "description": "UI string: removeTagAria"
+  },
+  "guidePageTitle": {
+    "message": "User guide",
+    "description": "UI string: guidePageTitle"
+  },
+  "guideH1": {
+    "message": "SuperBookmark · User guide",
+    "description": "UI string: guideH1"
+  },
+  "guideIntro": {
+    "message": "How to organize bookmarks in the bar and use this extension.",
+    "description": "UI string: guideIntro"
+  },
+  "g1h": {
+    "message": "1. Folder structure",
+    "description": "UI string: g1h"
+  },
+  "g1p": {
+    "message": "The extension maps Chrome’s <strong>bookmark folder hierarchy</strong>:",
+    "description": "UI string: g1p"
+  },
+  "g1li1": {
+    "message": "<strong>Top-level folders</strong>: Chrome’s top bookmark structure; in the extension they are <strong>main categories</strong>. If there are <strong>several roots</strong>, switch them on the <strong>first header row</strong>; with a single root that row is hidden.",
+    "description": "UI string: g1li1"
+  },
+  "g1li2": {
+    "message": "<strong>Second-level folders</strong>: after choosing a main category, the <strong>second header row</strong> lists subcategories; if there are none, the top-level name is the only subcategory.",
+    "description": "UI string: g1li2"
+  },
+  "g1li3": {
+    "message": "<strong>Third level and below</strong>: folder names become <strong>tags</strong> on cards for filtering.",
+    "description": "UI string: g1li3"
+  },
+  "g1note": {
+    "message": "If the list is empty, create folders in the Chrome bookmarks bar and add bookmarks.",
+    "description": "UI string: g1note"
+  },
+  "g2h": {
+    "message": "2. Browse and search",
+    "description": "UI string: g2h"
+  },
+  "g2li1": {
+    "message": "With several main categories, use the first header row, then the second row for subcategories. With one main category, only the second row is needed. When there are third-level folders, a submenu appears on the left.",
+    "description": "UI string: g2li1"
+  },
+  "g2li2": {
+    "message": "The <strong>tag bar</strong> filters bookmarks in the current view (including “All”). Use the arrows to scroll when there are many tags.",
+    "description": "UI string: g2li2"
+  },
+  "g2li3": {
+    "message": "The search box filters by title, URL and tag keywords.",
+    "description": "UI string: g2li3"
+  },
+  "g3h": {
+    "message": "3. Edit mode",
+    "description": "UI string: g3h"
+  },
+  "g3p": {
+    "message": "Turn on <strong>Edit mode</strong> in ⚙ Settings to show actions on each card:",
+    "description": "UI string: g3p"
+  },
+  "g3li1": {
+    "message": "<strong>✏️ Edit</strong>: title, folder, custom tags (max 3, 16 chars). Separate tags with Enter, Space, Tab or commas.",
+    "description": "UI string: g3li1"
+  },
+  "g3li2": {
+    "message": "<strong>🗑 Delete</strong>: removes the bookmark from Chrome.",
+    "description": "UI string: g3li2"
+  },
+  "g3li3": {
+    "message": "<strong>Right-click</strong> a card for the context menu.",
+    "description": "UI string: g3li3"
+  },
+  "g4h": {
+    "message": "4. Drag and drop",
+    "description": "UI string: g4h"
+  },
+  "g4p": {
+    "message": "With edit mode on, drag cards onto the top main row (when multiple roots), top subcategories, or left subfolders to move bookmarks. Reorder within the same list by dragging.",
+    "description": "UI string: g4p"
+  },
+  "g5h": {
+    "message": "5. Settings",
+    "description": "UI string: g5h"
+  },
+  "g5li1": {
+    "message": "<strong>Edit mode</strong>: show or hide edit, delete and drag.",
+    "description": "UI string: g5li1"
+  },
+  "g5li2": {
+    "message": "<strong>Columns</strong>: 3 / 4 / 5 (adapts to window width).",
+    "description": "UI string: g5li2"
+  },
+  "g5li3": {
+    "message": "<strong>Content width</strong>: 50%–100% of the viewport (min. 400px), adjustable with the slider.",
+    "description": "UI string: g5li3"
+  },
+  "g5li4": {
+    "message": "<strong>Colors / custom / image</strong>: page background; prefer small images for storage.",
+    "description": "UI string: g5li4"
+  },
+  "g5li5": {
+    "message": "<strong>Replace new tab</strong>: new tabs open this page when enabled in the extension.",
+    "description": "UI string: g5li5"
+  },
+  "g5li6": {
+    "message": "<strong>Language</strong>: Simplified & Traditional Chinese, English, Spanish, German, French, Japanese, Korean.",
+    "description": "UI string: g5li6"
+  },
+  "guideFoot": {
+    "message": "SuperBookmark · Open a new tab or the extension icon to return",
+    "description": "UI string: guideFoot"
+  },
+  "bgpBlue": {
+    "message": "Light blue",
+    "description": "UI string: bgpBlue"
+  },
+  "bgpGreen": {
+    "message": "Light green",
+    "description": "UI string: bgpGreen"
+  },
+  "bgpBeige": {
+    "message": "Beige",
+    "description": "UI string: bgpBeige"
+  },
+  "bgpGray": {
+    "message": "Light gray",
+    "description": "UI string: bgpGray"
+  },
+  "bgpWhite": {
+    "message": "White",
+    "description": "UI string: bgpWhite"
+  },
+  "bgpDark": {
+    "message": "Dark",
+    "description": "UI string: bgpDark"
+  }
+}

@@ -1,0 +1,626 @@
+{
+  "extName": {
+    "message": "SuperBookmark",
+    "description": "Extension name shown in browser and Chrome Web Store."
+  },
+  "extDescription": {
+    "message": "Mach deine Lesezeichen auf der neuen Registerkarte zu deinem privaten Navigations-Hub.",
+    "description": "Short description for manifest and store listing."
+  },
+  "pageTitle": {
+    "message": "SuperBookmark",
+    "description": "UI string: pageTitle"
+  },
+  "loading": {
+    "message": "Lesezeichen werden geladen…",
+    "description": "UI string: loading"
+  },
+  "emptyState": {
+    "message": "Keine Daten. Ordner in der Lesezeichenleiste anlegen und Lesezeichen hinzufügen.",
+    "description": "UI string: emptyState"
+  },
+  "footer": {
+    "message": "© 2026 SuperBookmark. Alle Rechte vorbehalten.",
+    "description": "UI string: footer"
+  },
+  "navPrimaryAria": {
+    "message": "Lesezeichen-Stammordner (bei mehreren)",
+    "description": "UI string: navPrimaryAria"
+  },
+  "navSecondaryAria": {
+    "message": "Unterkategorien (oben)",
+    "description": "UI string: navSecondaryAria"
+  },
+  "sidebarAria": {
+    "message": "Seitenleiste",
+    "description": "UI string: sidebarAria"
+  },
+  "searchPlaceholder": {
+    "message": "Lesezeichen suchen",
+    "description": "UI string: searchPlaceholder"
+  },
+  "searchBtn": {
+    "message": "Suchen",
+    "description": "UI string: searchBtn"
+  },
+  "tagAll": {
+    "message": "Alle",
+    "description": "UI string: tagAll"
+  },
+  "uncategorized": {
+    "message": "Nicht kategorisiert",
+    "description": "UI string: uncategorized"
+  },
+  "overviewAllNav": {
+    "message": "Alle",
+    "description": "UI string: overviewAllNav"
+  },
+  "settingsShowOverviewAllNav": {
+    "message": "„Alle“-Übersicht im oberen Menü anzeigen",
+    "description": "UI string: settingsShowOverviewAllNav"
+  },
+  "tagLeft": {
+    "message": "Nach links scrollen",
+    "description": "UI string: tagLeft"
+  },
+  "tagRight": {
+    "message": "Nach rechts scrollen",
+    "description": "UI string: tagRight"
+  },
+  "scrollAria": {
+    "message": "Nach oben oder unten",
+    "description": "UI string: scrollAria"
+  },
+  "scrollBottom": {
+    "message": "Nach unten",
+    "description": "UI string: scrollBottom"
+  },
+  "scrollTop": {
+    "message": "Nach oben",
+    "description": "UI string: scrollTop"
+  },
+  "ctxDelete": {
+    "message": "Lesezeichen löschen",
+    "description": "UI string: ctxDelete"
+  },
+  "ctxEdit": {
+    "message": "Lesezeichen bearbeiten",
+    "description": "UI string: ctxEdit"
+  },
+  "cardDelete": {
+    "message": "Löschen",
+    "description": "UI string: cardDelete"
+  },
+  "cardEdit": {
+    "message": "Bearbeiten",
+    "description": "UI string: cardEdit"
+  },
+  "settingsAria": {
+    "message": "Einstellungen",
+    "description": "UI string: settingsAria"
+  },
+  "simpleGoHome": {
+    "message": "Zur Hauptseite",
+    "description": "UI string: simpleGoHome"
+  },
+  "settingsEditMode": {
+    "message": "Bearbeitungsmodus",
+    "description": "UI string: settingsEditMode"
+  },
+  "settingsColumns": {
+    "message": "Spalten",
+    "description": "UI string: settingsColumns"
+  },
+  "settingsWidth": {
+    "message": "Inhaltsbreite",
+    "description": "UI string: settingsWidth"
+  },
+  "settingsBg": {
+    "message": "Hintergrundfarbe",
+    "description": "UI string: settingsBg"
+  },
+  "settingsBgImg": {
+    "message": "Hintergrundbild",
+    "description": "UI string: settingsBgImg"
+  },
+  "settingsContentTransparency": {
+    "message": "Inhaltstransparenz",
+    "description": "UI string: settingsContentTransparency"
+  },
+  "settingsOverlayTransparency": {
+    "message": "Hintergrundtransparenz",
+    "description": "UI string: settingsOverlayTransparency"
+  },
+  "settingsOverlayBlur": {
+    "message": "Hintergrundunschärfe",
+    "description": "UI string: settingsOverlayBlur"
+  },
+  "settingsNewTab": {
+    "message": "Neuen Tab ersetzen",
+    "description": "UI string: settingsNewTab"
+  },
+  "settingsLang": {
+    "message": "Sprache",
+    "description": "UI string: settingsLang"
+  },
+  "settingsNightTheme": {
+    "message": "Nachtmodus",
+    "description": "UI string: settingsNightTheme"
+  },
+  "settingsTitle": {
+    "message": "Einstellungen",
+    "description": "UI string: settingsTitle"
+  },
+  "settingsGroupGeneral": {
+    "message": "Allgemein",
+    "description": "UI string: settingsGroupGeneral"
+  },
+  "settingsGroupView": {
+    "message": "Ansicht",
+    "description": "UI string: settingsGroupView"
+  },
+  "settingsSimpleBookmarkCardTextColor": {
+    "message": "Textfarbe der Lesezeichenkarten",
+    "description": "UI string: settingsSimpleBookmarkCardTextColor"
+  },
+  "settingsSimpleBookmarkCardTextColorPick": {
+    "message": "Textfarbe der Lesezeichenkarten wählen",
+    "description": "UI string: settingsSimpleBookmarkCardTextColorPick"
+  },
+  "settingsModeGroupAria": {
+    "message": "Seitenmodus",
+    "description": "UI string: settingsModeGroupAria"
+  },
+  "settingsModeSimple": {
+    "message": "Minimal",
+    "description": "UI string: settingsModeSimple"
+  },
+  "settingsModeDefault": {
+    "message": "Standard",
+    "description": "UI string: settingsModeDefault"
+  },
+  "settingsModeEdit": {
+    "message": "Bearbeiten",
+    "description": "UI string: settingsModeEdit"
+  },
+  "settingsGroupSimpleSearch": {
+    "message": "Suchfeld",
+    "description": "UI string: settingsGroupSimpleSearch"
+  },
+  "settingsSimpleSearchScale": {
+    "message": "Größe des Suchfelds",
+    "description": "UI string: settingsSimpleSearchScale"
+  },
+  "settingsSimpleSearchOpacity": {
+    "message": "Deckkraft des Suchfelds",
+    "description": "UI string: settingsSimpleSearchOpacity"
+  },
+  "settingsSimpleSearchRadius": {
+    "message": "Eckenradius des Suchfelds",
+    "description": "UI string: settingsSimpleSearchRadius"
+  },
+  "simpleUiDrawerTitle": {
+    "message": "Sucheinstellungen",
+    "description": "UI string: simpleUiDrawerTitle"
+  },
+  "simpleUiClose": {
+    "message": "Schließen",
+    "description": "UI string: simpleUiClose"
+  },
+  "simpleUiTabDefault": {
+    "message": "Standard",
+    "description": "UI string: simpleUiTabDefault"
+  },
+  "simpleUiTabCustom": {
+    "message": "Benutzerdefiniert",
+    "description": "UI string: simpleUiTabCustom"
+  },
+  "simpleUiBuiltinEngines": {
+    "message": "Integrierte Suchmaschinen",
+    "description": "UI string: simpleUiBuiltinEngines"
+  },
+  "simpleUiEngineQuickBar": {
+    "message": "{name} in der Schnellleiste anzeigen",
+    "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "simpleUiAddEngineTitle": {
+    "message": "Suchmaschine hinzufügen",
+    "description": "UI string: simpleUiAddEngineTitle"
+  },
+  "simpleUiEditEngineTitle": {
+    "message": "Suchmaschine bearbeiten",
+    "description": "UI string: simpleUiEditEngineTitle"
+  },
+  "simpleUiNamePh": {
+    "message": "Name",
+    "description": "UI string: simpleUiNamePh"
+  },
+  "simpleUiUrlHint": {
+    "message": "URL (%s für die Suchanfrage; Favicon wird von der URL geladen)",
+    "description": "UI string: simpleUiUrlHint"
+  },
+  "simpleUiUrlPh": {
+    "message": "https://example.com/search?q=%s",
+    "description": "UI string: simpleUiUrlPh"
+  },
+  "simpleUiBtnSave": {
+    "message": "Änderungen speichern",
+    "description": "UI string: simpleUiBtnSave"
+  },
+  "simpleUiBtnAdd": {
+    "message": "Suchmaschine hinzufügen",
+    "description": "UI string: simpleUiBtnAdd"
+  },
+  "simpleUiCancelEdit": {
+    "message": "Bearbeitung abbrechen",
+    "description": "UI string: simpleUiCancelEdit"
+  },
+  "simpleUiCustomEnginesTitle": {
+    "message": "Eigene Suchmaschinen",
+    "description": "UI string: simpleUiCustomEnginesTitle"
+  },
+  "simpleUiEdit": {
+    "message": "Bearbeiten",
+    "description": "UI string: simpleUiEdit"
+  },
+  "simpleUiDelete": {
+    "message": "Löschen",
+    "description": "UI string: simpleUiDelete"
+  },
+  "simpleUiQuickBookmarks": {
+    "message": "Lesezeichen",
+    "description": "UI string: simpleUiQuickBookmarks"
+  },
+  "simpleUiQuickAdd": {
+    "message": "Hinzufügen",
+    "description": "UI string: simpleUiQuickAdd"
+  },
+  "simpleUiBookmarkSearchTip": {
+    "message": "Lesezeichen durchsuchen",
+    "description": "UI string: simpleUiBookmarkSearchTip"
+  },
+  "simpleUiSearchFallback": {
+    "message": "Suchen",
+    "description": "UI string: simpleUiSearchFallback"
+  },
+  "simpleUiBookmarksMode": {
+    "message": "Lesezeichen",
+    "description": "UI string: simpleUiBookmarksMode"
+  },
+  "simpleUiInvalidUrl": {
+    "message": "Geben Sie eine gültige URL ein",
+    "description": "UI string: simpleUiInvalidUrl"
+  },
+  "simpleUiErrorIncomplete": {
+    "message": "Bitte ausfüllen: {list}",
+    "description": "UI string: simpleUiErrorIncomplete"
+  },
+  "simpleUiFieldName": {
+    "message": "Name",
+    "description": "UI string: simpleUiFieldName"
+  },
+  "simpleUiFieldUrl": {
+    "message": "URL",
+    "description": "UI string: simpleUiFieldUrl"
+  },
+  "simpleUiListSep": {
+    "message": ", ",
+    "description": "UI string: simpleUiListSep"
+  },
+  "simpleEngine_google": {
+    "message": "Google",
+    "description": "UI string: simpleEngine_google"
+  },
+  "simpleEngine_baidu": {
+    "message": "Baidu",
+    "description": "UI string: simpleEngine_baidu"
+  },
+  "simpleEngine_bing": {
+    "message": "Bing",
+    "description": "UI string: simpleEngine_bing"
+  },
+  "simpleEngine_sogou": {
+    "message": "Sogou",
+    "description": "UI string: simpleEngine_sogou"
+  },
+  "simpleEngine_yandex": {
+    "message": "Yandex",
+    "description": "UI string: simpleEngine_yandex"
+  },
+  "settingsGroupManage": {
+    "message": "Verwaltung",
+    "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupAbout": {
+    "message": "Info",
+    "description": "UI string: settingsGroupAbout"
+  },
+  "on": {
+    "message": "An",
+    "description": "UI string: on"
+  },
+  "off": {
+    "message": "Aus",
+    "description": "UI string: off"
+  },
+  "bgPickTitle": {
+    "message": "Farbe wählen",
+    "description": "UI string: bgPickTitle"
+  },
+  "bgPickAria": {
+    "message": "Eigene Hintergrundfarbe",
+    "description": "UI string: bgPickAria"
+  },
+  "chooseImg": {
+    "message": "Bild wählen",
+    "description": "UI string: chooseImg"
+  },
+  "clear": {
+    "message": "Entfernen",
+    "description": "UI string: clear"
+  },
+  "settingsFolderManage": {
+    "message": "Lesezeichen-Ordner verwalten",
+    "description": "UI string: settingsFolderManage"
+  },
+  "settingsVisibleRoots": {
+    "message": "Anzuzeigende Lesezeichen-Stammordner",
+    "description": "UI string: settingsVisibleRoots"
+  },
+  "settingsRootOthers": {
+    "message": "Sonstige",
+    "description": "UI string: settingsRootOthers"
+  },
+  "openBookmarkManager": {
+    "message": "Lesezeichen-Manager öffnen",
+    "description": "UI string: openBookmarkManager"
+  },
+  "helpLink": {
+    "message": "Anleitung",
+    "description": "UI string: helpLink"
+  },
+  "imgTooBig": {
+    "message": "Bild zu groß. Bitte unter 3 MB wählen.",
+    "description": "UI string: imgTooBig"
+  },
+  "langZh": {
+    "message": "简体中文",
+    "description": "UI string: langZh"
+  },
+  "langZhTW": {
+    "message": "繁體中文",
+    "description": "UI string: langZhTW"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "UI string: langEn"
+  },
+  "langEs": {
+    "message": "Español",
+    "description": "UI string: langEs"
+  },
+  "langDe": {
+    "message": "Deutsch",
+    "description": "UI string: langDe"
+  },
+  "langFr": {
+    "message": "Français",
+    "description": "UI string: langFr"
+  },
+  "langJa": {
+    "message": "日本語",
+    "description": "UI string: langJa"
+  },
+  "langKo": {
+    "message": "한국어",
+    "description": "UI string: langKo"
+  },
+  "editTitle": {
+    "message": "Lesezeichen bearbeiten",
+    "description": "UI string: editTitle"
+  },
+  "labelTitle": {
+    "message": "Titel",
+    "description": "UI string: labelTitle"
+  },
+  "labelFolder": {
+    "message": "Ordner",
+    "description": "UI string: labelFolder"
+  },
+  "labelIcon": {
+    "message": "Symbolfarbe",
+    "description": "UI string: labelIcon"
+  },
+  "labelTags": {
+    "message": "Tags",
+    "description": "UI string: labelTags"
+  },
+  "labelDesc": {
+    "message": "Beschreibung",
+    "description": "UI string: labelDesc"
+  },
+  "labelUrl": {
+    "message": "Link",
+    "description": "UI string: labelUrl"
+  },
+  "folderPick": {
+    "message": "Ordner wählen",
+    "description": "UI string: folderPick"
+  },
+  "folderPanelAria": {
+    "message": "Ordner wählen",
+    "description": "UI string: folderPanelAria"
+  },
+  "tagInputAria": {
+    "message": "Tags: Enter, Leerzeichen, Tab oder Komma. Max. 3, je 16 Zeichen.",
+    "description": "UI string: tagInputAria"
+  },
+  "tagPlaceholder": {
+    "message": "Bis 3 Tags, je 16 Zeichen",
+    "description": "UI string: tagPlaceholder"
+  },
+  "descPlaceholder": {
+    "message": "Optional, max. 100 Zeichen",
+    "description": "UI string: descPlaceholder"
+  },
+  "cancel": {
+    "message": "Abbrechen",
+    "description": "UI string: cancel"
+  },
+  "save": {
+    "message": "Speichern",
+    "description": "UI string: save"
+  },
+  "autoColor": {
+    "message": "Auto",
+    "description": "UI string: autoColor"
+  },
+  "autoColorBtn": {
+    "message": "A",
+    "description": "UI string: autoColorBtn"
+  },
+  "colorAria": {
+    "message": "Farbe",
+    "description": "UI string: colorAria"
+  },
+  "removeTagAria": {
+    "message": "Entfernen",
+    "description": "UI string: removeTagAria"
+  },
+  "guidePageTitle": {
+    "message": "Anleitung",
+    "description": "UI string: guidePageTitle"
+  },
+  "guideH1": {
+    "message": "SuperBookmark · Anleitung",
+    "description": "UI string: guideH1"
+  },
+  "guideIntro": {
+    "message": "Organisation der Lesezeichen und Bedienung der Erweiterung.",
+    "description": "UI string: guideIntro"
+  },
+  "g1h": {
+    "message": "1. Ordnerstruktur",
+    "description": "UI string: g1h"
+  },
+  "g1p": {
+    "message": "Die Erweiterung nutzt die <strong>Ordnerhierarchie</strong> von Chrome:",
+    "description": "UI string: g1p"
+  },
+  "g1li1": {
+    "message": "<strong>Oberste Ebene</strong>: Chromes oberste Lesezeichenstruktur; Hauptkategorien. Bei <strong>mehreren Wurzeln</strong> in der <strong>ersten Kopfzeile</strong> wechseln; bei nur einer wird sie ausgeblendet.",
+    "description": "UI string: g1li1"
+  },
+  "g1li2": {
+    "message": "<strong>Zweite Ebene</strong>: die <strong>zweite Kopfzeile</strong> mit Unterkategorien; fehlen sie, nur der Hauptname.",
+    "description": "UI string: g1li2"
+  },
+  "g1li3": {
+    "message": "<strong>Ab dritter Ebene</strong>: Ordnernamen werden zu <strong>Tags</strong> auf den Karten.",
+    "description": "UI string: g1li3"
+  },
+  "g1note": {
+    "message": "Bei leerer Liste Ordner in der Lesezeichenleiste anlegen.",
+    "description": "UI string: g1note"
+  },
+  "g2h": {
+    "message": "2. Navigation und Suche",
+    "description": "UI string: g2h"
+  },
+  "g2li1": {
+    "message": "Mehrere Hauptkategorien: zuerst erste Kopfzeile, dann zweite. Eine Hauptkategorie: nur zweite Zeile. Dritte Ebene: Untermenü links.",
+    "description": "UI string: g2li1"
+  },
+  "g2li2": {
+    "message": "<strong>Tag-Leiste</strong> filtert die Ansicht. Pfeile zum Scrollen.",
+    "description": "UI string: g2li2"
+  },
+  "g2li3": {
+    "message": "Suche nach Titel, URL und Tags.",
+    "description": "UI string: g2li3"
+  },
+  "g3h": {
+    "message": "3. Bearbeitungsmodus",
+    "description": "UI string: g3h"
+  },
+  "g3p": {
+    "message": "<strong>Bearbeitungsmodus</strong> unter ⚙ aktivieren:",
+    "description": "UI string: g3p"
+  },
+  "g3li1": {
+    "message": "<strong>✏️ Bearbeiten</strong>: Titel, Ordner, Tags (max. 3, 16 Zeichen).",
+    "description": "UI string: g3li1"
+  },
+  "g3li2": {
+    "message": "<strong>🗑 Löschen</strong>: Lesezeichen in Chrome entfernen.",
+    "description": "UI string: g3li2"
+  },
+  "g3li3": {
+    "message": "<strong>Rechtsklick</strong> für Kontextmenü.",
+    "description": "UI string: g3li3"
+  },
+  "g4h": {
+    "message": "4. Ziehen und Ablegen",
+    "description": "UI string: g4h"
+  },
+  "g4p": {
+    "message": "Karten auf die obere Hauptzeile (bei mehreren Wurzeln), Unterkategorien oder linke Unterordner ziehen. Sortierung in derselben Liste.",
+    "description": "UI string: g4p"
+  },
+  "g5h": {
+    "message": "5. Einstellungen",
+    "description": "UI string: g5h"
+  },
+  "g5li1": {
+    "message": "<strong>Bearbeitungsmodus</strong>: Aktionen ein/aus.",
+    "description": "UI string: g5li1"
+  },
+  "g5li2": {
+    "message": "<strong>Spalten</strong>: 3 / 4 / 5.",
+    "description": "UI string: g5li2"
+  },
+  "g5li3": {
+    "message": "<strong>Breite</strong>: 50%–100% der Fensterbreite (mind. 400px), per Schieberegler einstellbar.",
+    "description": "UI string: g5li3"
+  },
+  "g5li4": {
+    "message": "<strong>Farben / Bild</strong>: Hintergrund; kleine Bilder empfohlen.",
+    "description": "UI string: g5li4"
+  },
+  "g5li5": {
+    "message": "<strong>Neuer Tab</strong>: öffnet diese Seite.",
+    "description": "UI string: g5li5"
+  },
+  "g5li6": {
+    "message": "<strong>Sprache</strong>: mehrere Sprachen.",
+    "description": "UI string: g5li6"
+  },
+  "guideFoot": {
+    "message": "SuperBookmark · Neuer Tab oder Erweiterungssymbol zum Zurückkehren",
+    "description": "UI string: guideFoot"
+  },
+  "bgpBlue": {
+    "message": "Hellblau",
+    "description": "UI string: bgpBlue"
+  },
+  "bgpGreen": {
+    "message": "Hellgrün",
+    "description": "UI string: bgpGreen"
+  },
+  "bgpBeige": {
+    "message": "Beige",
+    "description": "UI string: bgpBeige"
+  },
+  "bgpGray": {
+    "message": "Hellgrau",
+    "description": "UI string: bgpGray"
+  },
+  "bgpWhite": {
+    "message": "Weiß",
+    "description": "UI string: bgpWhite"
+  },
+  "bgpDark": {
+    "message": "Dunkel",
+    "description": "UI string: bgpDark"
+  }
+}

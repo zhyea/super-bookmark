@@ -1,0 +1,626 @@
+{
+  "extName": {
+    "message": "SuperBookmark",
+    "description": "Extension name shown in browser and Chrome Web Store."
+  },
+  "extDescription": {
+    "message": "Transformez vos favoris en hub de navigation privé sur la page Nouvel onglet.",
+    "description": "Short description for manifest and store listing."
+  },
+  "pageTitle": {
+    "message": "SuperBookmark",
+    "description": "UI string: pageTitle"
+  },
+  "loading": {
+    "message": "Chargement des favoris…",
+    "description": "UI string: loading"
+  },
+  "emptyState": {
+    "message": "Aucune donnée. Créez des dossiers dans la barre de favoris.",
+    "description": "UI string: emptyState"
+  },
+  "footer": {
+    "message": "© 2026 SuperBookmark. Tous droits réservés.",
+    "description": "UI string: footer"
+  },
+  "navPrimaryAria": {
+    "message": "Racines des favoris (si plusieurs)",
+    "description": "UI string: navPrimaryAria"
+  },
+  "navSecondaryAria": {
+    "message": "Sous-catégories (haut)",
+    "description": "UI string: navSecondaryAria"
+  },
+  "sidebarAria": {
+    "message": "Barre latérale",
+    "description": "UI string: sidebarAria"
+  },
+  "searchPlaceholder": {
+    "message": "Rechercher",
+    "description": "UI string: searchPlaceholder"
+  },
+  "searchBtn": {
+    "message": "Rechercher",
+    "description": "UI string: searchBtn"
+  },
+  "tagAll": {
+    "message": "Tous",
+    "description": "UI string: tagAll"
+  },
+  "uncategorized": {
+    "message": "Non classé",
+    "description": "UI string: uncategorized"
+  },
+  "overviewAllNav": {
+    "message": "Tout",
+    "description": "UI string: overviewAllNav"
+  },
+  "settingsShowOverviewAllNav": {
+    "message": "Afficher l’aperçu « Tout » dans le menu du haut",
+    "description": "UI string: settingsShowOverviewAllNav"
+  },
+  "tagLeft": {
+    "message": "Défiler à gauche",
+    "description": "UI string: tagLeft"
+  },
+  "tagRight": {
+    "message": "Défiler à droite",
+    "description": "UI string: tagRight"
+  },
+  "scrollAria": {
+    "message": "Haut ou bas de page",
+    "description": "UI string: scrollAria"
+  },
+  "scrollBottom": {
+    "message": "Bas de page",
+    "description": "UI string: scrollBottom"
+  },
+  "scrollTop": {
+    "message": "Haut de page",
+    "description": "UI string: scrollTop"
+  },
+  "ctxDelete": {
+    "message": "Supprimer le favori",
+    "description": "UI string: ctxDelete"
+  },
+  "ctxEdit": {
+    "message": "Modifier le favori",
+    "description": "UI string: ctxEdit"
+  },
+  "cardDelete": {
+    "message": "Supprimer",
+    "description": "UI string: cardDelete"
+  },
+  "cardEdit": {
+    "message": "Modifier",
+    "description": "UI string: cardEdit"
+  },
+  "settingsAria": {
+    "message": "Paramètres",
+    "description": "UI string: settingsAria"
+  },
+  "simpleGoHome": {
+    "message": "Aller à la page principale",
+    "description": "UI string: simpleGoHome"
+  },
+  "settingsEditMode": {
+    "message": "Mode édition",
+    "description": "UI string: settingsEditMode"
+  },
+  "settingsColumns": {
+    "message": "Colonnes",
+    "description": "UI string: settingsColumns"
+  },
+  "settingsWidth": {
+    "message": "Largeur du contenu",
+    "description": "UI string: settingsWidth"
+  },
+  "settingsBg": {
+    "message": "Couleur de fond",
+    "description": "UI string: settingsBg"
+  },
+  "settingsBgImg": {
+    "message": "Image de fond",
+    "description": "UI string: settingsBgImg"
+  },
+  "settingsContentTransparency": {
+    "message": "Transparence du contenu",
+    "description": "UI string: settingsContentTransparency"
+  },
+  "settingsOverlayTransparency": {
+    "message": "Transparence du fond",
+    "description": "UI string: settingsOverlayTransparency"
+  },
+  "settingsOverlayBlur": {
+    "message": "Flou du fond",
+    "description": "UI string: settingsOverlayBlur"
+  },
+  "settingsNewTab": {
+    "message": "Remplacer l’onglet nouveau",
+    "description": "UI string: settingsNewTab"
+  },
+  "settingsLang": {
+    "message": "Langue",
+    "description": "UI string: settingsLang"
+  },
+  "settingsNightTheme": {
+    "message": "Thème sombre",
+    "description": "UI string: settingsNightTheme"
+  },
+  "settingsTitle": {
+    "message": "Paramètres",
+    "description": "UI string: settingsTitle"
+  },
+  "settingsGroupGeneral": {
+    "message": "Général",
+    "description": "UI string: settingsGroupGeneral"
+  },
+  "settingsGroupView": {
+    "message": "Affichage",
+    "description": "UI string: settingsGroupView"
+  },
+  "settingsSimpleBookmarkCardTextColor": {
+    "message": "Couleur du texte des cartes",
+    "description": "UI string: settingsSimpleBookmarkCardTextColor"
+  },
+  "settingsSimpleBookmarkCardTextColorPick": {
+    "message": "Choisir la couleur du texte des cartes",
+    "description": "UI string: settingsSimpleBookmarkCardTextColorPick"
+  },
+  "settingsModeGroupAria": {
+    "message": "Mode de page",
+    "description": "UI string: settingsModeGroupAria"
+  },
+  "settingsModeSimple": {
+    "message": "Minimal",
+    "description": "UI string: settingsModeSimple"
+  },
+  "settingsModeDefault": {
+    "message": "Par défaut",
+    "description": "UI string: settingsModeDefault"
+  },
+  "settingsModeEdit": {
+    "message": "Édition",
+    "description": "UI string: settingsModeEdit"
+  },
+  "settingsGroupSimpleSearch": {
+    "message": "Champ de recherche",
+    "description": "UI string: settingsGroupSimpleSearch"
+  },
+  "settingsSimpleSearchScale": {
+    "message": "Taille du champ de recherche",
+    "description": "UI string: settingsSimpleSearchScale"
+  },
+  "settingsSimpleSearchOpacity": {
+    "message": "Opacité du champ de recherche",
+    "description": "UI string: settingsSimpleSearchOpacity"
+  },
+  "settingsSimpleSearchRadius": {
+    "message": "Rayon des coins du champ",
+    "description": "UI string: settingsSimpleSearchRadius"
+  },
+  "simpleUiDrawerTitle": {
+    "message": "Paramètres de recherche",
+    "description": "UI string: simpleUiDrawerTitle"
+  },
+  "simpleUiClose": {
+    "message": "Fermer",
+    "description": "UI string: simpleUiClose"
+  },
+  "simpleUiTabDefault": {
+    "message": "Par défaut",
+    "description": "UI string: simpleUiTabDefault"
+  },
+  "simpleUiTabCustom": {
+    "message": "Personnalisé",
+    "description": "UI string: simpleUiTabCustom"
+  },
+  "simpleUiBuiltinEngines": {
+    "message": "Moteurs intégrés",
+    "description": "UI string: simpleUiBuiltinEngines"
+  },
+  "simpleUiEngineQuickBar": {
+    "message": "Afficher {name} dans la barre rapide",
+    "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "simpleUiAddEngineTitle": {
+    "message": "Ajouter un moteur",
+    "description": "UI string: simpleUiAddEngineTitle"
+  },
+  "simpleUiEditEngineTitle": {
+    "message": "Modifier le moteur",
+    "description": "UI string: simpleUiEditEngineTitle"
+  },
+  "simpleUiNamePh": {
+    "message": "Nom",
+    "description": "UI string: simpleUiNamePh"
+  },
+  "simpleUiUrlHint": {
+    "message": "URL (%s pour la requête ; favicon dérivé de l’URL)",
+    "description": "UI string: simpleUiUrlHint"
+  },
+  "simpleUiUrlPh": {
+    "message": "https://example.com/search?q=%s",
+    "description": "UI string: simpleUiUrlPh"
+  },
+  "simpleUiBtnSave": {
+    "message": "Enregistrer les modifications",
+    "description": "UI string: simpleUiBtnSave"
+  },
+  "simpleUiBtnAdd": {
+    "message": "Ajouter un moteur",
+    "description": "UI string: simpleUiBtnAdd"
+  },
+  "simpleUiCancelEdit": {
+    "message": "Annuler l’édition",
+    "description": "UI string: simpleUiCancelEdit"
+  },
+  "simpleUiCustomEnginesTitle": {
+    "message": "Moteurs personnalisés",
+    "description": "UI string: simpleUiCustomEnginesTitle"
+  },
+  "simpleUiEdit": {
+    "message": "Modifier",
+    "description": "UI string: simpleUiEdit"
+  },
+  "simpleUiDelete": {
+    "message": "Supprimer",
+    "description": "UI string: simpleUiDelete"
+  },
+  "simpleUiQuickBookmarks": {
+    "message": "Favoris",
+    "description": "UI string: simpleUiQuickBookmarks"
+  },
+  "simpleUiQuickAdd": {
+    "message": "Ajouter",
+    "description": "UI string: simpleUiQuickAdd"
+  },
+  "simpleUiBookmarkSearchTip": {
+    "message": "Recherche dans les favoris",
+    "description": "UI string: simpleUiBookmarkSearchTip"
+  },
+  "simpleUiSearchFallback": {
+    "message": "Rechercher",
+    "description": "UI string: simpleUiSearchFallback"
+  },
+  "simpleUiBookmarksMode": {
+    "message": "Favoris",
+    "description": "UI string: simpleUiBookmarksMode"
+  },
+  "simpleUiInvalidUrl": {
+    "message": "Saisissez une URL valide",
+    "description": "UI string: simpleUiInvalidUrl"
+  },
+  "simpleUiErrorIncomplete": {
+    "message": "Veuillez remplir : {list}",
+    "description": "UI string: simpleUiErrorIncomplete"
+  },
+  "simpleUiFieldName": {
+    "message": "Nom",
+    "description": "UI string: simpleUiFieldName"
+  },
+  "simpleUiFieldUrl": {
+    "message": "URL",
+    "description": "UI string: simpleUiFieldUrl"
+  },
+  "simpleUiListSep": {
+    "message": ", ",
+    "description": "UI string: simpleUiListSep"
+  },
+  "simpleEngine_google": {
+    "message": "Google",
+    "description": "UI string: simpleEngine_google"
+  },
+  "simpleEngine_baidu": {
+    "message": "Baidu",
+    "description": "UI string: simpleEngine_baidu"
+  },
+  "simpleEngine_bing": {
+    "message": "Bing",
+    "description": "UI string: simpleEngine_bing"
+  },
+  "simpleEngine_sogou": {
+    "message": "Sogou",
+    "description": "UI string: simpleEngine_sogou"
+  },
+  "simpleEngine_yandex": {
+    "message": "Yandex",
+    "description": "UI string: simpleEngine_yandex"
+  },
+  "settingsGroupManage": {
+    "message": "Gestion",
+    "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupAbout": {
+    "message": "À propos",
+    "description": "UI string: settingsGroupAbout"
+  },
+  "on": {
+    "message": "Oui",
+    "description": "UI string: on"
+  },
+  "off": {
+    "message": "Non",
+    "description": "UI string: off"
+  },
+  "bgPickTitle": {
+    "message": "Choisir la couleur",
+    "description": "UI string: bgPickTitle"
+  },
+  "bgPickAria": {
+    "message": "Couleur de fond personnalisée",
+    "description": "UI string: bgPickAria"
+  },
+  "chooseImg": {
+    "message": "Choisir une image",
+    "description": "UI string: chooseImg"
+  },
+  "clear": {
+    "message": "Effacer",
+    "description": "UI string: clear"
+  },
+  "settingsFolderManage": {
+    "message": "Gestion des dossiers de favoris",
+    "description": "UI string: settingsFolderManage"
+  },
+  "settingsVisibleRoots": {
+    "message": "Racines de favoris à afficher",
+    "description": "UI string: settingsVisibleRoots"
+  },
+  "settingsRootOthers": {
+    "message": "Autres",
+    "description": "UI string: settingsRootOthers"
+  },
+  "openBookmarkManager": {
+    "message": "Ouvrir le gestionnaire de favoris",
+    "description": "UI string: openBookmarkManager"
+  },
+  "helpLink": {
+    "message": "Guide d’utilisation",
+    "description": "UI string: helpLink"
+  },
+  "imgTooBig": {
+    "message": "Image trop volumineuse. Utilisez un fichier de moins de 3 Mo.",
+    "description": "UI string: imgTooBig"
+  },
+  "langZh": {
+    "message": "简体中文",
+    "description": "UI string: langZh"
+  },
+  "langZhTW": {
+    "message": "繁體中文",
+    "description": "UI string: langZhTW"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "UI string: langEn"
+  },
+  "langEs": {
+    "message": "Español",
+    "description": "UI string: langEs"
+  },
+  "langDe": {
+    "message": "Deutsch",
+    "description": "UI string: langDe"
+  },
+  "langFr": {
+    "message": "Français",
+    "description": "UI string: langFr"
+  },
+  "langJa": {
+    "message": "日本語",
+    "description": "UI string: langJa"
+  },
+  "langKo": {
+    "message": "한국어",
+    "description": "UI string: langKo"
+  },
+  "editTitle": {
+    "message": "Modifier le favori",
+    "description": "UI string: editTitle"
+  },
+  "labelTitle": {
+    "message": "Titre",
+    "description": "UI string: labelTitle"
+  },
+  "labelFolder": {
+    "message": "Dossier",
+    "description": "UI string: labelFolder"
+  },
+  "labelIcon": {
+    "message": "Couleur de l’icône",
+    "description": "UI string: labelIcon"
+  },
+  "labelTags": {
+    "message": "Étiquettes",
+    "description": "UI string: labelTags"
+  },
+  "labelDesc": {
+    "message": "Description",
+    "description": "UI string: labelDesc"
+  },
+  "labelUrl": {
+    "message": "Lien",
+    "description": "UI string: labelUrl"
+  },
+  "folderPick": {
+    "message": "Choisir un dossier",
+    "description": "UI string: folderPick"
+  },
+  "folderPanelAria": {
+    "message": "Choisir un dossier",
+    "description": "UI string: folderPanelAria"
+  },
+  "tagInputAria": {
+    "message": "Étiquettes : Entrée, espace, Tab ou virgule. Max 3, 16 car.",
+    "description": "UI string: tagInputAria"
+  },
+  "tagPlaceholder": {
+    "message": "Jusqu’à 3 étiquettes, 16 car.",
+    "description": "UI string: tagPlaceholder"
+  },
+  "descPlaceholder": {
+    "message": "Optionnel, max 100 car.",
+    "description": "UI string: descPlaceholder"
+  },
+  "cancel": {
+    "message": "Annuler",
+    "description": "UI string: cancel"
+  },
+  "save": {
+    "message": "Enregistrer",
+    "description": "UI string: save"
+  },
+  "autoColor": {
+    "message": "Auto",
+    "description": "UI string: autoColor"
+  },
+  "autoColorBtn": {
+    "message": "A",
+    "description": "UI string: autoColorBtn"
+  },
+  "colorAria": {
+    "message": "Couleur",
+    "description": "UI string: colorAria"
+  },
+  "removeTagAria": {
+    "message": "Retirer",
+    "description": "UI string: removeTagAria"
+  },
+  "guidePageTitle": {
+    "message": "Guide",
+    "description": "UI string: guidePageTitle"
+  },
+  "guideH1": {
+    "message": "SuperBookmark · Guide",
+    "description": "UI string: guideH1"
+  },
+  "guideIntro": {
+    "message": "Organisation des favoris et utilisation de l’extension.",
+    "description": "UI string: guideIntro"
+  },
+  "g1h": {
+    "message": "1. Structure des dossiers",
+    "description": "UI string: g1h"
+  },
+  "g1p": {
+    "message": "L’extension suit la <strong>hiérarchie des dossiers</strong> Chrome :",
+    "description": "UI string: g1p"
+  },
+  "g1li1": {
+    "message": "<strong>Premier niveau</strong> : structure supérieure Chrome ; catégories principales. <strong>Plusieurs racines</strong> : première ligne d’en-tête ; une seule : cette ligne est masquée.",
+    "description": "UI string: g1li1"
+  },
+  "g1li2": {
+    "message": "<strong>Deuxième niveau</strong> : la <strong>deuxième ligne</strong> du haut pour les sous-catégories ; sinon seul le nom du premier niveau.",
+    "description": "UI string: g1li2"
+  },
+  "g1li3": {
+    "message": "<strong>Troisième niveau et plus</strong> : les noms deviennent des <strong>étiquettes de filtre</strong> dans la barre du haut, pas sur les cartes.",
+    "description": "UI string: g1li3"
+  },
+  "g1note": {
+    "message": "Si la liste est vide, créez des dossiers dans la barre de favoris.",
+    "description": "UI string: g1note"
+  },
+  "g2h": {
+    "message": "2. Parcourir et rechercher",
+    "description": "UI string: g2h"
+  },
+  "g2li1": {
+    "message": "Plusieurs catégories principales : d’abord la première ligne du haut, puis la deuxième. Une seule : seule la deuxième ligne. Troisième niveau : sous-menu à gauche.",
+    "description": "UI string: g2li1"
+  },
+  "g2li2": {
+    "message": "La <strong>barre d’étiquettes</strong> filtre la vue. Flèches pour défiler.",
+    "description": "UI string: g2li2"
+  },
+  "g2li3": {
+    "message": "Recherche par titre, URL et étiquettes.",
+    "description": "UI string: g2li3"
+  },
+  "g3h": {
+    "message": "3. Mode édition",
+    "description": "UI string: g3h"
+  },
+  "g3p": {
+    "message": "Activez le <strong>mode édition</strong> dans ⚙ Paramètres :",
+    "description": "UI string: g3p"
+  },
+  "g3li1": {
+    "message": "<strong>✏️ Modifier</strong> : titre, dossier, étiquettes (max 3, 16 car.).",
+    "description": "UI string: g3li1"
+  },
+  "g3li2": {
+    "message": "<strong>🗑 Supprimer</strong> : retire le favori de Chrome.",
+    "description": "UI string: g3li2"
+  },
+  "g3li3": {
+    "message": "<strong>Clic droit</strong> pour le menu contextuel.",
+    "description": "UI string: g3li3"
+  },
+  "g4h": {
+    "message": "4. Glisser-déposer",
+    "description": "UI string: g4h"
+  },
+  "g4p": {
+    "message": "Glissez les cartes vers la ligne principale du haut (si plusieurs racines), les sous-catégories ou les sous-dossiers à gauche. Réordonnez dans la même liste.",
+    "description": "UI string: g4p"
+  },
+  "g5h": {
+    "message": "5. Paramètres",
+    "description": "UI string: g5h"
+  },
+  "g5li1": {
+    "message": "<strong>Mode édition</strong> : afficher actions.",
+    "description": "UI string: g5li1"
+  },
+  "g5li2": {
+    "message": "<strong>Colonnes</strong> : 3 / 4 / 5.",
+    "description": "UI string: g5li2"
+  },
+  "g5li3": {
+    "message": "<strong>Largeur</strong> : 50%–100% de la largeur de la fenêtre (min. 400px), réglable avec le curseur.",
+    "description": "UI string: g5li3"
+  },
+  "g5li4": {
+    "message": "<strong>Couleurs / image</strong> : fond.",
+    "description": "UI string: g5li4"
+  },
+  "g5li5": {
+    "message": "<strong>Nouvel onglet</strong> : ouvre cette page.",
+    "description": "UI string: g5li5"
+  },
+  "g5li6": {
+    "message": "<strong>Langue</strong> : plusieurs langues.",
+    "description": "UI string: g5li6"
+  },
+  "guideFoot": {
+    "message": "SuperBookmark · Nouvel onglet ou icône pour revenir",
+    "description": "UI string: guideFoot"
+  },
+  "bgpBlue": {
+    "message": "Bleu clair",
+    "description": "UI string: bgpBlue"
+  },
+  "bgpGreen": {
+    "message": "Vert clair",
+    "description": "UI string: bgpGreen"
+  },
+  "bgpBeige": {
+    "message": "Beige",
+    "description": "UI string: bgpBeige"
+  },
+  "bgpGray": {
+    "message": "Gris clair",
+    "description": "UI string: bgpGray"
+  },
+  "bgpWhite": {
+    "message": "Blanc",
+    "description": "UI string: bgpWhite"
+  },
+  "bgpDark": {
+    "message": "Sombre",
+    "description": "UI string: bgpDark"
+  }
+}

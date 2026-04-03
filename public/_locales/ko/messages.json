@@ -1,0 +1,626 @@
+{
+  "extName": {
+    "message": "SuperBookmark",
+    "description": "Extension name shown in browser and Chrome Web Store."
+  },
+  "extDescription": {
+    "message": "새 탭에서 북마크를 나만의 내비게이션 허브로 만듭니다.",
+    "description": "Short description for manifest and store listing."
+  },
+  "pageTitle": {
+    "message": "SuperBookmark",
+    "description": "UI string: pageTitle"
+  },
+  "loading": {
+    "message": "북마크를 불러오는 중…",
+    "description": "UI string: loading"
+  },
+  "emptyState": {
+    "message": "데이터가 없습니다. 북마크 바에 폴더를 만들고 북마크를 추가하세요.",
+    "description": "UI string: emptyState"
+  },
+  "footer": {
+    "message": "© 2026 SuperBookmark. 무단 복제 금지.",
+    "description": "UI string: footer"
+  },
+  "navPrimaryAria": {
+    "message": "최상위 북마크(여러 개일 때)",
+    "description": "UI string: navPrimaryAria"
+  },
+  "navSecondaryAria": {
+    "message": "하위 분류(상단)",
+    "description": "UI string: navSecondaryAria"
+  },
+  "sidebarAria": {
+    "message": "사이드 메뉴",
+    "description": "UI string: sidebarAria"
+  },
+  "searchPlaceholder": {
+    "message": "북마크 검색",
+    "description": "UI string: searchPlaceholder"
+  },
+  "searchBtn": {
+    "message": "검색",
+    "description": "UI string: searchBtn"
+  },
+  "tagAll": {
+    "message": "전체",
+    "description": "UI string: tagAll"
+  },
+  "uncategorized": {
+    "message": "분류 없음",
+    "description": "UI string: uncategorized"
+  },
+  "overviewAllNav": {
+    "message": "전체",
+    "description": "UI string: overviewAllNav"
+  },
+  "settingsShowOverviewAllNav": {
+    "message": "상단 메뉴에 「전체」 보기 표시",
+    "description": "UI string: settingsShowOverviewAllNav"
+  },
+  "tagLeft": {
+    "message": "왼쪽으로 스크롤",
+    "description": "UI string: tagLeft"
+  },
+  "tagRight": {
+    "message": "오른쪽으로 스크롤",
+    "description": "UI string: tagRight"
+  },
+  "scrollAria": {
+    "message": "맨 위/아래로",
+    "description": "UI string: scrollAria"
+  },
+  "scrollBottom": {
+    "message": "맨 아래로",
+    "description": "UI string: scrollBottom"
+  },
+  "scrollTop": {
+    "message": "맨 위로",
+    "description": "UI string: scrollTop"
+  },
+  "ctxDelete": {
+    "message": "북마크 삭제",
+    "description": "UI string: ctxDelete"
+  },
+  "ctxEdit": {
+    "message": "북마크 편집",
+    "description": "UI string: ctxEdit"
+  },
+  "cardDelete": {
+    "message": "삭제",
+    "description": "UI string: cardDelete"
+  },
+  "cardEdit": {
+    "message": "편집",
+    "description": "UI string: cardEdit"
+  },
+  "settingsAria": {
+    "message": "설정",
+    "description": "UI string: settingsAria"
+  },
+  "simpleGoHome": {
+    "message": "메인으로",
+    "description": "UI string: simpleGoHome"
+  },
+  "settingsEditMode": {
+    "message": "편집 모드",
+    "description": "UI string: settingsEditMode"
+  },
+  "settingsColumns": {
+    "message": "열 수",
+    "description": "UI string: settingsColumns"
+  },
+  "settingsWidth": {
+    "message": "콘텐츠 너비",
+    "description": "UI string: settingsWidth"
+  },
+  "settingsBg": {
+    "message": "배경색",
+    "description": "UI string: settingsBg"
+  },
+  "settingsBgImg": {
+    "message": "배경 이미지",
+    "description": "UI string: settingsBgImg"
+  },
+  "settingsContentTransparency": {
+    "message": "콘텐츠 투명도",
+    "description": "UI string: settingsContentTransparency"
+  },
+  "settingsOverlayTransparency": {
+    "message": "배경 투명도",
+    "description": "UI string: settingsOverlayTransparency"
+  },
+  "settingsOverlayBlur": {
+    "message": "배경 블러",
+    "description": "UI string: settingsOverlayBlur"
+  },
+  "settingsNewTab": {
+    "message": "새 탭 페이지 대체",
+    "description": "UI string: settingsNewTab"
+  },
+  "settingsLang": {
+    "message": "언어",
+    "description": "UI string: settingsLang"
+  },
+  "settingsNightTheme": {
+    "message": "야간 테마",
+    "description": "UI string: settingsNightTheme"
+  },
+  "settingsTitle": {
+    "message": "설정",
+    "description": "UI string: settingsTitle"
+  },
+  "settingsGroupGeneral": {
+    "message": "일반",
+    "description": "UI string: settingsGroupGeneral"
+  },
+  "settingsGroupView": {
+    "message": "보기",
+    "description": "UI string: settingsGroupView"
+  },
+  "settingsSimpleBookmarkCardTextColor": {
+    "message": "카드 글자색",
+    "description": "UI string: settingsSimpleBookmarkCardTextColor"
+  },
+  "settingsSimpleBookmarkCardTextColorPick": {
+    "message": "카드 글자색 선택",
+    "description": "UI string: settingsSimpleBookmarkCardTextColorPick"
+  },
+  "settingsModeGroupAria": {
+    "message": "페이지 모드",
+    "description": "UI string: settingsModeGroupAria"
+  },
+  "settingsModeSimple": {
+    "message": "미니멀",
+    "description": "UI string: settingsModeSimple"
+  },
+  "settingsModeDefault": {
+    "message": "기본",
+    "description": "UI string: settingsModeDefault"
+  },
+  "settingsModeEdit": {
+    "message": "편집",
+    "description": "UI string: settingsModeEdit"
+  },
+  "settingsGroupSimpleSearch": {
+    "message": "검색 상자",
+    "description": "UI string: settingsGroupSimpleSearch"
+  },
+  "settingsSimpleSearchScale": {
+    "message": "검색 상자 크기",
+    "description": "UI string: settingsSimpleSearchScale"
+  },
+  "settingsSimpleSearchOpacity": {
+    "message": "검색 상자 불투명도",
+    "description": "UI string: settingsSimpleSearchOpacity"
+  },
+  "settingsSimpleSearchRadius": {
+    "message": "검색 상자 모서리 둥글기",
+    "description": "UI string: settingsSimpleSearchRadius"
+  },
+  "simpleUiDrawerTitle": {
+    "message": "검색 설정",
+    "description": "UI string: simpleUiDrawerTitle"
+  },
+  "simpleUiClose": {
+    "message": "닫기",
+    "description": "UI string: simpleUiClose"
+  },
+  "simpleUiTabDefault": {
+    "message": "기본",
+    "description": "UI string: simpleUiTabDefault"
+  },
+  "simpleUiTabCustom": {
+    "message": "사용자 지정",
+    "description": "UI string: simpleUiTabCustom"
+  },
+  "simpleUiBuiltinEngines": {
+    "message": "내장 검색 엔진",
+    "description": "UI string: simpleUiBuiltinEngines"
+  },
+  "simpleUiEngineQuickBar": {
+    "message": "빠른 표시줄에 {name} 표시",
+    "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "simpleUiAddEngineTitle": {
+    "message": "검색 엔진 추가",
+    "description": "UI string: simpleUiAddEngineTitle"
+  },
+  "simpleUiEditEngineTitle": {
+    "message": "검색 엔진 편집",
+    "description": "UI string: simpleUiEditEngineTitle"
+  },
+  "simpleUiNamePh": {
+    "message": "이름",
+    "description": "UI string: simpleUiNamePh"
+  },
+  "simpleUiUrlHint": {
+    "message": "URL(검색어는 %s; 파비콘은 URL에서 가져옴)",
+    "description": "UI string: simpleUiUrlHint"
+  },
+  "simpleUiUrlPh": {
+    "message": "https://example.com/search?q=%s",
+    "description": "UI string: simpleUiUrlPh"
+  },
+  "simpleUiBtnSave": {
+    "message": "변경 저장",
+    "description": "UI string: simpleUiBtnSave"
+  },
+  "simpleUiBtnAdd": {
+    "message": "검색 엔진 추가",
+    "description": "UI string: simpleUiBtnAdd"
+  },
+  "simpleUiCancelEdit": {
+    "message": "편집 취소",
+    "description": "UI string: simpleUiCancelEdit"
+  },
+  "simpleUiCustomEnginesTitle": {
+    "message": "사용자 지정 검색 엔진",
+    "description": "UI string: simpleUiCustomEnginesTitle"
+  },
+  "simpleUiEdit": {
+    "message": "편집",
+    "description": "UI string: simpleUiEdit"
+  },
+  "simpleUiDelete": {
+    "message": "삭제",
+    "description": "UI string: simpleUiDelete"
+  },
+  "simpleUiQuickBookmarks": {
+    "message": "북마크",
+    "description": "UI string: simpleUiQuickBookmarks"
+  },
+  "simpleUiQuickAdd": {
+    "message": "추가",
+    "description": "UI string: simpleUiQuickAdd"
+  },
+  "simpleUiBookmarkSearchTip": {
+    "message": "북마크 검색",
+    "description": "UI string: simpleUiBookmarkSearchTip"
+  },
+  "simpleUiSearchFallback": {
+    "message": "검색",
+    "description": "UI string: simpleUiSearchFallback"
+  },
+  "simpleUiBookmarksMode": {
+    "message": "북마크",
+    "description": "UI string: simpleUiBookmarksMode"
+  },
+  "simpleUiInvalidUrl": {
+    "message": "유효한 URL을 입력하세요",
+    "description": "UI string: simpleUiInvalidUrl"
+  },
+  "simpleUiErrorIncomplete": {
+    "message": "다음을 입력하세요: {list}",
+    "description": "UI string: simpleUiErrorIncomplete"
+  },
+  "simpleUiFieldName": {
+    "message": "이름",
+    "description": "UI string: simpleUiFieldName"
+  },
+  "simpleUiFieldUrl": {
+    "message": "URL",
+    "description": "UI string: simpleUiFieldUrl"
+  },
+  "simpleUiListSep": {
+    "message": ", ",
+    "description": "UI string: simpleUiListSep"
+  },
+  "simpleEngine_google": {
+    "message": "Google",
+    "description": "UI string: simpleEngine_google"
+  },
+  "simpleEngine_baidu": {
+    "message": "百度",
+    "description": "UI string: simpleEngine_baidu"
+  },
+  "simpleEngine_bing": {
+    "message": "Bing",
+    "description": "UI string: simpleEngine_bing"
+  },
+  "simpleEngine_sogou": {
+    "message": "搜狗",
+    "description": "UI string: simpleEngine_sogou"
+  },
+  "simpleEngine_yandex": {
+    "message": "Yandex",
+    "description": "UI string: simpleEngine_yandex"
+  },
+  "settingsGroupManage": {
+    "message": "관리",
+    "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupAbout": {
+    "message": "정보",
+    "description": "UI string: settingsGroupAbout"
+  },
+  "on": {
+    "message": "켜기",
+    "description": "UI string: on"
+  },
+  "off": {
+    "message": "끄기",
+    "description": "UI string: off"
+  },
+  "bgPickTitle": {
+    "message": "색 선택",
+    "description": "UI string: bgPickTitle"
+  },
+  "bgPickAria": {
+    "message": "배경색 선택",
+    "description": "UI string: bgPickAria"
+  },
+  "chooseImg": {
+    "message": "이미지 선택",
+    "description": "UI string: chooseImg"
+  },
+  "clear": {
+    "message": "지우기",
+    "description": "UI string: clear"
+  },
+  "settingsFolderManage": {
+    "message": "북마크 폴더 관리",
+    "description": "UI string: settingsFolderManage"
+  },
+  "settingsVisibleRoots": {
+    "message": "표시할 북마크 루트",
+    "description": "UI string: settingsVisibleRoots"
+  },
+  "settingsRootOthers": {
+    "message": "기타",
+    "description": "UI string: settingsRootOthers"
+  },
+  "openBookmarkManager": {
+    "message": "북마크 관리자 열기",
+    "description": "UI string: openBookmarkManager"
+  },
+  "helpLink": {
+    "message": "사용 안내",
+    "description": "UI string: helpLink"
+  },
+  "imgTooBig": {
+    "message": "이미지가 너무 큽니다. 3MB 이하 파일을 사용하세요.",
+    "description": "UI string: imgTooBig"
+  },
+  "langZh": {
+    "message": "简体中文",
+    "description": "UI string: langZh"
+  },
+  "langZhTW": {
+    "message": "繁體中文",
+    "description": "UI string: langZhTW"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "UI string: langEn"
+  },
+  "langEs": {
+    "message": "Español",
+    "description": "UI string: langEs"
+  },
+  "langDe": {
+    "message": "Deutsch",
+    "description": "UI string: langDe"
+  },
+  "langFr": {
+    "message": "Français",
+    "description": "UI string: langFr"
+  },
+  "langJa": {
+    "message": "日本語",
+    "description": "UI string: langJa"
+  },
+  "langKo": {
+    "message": "한국어",
+    "description": "UI string: langKo"
+  },
+  "editTitle": {
+    "message": "북마크 편집",
+    "description": "UI string: editTitle"
+  },
+  "labelTitle": {
+    "message": "제목",
+    "description": "UI string: labelTitle"
+  },
+  "labelFolder": {
+    "message": "폴더",
+    "description": "UI string: labelFolder"
+  },
+  "labelIcon": {
+    "message": "아이콘 색",
+    "description": "UI string: labelIcon"
+  },
+  "labelTags": {
+    "message": "태그",
+    "description": "UI string: labelTags"
+  },
+  "labelDesc": {
+    "message": "설명",
+    "description": "UI string: labelDesc"
+  },
+  "labelUrl": {
+    "message": "링크",
+    "description": "UI string: labelUrl"
+  },
+  "folderPick": {
+    "message": "폴더 선택",
+    "description": "UI string: folderPick"
+  },
+  "folderPanelAria": {
+    "message": "폴더 선택",
+    "description": "UI string: folderPanelAria"
+  },
+  "tagInputAria": {
+    "message": "태그: Enter, 스페이스, Tab 또는 쉼표로 구분. 최대 3개, 각 16자.",
+    "description": "UI string: tagInputAria"
+  },
+  "tagPlaceholder": {
+    "message": "최대 3개, 각 16자",
+    "description": "UI string: tagPlaceholder"
+  },
+  "descPlaceholder": {
+    "message": "선택, 최대 100자",
+    "description": "UI string: descPlaceholder"
+  },
+  "cancel": {
+    "message": "취소",
+    "description": "UI string: cancel"
+  },
+  "save": {
+    "message": "저장",
+    "description": "UI string: save"
+  },
+  "autoColor": {
+    "message": "자동",
+    "description": "UI string: autoColor"
+  },
+  "autoColorBtn": {
+    "message": "자",
+    "description": "UI string: autoColorBtn"
+  },
+  "colorAria": {
+    "message": "색",
+    "description": "UI string: colorAria"
+  },
+  "removeTagAria": {
+    "message": "제거",
+    "description": "UI string: removeTagAria"
+  },
+  "guidePageTitle": {
+    "message": "사용 안내",
+    "description": "UI string: guidePageTitle"
+  },
+  "guideH1": {
+    "message": "SuperBookmark · 사용 안내",
+    "description": "UI string: guideH1"
+  },
+  "guideIntro": {
+    "message": "북마크 바 구성 방법과 확장 프로그램 사용법입니다.",
+    "description": "UI string: guideIntro"
+  },
+  "g1h": {
+    "message": "1. 폴더 구조",
+    "description": "UI string: g1h"
+  },
+  "g1p": {
+    "message": "Chrome <strong>폴더 계층</strong>에 맞춥니다.",
+    "description": "UI string: g1p"
+  },
+  "g1li1": {
+    "message": "<strong>1단계</strong>: Chrome 최상위 구조·대분류. <strong>루트가 여러 개</strong>이면 <strong>헤더 첫 줄</strong>에서 전환. 하나뿐이면 그 줄은 숨김.",
+    "description": "UI string: g1li1"
+  },
+  "g1li2": {
+    "message": "<strong>2단계</strong>: <strong>헤더 둘째 줄</strong>의 하위 분류. 없으면 1단계 이름만.",
+    "description": "UI string: g1li2"
+  },
+  "g1li3": {
+    "message": "<strong>3단계 이하</strong>: 폴더 이름이 카드 <strong>태그</strong>로 표시됩니다.",
+    "description": "UI string: g1li3"
+  },
+  "g1note": {
+    "message": "목록이 비어 있으면 북마크 바에 폴더와 북마크를 만드세요.",
+    "description": "UI string: g1note"
+  },
+  "g2h": {
+    "message": "2. 탐색 및 검색",
+    "description": "UI string: g2h"
+  },
+  "g2li1": {
+    "message": "대분류가 여러 개면 헤더 첫 줄·둘째 순서로 전환. 하나면 둘째 줄만. 3단계 폴더가 있으면 왼쪽에 하위 메뉴.",
+    "description": "UI string: g2li1"
+  },
+  "g2li2": {
+    "message": "<strong>태그 바</strong>로 필터(「전체」 포함). 화살표로 가로 스크롤.",
+    "description": "UI string: g2li2"
+  },
+  "g2li3": {
+    "message": "검색으로 제목·URL·태그 필터.",
+    "description": "UI string: g2li3"
+  },
+  "g3h": {
+    "message": "3. 편집 모드",
+    "description": "UI string: g3h"
+  },
+  "g3p": {
+    "message": "오른쪽 아래 ⚙ <strong>설정</strong>에서 편집 모드를 켜면 카드에 버튼이 표시됩니다.",
+    "description": "UI string: g3p"
+  },
+  "g3li1": {
+    "message": "<strong>✏️ 편집</strong>: 제목, 폴더, 태그(최대 3, 각 16자).",
+    "description": "UI string: g3li1"
+  },
+  "g3li2": {
+    "message": "<strong>🗑 삭제</strong>: Chrome에서 북마크 제거.",
+    "description": "UI string: g3li2"
+  },
+  "g3li3": {
+    "message": "<strong>우클릭</strong>으로 메뉴.",
+    "description": "UI string: g3li3"
+  },
+  "g4h": {
+    "message": "4. 드래그로 이동",
+    "description": "UI string: g4h"
+  },
+  "g4p": {
+    "message": "카드를 헤더 첫 줄(루트 여러 개일 때)·상단 하위 분류·왼쪽 하위 폴더로 드래그해 이동. 같은 목록에서 순서 변경 가능.",
+    "description": "UI string: g4p"
+  },
+  "g5h": {
+    "message": "5. 설정",
+    "description": "UI string: g5h"
+  },
+  "g5li1": {
+    "message": "<strong>편집 모드</strong>: 편집·삭제·드래그 표시.",
+    "description": "UI string: g5li1"
+  },
+  "g5li2": {
+    "message": "<strong>열 수</strong>: 3 / 4 / 5.",
+    "description": "UI string: g5li2"
+  },
+  "g5li3": {
+    "message": "<strong>너비</strong>: 창 너비의 50%～100%(최소 400px), 슬라이더로 조절.",
+    "description": "UI string: g5li3"
+  },
+  "g5li4": {
+    "message": "<strong>색 / 이미지</strong>: 배경. 작은 이미지 권장.",
+    "description": "UI string: g5li4"
+  },
+  "g5li5": {
+    "message": "<strong>새 탭</strong>: 켜면 이 페이지를 엽니다.",
+    "description": "UI string: g5li5"
+  },
+  "g5li6": {
+    "message": "<strong>언어</strong>: 7개 언어.",
+    "description": "UI string: g5li6"
+  },
+  "guideFoot": {
+    "message": "SuperBookmark · 새 탭 또는 확장 아이콘으로 돌아가기",
+    "description": "UI string: guideFoot"
+  },
+  "bgpBlue": {
+    "message": "연한 파랑",
+    "description": "UI string: bgpBlue"
+  },
+  "bgpGreen": {
+    "message": "연한 초록",
+    "description": "UI string: bgpGreen"
+  },
+  "bgpBeige": {
+    "message": "베이지",
+    "description": "UI string: bgpBeige"
+  },
+  "bgpGray": {
+    "message": "연한 회색",
+    "description": "UI string: bgpGray"
+  },
+  "bgpWhite": {
+    "message": "흰색",
+    "description": "UI string: bgpWhite"
+  },
+  "bgpDark": {
+    "message": "어두움",
+    "description": "UI string: bgpDark"
+  }
+}

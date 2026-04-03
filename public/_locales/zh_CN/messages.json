@@ -1,0 +1,790 @@
+{
+  "extName": {
+    "message": "超级书签 SuperBookmark",
+    "description": "Extension name shown in browser and Chrome Web Store."
+  },
+  "extDescription": {
+    "message": "在新标签页中整理书签与搜索，把你的书签变成私人导航首页。",
+    "description": "Short description for manifest and store listing."
+  },
+  "pageTitle": {
+    "message": "超级书签 SuperBookmark",
+    "description": "UI string: pageTitle"
+  },
+  "loading": {
+    "message": "正在加载收藏夹…",
+    "description": "UI string: loading"
+  },
+  "emptyState": {
+    "message": "暂无数据。请在浏览器书签栏创建文件夹并添加书签。",
+    "description": "UI string: emptyState"
+  },
+  "footer": {
+    "message": "© 2026 SuperBookmark. 保留所有权利.",
+    "description": "UI string: footer"
+  },
+  "navPrimaryAria": {
+    "message": "一级书签目录（多个根目录时显示）",
+    "description": "UI string: navPrimaryAria"
+  },
+  "navSecondaryAria": {
+    "message": "二级菜单（顶部）",
+    "description": "UI string: navSecondaryAria"
+  },
+  "sidebarAria": {
+    "message": "侧边菜单",
+    "description": "UI string: sidebarAria"
+  },
+  "searchPlaceholder": {
+    "message": "书签搜索",
+    "description": "UI string: searchPlaceholder"
+  },
+  "searchBtn": {
+    "message": "搜索",
+    "description": "UI string: searchBtn"
+  },
+  "tagAll": {
+    "message": "全部",
+    "description": "UI string: tagAll"
+  },
+  "uncategorized": {
+    "message": "未分类",
+    "description": "UI string: uncategorized"
+  },
+  "overviewAllNav": {
+    "message": "全部",
+    "description": "UI string: overviewAllNav"
+  },
+  "settingsShowOverviewAllNav": {
+    "message": "显示顶部「全部」",
+    "description": "UI string: settingsShowOverviewAllNav"
+  },
+  "tagLeft": {
+    "message": "向左滚动",
+    "description": "UI string: tagLeft"
+  },
+  "tagRight": {
+    "message": "向右滚动",
+    "description": "UI string: tagRight"
+  },
+  "scrollAria": {
+    "message": "滚动到顶部或底部",
+    "description": "UI string: scrollAria"
+  },
+  "scrollBottom": {
+    "message": "滚动到底部",
+    "description": "UI string: scrollBottom"
+  },
+  "scrollTop": {
+    "message": "滚动到顶部",
+    "description": "UI string: scrollTop"
+  },
+  "ctxDelete": {
+    "message": "删除书签",
+    "description": "UI string: ctxDelete"
+  },
+  "ctxEdit": {
+    "message": "编辑书签",
+    "description": "UI string: ctxEdit"
+  },
+  "cardDelete": {
+    "message": "删除",
+    "description": "UI string: cardDelete"
+  },
+  "cardEdit": {
+    "message": "编辑",
+    "description": "UI string: cardEdit"
+  },
+  "settingsAria": {
+    "message": "设置",
+    "description": "UI string: settingsAria"
+  },
+  "simpleGoHome": {
+    "message": "返回导航主页",
+    "description": "UI string: simpleGoHome"
+  },
+  "settingsEditMode": {
+    "message": "编辑模式",
+    "description": "UI string: settingsEditMode"
+  },
+  "settingsColumns": {
+    "message": "卡片列数",
+    "description": "UI string: settingsColumns"
+  },
+  "settingsWidth": {
+    "message": "内容宽度",
+    "description": "UI string: settingsWidth"
+  },
+  "settingsBg": {
+    "message": "背景色",
+    "description": "UI string: settingsBg"
+  },
+  "settingsBgImg": {
+    "message": "背景图",
+    "description": "UI string: settingsBgImg"
+  },
+  "settingsContentTransparency": {
+    "message": "内容透明度",
+    "description": "UI string: settingsContentTransparency"
+  },
+  "settingsOverlayTransparency": {
+    "message": "背景透明度",
+    "description": "UI string: settingsOverlayTransparency"
+  },
+  "settingsOverlayBlur": {
+    "message": "背景模糊度",
+    "description": "UI string: settingsOverlayBlur"
+  },
+  "settingsNewTab": {
+    "message": "替换默认新标签页",
+    "description": "UI string: settingsNewTab"
+  },
+  "settingsLang": {
+    "message": "界面语言",
+    "description": "UI string: settingsLang"
+  },
+  "settingsNightTheme": {
+    "message": "夜间主题",
+    "description": "UI string: settingsNightTheme"
+  },
+  "settingsTitle": {
+    "message": "设置",
+    "description": "UI string: settingsTitle"
+  },
+  "settingsGroupGeneral": {
+    "message": "通用",
+    "description": "UI string: settingsGroupGeneral"
+  },
+  "settingsGroupView": {
+    "message": "视图",
+    "description": "UI string: settingsGroupView"
+  },
+  "settingsSimpleBookmarkCardTextColor": {
+    "message": "书签卡片文字颜色",
+    "description": "UI string: settingsSimpleBookmarkCardTextColor"
+  },
+  "settingsSimpleBookmarkCardTextColorPick": {
+    "message": "选择书签卡片文字颜色",
+    "description": "UI string: settingsSimpleBookmarkCardTextColorPick"
+  },
+  "settingsModeGroupAria": {
+    "message": "页面模式",
+    "description": "UI string: settingsModeGroupAria"
+  },
+  "settingsModeSimple": {
+    "message": "极简模式",
+    "description": "UI string: settingsModeSimple"
+  },
+  "settingsModeDefault": {
+    "message": "默认模式",
+    "description": "UI string: settingsModeDefault"
+  },
+  "settingsModeEdit": {
+    "message": "编辑模式",
+    "description": "UI string: settingsModeEdit"
+  },
+  "settingsGroupSimpleSearch": {
+    "message": "搜索框",
+    "description": "UI string: settingsGroupSimpleSearch"
+  },
+  "settingsSimpleSearchScale": {
+    "message": "搜索框大小",
+    "description": "UI string: settingsSimpleSearchScale"
+  },
+  "settingsSimpleSearchOpacity": {
+    "message": "搜索框不透明度",
+    "description": "UI string: settingsSimpleSearchOpacity"
+  },
+  "settingsSimpleSearchRadius": {
+    "message": "搜索框圆角",
+    "description": "UI string: settingsSimpleSearchRadius"
+  },
+  "simpleUiDrawerTitle": {
+    "message": "搜索设置",
+    "description": "UI string: simpleUiDrawerTitle"
+  },
+  "simpleUiClose": {
+    "message": "关闭",
+    "description": "UI string: simpleUiClose"
+  },
+  "simpleUiTabDefault": {
+    "message": "默认",
+    "description": "UI string: simpleUiTabDefault"
+  },
+  "simpleUiTabCustom": {
+    "message": "自定义",
+    "description": "UI string: simpleUiTabCustom"
+  },
+  "simpleUiBuiltinEngines": {
+    "message": "默认可用搜索引擎",
+    "description": "UI string: simpleUiBuiltinEngines"
+  },
+  "simpleUiEngineQuickBar": {
+    "message": "{name} 在快捷栏显示",
+    "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "simpleUiAddEngineTitle": {
+    "message": "添加搜索引擎",
+    "description": "UI string: simpleUiAddEngineTitle"
+  },
+  "simpleUiEditEngineTitle": {
+    "message": "编辑搜索引擎",
+    "description": "UI string: simpleUiEditEngineTitle"
+  },
+  "simpleUiNamePh": {
+    "message": "名称",
+    "description": "UI string: simpleUiNamePh"
+  },
+  "simpleUiUrlHint": {
+    "message": "网址（用 %s 代替搜索字词；图标由网址自动获取 favicon）",
+    "description": "UI string: simpleUiUrlHint"
+  },
+  "simpleUiUrlPh": {
+    "message": "https://example.com/search?q=%s",
+    "description": "UI string: simpleUiUrlPh"
+  },
+  "simpleUiBtnSave": {
+    "message": "保存修改",
+    "description": "UI string: simpleUiBtnSave"
+  },
+  "simpleUiBtnAdd": {
+    "message": "添加搜索引擎",
+    "description": "UI string: simpleUiBtnAdd"
+  },
+  "simpleUiCancelEdit": {
+    "message": "取消编辑",
+    "description": "UI string: simpleUiCancelEdit"
+  },
+  "simpleUiCustomEnginesTitle": {
+    "message": "自定义搜索引擎",
+    "description": "UI string: simpleUiCustomEnginesTitle"
+  },
+  "simpleUiEdit": {
+    "message": "编辑",
+    "description": "UI string: simpleUiEdit"
+  },
+  "simpleUiDelete": {
+    "message": "删除",
+    "description": "UI string: simpleUiDelete"
+  },
+  "simpleUiQuickBookmarks": {
+    "message": "书签",
+    "description": "UI string: simpleUiQuickBookmarks"
+  },
+  "simpleUiQuickAdd": {
+    "message": "添加",
+    "description": "UI string: simpleUiQuickAdd"
+  },
+  "simpleUiBookmarkSearchTip": {
+    "message": "书签搜索",
+    "description": "UI string: simpleUiBookmarkSearchTip"
+  },
+  "simpleUiSearchFallback": {
+    "message": "搜索",
+    "description": "UI string: simpleUiSearchFallback"
+  },
+  "simpleUiBookmarksMode": {
+    "message": "书签",
+    "description": "UI string: simpleUiBookmarksMode"
+  },
+  "simpleUiInvalidUrl": {
+    "message": "请填写有效的网址",
+    "description": "UI string: simpleUiInvalidUrl"
+  },
+  "simpleUiErrorIncomplete": {
+    "message": "请填写：{list}",
+    "description": "UI string: simpleUiErrorIncomplete"
+  },
+  "simpleUiFieldName": {
+    "message": "名称",
+    "description": "UI string: simpleUiFieldName"
+  },
+  "simpleUiFieldUrl": {
+    "message": "网址",
+    "description": "UI string: simpleUiFieldUrl"
+  },
+  "simpleUiListSep": {
+    "message": "、",
+    "description": "UI string: simpleUiListSep"
+  },
+  "simpleEngine_google": {
+    "message": "Google",
+    "description": "UI string: simpleEngine_google"
+  },
+  "simpleEngine_baidu": {
+    "message": "百度",
+    "description": "UI string: simpleEngine_baidu"
+  },
+  "simpleEngine_bing": {
+    "message": "必应",
+    "description": "UI string: simpleEngine_bing"
+  },
+  "simpleEngine_sogou": {
+    "message": "搜狗",
+    "description": "UI string: simpleEngine_sogou"
+  },
+  "simpleEngine_yandex": {
+    "message": "Yandex",
+    "description": "UI string: simpleEngine_yandex"
+  },
+  "settingsGroupManage": {
+    "message": "管理",
+    "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupBackup": {
+    "message": "备份与重置",
+    "description": "UI string: settingsGroupBackup"
+  },
+  "settingsBackupActions": {
+    "message": "备份操作",
+    "description": "UI string: settingsBackupActions"
+  },
+  "backupRestoreDefault": {
+    "message": "恢复默认",
+    "description": "UI string: backupRestoreDefault"
+  },
+  "backupExport": {
+    "message": "导出备份",
+    "description": "UI string: backupExport"
+  },
+  "backupImport": {
+    "message": "导入备份",
+    "description": "UI string: backupImport"
+  },
+  "settingsColumnDisabled": {
+    "message": "当前内容宽度不足以显示该列数",
+    "description": "UI string: settingsColumnDisabled"
+  },
+  "backupPwdExport": {
+    "message": "请输入备份密码（可留空；留空则使用内置密钥）：",
+    "description": "UI string: backupPwdExport"
+  },
+  "backupPwdImport": {
+    "message": "请输入备份密码（若导出时未设置请直接回车）：",
+    "description": "UI string: backupPwdImport"
+  },
+  "backupExportDone": {
+    "message": "已导出 .zhx 备份文件。",
+    "description": "UI string: backupExportDone"
+  },
+  "backupImportDone": {
+    "message": "导入完成。已按备份增量合并书签（未删除本地已有项），设置与标签数据已合并。",
+    "description": "UI string: backupImportDone"
+  },
+  "backupRestoreDone": {
+    "message": "已恢复默认并清除扩展内的标签、颜色与描述数据。",
+    "description": "UI string: backupRestoreDone"
+  },
+  "backupConfirmRestore": {
+    "message": "将重置所有设置为默认值，并清除标签、图标颜色与描述（不会删除浏览器中的书签）。是否继续？",
+    "description": "UI string: backupConfirmRestore"
+  },
+  "backupConfirmImport": {
+    "message": "将根据备份增量合并书签：按 id/同链接/同名匹配并更新，其余新建；不会删除本地已有书签。扩展设置将使用备份中的值，标签等数据将与本地合并（备份优先）。是否继续？",
+    "description": "UI string: backupConfirmImport"
+  },
+  "backupFail": {
+    "message": "操作失败：",
+    "description": "UI string: backupFail"
+  },
+  "backupWrongPwd": {
+    "message": "解密失败，请检查密码或文件是否损坏。",
+    "description": "UI string: backupWrongPwd"
+  },
+  "settingsGroupAbout": {
+    "message": "关于",
+    "description": "UI string: settingsGroupAbout"
+  },
+  "on": {
+    "message": "开",
+    "description": "UI string: on"
+  },
+  "off": {
+    "message": "关",
+    "description": "UI string: off"
+  },
+  "bgPickTitle": {
+    "message": "自定义颜色",
+    "description": "UI string: bgPickTitle"
+  },
+  "bgPickAria": {
+    "message": "自定义背景色",
+    "description": "UI string: bgPickAria"
+  },
+  "chooseImg": {
+    "message": "选择图片",
+    "description": "UI string: chooseImg"
+  },
+  "clear": {
+    "message": "清除",
+    "description": "UI string: clear"
+  },
+  "settingsFolderManage": {
+    "message": "书签分类目录管理",
+    "description": "UI string: settingsFolderManage"
+  },
+  "settingsVisibleRoots": {
+    "message": "显示的根目录",
+    "description": "UI string: settingsVisibleRoots"
+  },
+  "settingsRootOthers": {
+    "message": "其他",
+    "description": "UI string: settingsRootOthers"
+  },
+  "openBookmarkManager": {
+    "message": "打开书签管理器",
+    "description": "UI string: openBookmarkManager"
+  },
+  "helpLink": {
+    "message": "使用说明",
+    "description": "UI string: helpLink"
+  },
+  "imgTooBig": {
+    "message": "图片过大，请选择小于 3MB 的图片。",
+    "description": "UI string: imgTooBig"
+  },
+  "langZh": {
+    "message": "简体中文",
+    "description": "UI string: langZh"
+  },
+  "langZhTW": {
+    "message": "繁體中文",
+    "description": "UI string: langZhTW"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "UI string: langEn"
+  },
+  "langEs": {
+    "message": "Español",
+    "description": "UI string: langEs"
+  },
+  "langDe": {
+    "message": "Deutsch",
+    "description": "UI string: langDe"
+  },
+  "langFr": {
+    "message": "Français",
+    "description": "UI string: langFr"
+  },
+  "langJa": {
+    "message": "日本語",
+    "description": "UI string: langJa"
+  },
+  "langKo": {
+    "message": "한국어",
+    "description": "UI string: langKo"
+  },
+  "langRu": {
+    "message": "Русский",
+    "description": "UI string: langRu"
+  },
+  "langAr": {
+    "message": "العربية",
+    "description": "UI string: langAr"
+  },
+  "langIt": {
+    "message": "Italiano",
+    "description": "UI string: langIt"
+  },
+  "langTr": {
+    "message": "Türkçe",
+    "description": "UI string: langTr"
+  },
+  "langVi": {
+    "message": "Tiếng Việt",
+    "description": "UI string: langVi"
+  },
+  "langId": {
+    "message": "Bahasa Indonesia",
+    "description": "UI string: langId"
+  },
+  "langTh": {
+    "message": "ไทย",
+    "description": "UI string: langTh"
+  },
+  "langPl": {
+    "message": "Polski",
+    "description": "UI string: langPl"
+  },
+  "langNl": {
+    "message": "Nederlands",
+    "description": "UI string: langNl"
+  },
+  "langFa": {
+    "message": "فارسی",
+    "description": "UI string: langFa"
+  },
+  "langUk": {
+    "message": "Українська",
+    "description": "UI string: langUk"
+  },
+  "langMs": {
+    "message": "Bahasa Melayu",
+    "description": "UI string: langMs"
+  },
+  "langRo": {
+    "message": "Română",
+    "description": "UI string: langRo"
+  },
+  "langSv": {
+    "message": "Svenska",
+    "description": "UI string: langSv"
+  },
+  "langCs": {
+    "message": "Čeština",
+    "description": "UI string: langCs"
+  },
+  "langEl": {
+    "message": "Ελληνικά",
+    "description": "UI string: langEl"
+  },
+  "langHe": {
+    "message": "עברית",
+    "description": "UI string: langHe"
+  },
+  "langHu": {
+    "message": "Magyar",
+    "description": "UI string: langHu"
+  },
+  "langDa": {
+    "message": "Dansk",
+    "description": "UI string: langDa"
+  },
+  "langFi": {
+    "message": "Suomi",
+    "description": "UI string: langFi"
+  },
+  "langNo": {
+    "message": "Norsk",
+    "description": "UI string: langNo"
+  },
+  "langBn": {
+    "message": "বাংলা",
+    "description": "UI string: langBn"
+  },
+  "langTa": {
+    "message": "தமிழ்",
+    "description": "UI string: langTa"
+  },
+  "langTe": {
+    "message": "తెలుగు",
+    "description": "UI string: langTe"
+  },
+  "langMr": {
+    "message": "मराठी",
+    "description": "UI string: langMr"
+  },
+  "langUr": {
+    "message": "اردو",
+    "description": "UI string: langUr"
+  },
+  "editTitle": {
+    "message": "编辑卡片",
+    "description": "UI string: editTitle"
+  },
+  "labelTitle": {
+    "message": "标题",
+    "description": "UI string: labelTitle"
+  },
+  "labelFolder": {
+    "message": "所属目录",
+    "description": "UI string: labelFolder"
+  },
+  "labelIcon": {
+    "message": "图标背景色",
+    "description": "UI string: labelIcon"
+  },
+  "labelTags": {
+    "message": "标签",
+    "description": "UI string: labelTags"
+  },
+  "labelDesc": {
+    "message": "描述",
+    "description": "UI string: labelDesc"
+  },
+  "labelUrl": {
+    "message": "链接",
+    "description": "UI string: labelUrl"
+  },
+  "folderPick": {
+    "message": "请选择",
+    "description": "UI string: folderPick"
+  },
+  "folderPanelAria": {
+    "message": "选择目录",
+    "description": "UI string: folderPanelAria"
+  },
+  "tagInputAria": {
+    "message": "标签，回车、空格、Tab 或中英文逗号分隔，最多3个，每标签最多16字",
+    "description": "UI string: tagInputAria"
+  },
+  "tagPlaceholder": {
+    "message": "最多3个，每标签最多16字",
+    "description": "UI string: tagPlaceholder"
+  },
+  "descPlaceholder": {
+    "message": "选填，最多100字",
+    "description": "UI string: descPlaceholder"
+  },
+  "cancel": {
+    "message": "取消",
+    "description": "UI string: cancel"
+  },
+  "save": {
+    "message": "保存",
+    "description": "UI string: save"
+  },
+  "autoColor": {
+    "message": "自动",
+    "description": "UI string: autoColor"
+  },
+  "autoColorBtn": {
+    "message": "自",
+    "description": "UI string: autoColorBtn"
+  },
+  "colorAria": {
+    "message": "颜色",
+    "description": "UI string: colorAria"
+  },
+  "removeTagAria": {
+    "message": "移除",
+    "description": "UI string: removeTagAria"
+  },
+  "guidePageTitle": {
+    "message": "使用说明",
+    "description": "UI string: guidePageTitle"
+  },
+  "guideH1": {
+    "message": "超级书签 SuperBookmark · 使用说明",
+    "description": "UI string: guideH1"
+  },
+  "guideIntro": {
+    "message": "本页说明如何从浏览器书签栏组织内容，以及扩展内的操作方式。",
+    "description": "UI string: guideIntro"
+  },
+  "g1h": {
+    "message": "一、书签目录怎么建",
+    "description": "UI string: g1h"
+  },
+  "g1p": {
+    "message": "扩展会按 Chrome 书签栏的<strong>文件夹层级</strong>自动归类：",
+    "description": "UI string: g1p"
+  },
+  "g1li1": {
+    "message": "<strong>一级文件夹</strong>：Chrome 书签的顶层结构，在扩展中作为主分类；<strong>存在多个顶层书签根</strong>时可在<strong>页顶第一行</strong>切换，仅有一个根时不显示该行。",
+    "description": "UI string: g1li1"
+  },
+  "g1li2": {
+    "message": "<strong>二级文件夹</strong>：选中主分类后，<strong>页顶第二行</strong>横向为子分类；若该主分类下没有二级文件夹，则会用一级名称作为唯一子类。",
+    "description": "UI string: g1li2"
+  },
+  "g1li3": {
+    "message": "<strong>三级及以下文件夹</strong>：其名称会作为该书签的<strong>标签</strong>显示在卡片上，便于筛选。",
+    "description": "UI string: g1li3"
+  },
+  "g1note": {
+    "message": "若列表为空，请先在 Chrome 书签栏中创建上述文件夹并添加网址书签。",
+    "description": "UI string: g1note"
+  },
+  "g2h": {
+    "message": "二、浏览与搜索",
+    "description": "UI string: g2h"
+  },
+  "g2li1": {
+    "message": "多个主分类时先点页顶第一行切换；再点其下第二行切换子分类。仅一个主分类时直接用第二行。有三级文件夹时左侧会出现子夹菜单。",
+    "description": "UI string: g2li1"
+  },
+  "g2li2": {
+    "message": "内容区上方的<strong>标签条</strong>可筛选当前分类下的书签（含「全部」）。标签较多时可点左右箭头横向滚动。",
+    "description": "UI string: g2li2"
+  },
+  "g2li3": {
+    "message": "顶部搜索框可按标题、网址及标签关键字过滤当前视图中的书签。",
+    "description": "UI string: g2li3"
+  },
+  "g3h": {
+    "message": "三、编辑模式（维护按钮）",
+    "description": "UI string: g3h"
+  },
+  "g3p": {
+    "message": "在右下角 <strong>⚙ 设置</strong> 中打开「编辑模式」后，每张卡片会显示维护按钮：",
+    "description": "UI string: g3p"
+  },
+  "g3li1": {
+    "message": "<strong>✏️ 编辑</strong>：修改标题、书签所在文件夹（分类）、自定义标签（最多 3 个，每标签最多 16 字）。标签可用回车、空格、Tab 或中英文逗号分隔输入。",
+    "description": "UI string: g3li1"
+  },
+  "g3li2": {
+    "message": "<strong>🗑 删除</strong>：从浏览器书签中移除该书签。",
+    "description": "UI string: g3li2"
+  },
+  "g3li3": {
+    "message": "在卡片上<strong>右键</strong>可打开快捷菜单（编辑、删除等）。",
+    "description": "UI string: g3li3"
+  },
+  "g4h": {
+    "message": "四、拖拽移动书签",
+    "description": "UI string: g4h"
+  },
+  "g4p": {
+    "message": "开启编辑模式后，可将卡片<strong>拖到</strong>页顶主分类（多个根时第一行）、顶部子分类或左侧子文件夹上，书签会移动到对应文件夹（与 Chrome 书签结构同步）。在同一列表内也可拖拽调整排序。",
+    "description": "UI string: g4p"
+  },
+  "g5h": {
+    "message": "五、设置项说明",
+    "description": "UI string: g5h"
+  },
+  "g5li1": {
+    "message": "<strong>编辑模式</strong>：开/关卡片上的编辑、删除与拖拽。",
+    "description": "UI string: g5li1"
+  },
+  "g5li2": {
+    "message": "<strong>卡片列数</strong>：3 / 4 / 5 列（实际列数会随窗口宽度自适应）。",
+    "description": "UI string: g5li2"
+  },
+  "g5li3": {
+    "message": "<strong>内容宽度</strong>：主区域相对视口宽度的 50%～100%（且不小于 400px），可用滑块调节。",
+    "description": "UI string: g5li3"
+  },
+  "g5li4": {
+    "message": "<strong>背景色 / 自选色 / 背景图</strong>：页面背景；背景图建议较小图片以节省扩展存储。",
+    "description": "UI string: g5li4"
+  },
+  "g5li5": {
+    "message": "<strong>替换默认新标签页</strong>：开启后，新建标签页将打开本书签页（需在扩展中开启对应选项后生效）。",
+    "description": "UI string: g5li5"
+  },
+  "g5li6": {
+    "message": "<strong>界面语言</strong>：简体中文、繁體中文、英文、西班牙语、德语、法语、日语、韩语。",
+    "description": "UI string: g5li6"
+  },
+  "guideFoot": {
+    "message": "SuperBookmark · 返回扩展主界面请打开新标签页或点击扩展图标",
+    "description": "UI string: guideFoot"
+  },
+  "bgpBlue": {
+    "message": "浅蓝",
+    "description": "UI string: bgpBlue"
+  },
+  "bgpGreen": {
+    "message": "浅绿",
+    "description": "UI string: bgpGreen"
+  },
+  "bgpBeige": {
+    "message": "米色",
+    "description": "UI string: bgpBeige"
+  },
+  "bgpGray": {
+    "message": "浅灰",
+    "description": "UI string: bgpGray"
+  },
+  "bgpWhite": {
+    "message": "纯白",
+    "description": "UI string: bgpWhite"
+  },
+  "bgpDark": {
+    "message": "深色",
+    "description": "UI string: bgpDark"
+  }
+}

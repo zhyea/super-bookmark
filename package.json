@@ -4,10 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "node scripts/sync-chrome-locales.mjs",
     "dev": "vite",
+    "prebuild": "node scripts/sync-chrome-locales.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "gen:engine-icons": "node scripts/export-engine-icons.mjs"
+    "gen:engine-icons": "node scripts/export-engine-icons.mjs",
+    "gen:locales": "node scripts/sync-chrome-locales.mjs"
   },
   "dependencies": {
     "vue": "^3.5.13",

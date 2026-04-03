@@ -1,0 +1,626 @@
+{
+  "extName": {
+    "message": "SuperBookmark",
+    "description": "Extension name shown in browser and Chrome Web Store."
+  },
+  "extDescription": {
+    "message": "新しいタブでブックマークをプライベートなナビゲーションハブに。",
+    "description": "Short description for manifest and store listing."
+  },
+  "pageTitle": {
+    "message": "SuperBookmark",
+    "description": "UI string: pageTitle"
+  },
+  "loading": {
+    "message": "読み込み中…",
+    "description": "UI string: loading"
+  },
+  "emptyState": {
+    "message": "データがありません。ブックマークバーにフォルダを作成して追加してください。",
+    "description": "UI string: emptyState"
+  },
+  "footer": {
+    "message": "© 2026 SuperBookmark. 無断転載禁止。",
+    "description": "UI string: footer"
+  },
+  "navPrimaryAria": {
+    "message": "最上位のブックマーク（複数あるとき）",
+    "description": "UI string: navPrimaryAria"
+  },
+  "navSecondaryAria": {
+    "message": "サブカテゴリ（上部）",
+    "description": "UI string: navSecondaryAria"
+  },
+  "sidebarAria": {
+    "message": "サイドメニュー",
+    "description": "UI string: sidebarAria"
+  },
+  "searchPlaceholder": {
+    "message": "ブックマークを検索",
+    "description": "UI string: searchPlaceholder"
+  },
+  "searchBtn": {
+    "message": "検索",
+    "description": "UI string: searchBtn"
+  },
+  "tagAll": {
+    "message": "すべて",
+    "description": "UI string: tagAll"
+  },
+  "uncategorized": {
+    "message": "未分類",
+    "description": "UI string: uncategorized"
+  },
+  "overviewAllNav": {
+    "message": "すべて",
+    "description": "UI string: overviewAllNav"
+  },
+  "settingsShowOverviewAllNav": {
+    "message": "上部メニューに「すべて」一覧を表示",
+    "description": "UI string: settingsShowOverviewAllNav"
+  },
+  "tagLeft": {
+    "message": "左へスクロール",
+    "description": "UI string: tagLeft"
+  },
+  "tagRight": {
+    "message": "右へスクロール",
+    "description": "UI string: tagRight"
+  },
+  "scrollAria": {
+    "message": "上下へスクロール",
+    "description": "UI string: scrollAria"
+  },
+  "scrollBottom": {
+    "message": "一番下へ",
+    "description": "UI string: scrollBottom"
+  },
+  "scrollTop": {
+    "message": "一番上へ",
+    "description": "UI string: scrollTop"
+  },
+  "ctxDelete": {
+    "message": "ブックマークを削除",
+    "description": "UI string: ctxDelete"
+  },
+  "ctxEdit": {
+    "message": "ブックマークを編集",
+    "description": "UI string: ctxEdit"
+  },
+  "cardDelete": {
+    "message": "削除",
+    "description": "UI string: cardDelete"
+  },
+  "cardEdit": {
+    "message": "編集",
+    "description": "UI string: cardEdit"
+  },
+  "settingsAria": {
+    "message": "設定",
+    "description": "UI string: settingsAria"
+  },
+  "simpleGoHome": {
+    "message": "メインページへ",
+    "description": "UI string: simpleGoHome"
+  },
+  "settingsEditMode": {
+    "message": "編集モード",
+    "description": "UI string: settingsEditMode"
+  },
+  "settingsColumns": {
+    "message": "列数",
+    "description": "UI string: settingsColumns"
+  },
+  "settingsWidth": {
+    "message": "コンテンツ幅",
+    "description": "UI string: settingsWidth"
+  },
+  "settingsBg": {
+    "message": "背景色",
+    "description": "UI string: settingsBg"
+  },
+  "settingsBgImg": {
+    "message": "背景画像",
+    "description": "UI string: settingsBgImg"
+  },
+  "settingsContentTransparency": {
+    "message": "コンテンツの透明度",
+    "description": "UI string: settingsContentTransparency"
+  },
+  "settingsOverlayTransparency": {
+    "message": "背景の透明度",
+    "description": "UI string: settingsOverlayTransparency"
+  },
+  "settingsOverlayBlur": {
+    "message": "背景のぼかし",
+    "description": "UI string: settingsOverlayBlur"
+  },
+  "settingsNewTab": {
+    "message": "新しいタブを置き換え",
+    "description": "UI string: settingsNewTab"
+  },
+  "settingsLang": {
+    "message": "表示言語",
+    "description": "UI string: settingsLang"
+  },
+  "settingsNightTheme": {
+    "message": "ダークテーマ",
+    "description": "UI string: settingsNightTheme"
+  },
+  "settingsTitle": {
+    "message": "設定",
+    "description": "UI string: settingsTitle"
+  },
+  "settingsGroupGeneral": {
+    "message": "一般",
+    "description": "UI string: settingsGroupGeneral"
+  },
+  "settingsGroupView": {
+    "message": "表示",
+    "description": "UI string: settingsGroupView"
+  },
+  "settingsSimpleBookmarkCardTextColor": {
+    "message": "カードの文字色",
+    "description": "UI string: settingsSimpleBookmarkCardTextColor"
+  },
+  "settingsSimpleBookmarkCardTextColorPick": {
+    "message": "カードの文字色を選ぶ",
+    "description": "UI string: settingsSimpleBookmarkCardTextColorPick"
+  },
+  "settingsModeGroupAria": {
+    "message": "ページモード",
+    "description": "UI string: settingsModeGroupAria"
+  },
+  "settingsModeSimple": {
+    "message": "ミニマル",
+    "description": "UI string: settingsModeSimple"
+  },
+  "settingsModeDefault": {
+    "message": "デフォルト",
+    "description": "UI string: settingsModeDefault"
+  },
+  "settingsModeEdit": {
+    "message": "編集",
+    "description": "UI string: settingsModeEdit"
+  },
+  "settingsGroupSimpleSearch": {
+    "message": "検索ボックス",
+    "description": "UI string: settingsGroupSimpleSearch"
+  },
+  "settingsSimpleSearchScale": {
+    "message": "検索ボックスのサイズ",
+    "description": "UI string: settingsSimpleSearchScale"
+  },
+  "settingsSimpleSearchOpacity": {
+    "message": "検索ボックスの不透明度",
+    "description": "UI string: settingsSimpleSearchOpacity"
+  },
+  "settingsSimpleSearchRadius": {
+    "message": "検索ボックスの角丸",
+    "description": "UI string: settingsSimpleSearchRadius"
+  },
+  "simpleUiDrawerTitle": {
+    "message": "検索の設定",
+    "description": "UI string: simpleUiDrawerTitle"
+  },
+  "simpleUiClose": {
+    "message": "閉じる",
+    "description": "UI string: simpleUiClose"
+  },
+  "simpleUiTabDefault": {
+    "message": "既定",
+    "description": "UI string: simpleUiTabDefault"
+  },
+  "simpleUiTabCustom": {
+    "message": "カスタム",
+    "description": "UI string: simpleUiTabCustom"
+  },
+  "simpleUiBuiltinEngines": {
+    "message": "組み込み検索エンジン",
+    "description": "UI string: simpleUiBuiltinEngines"
+  },
+  "simpleUiEngineQuickBar": {
+    "message": "クイックバーに {name} を表示",
+    "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "simpleUiAddEngineTitle": {
+    "message": "検索エンジンを追加",
+    "description": "UI string: simpleUiAddEngineTitle"
+  },
+  "simpleUiEditEngineTitle": {
+    "message": "検索エンジンを編集",
+    "description": "UI string: simpleUiEditEngineTitle"
+  },
+  "simpleUiNamePh": {
+    "message": "名前",
+    "description": "UI string: simpleUiNamePh"
+  },
+  "simpleUiUrlHint": {
+    "message": "URL（%s を検索語に；favicon は URL から取得）",
+    "description": "UI string: simpleUiUrlHint"
+  },
+  "simpleUiUrlPh": {
+    "message": "https://example.com/search?q=%s",
+    "description": "UI string: simpleUiUrlPh"
+  },
+  "simpleUiBtnSave": {
+    "message": "変更を保存",
+    "description": "UI string: simpleUiBtnSave"
+  },
+  "simpleUiBtnAdd": {
+    "message": "検索エンジンを追加",
+    "description": "UI string: simpleUiBtnAdd"
+  },
+  "simpleUiCancelEdit": {
+    "message": "編集をキャンセル",
+    "description": "UI string: simpleUiCancelEdit"
+  },
+  "simpleUiCustomEnginesTitle": {
+    "message": "カスタム検索エンジン",
+    "description": "UI string: simpleUiCustomEnginesTitle"
+  },
+  "simpleUiEdit": {
+    "message": "編集",
+    "description": "UI string: simpleUiEdit"
+  },
+  "simpleUiDelete": {
+    "message": "削除",
+    "description": "UI string: simpleUiDelete"
+  },
+  "simpleUiQuickBookmarks": {
+    "message": "ブックマーク",
+    "description": "UI string: simpleUiQuickBookmarks"
+  },
+  "simpleUiQuickAdd": {
+    "message": "追加",
+    "description": "UI string: simpleUiQuickAdd"
+  },
+  "simpleUiBookmarkSearchTip": {
+    "message": "ブックマークを検索",
+    "description": "UI string: simpleUiBookmarkSearchTip"
+  },
+  "simpleUiSearchFallback": {
+    "message": "検索",
+    "description": "UI string: simpleUiSearchFallback"
+  },
+  "simpleUiBookmarksMode": {
+    "message": "ブックマーク",
+    "description": "UI string: simpleUiBookmarksMode"
+  },
+  "simpleUiInvalidUrl": {
+    "message": "有効な URL を入力してください",
+    "description": "UI string: simpleUiInvalidUrl"
+  },
+  "simpleUiErrorIncomplete": {
+    "message": "次を入力してください：{list}",
+    "description": "UI string: simpleUiErrorIncomplete"
+  },
+  "simpleUiFieldName": {
+    "message": "名前",
+    "description": "UI string: simpleUiFieldName"
+  },
+  "simpleUiFieldUrl": {
+    "message": "URL",
+    "description": "UI string: simpleUiFieldUrl"
+  },
+  "simpleUiListSep": {
+    "message": "、",
+    "description": "UI string: simpleUiListSep"
+  },
+  "simpleEngine_google": {
+    "message": "Google",
+    "description": "UI string: simpleEngine_google"
+  },
+  "simpleEngine_baidu": {
+    "message": "百度",
+    "description": "UI string: simpleEngine_baidu"
+  },
+  "simpleEngine_bing": {
+    "message": "Bing",
+    "description": "UI string: simpleEngine_bing"
+  },
+  "simpleEngine_sogou": {
+    "message": "搜狗",
+    "description": "UI string: simpleEngine_sogou"
+  },
+  "simpleEngine_yandex": {
+    "message": "Yandex",
+    "description": "UI string: simpleEngine_yandex"
+  },
+  "settingsGroupManage": {
+    "message": "管理",
+    "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupAbout": {
+    "message": "このアプリについて",
+    "description": "UI string: settingsGroupAbout"
+  },
+  "on": {
+    "message": "オン",
+    "description": "UI string: on"
+  },
+  "off": {
+    "message": "オフ",
+    "description": "UI string: off"
+  },
+  "bgPickTitle": {
+    "message": "色を選択",
+    "description": "UI string: bgPickTitle"
+  },
+  "bgPickAria": {
+    "message": "背景色を選択",
+    "description": "UI string: bgPickAria"
+  },
+  "chooseImg": {
+    "message": "画像を選択",
+    "description": "UI string: chooseImg"
+  },
+  "clear": {
+    "message": "クリア",
+    "description": "UI string: clear"
+  },
+  "settingsFolderManage": {
+    "message": "ブックマークフォルダ管理",
+    "description": "UI string: settingsFolderManage"
+  },
+  "settingsVisibleRoots": {
+    "message": "表示するブックマークのルート",
+    "description": "UI string: settingsVisibleRoots"
+  },
+  "settingsRootOthers": {
+    "message": "その他",
+    "description": "UI string: settingsRootOthers"
+  },
+  "openBookmarkManager": {
+    "message": "ブックマークマネージャを開く",
+    "description": "UI string: openBookmarkManager"
+  },
+  "helpLink": {
+    "message": "使い方",
+    "description": "UI string: helpLink"
+  },
+  "imgTooBig": {
+    "message": "画像が大きすぎます。3MB以下のファイルを選んでください。",
+    "description": "UI string: imgTooBig"
+  },
+  "langZh": {
+    "message": "简体中文",
+    "description": "UI string: langZh"
+  },
+  "langZhTW": {
+    "message": "繁體中文",
+    "description": "UI string: langZhTW"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "UI string: langEn"
+  },
+  "langEs": {
+    "message": "Español",
+    "description": "UI string: langEs"
+  },
+  "langDe": {
+    "message": "Deutsch",
+    "description": "UI string: langDe"
+  },
+  "langFr": {
+    "message": "Français",
+    "description": "UI string: langFr"
+  },
+  "langJa": {
+    "message": "日本語",
+    "description": "UI string: langJa"
+  },
+  "langKo": {
+    "message": "한국어",
+    "description": "UI string: langKo"
+  },
+  "editTitle": {
+    "message": "ブックマークを編集",
+    "description": "UI string: editTitle"
+  },
+  "labelTitle": {
+    "message": "タイトル",
+    "description": "UI string: labelTitle"
+  },
+  "labelFolder": {
+    "message": "フォルダ",
+    "description": "UI string: labelFolder"
+  },
+  "labelIcon": {
+    "message": "アイコン色",
+    "description": "UI string: labelIcon"
+  },
+  "labelTags": {
+    "message": "タグ",
+    "description": "UI string: labelTags"
+  },
+  "labelDesc": {
+    "message": "説明",
+    "description": "UI string: labelDesc"
+  },
+  "labelUrl": {
+    "message": "リンク",
+    "description": "UI string: labelUrl"
+  },
+  "folderPick": {
+    "message": "フォルダを選択",
+    "description": "UI string: folderPick"
+  },
+  "folderPanelAria": {
+    "message": "フォルダを選択",
+    "description": "UI string: folderPanelAria"
+  },
+  "tagInputAria": {
+    "message": "タグ：Enter・スペース・Tab・カンマで区切り。最大3個、各16文字。",
+    "description": "UI string: tagInputAria"
+  },
+  "tagPlaceholder": {
+    "message": "最大3個、各16文字",
+    "description": "UI string: tagPlaceholder"
+  },
+  "descPlaceholder": {
+    "message": "任意、最大100文字",
+    "description": "UI string: descPlaceholder"
+  },
+  "cancel": {
+    "message": "キャンセル",
+    "description": "UI string: cancel"
+  },
+  "save": {
+    "message": "保存",
+    "description": "UI string: save"
+  },
+  "autoColor": {
+    "message": "自動",
+    "description": "UI string: autoColor"
+  },
+  "autoColorBtn": {
+    "message": "自",
+    "description": "UI string: autoColorBtn"
+  },
+  "colorAria": {
+    "message": "色",
+    "description": "UI string: colorAria"
+  },
+  "removeTagAria": {
+    "message": "削除",
+    "description": "UI string: removeTagAria"
+  },
+  "guidePageTitle": {
+    "message": "使い方",
+    "description": "UI string: guidePageTitle"
+  },
+  "guideH1": {
+    "message": "SuperBookmark · 使い方",
+    "description": "UI string: guideH1"
+  },
+  "guideIntro": {
+    "message": "ブックマークバーの整理方法と拡張機能の操作です。",
+    "description": "UI string: guideIntro"
+  },
+  "g1h": {
+    "message": "1. フォルダの作り方",
+    "description": "UI string: g1h"
+  },
+  "g1p": {
+    "message": "Chrome の<strong>フォルダ階層</strong>に対応します。",
+    "description": "UI string: g1p"
+  },
+  "g1li1": {
+    "message": "<strong>第1階層</strong>：Chrome の最上位構造・大分類。<strong>複数のルート</strong>があるときは<strong>ヘッダー1行目</strong>で切替。1つだけならその行は非表示。",
+    "description": "UI string: g1li1"
+  },
+  "g1li2": {
+    "message": "<strong>第2階層</strong>：<strong>ヘッダー2行目</strong>のサブ分類。ない場合は第1階層名のみ。",
+    "description": "UI string: g1li2"
+  },
+  "g1li3": {
+    "message": "<strong>第3階層以下</strong>：フォルダ名がカードの<strong>タグ</strong>になります。",
+    "description": "UI string: g1li3"
+  },
+  "g1note": {
+    "message": "一覧が空のときは、ブックマークバーにフォルダとブックマークを追加してください。",
+    "description": "UI string: g1note"
+  },
+  "g2h": {
+    "message": "2. 閲覧と検索",
+    "description": "UI string: g2h"
+  },
+  "g2li1": {
+    "message": "大分類が複数のときは上段1行目→その下の2行目。1つのときは2行目だけ。第3階層があると左にサブメニュー。",
+    "description": "UI string: g2li1"
+  },
+  "g2li2": {
+    "message": "<strong>タグバー</strong>で絞り込み（「すべて」含む）。矢印で横スクロール。",
+    "description": "UI string: g2li2"
+  },
+  "g2li3": {
+    "message": "検索でタイトル・URL・タグを絞り込み。",
+    "description": "UI string: g2li3"
+  },
+  "g3h": {
+    "message": "3. 編集モード",
+    "description": "UI string: g3h"
+  },
+  "g3p": {
+    "message": "右下 ⚙ <strong>設定</strong>で編集モードをオンにすると、各カードにボタンが表示されます。",
+    "description": "UI string: g3p"
+  },
+  "g3li1": {
+    "message": "<strong>✏️ 編集</strong>：タイトル・フォルダ・タグ（最大3、各16文字）。",
+    "description": "UI string: g3li1"
+  },
+  "g3li2": {
+    "message": "<strong>🗑 削除</strong>：Chrome からブックマークを削除。",
+    "description": "UI string: g3li2"
+  },
+  "g3li3": {
+    "message": "<strong>右クリック</strong>でコンテキストメニュー。",
+    "description": "UI string: g3li3"
+  },
+  "g4h": {
+    "message": "4. ドラッグで移動",
+    "description": "UI string: g4h"
+  },
+  "g4p": {
+    "message": "カードをヘッダー上段（複数ルート時）、サブ分類、または左のサブフォルダへドラッグして移動。同じ一覧内で並べ替え可。",
+    "description": "UI string: g4p"
+  },
+  "g5h": {
+    "message": "5. 設定",
+    "description": "UI string: g5h"
+  },
+  "g5li1": {
+    "message": "<strong>編集モード</strong>：編集・削除・ドラッグの表示。",
+    "description": "UI string: g5li1"
+  },
+  "g5li2": {
+    "message": "<strong>列数</strong>：3 / 4 / 5（幅に応じて調整）。",
+    "description": "UI string: g5li2"
+  },
+  "g5li3": {
+    "message": "<strong>コンテンツ幅</strong>：ビューポート幅の 50%～100%（最小 400px）、スライダーで調整。",
+    "description": "UI string: g5li3"
+  },
+  "g5li4": {
+    "message": "<strong>背景色・画像</strong>：ページ背景。画像は小さめ推奨。",
+    "description": "UI string: g5li4"
+  },
+  "g5li5": {
+    "message": "<strong>新しいタブ</strong>：オンでこのページを開きます。",
+    "description": "UI string: g5li5"
+  },
+  "g5li6": {
+    "message": "<strong>言語</strong>：7言語から選択。",
+    "description": "UI string: g5li6"
+  },
+  "guideFoot": {
+    "message": "SuperBookmark · 新しいタブまたは拡張アイコンで戻れます",
+    "description": "UI string: guideFoot"
+  },
+  "bgpBlue": {
+    "message": "水色",
+    "description": "UI string: bgpBlue"
+  },
+  "bgpGreen": {
+    "message": "薄緑",
+    "description": "UI string: bgpGreen"
+  },
+  "bgpBeige": {
+    "message": "ベージュ",
+    "description": "UI string: bgpBeige"
+  },
+  "bgpGray": {
+    "message": "薄い灰",
+    "description": "UI string: bgpGray"
+  },
+  "bgpWhite": {
+    "message": "白",
+    "description": "UI string: bgpWhite"
+  },
+  "bgpDark": {
+    "message": "暗",
+    "description": "UI string: bgpDark"
+  }
+}
