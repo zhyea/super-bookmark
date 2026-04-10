@@ -27,8 +27,8 @@ const APP_TO_CHROME = {
 
 /** 清单 name / description（各语言短文案，供 __MSG_extName__ / __MSG_extDescription__） */
 const EXT_NAME = {
-    zh: '超级书签 SuperBookmark',
-    'zh-TW': '超級書籤 SuperBookmark',
+    zh: 'SuperBookmark',
+    'zh-TW': 'SuperBookmark',
     en: 'SuperBookmark',
     es: 'SuperBookmark',
     de: 'SuperBookmark',

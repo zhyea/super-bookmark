@@ -1,6 +1,6 @@
 {
   "name": "super-bookmark",
-  "version": "1.0.8",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,6 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "gen:engine-icons": "node scripts/export-engine-icons.mjs",
+    "gen:icons": "node scripts/build-extension-icons.mjs",
     "gen:locales": "node scripts/sync-chrome-locales.mjs"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
     "@fortawesome/free-brands-svg-icons": "^7.2.0",
     "@iconify-json/logos": "^1.2.11",
     "@vitejs/plugin-vue": "^5.2.1",
+    "sharp": "^0.34.5",
     "simple-icons": "^16.14.0",
     "vite": "^6.0.7"
   }
