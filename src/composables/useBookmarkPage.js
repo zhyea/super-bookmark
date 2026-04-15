@@ -14,9 +14,10 @@ export function initBookmarkPage(ctx) {
         window.BookmarkManagerI18n?.applyMainPageStatic?.();
     }
 
-    const primaryNav = document.getElementById('primaryNav');
+    /** 用稳定容器做事件委托：避免首屏数据未就绪时 #primaryNav / #sideNavList 尚不存在导致从未绑定拖放 */
+    const bookmarkHeader = document.getElementById('bookmarkHeader');
     const secondaryNav = document.getElementById('secondaryNav');
-    const sideNavList = document.getElementById('sideNavList');
+    const sideSection = document.getElementById('sideSection');
     const contentMain = document.getElementById('contentMain');
     const categoryPanel = document.getElementById('categoryPanel');
 
@@ -165,13 +166,13 @@ export function initBookmarkPage(ctx) {
         });
     }
 
-    bindNavBookmarkDrop(primaryNav, '.primary-nav-item', function (a) {
+    bindNavBookmarkDrop(bookmarkHeader, '.primary-nav-item', function (a) {
         return a.dataset.folderId;
     });
     bindNavBookmarkDrop(secondaryNav, '.secondary-nav-item', function (a) {
         return resolveDropParentId(a.dataset.secondaryId);
     });
-    bindNavBookmarkDrop(sideNavList, '.side-nav-item', function (a) {
+    bindNavBookmarkDrop(sideSection, '.side-nav-item', function (a) {
         return resolveDropParentId(a.dataset.sideId);
     });
 

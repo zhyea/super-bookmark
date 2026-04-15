@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header class="header">
+    <header id="bookmarkHeader" class="header">
       <PrimaryNavBar
         :nav-data="state.navData"
         :current-primary-index="state.currentPrimaryIndex"
