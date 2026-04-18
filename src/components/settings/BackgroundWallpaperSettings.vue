@@ -37,53 +37,54 @@
       </div>
       <div class="settings-panel-content settings-wallpaper-sub-content">
         <div class="settings-section">
-          <div class="settings-section-title">{{ t('wallpaperSectionLocal') }}</div>
-          <div class="settings-row">
-            <div class="settings-btns settings-bg-image-row">
-              <input
-                  id="wallpaperSettingsBackgroundFile"
-                  ref="bgFileRef"
-                  type="file"
-                  accept="image/*"
-                  class="settings-file-input"
-                  style="display: none"
-                  @change="onBgFile"
-              />
-              <button type="button" class="settings-btn" id="wallpaperSettingsUploadBgBtn" @click="openBgFilePicker">
-                {{ t('chooseImg') }}
-              </button>
-              <button
-                  type="button"
-                  class="settings-btn"
-                  :class="{ disabled: !hasBgImageEffective }"
-                  :disabled="!hasBgImageEffective"
-                  id="wallpaperSettingsClearBgBtn"
-                  @click="clearBgImage"
-              >
-                {{ t('clear') }}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="settings-section">
           <div class="settings-section-title">{{ t('wallpaperSourceListTitle') }}</div>
           <div class="settings-wallpaper-source-grid">
+            <input
+                id="wallpaperSettingsBackgroundFile"
+                ref="bgFileRef"
+                type="file"
+                accept="image/*"
+                class="settings-file-input"
+                style="display: none"
+                @change="onBgFile"
+            />
+            <button
+                type="button"
+                class="settings-wallpaper-source-card settings-wallpaper-source-card--local"
+                :class="{ active: currentWallpaperProvider === 'custom' }"
+                :aria-label="t('wallpaperProv_local') + '，' + t('chooseImg')"
+                :aria-pressed="currentWallpaperProvider === 'custom'"
+                @click="openBgFilePicker"
+            >
+              <div class="settings-wallpaper-source-card-visual" aria-hidden="true">
+                <span class="settings-wallpaper-source-card-icon"></span>
+              </div>
+              <div class="settings-wallpaper-source-card-body">
+                <div class="settings-wallpaper-source-card-text">
+                  <span class="settings-wallpaper-source-card-title">{{ t('wallpaperProv_local') }}</span>
+                  <span class="settings-wallpaper-source-card-desc">{{ t('wallpaperProvDesc_local') }}</span>
+                </div>
+              </div>
+            </button>
             <button
                 v-for="pid in WALLPAPER_REMOTE_IDS"
                 :key="pid"
                 type="button"
                 class="settings-wallpaper-source-card"
-                :class="{ active: selectedRemoteId === pid }"
+                :class="['settings-wallpaper-source-card--' + pid, { active: currentWallpaperProvider === pid }]"
+                :aria-label="t('wallpaperProv_' + pid) + '，' + t('wallpaperPreviewHint')"
+                :aria-pressed="currentWallpaperProvider === pid"
                 @click="selectAndPreviewSource(pid)"
             >
-              <span class="settings-wallpaper-source-name">{{ t('wallpaperProv_' + pid) }}</span>
-              <span class="settings-wallpaper-source-preview-hint">{{ t('wallpaperPreviewHint') }}</span>
-            </button>
-          </div>
-          <div class="settings-row">
-            <button type="button" class="settings-btn" :disabled="wallpaperApplying"
-                    @click="applySelectedRemoteWallpaper">
-              {{ wallpaperApplying ? t('wallpaperSourceApplying') : t('wallpaperSourceApply') }}
+              <div class="settings-wallpaper-source-card-visual" aria-hidden="true">
+                <span class="settings-wallpaper-source-card-icon"></span>
+              </div>
+              <div class="settings-wallpaper-source-card-body">
+                <div class="settings-wallpaper-source-card-text">
+                  <span class="settings-wallpaper-source-card-title">{{ t('wallpaperProv_' + pid) }}</span>
+                  <span class="settings-wallpaper-source-card-desc">{{ t('wallpaperProvDesc_' + pid) }}</span>
+                </div>
+              </div>
             </button>
           </div>
         </div>
@@ -105,22 +106,54 @@
                 min="1"
                 max="120"
                 step="1"
-                :disabled="!wallpaperAutoRotateLocal"
+                :aria-label="t('wallpaperRotateMinutes')"
                 @input="onWallpaperRotateMinutesInput"
             />
           </div>
+          <div class="settings-row settings-row-range">
+            <div class="settings-range-label">{{ t('settingsOverlayTransparency') }}：{{ bgOverlayOpacityLocal }}%</div>
+            <input
+                v-model.number="bgOverlayOpacityLocal"
+                type="range"
+                class="settings-range-input"
+                min="0"
+                max="100"
+                step="1"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                :aria-valuenow="bgOverlayOpacityLocal"
+                :aria-label="t('settingsOverlayTransparency')"
+                @input="onWallpaperBgOverlayInput"
+            />
+          </div>
+          <div class="settings-row settings-row-range">
+            <div class="settings-range-label">{{ t('settingsOverlayBlur') }}：{{ bgOverlayBlurLocal }}%</div>
+            <input
+                v-model.number="bgOverlayBlurLocal"
+                type="range"
+                class="settings-range-input"
+                min="0"
+                max="100"
+                step="1"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                :aria-valuenow="bgOverlayBlurLocal"
+                :aria-label="t('settingsOverlayBlur')"
+                @input="onWallpaperBgOverlayInput"
+            />
+          </div>
           <div class="settings-row">
-            <div class="settings-range-label">{{ t('wallpaperRotatePickSources') }}</div>
-            <div class="settings-wallpaper-rotate-grid">
-              <label v-for="pid in WALLPAPER_REMOTE_IDS" :key="'r-' + pid" class="settings-wallpaper-check">
-                <input
-                    type="checkbox"
-                    :checked="rotateSourceChecked(pid)"
-                    :disabled="!wallpaperAutoRotateLocal"
-                    @change="toggleRotateSource(pid, $event)"
-                />
-                <span>{{ t('wallpaperProv_' + pid) }}</span>
-              </label>
+            <div class="settings-btns settings-bg-image-row">
+              <button
+                  type="button"
+                  class="settings-btn"
+                  :class="{ disabled: !hasBgImageEffective }"
+                  :disabled="!hasBgImageEffective"
+                  id="wallpaperSettingsClearBgBtn"
+                  @click="clearBgImage"
+              >
+                {{ t('wallpaperClearWallpaper') }}
+              </button>
             </div>
           </div>
         </div>
@@ -130,21 +163,27 @@
     <WallpaperPreviewDialog
         :open="wallpaperPreviewOpen"
         :provider-id="previewProviderId"
+        :include-in-rotate="rotateSourceChecked(previewProviderId)"
         @close="closeSourcePreview"
         @apply-image="applyPreviewImage"
+        @include-in-rotate-change="onPreviewIncludeInRotate"
     />
   </div>
 </template>
 
 <script setup>
-import {computed, onMounted, ref, watch} from 'vue';
+import {computed, inject, onMounted, onUnmounted, ref, watch} from 'vue';
 import {useI18n} from 'vue-i18n';
 import {appRuntime} from '../../services/appRuntime.js';
-import {WALLPAPER_REMOTE_IDS, fetchWallpaperByProvider} from '../../services/wallpaperProviders.js';
-import {normalizeWallpaperRotateSourceIdsForSave} from '../../services/wallpaperRotation.js';
+import {
+  normalizeWallpaperRotateSourceIdsForSave,
+  WALLPAPER_CUSTOM_ROTATE_ID,
+  WALLPAPER_REMOTE_IDS
+} from '../../services/wallpaperProviders.js';
 import WallpaperPreviewDialog from './WallpaperPreviewDialog.vue';
 
 const {t} = useI18n();
+const simpleUiInjected = inject('simpleUi', null);
 
 const props = defineProps({
   /** 主设置抽屉是否打开；关闭时收起子抽屉与预览，避免再次打开仍处于子层 */
@@ -154,13 +193,17 @@ const props = defineProps({
 const wallpaperSubOpen = ref(false);
 const wallpaperPreviewOpen = ref(false);
 const previewProviderId = ref('bing');
-const wallpaperApplying = ref(false);
 const selectedRemoteId = ref('bing');
 const wallpaperAutoRotateLocal = ref(false);
 const wallpaperRotateMinutesLocal = ref(30);
-const wallpaperRotateIdsLocal = ref(WALLPAPER_REMOTE_IDS.slice());
+const wallpaperRotateIdsLocal = ref([]);
+const bgOverlayOpacityLocal = ref(0);
+const bgOverlayBlurLocal = ref(0);
 const defaultBgAssetUrl = ref('');
 const bgFileRef = ref(null);
+
+let wallpaperOverlayPersistTimer = null;
+let wallpaperOverlayLayoutRaf = null;
 
 function settingsModule() {
   return typeof window !== 'undefined' ? window.BookmarkManagerSettings : null;
@@ -172,6 +215,55 @@ function persistSettings(partial) {
 
 function applyLayout() {
   settingsModule()?.applyContentWidthAndBackground();
+}
+
+function scheduleWallpaperBgOverlayLayout() {
+  if (wallpaperOverlayLayoutRaf != null) {
+    cancelAnimationFrame(wallpaperOverlayLayoutRaf);
+  }
+  wallpaperOverlayLayoutRaf = requestAnimationFrame(() => {
+    wallpaperOverlayLayoutRaf = null;
+    applyLayout();
+  });
+}
+
+function flushWallpaperOverlayPersistTimer() {
+  if (wallpaperOverlayPersistTimer != null) {
+    clearTimeout(wallpaperOverlayPersistTimer);
+    wallpaperOverlayPersistTimer = null;
+  }
+  const o = Math.max(0, Math.min(100, Math.round(Number(bgOverlayOpacityLocal.value) || 0)));
+  const b = Math.max(0, Math.min(100, Math.round(Number(bgOverlayBlurLocal.value) || 0)));
+  if (!appRuntime.settings) {
+    appRuntime.settings = {};
+  }
+  Object.assign(appRuntime.settings, {simpleOverlayOpacity: o, simpleOverlayBlurPx: b});
+  persistSettings({simpleOverlayOpacity: o, simpleOverlayBlurPx: b});
+}
+
+function onWallpaperBgOverlayInput() {
+  const o = Math.max(0, Math.min(100, Math.round(Number(bgOverlayOpacityLocal.value) || 0)));
+  const b = Math.max(0, Math.min(100, Math.round(Number(bgOverlayBlurLocal.value) || 0)));
+  bgOverlayOpacityLocal.value = o;
+  bgOverlayBlurLocal.value = b;
+  if (!appRuntime.settings) {
+    appRuntime.settings = {};
+  }
+  Object.assign(appRuntime.settings, {simpleOverlayOpacity: o, simpleOverlayBlurPx: b});
+  const inj = simpleUiInjected;
+  if (inj) {
+    inj.overlayOpacity = o;
+    inj.overlayBlurPx = b;
+  }
+  scheduleWallpaperBgOverlayLayout();
+  window.dispatchEvent(new CustomEvent('simple-search-ui-updated'));
+  clearTimeout(wallpaperOverlayPersistTimer);
+  wallpaperOverlayPersistTimer = setTimeout(() => {
+    wallpaperOverlayPersistTimer = null;
+    const o2 = Math.max(0, Math.min(100, Math.round(Number(bgOverlayOpacityLocal.value) || 0)));
+    const b2 = Math.max(0, Math.min(100, Math.round(Number(bgOverlayBlurLocal.value) || 0)));
+    persistSettings({simpleOverlayOpacity: o2, simpleOverlayBlurPx: b2});
+  }, 120);
 }
 
 const s = () => appRuntime.settings || {};
@@ -187,6 +279,12 @@ const bgThumbSrc = computed(() => {
   return defaultBgAssetUrl.value || '';
 });
 
+/** 当前已应用的图源，用于壁纸卡片高亮（与预览中临时选中的 selectedRemoteId 区分） */
+const currentWallpaperProvider = computed(() => {
+  const p = s().wallpaperProvider;
+  return p == null ? '' : String(p);
+});
+
 function syncWallpaperSubFromRuntime() {
   const w = s();
   if (WALLPAPER_REMOTE_IDS.indexOf(w.wallpaperProvider) !== -1) selectedRemoteId.value = w.wallpaperProvider;
@@ -197,6 +295,14 @@ function syncWallpaperSubFromRuntime() {
     wallpaperRotateMinutesLocal.value = Number.isFinite(rm) && rm >= 1 && rm <= 120 ? Math.round(rm) : 30;
   }
   wallpaperRotateIdsLocal.value = normalizeWallpaperRotateSourceIdsForSave(w.wallpaperRotateSourceIds);
+  bgOverlayOpacityLocal.value =
+      Number.isFinite(Number(w.simpleOverlayOpacity)) && Number(w.simpleOverlayOpacity) >= 0 && Number(w.simpleOverlayOpacity) <= 100
+          ? Math.round(Number(w.simpleOverlayOpacity))
+          : 0;
+  bgOverlayBlurLocal.value =
+      Number.isFinite(Number(w.simpleOverlayBlurPx)) && Number(w.simpleOverlayBlurPx) >= 0 && Number(w.simpleOverlayBlurPx) <= 100
+          ? Math.round(Number(w.simpleOverlayBlurPx))
+          : 0;
 }
 
 function openWallpaperSub() {
@@ -205,6 +311,7 @@ function openWallpaperSub() {
 }
 
 function closeWallpaperSub() {
+  flushWallpaperOverlayPersistTimer();
   wallpaperSubOpen.value = false;
 }
 
@@ -220,25 +327,6 @@ function selectAndPreviewSource(pid) {
 
 function closeSourcePreview() {
   wallpaperPreviewOpen.value = false;
-}
-
-async function applySelectedRemoteWallpaper() {
-  const id = selectedRemoteId.value;
-  if (WALLPAPER_REMOTE_IDS.indexOf(id) === -1) return;
-  wallpaperApplying.value = true;
-  try {
-    const dataUrl = await fetchWallpaperByProvider(id);
-    persistSettings({
-      backgroundImage: dataUrl,
-      wallpaperProvider: id,
-      disableDefaultBg: false
-    });
-    applyLayout();
-  } catch (_e) {
-    alert(t('wallpaperSourceFail'));
-  } finally {
-    wallpaperApplying.value = false;
-  }
 }
 
 function applyPreviewImage(payload) {
@@ -266,18 +354,18 @@ function rotateSourceChecked(pid) {
   return wallpaperRotateIdsLocal.value.indexOf(pid) !== -1;
 }
 
-function toggleRotateSource(pid, ev) {
-  const on = ev.target.checked;
+function onPreviewIncludeInRotate(enabled) {
+  const pid = previewProviderId.value;
+  if (WALLPAPER_REMOTE_IDS.indexOf(pid) === -1) return;
   let next = wallpaperRotateIdsLocal.value.slice();
-  if (on) {
+  if (enabled) {
     if (next.indexOf(pid) === -1) next.push(pid);
   } else {
     const i = next.indexOf(pid);
     if (i !== -1) next.splice(i, 1);
   }
-  if (!next.length) next = WALLPAPER_REMOTE_IDS.slice();
-  wallpaperRotateIdsLocal.value = next;
-  persistSettings({wallpaperRotateSourceIds: normalizeWallpaperRotateSourceIdsForSave(next)});
+  wallpaperRotateIdsLocal.value = normalizeWallpaperRotateSourceIdsForSave(next);
+  persistSettings({wallpaperRotateSourceIds: wallpaperRotateIdsLocal.value});
 }
 
 const MAX_BG_IMAGE_FILE_BYTES = 3 * 1024 * 1024;
@@ -292,12 +380,19 @@ function onBgFile(e) {
   }
   const reader = new FileReader();
   reader.onload = function () {
+    const dataUrl = reader.result;
+    const prevIds = normalizeWallpaperRotateSourceIdsForSave(s().wallpaperRotateSourceIds || []);
+    const nextIds =
+        prevIds.indexOf(WALLPAPER_CUSTOM_ROTATE_ID) !== -1 ? prevIds : prevIds.concat([WALLPAPER_CUSTOM_ROTATE_ID]);
     persistSettings({
-      backgroundImage: reader.result,
+      backgroundImage: dataUrl,
+      wallpaperCustomDataUrl: dataUrl,
       disableDefaultBg: false,
       wallpaperProvider: 'custom',
-      wallpaperAutoRotate: false
+      wallpaperAutoRotate: false,
+      wallpaperRotateSourceIds: nextIds
     });
+    wallpaperRotateIdsLocal.value = nextIds.slice();
     applyLayout();
   };
   reader.readAsDataURL(file);
@@ -305,12 +400,20 @@ function onBgFile(e) {
 }
 
 function clearBgImage() {
+  const nextIds = normalizeWallpaperRotateSourceIdsForSave(
+      (s().wallpaperRotateSourceIds || []).filter(function (id) {
+        return id !== WALLPAPER_CUSTOM_ROTATE_ID;
+      })
+  );
   persistSettings({
     backgroundImage: '',
+    wallpaperCustomDataUrl: '',
     disableDefaultBg: true,
     wallpaperProvider: 'none',
-    wallpaperAutoRotate: false
+    wallpaperAutoRotate: false,
+    wallpaperRotateSourceIds: nextIds
   });
+  wallpaperRotateIdsLocal.value = nextIds.slice();
   applyLayout();
 }
 
@@ -322,6 +425,7 @@ watch(
     () => props.mainPanelOpen,
     (open) => {
       if (!open) {
+        flushWallpaperOverlayPersistTimer();
         wallpaperSubOpen.value = false;
         wallpaperPreviewOpen.value = false;
       }
@@ -337,6 +441,14 @@ onMounted(() => {
     }
   }
   syncWallpaperSubFromRuntime();
+});
+
+onUnmounted(() => {
+  flushWallpaperOverlayPersistTimer();
+  if (wallpaperOverlayLayoutRaf != null) {
+    cancelAnimationFrame(wallpaperOverlayLayoutRaf);
+    wallpaperOverlayLayoutRaf = null;
+  }
 });
 </script>
 
@@ -387,7 +499,7 @@ onMounted(() => {
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(396px, 92vw);
+  width: min(420px, 92vw);
   height: 100vh;
   max-height: none;
   z-index: 24;
@@ -486,54 +598,173 @@ onMounted(() => {
 .settings-wallpaper-source-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 10px 10px 12px;
+  align-items: stretch;
+  padding: 0;
   text-align: left;
   border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 0;
   background: #fff;
   cursor: pointer;
-  font-size: 13px;
-  color: #374151;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.15s ease;
+}
+
+.settings-wallpaper-source-card--bing {
+  border-color: #bae6fd;
+}
+
+.settings-wallpaper-source-card--unsplash {
+  border-color: #ddd6fe;
+}
+
+.settings-wallpaper-source-card--pexels {
+  border-color: #a7f3d0;
+}
+
+.settings-wallpaper-source-card--local {
+  border-color: #cbd5e1;
 }
 
 .settings-wallpaper-source-card:hover {
-  border-color: #93c5fd;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
 }
 
-.settings-wallpaper-source-card.active {
-  border-color: #4f9dff;
-  box-shadow: 0 0 0 1px #4f9dff44;
+.settings-wallpaper-source-card--bing.active {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.35);
 }
 
-.settings-wallpaper-source-name {
-  font-weight: 600;
+.settings-wallpaper-source-card--unsplash.active {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.35);
 }
 
-.settings-wallpaper-source-preview-hint {
-  font-size: 11px;
-  color: #9ca3af;
+.settings-wallpaper-source-card--pexels.active {
+  border-color: #059669;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.32);
 }
 
-.settings-wallpaper-rotate-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
+.settings-wallpaper-source-card--local.active {
+  border-color: #475569;
+  box-shadow: 0 0 0 2px rgba(71, 85, 105, 0.35);
 }
 
-.settings-wallpaper-check {
+.settings-wallpaper-source-card-visual {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: #374151;
-  cursor: pointer;
+  justify-content: center;
+  min-height: calc(80px * 2 / 3);
+  flex-shrink: 0;
+  position: relative;
 }
 
-.settings-wallpaper-check input {
-  flex-shrink: 0;
+.settings-wallpaper-source-card--bing .settings-wallpaper-source-card-visual {
+  background: linear-gradient(118deg, #0ea5e9 0%, #7dd3fc 42%, #e0f2fe 100%);
 }
+
+.settings-wallpaper-source-card--unsplash .settings-wallpaper-source-card-visual {
+  background: linear-gradient(112deg, #4f46e5 0%, #a78bfa 38%, #fde68a 100%);
+}
+
+.settings-wallpaper-source-card--pexels .settings-wallpaper-source-card-visual {
+  background: linear-gradient(108deg, #059669 0%, #34d399 45%, #d1fae5 100%);
+}
+
+.settings-wallpaper-source-card--local .settings-wallpaper-source-card-visual {
+  background: linear-gradient(118deg, #64748b 0%, #94a3b8 42%, #e2e8f0 100%);
+}
+
+.settings-wallpaper-source-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(52px * 2 / 3);
+  height: calc(52px * 2 / 3);
+  font-size: calc(38px * 2 / 3);
+  font-weight: 300;
+  line-height: 1;
+  color: #fbbf24;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
+}
+
+.settings-wallpaper-source-card--bing .settings-wallpaper-source-card-icon::before {
+  content: '☀';
+  font-size: calc(36px * 2 / 3);
+  color: #fff7ed;
+}
+
+.settings-wallpaper-source-card--unsplash .settings-wallpaper-source-card-icon::before {
+  content: '◫';
+  font-size: calc(34px * 2 / 3);
+  color: #eef2ff;
+}
+
+.settings-wallpaper-source-card--pexels .settings-wallpaper-source-card-icon::before {
+  content: '\25C9';
+  font-size: calc(36px * 2 / 3);
+  font-weight: 400;
+  color: #ecfdf5;
+}
+
+.settings-wallpaper-source-card--local .settings-wallpaper-source-card-icon::before {
+  content: '\21E7';
+  font-size: calc(32px * 2 / 3);
+  font-weight: 500;
+  color: #f8fafc;
+}
+
+.settings-wallpaper-source-card-body {
+  padding: 10px 10px 12px;
+  flex: 1;
+  min-height: 0;
+}
+
+.settings-wallpaper-source-card--bing .settings-wallpaper-source-card-body {
+  background: #f8fafc;
+}
+
+.settings-wallpaper-source-card--unsplash .settings-wallpaper-source-card-body {
+  background: #faf5ff;
+}
+
+.settings-wallpaper-source-card--pexels .settings-wallpaper-source-card-body {
+  background: #ecfdf5;
+}
+
+.settings-wallpaper-source-card--local .settings-wallpaper-source-card-body {
+  background: #f1f5f9;
+}
+
+.settings-wallpaper-source-card-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+}
+
+.settings-wallpaper-source-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  line-height: 1.35;
+}
+
+.settings-wallpaper-source-card-desc {
+  font-size: 11px;
+  font-weight: 400;
+  color: #9ca3af;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}
+
 </style>

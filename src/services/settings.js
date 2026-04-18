@@ -16,6 +16,7 @@ import {
 } from './settingsUtils.js';
 import { appRuntime } from './appRuntime.js';
 import { normalizeCustomEngines, normalizeQuickEngineKeys } from './simpleSearchEngines.js';
+import { normalizeWallpaperRotateSourceIdsForSave } from './wallpaperProviders.js';
 
 const SETTINGS_STORAGE_KEY = 'bookmarkManagerSettings';
 const DEFAULT_BG_PATH = 'assets/imgs/default_bg.jpg';
@@ -136,6 +137,31 @@ function loadSettings(cb) {
             s.backgroundImage && typeof s.backgroundImage === 'string' && s.backgroundImage.startsWith('data:')
                 ? s.backgroundImage
                 : '';
+        const wallpaperProvRaw = typeof s.wallpaperProvider === 'string' ? String(s.wallpaperProvider).trim() : '';
+        let wallpaperProvider =
+            wallpaperProvRaw === 'bing' ||
+            wallpaperProvRaw === 'unsplash' ||
+            wallpaperProvRaw === 'pexels' ||
+            wallpaperProvRaw === 'custom' ||
+            wallpaperProvRaw === 'none'
+                ? wallpaperProvRaw
+                : '';
+        if (!wallpaperProvider && backgroundImage) wallpaperProvider = 'custom';
+        if (!wallpaperProvider) wallpaperProvider = 'none';
+        let wallpaperCustomDataUrl =
+            s.wallpaperCustomDataUrl && typeof s.wallpaperCustomDataUrl === 'string' && s.wallpaperCustomDataUrl.startsWith('data:')
+                ? s.wallpaperCustomDataUrl
+                : '';
+        if (!wallpaperCustomDataUrl && wallpaperProvider === 'custom' && backgroundImage) {
+            wallpaperCustomDataUrl = backgroundImage;
+        }
+        const wallpaperRotateMinutes = (function () {
+            const rm = Number(s.wallpaperRotateMinutes);
+            return Number.isFinite(rm) && rm >= 1 && rm <= 120 ? Math.round(rm) : 30;
+        })();
+        const wallpaperRotateIndexParsed = parseInt(s.wallpaperRotateIndex, 10);
+        const wallpaperRotateIndex =
+            Number.isFinite(wallpaperRotateIndexParsed) && wallpaperRotateIndexParsed >= 0 ? wallpaperRotateIndexParsed : 0;
         const disableDefaultBg = s.disableDefaultBg === true;
         const theme = s.theme === 'dark' ? 'dark' : 'light';
         const BM = window.BookmarkManager;
@@ -181,7 +207,13 @@ function loadSettings(cb) {
                     ? Math.round(Number(s.simpleSearchBorderRadiusPx))
                     : 32,
             simpleBookmarkCardTextColor: normalizeBookmarkCardTextColor(s.simpleBookmarkCardTextColor),
-            contentChromeTransparency: normalizeContentChromeTransparency(s)
+            contentChromeTransparency: normalizeContentChromeTransparency(s),
+            wallpaperProvider: wallpaperProvider,
+            wallpaperAutoRotate: s.wallpaperAutoRotate === true,
+            wallpaperRotateMinutes: wallpaperRotateMinutes,
+            wallpaperRotateSourceIds: normalizeWallpaperRotateSourceIdsForSave(s.wallpaperRotateSourceIds),
+            wallpaperRotateIndex: wallpaperRotateIndex,
+            wallpaperCustomDataUrl: wallpaperCustomDataUrl
         };
         if (typeof document !== 'undefined' && document.body) {
             document.body.classList.toggle('hide-card-actions', !appRuntime.settings.showActions);

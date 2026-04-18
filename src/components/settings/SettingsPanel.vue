@@ -194,38 +194,6 @@
                             @input="onContentChromeTransparencyInput"
                         />
                     </div>
-                    <div class="settings-row settings-row-range">
-                        <div class="settings-range-label">{{ t('settingsOverlayTransparency') }}：{{ simpleOverlayOpacityLocal }}%</div>
-                        <input
-                            v-model.number="simpleOverlayOpacityLocal"
-                            type="range"
-                            class="settings-range-input"
-                            min="0"
-                            max="100"
-                            step="1"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            :aria-valuenow="simpleOverlayOpacityLocal"
-                            :aria-label="t('settingsOverlayTransparency')"
-                            @input="persistSimpleSearchAppearancePanel"
-                        />
-                    </div>
-                    <div class="settings-row settings-row-range">
-                        <div class="settings-range-label">{{ t('settingsOverlayBlur') }}：{{ simpleOverlayBlurLocal }}%</div>
-                        <input
-                            v-model.number="simpleOverlayBlurLocal"
-                            type="range"
-                            class="settings-range-input"
-                            min="0"
-                            max="100"
-                            step="1"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            :aria-valuenow="simpleOverlayBlurLocal"
-                            :aria-label="t('settingsOverlayBlur')"
-                            @input="persistSimpleSearchAppearancePanel"
-                        />
-                    </div>
                     <div v-if="uiMode === 'simple'" class="settings-row settings-row-inline settings-simple-text-color-row">
                         <span class="settings-label">{{ t('settingsSimpleBookmarkCardTextColor') }}</span>
                         <div class="settings-btns settings-bg-row settings-simple-text-color-btns">
@@ -454,8 +422,6 @@ const editModeOn = ref(false);
 const simpleModeOn = ref(false);
 const simpleSearchScaleLocal = ref(100);
 const simpleSearchOpacityLocal = ref(100);
-const simpleOverlayOpacityLocal = ref(0);
-const simpleOverlayBlurLocal = ref(0);
 const simpleSearchRadiusLocal = ref(32);
 const simpleBookmarkCardTextColorLocal = ref('#dddddd');
 
@@ -483,8 +449,8 @@ function flushDebouncedSimplePersist() {
         clearTimeout(simpleAppearStorageTimer);
         simpleAppearStorageTimer = null;
         const searchOp = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
-        const o = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
-        const b = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+        const o = Math.max(0, Math.min(100, Math.round(Number(s().simpleOverlayOpacity) || 0)));
+        const b = Math.max(0, Math.min(100, Math.round(Number(s().simpleOverlayBlurPx) || 0)));
         const raw = Number(simpleSearchRadiusLocal.value);
         const r = Math.max(0, Math.min(40, Number.isFinite(raw) ? Math.round(raw) : 32));
         persistSettings({
@@ -536,14 +502,6 @@ function syncSimpleSearchFieldsFromRuntime() {
             simpleSearchOpacityLocal.value = 100;
         }
     }
-    simpleOverlayOpacityLocal.value =
-        Number.isFinite(Number(w.simpleOverlayOpacity)) && Number(w.simpleOverlayOpacity) >= 0 && Number(w.simpleOverlayOpacity) <= 100
-            ? Math.round(Number(w.simpleOverlayOpacity))
-            : 0;
-    simpleOverlayBlurLocal.value =
-        Number.isFinite(Number(w.simpleOverlayBlurPx)) && Number(w.simpleOverlayBlurPx) >= 0 && Number(w.simpleOverlayBlurPx) <= 100
-            ? Math.round(Number(w.simpleOverlayBlurPx))
-            : 0;
     simpleSearchRadiusLocal.value =
         Number.isFinite(Number(w.simpleSearchBorderRadiusPx)) &&
         Number(w.simpleSearchBorderRadiusPx) >= 0 &&
@@ -552,8 +510,16 @@ function syncSimpleSearchFieldsFromRuntime() {
             : 32;
     simpleBookmarkCardTextColorLocal.value = normalizeBookmarkCardTextColor(w.simpleBookmarkCardTextColor);
     if (simpleUiInjected) {
-        simpleUiInjected.overlayOpacity = simpleOverlayOpacityLocal.value;
-        simpleUiInjected.overlayBlurPx = simpleOverlayBlurLocal.value;
+        const o =
+            Number.isFinite(Number(w.simpleOverlayOpacity)) && Number(w.simpleOverlayOpacity) >= 0 && Number(w.simpleOverlayOpacity) <= 100
+                ? Math.round(Number(w.simpleOverlayOpacity))
+                : 0;
+        const b =
+            Number.isFinite(Number(w.simpleOverlayBlurPx)) && Number(w.simpleOverlayBlurPx) >= 0 && Number(w.simpleOverlayBlurPx) <= 100
+                ? Math.round(Number(w.simpleOverlayBlurPx))
+                : 0;
+        simpleUiInjected.overlayOpacity = o;
+        simpleUiInjected.overlayBlurPx = b;
         simpleUiInjected.searchBorderRadiusPx = simpleSearchRadiusLocal.value;
         simpleUiInjected.searchOpacity = simpleSearchOpacityLocal.value;
         simpleUiInjected.bookmarkCardTextColor = simpleBookmarkCardTextColorLocal.value;
@@ -622,13 +588,11 @@ function onSimpleBookmarkCardTextColorPick() {
 
 function persistSimpleSearchAppearancePanel() {
     const searchOp = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
-    const o = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
-    const b = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+    const o = Math.max(0, Math.min(100, Math.round(Number(s().simpleOverlayOpacity) || 0)));
+    const b = Math.max(0, Math.min(100, Math.round(Number(s().simpleOverlayBlurPx) || 0)));
     const raw = Number(simpleSearchRadiusLocal.value);
     const r = Math.max(0, Math.min(40, Number.isFinite(raw) ? Math.round(raw) : 32));
     simpleSearchOpacityLocal.value = searchOp;
-    simpleOverlayOpacityLocal.value = o;
-    simpleOverlayBlurLocal.value = b;
     simpleSearchRadiusLocal.value = r;
     if (simpleUiInjected) {
         simpleUiInjected.searchOpacity = searchOp;
@@ -649,8 +613,8 @@ function persistSimpleSearchAppearancePanel() {
     simpleAppearStorageTimer = setTimeout(() => {
         simpleAppearStorageTimer = null;
         const so = Math.max(10, Math.min(100, Math.round(Number(simpleSearchOpacityLocal.value) || 100)));
-        const o2 = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayOpacityLocal.value) || 0)));
-        const b2 = Math.max(0, Math.min(100, Math.round(Number(simpleOverlayBlurLocal.value) || 0)));
+        const o2 = Math.max(0, Math.min(100, Math.round(Number(s().simpleOverlayOpacity) || 0)));
+        const b2 = Math.max(0, Math.min(100, Math.round(Number(s().simpleOverlayBlurPx) || 0)));
         const raw2 = Number(simpleSearchRadiusLocal.value);
         const r2 = Math.max(0, Math.min(40, Number.isFinite(raw2) ? Math.round(raw2) : 32));
         persistSettings({

@@ -24,7 +24,7 @@ body {
     overflow: hidden;
 }
 
-/* 全页背景层：由 settings.js 写入色/图与「背景透明度」(simpleOverlayOpacity→opacity)；#app 叠在其上 */
+/* 全页背景层：由 settings.js 写入色/图与「透明度」(simpleOverlayOpacity→opacity)；#app 叠在其上 */
 .page-bg-backdrop {
     position: fixed;
     inset: 0;
@@ -817,7 +817,7 @@ body.hide-card-actions .link-item .actions {
     position: fixed;
     top: 0;
     right: 0;
-    width: min(396px, 92vw);
+    width: min(420px, 92vw);
     height: 100vh;
     /* 左右内边距由标题/模式切换/内容区各自承担，保持与原 16px 侧向留白一致 */
     padding: 18px 0;
@@ -900,6 +900,72 @@ body.hide-card-actions .link-item .actions {
 .settings-range-input {
     width: 100%;
     box-sizing: border-box;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    accent-color: #4f9dff;
+}
+
+.settings-range-input:focus {
+    outline: none;
+}
+
+.settings-range-input:focus-visible {
+    outline: 2px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+.settings-range-input::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: #e5e7eb;
+}
+
+.settings-range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: #4f9dff;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
+}
+
+.settings-range-input::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: #e5e7eb;
+}
+
+.settings-range-input::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #4f9dff;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.18);
+}
+
+.settings-range-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.settings-range-input:disabled::-webkit-slider-thumb {
+    background: #9ca3af;
+    box-shadow: none;
+}
+
+.settings-range-input:disabled::-moz-range-thumb {
+    background: #9ca3af;
+    box-shadow: none;
 }
 
 /* 设置抽屉内滚动条：

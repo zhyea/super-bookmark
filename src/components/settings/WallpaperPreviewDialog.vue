@@ -29,6 +29,10 @@
             class="settings-wallpaper-preview-gallery"
             @scroll.passive="onGalleryScroll"
             @wheel.passive="onGalleryWheel"
+            @pointerdown="onGalleryPointerDown"
+            @pointerup="onGalleryPointerUp"
+            @pointercancel="onGalleryPointerUp"
+            @pointerleave="onGalleryPointerLeave"
         >
           <div v-if="initialLoading" class="settings-wallpaper-preview-gallery-cover">
             <div class="settings-wallpaper-preview-loader">
@@ -71,6 +75,18 @@
             {{ t('wallpaperSourceFail') }}
           </div>
         </div>
+        <div class="settings-wallpaper-preview-foot">
+          <span class="settings-wallpaper-preview-foot-label">{{ t('wallpaperPreviewJoinRotate') }}</span>
+          <label class="settings-switch" :title="t('wallpaperPreviewJoinRotate')">
+            <input
+                type="checkbox"
+                :checked="includeInRotate"
+                :disabled="applyBusy"
+                @change="onIncludeInRotateChange"
+            />
+            <span class="settings-switch-slider"></span>
+          </label>
+        </div>
         <div v-if="applyBusy" class="settings-wallpaper-preview-apply-overlay" @click.stop aria-live="polite">
           <div class="settings-wallpaper-preview-loader settings-wallpaper-preview-loader--on-dark">
             <span class="settings-wallpaper-pinwheel settings-wallpaper-pinwheel--light" aria-hidden="true"></span>
@@ -90,17 +106,22 @@ import {fetchWallpaperPreviewPage} from '../../services/wallpaperPreviewService.
 
 const props = defineProps({
   open: {type: Boolean, default: false},
-  providerId: {type: String, default: 'bing'}
+  providerId: {type: String, default: 'bing'},
+  includeInRotate: {type: Boolean, default: false}
 });
 
-const emit = defineEmits(['close', 'apply-image']);
+const emit = defineEmits(['close', 'apply-image', 'include-in-rotate-change']);
+
+function onIncludeInRotateChange(ev) {
+  emit('include-in-rotate-change', !!(ev.target && ev.target.checked));
+}
 
 const {t} = useI18n();
 const galleryRef = ref(null);
 const items = ref([]);
 /** 首屏请求是否仍在飞（阻塞分页与双击）；与遮罩展示时间解耦 */
 const initialFetchPending = ref(false);
-/** 首屏「加载中」遮罩；最多展示 LOADING_HINT_MAX_MS，超时后隐藏但可继续等数据 */
+/** 首屏「加载中」遮罩；最多展示 INITIAL_LOADING_HINT_MAX_MS，超时后隐藏但可继续等数据 */
 const initialLoading = ref(false);
 /** 分页请求是否仍在飞（阻塞触底与双击）；与底部「加载中」文案展示时间解耦 */
 const appendFetchPending = ref(false);
@@ -134,14 +155,22 @@ let initialLoadHintTimerId = null;
 
 /** 每页缩略图数量（与接口 n / per_page 一致） */
 const PAGE_SIZE = 6;
-/** 缩略图「加载中」提示最长展示时间（首屏遮罩 / 底部分页），超时后隐藏或终止分页 */
-const LOADING_HINT_MAX_MS = 3000;
+/** 首屏遮罩「加载中」最长展示时间（毫秒） */
+const INITIAL_LOADING_HINT_MAX_MS = 3000;
+/** 底部分页单次尝试最长等待时间，超时后终止本次加载并提示 */
+const APPEND_LOADING_MAX_MS = 5000;
 /** 分页结束后延迟隐藏底部「加载中」，避免与下一次触底请求在同一视觉帧内闪灭 */
 const APPEND_HINT_HIDE_DEBOUNCE_MS = 160;
 /** 距滚动容器底部小于等于该像素时视为触底，触发加载下一页 */
 const NEAR_BOTTOM_PX = 32;
-/** >0 表示正在 ensureGalleryScrollableOrExhausted 循环内，避免与 loadPage 尾部的 nextTick(tryAppend) 重复拉分页 */
+/** 判定按下位置在纵向滚动条一带（与 thin 滚动条 + 触控余量） */
+const SCROLLBAR_HIT_PX = 20;
+/** >0 表示正在 ensureGalleryScrollableOrExhausted 循环内 */
 let ensureGalleryDepth = 0;
+/** 上一次 scrollTop，用于判断是否为用户主动向下滚动 */
+let galleryLastScrollTop = 0;
+/** 指针是否在滚动条区域按下（拖动滚动条或点轨道） */
+let galleryScrollbarPointerActive = false;
 
 function itemVisualKey(it) {
   return String(it && it.thumbUrl || '') + '\0' + String(it && it.fullUrl || '');
@@ -219,9 +248,11 @@ function onAppendFetchStart(sessionAtStart, opIdForAppend) {
     if (previewListSession !== sessionAtStart || appendFetchOpId !== opIdForAppend) return;
     appendLoadHintShown.value = false;
     if (appendFetchPending.value) {
+      appendFetchOpId += 1;
+      appendFetchPending.value = false;
       appendTimeoutHint.value = true;
     }
-  }, LOADING_HINT_MAX_MS);
+  }, APPEND_LOADING_MAX_MS);
 }
 
 /** 单次分页 fetch 结束：延迟收起底部「加载中」；若很快又发起新分页，会在 onAppendFetchStart 里取消 */
@@ -264,7 +295,7 @@ async function loadPage(reset) {
       initialLoadHintTimerId = null;
       if (previewListSession !== sessionAtStart) return;
       initialLoading.value = false;
-    }, LOADING_HINT_MAX_MS);
+    }, INITIAL_LOADING_HINT_MAX_MS);
   } else {
     appendOpStarted = true;
     appendFetchOpId += 1;
@@ -305,22 +336,14 @@ async function loadPage(reset) {
       initialLoading.value = false;
     } else if (appendOpStarted) {
       clearAppendHintMaxVisibleTimer();
-      appendFetchPending.value = false;
-      appendTimeoutHint.value = false;
+      if (appendFetchOpId === opIdForAppend) {
+        appendFetchPending.value = false;
+        appendTimeoutHint.value = false;
+      }
     }
   }
-  if (reset) {
-    if (previewListSession !== sessionAtStart) {
-      return;
-    }
+  if (!reset && appendOpStarted) {
     nextTick(function () {
-      tryAppendNextPageIfNearBottom();
-    });
-  } else if (appendOpStarted) {
-    nextTick(function () {
-      if (ensureGalleryDepth === 0) {
-        tryAppendNextPageIfNearBottom();
-      }
       if (!appendFetchPending.value) {
         scheduleAppendLoadHintHideDebounced();
       }
@@ -333,8 +356,8 @@ function isGalleryNearBottom(el) {
   return el.scrollTop + el.clientHeight >= el.scrollHeight - NEAR_BOTTOM_PX;
 }
 
-/** 触底或内容不足以产生滚动条时加载下一页（受 isBusy / hasMore 约束） */
-function tryAppendNextPageIfNearBottom() {
+/** 仅在触底且由滚轮向下或滚动条向下拖动引起时加载下一页（受 isBusy / hasMore 约束） */
+function tryAppendNextPageIfNearBottomFromUserScroll() {
   const el = galleryRef.value;
   if (!props.open || !el || isBusy.value || hasMore.value !== true) return;
   if (isGalleryNearBottom(el)) {
@@ -342,17 +365,55 @@ function tryAppendNextPageIfNearBottom() {
   }
 }
 
+function syncGalleryScrollBaseline() {
+  const el = galleryRef.value;
+  galleryLastScrollTop = el ? el.scrollTop : 0;
+}
+
+function isEventInVerticalScrollbarZone(ev) {
+  const el = galleryRef.value;
+  if (!el || !ev) return false;
+  const r = el.getBoundingClientRect();
+  return ev.clientX >= r.right - SCROLLBAR_HIT_PX;
+}
+
+function onGalleryPointerDown(ev) {
+  if (!props.open || !galleryRef.value) return;
+  if (isEventInVerticalScrollbarZone(ev)) {
+    galleryScrollbarPointerActive = true;
+  }
+}
+
+function onGalleryPointerUp() {
+  galleryScrollbarPointerActive = false;
+}
+
+function onGalleryPointerLeave(ev) {
+  if (!ev.buttons) {
+    galleryScrollbarPointerActive = false;
+  }
+}
+
 let wheelRafId = null;
-function onGalleryWheel() {
+function onGalleryWheel(ev) {
+  if (!ev || ev.deltaY <= 0) return;
   if (wheelRafId !== null) cancelAnimationFrame(wheelRafId);
   wheelRafId = requestAnimationFrame(function () {
     wheelRafId = null;
-    tryAppendNextPageIfNearBottom();
+    tryAppendNextPageIfNearBottomFromUserScroll();
   });
 }
 
 function onGalleryScroll() {
-  tryAppendNextPageIfNearBottom();
+  const el = galleryRef.value;
+  if (!el) return;
+  const prev = galleryLastScrollTop;
+  const top = el.scrollTop;
+  const scrolledDown = top > prev + 0.5;
+  galleryLastScrollTop = top;
+  if (!scrolledDown) return;
+  if (!galleryScrollbarPointerActive) return;
+  tryAppendNextPageIfNearBottomFromUserScroll();
 }
 
 /**
@@ -372,9 +433,7 @@ async function ensureGalleryScrollableOrExhausted() {
   } finally {
     ensureGalleryDepth -= 1;
     if (ensureGalleryDepth === 0) {
-      nextTick(function () {
-        tryAppendNextPageIfNearBottom();
-      });
+      nextTick(syncGalleryScrollBaseline);
     }
   }
 }
@@ -412,6 +471,8 @@ watch(
         previewError.value = false;
         applyBusy.value = false;
         appendFetchOpId += 1;
+        galleryScrollbarPointerActive = false;
+        galleryLastScrollTop = 0;
         return;
       }
       items.value = [];
@@ -419,8 +480,11 @@ watch(
       page.value = 0;
       previewError.value = false;
       appendTimeoutHint.value = false;
+      galleryScrollbarPointerActive = false;
+      galleryLastScrollTop = 0;
       loadPage(true).then(function () {
         nextTick(function () {
+          syncGalleryScrollBaseline();
           void ensureGalleryScrollableOrExhausted();
         });
       });
@@ -653,6 +717,24 @@ watch(
 
 .settings-wallpaper-preview-status-timeout {
   color: #b45309;
+}
+
+.settings-wallpaper-preview-foot {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px 14px 12px 16px;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.settings-wallpaper-preview-foot-label {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.35;
+  user-select: none;
 }
 
 .settings-wallpaper-preview-apply-overlay {

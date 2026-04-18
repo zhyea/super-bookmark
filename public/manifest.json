@@ -22,10 +22,8 @@
   "host_permissions": [
     "https://www.bing.com/*",
     "https://picsum.photos/*",
-    "https://www.lifeofpix.com/*",
-    "https://mmtstock.com/*",
-    "https://jaymantri.com/*",
-    "https://skitterphoto.com/*"
+    "https://api.pexels.com/*",
+    "https://images.pexels.com/*"
   ],
   "icons": {
     "16": "icons/icon16.png",

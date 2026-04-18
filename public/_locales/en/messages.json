@@ -128,11 +128,11 @@
     "description": "UI string: settingsContentTransparency"
   },
   "settingsOverlayTransparency": {
-    "message": "Background transparency",
+    "message": "Transparency",
     "description": "UI string: settingsOverlayTransparency"
   },
   "settingsOverlayBlur": {
-    "message": "Background blur",
+    "message": "Blur",
     "description": "UI string: settingsOverlayBlur"
   },
   "settingsNewTab": {
@@ -184,7 +184,7 @@
     "description": "UI string: wallpaperSectionLocal"
   },
   "wallpaperSourceListTitle": {
-    "message": "Online wallpapers",
+    "message": "Wallpapers",
     "description": "UI string: wallpaperSourceListTitle"
   },
   "wallpaperProv_bing": {
@@ -195,25 +195,37 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_lifeofpix": {
-    "message": "Life of Pix",
-    "description": "UI string: wallpaperProv_lifeofpix"
+  "wallpaperProv_pexels": {
+    "message": "Pexels",
+    "description": "UI string: wallpaperProv_pexels"
   },
-  "wallpaperProv_mmt": {
-    "message": "Magdeleine",
-    "description": "UI string: wallpaperProv_mmt"
+  "wallpaperProvDesc_bing": {
+    "message": "Microsoft Bing's official daily image—landscapes and world highlights.",
+    "description": "UI string: wallpaperProvDesc_bing"
   },
-  "wallpaperProv_jaymantri": {
-    "message": "Jay Mantri",
-    "description": "UI string: wallpaperProv_jaymantri"
+  "wallpaperProvDesc_unsplash": {
+    "message": "Random photo-style wallpapers via Lorem Picsum (Unsplash-style).",
+    "description": "UI string: wallpaperProvDesc_unsplash"
   },
-  "wallpaperProv_skitterphoto": {
-    "message": "Skitterphoto",
-    "description": "UI string: wallpaperProv_skitterphoto"
+  "wallpaperProvDesc_pexels": {
+    "message": "Curated photos from Pexels API (set VITE_PEXELS_API_KEY when building).",
+    "description": "UI string: wallpaperProvDesc_pexels"
+  },
+  "wallpaperProv_local": {
+    "message": "Local upload",
+    "description": "UI string: wallpaperProv_local"
+  },
+  "wallpaperProvDesc_local": {
+    "message": "Pick an image from your device as your background (max 3 MB). No network needed.",
+    "description": "UI string: wallpaperProvDesc_local"
   },
   "wallpaperPreviewHint": {
     "message": "Tap to preview",
     "description": "UI string: wallpaperPreviewHint"
+  },
+  "wallpaperPreviewJoinRotate": {
+    "message": "Include in auto-rotate",
+    "description": "UI string: wallpaperPreviewJoinRotate"
   },
   "wallpaperSourceApplying": {
     "message": "Applying…",
@@ -228,7 +240,7 @@
     "description": "UI string: wallpaperSourceFail"
   },
   "wallpaperRotateSection": {
-    "message": "Rotation",
+    "message": "Wallpaper settings",
     "description": "UI string: wallpaperRotateSection"
   },
   "wallpaperAutoRotate": {
@@ -242,6 +254,10 @@
   "wallpaperRotatePickSources": {
     "message": "Sources in rotation",
     "description": "UI string: wallpaperRotatePickSources"
+  },
+  "wallpaperClearWallpaper": {
+    "message": "Clear wallpaper",
+    "description": "UI string: wallpaperClearWallpaper"
   },
   "wallpaperPreviewReleaseRefresh": {
     "message": "Release to refresh",
