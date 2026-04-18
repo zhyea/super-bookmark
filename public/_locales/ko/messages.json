@@ -159,6 +159,110 @@
     "message": "보기",
     "description": "UI string: settingsGroupView"
   },
+  "settingsGroupBackground": {
+    "message": "배경",
+    "description": "UI string: settingsGroupBackground"
+  },
+  "wallpaperThumbOpenAria": {
+    "message": "배경 이미지 설정 열기",
+    "description": "UI string: wallpaperThumbOpenAria"
+  },
+  "wallpaperThumbEmpty": {
+    "message": "이미지 없음",
+    "description": "UI string: wallpaperThumbEmpty"
+  },
+  "wallpaperDrawerTitle": {
+    "message": "배경 이미지",
+    "description": "UI string: wallpaperDrawerTitle"
+  },
+  "wallpaperDrawerBack": {
+    "message": "뒤로",
+    "description": "UI string: wallpaperDrawerBack"
+  },
+  "wallpaperSectionLocal": {
+    "message": "로컬 이미지",
+    "description": "UI string: wallpaperSectionLocal"
+  },
+  "wallpaperSourceListTitle": {
+    "message": "온라인 배경",
+    "description": "UI string: wallpaperSourceListTitle"
+  },
+  "wallpaperProv_bing": {
+    "message": "Bing daily",
+    "description": "UI string: wallpaperProv_bing"
+  },
+  "wallpaperProv_unsplash": {
+    "message": "Unsplash",
+    "description": "UI string: wallpaperProv_unsplash"
+  },
+  "wallpaperProv_lifeofpix": {
+    "message": "Life of Pix",
+    "description": "UI string: wallpaperProv_lifeofpix"
+  },
+  "wallpaperProv_mmt": {
+    "message": "Magdeleine",
+    "description": "UI string: wallpaperProv_mmt"
+  },
+  "wallpaperProv_jaymantri": {
+    "message": "Jay Mantri",
+    "description": "UI string: wallpaperProv_jaymantri"
+  },
+  "wallpaperProv_skitterphoto": {
+    "message": "Skitterphoto",
+    "description": "UI string: wallpaperProv_skitterphoto"
+  },
+  "wallpaperPreviewHint": {
+    "message": "탭하여 미리보기",
+    "description": "UI string: wallpaperPreviewHint"
+  },
+  "wallpaperSourceApplying": {
+    "message": "적용 중…",
+    "description": "UI string: wallpaperSourceApplying"
+  },
+  "wallpaperSourceApply": {
+    "message": "현재 소스 적용",
+    "description": "UI string: wallpaperSourceApply"
+  },
+  "wallpaperSourceFail": {
+    "message": "배경을 불러오지 못했습니다. 나중에 다시 시도하세요.",
+    "description": "UI string: wallpaperSourceFail"
+  },
+  "wallpaperRotateSection": {
+    "message": "자동 전환",
+    "description": "UI string: wallpaperRotateSection"
+  },
+  "wallpaperAutoRotate": {
+    "message": "자동 전환 사용",
+    "description": "UI string: wallpaperAutoRotate"
+  },
+  "wallpaperRotateMinutes": {
+    "message": "간격(분)",
+    "description": "UI string: wallpaperRotateMinutes"
+  },
+  "wallpaperRotatePickSources": {
+    "message": "전환에 쓸 소스",
+    "description": "UI string: wallpaperRotatePickSources"
+  },
+  "wallpaperPreviewReleaseRefresh": {
+    "message": "놓아서 새로고침",
+    "description": "UI string: wallpaperPreviewReleaseRefresh"
+  },
+  "wallpaperPreviewPullRefresh": {
+    "message": "당겨서 새로고침",
+    "description": "UI string: wallpaperPreviewPullRefresh"
+  },
+  "wallpaperPreviewThumbsLoading": {
+    "message": "불러오는 중…",
+    "description": "UI string: wallpaperPreviewThumbsLoading"
+  },
+  "wallpaperPreviewApplyBusy": {
+    "message": "적용 중…",
+    "description": "UI string: wallpaperPreviewApplyBusy"
+  },
+  "wallpaperPreviewAppendTimeout": {
+    "message": "더 불러오기 시간이 초과되어 추가 로드를 중단했습니다. 미리보기를 닫았다가 다시 여세요.",
+    "description": "UI string: wallpaperPreviewAppendTimeout"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "카드 글자색",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

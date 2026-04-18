@@ -159,6 +159,110 @@
     "message": "Vista",
     "description": "UI string: settingsGroupView"
   },
+  "settingsGroupBackground": {
+    "message": "Sfondo",
+    "description": "UI string: settingsGroupBackground"
+  },
+  "wallpaperThumbOpenAria": {
+    "message": "Apri impostazioni immagine di sfondo",
+    "description": "UI string: wallpaperThumbOpenAria"
+  },
+  "wallpaperThumbEmpty": {
+    "message": "Nessuna immagine",
+    "description": "UI string: wallpaperThumbEmpty"
+  },
+  "wallpaperDrawerTitle": {
+    "message": "Immagine di sfondo",
+    "description": "UI string: wallpaperDrawerTitle"
+  },
+  "wallpaperDrawerBack": {
+    "message": "Indietro",
+    "description": "UI string: wallpaperDrawerBack"
+  },
+  "wallpaperSectionLocal": {
+    "message": "Immagine locale",
+    "description": "UI string: wallpaperSectionLocal"
+  },
+  "wallpaperSourceListTitle": {
+    "message": "Sfondi online",
+    "description": "UI string: wallpaperSourceListTitle"
+  },
+  "wallpaperProv_bing": {
+    "message": "Bing daily",
+    "description": "UI string: wallpaperProv_bing"
+  },
+  "wallpaperProv_unsplash": {
+    "message": "Unsplash",
+    "description": "UI string: wallpaperProv_unsplash"
+  },
+  "wallpaperProv_lifeofpix": {
+    "message": "Life of Pix",
+    "description": "UI string: wallpaperProv_lifeofpix"
+  },
+  "wallpaperProv_mmt": {
+    "message": "Magdeleine",
+    "description": "UI string: wallpaperProv_mmt"
+  },
+  "wallpaperProv_jaymantri": {
+    "message": "Jay Mantri",
+    "description": "UI string: wallpaperProv_jaymantri"
+  },
+  "wallpaperProv_skitterphoto": {
+    "message": "Skitterphoto",
+    "description": "UI string: wallpaperProv_skitterphoto"
+  },
+  "wallpaperPreviewHint": {
+    "message": "Tocca per anteprima",
+    "description": "UI string: wallpaperPreviewHint"
+  },
+  "wallpaperSourceApplying": {
+    "message": "Applicazione…",
+    "description": "UI string: wallpaperSourceApplying"
+  },
+  "wallpaperSourceApply": {
+    "message": "Applica sorgente corrente",
+    "description": "UI string: wallpaperSourceApply"
+  },
+  "wallpaperSourceFail": {
+    "message": "Impossibile caricare lo sfondo. Riprova più tardi.",
+    "description": "UI string: wallpaperSourceFail"
+  },
+  "wallpaperRotateSection": {
+    "message": "Rotazione",
+    "description": "UI string: wallpaperRotateSection"
+  },
+  "wallpaperAutoRotate": {
+    "message": "Rotazione automatica",
+    "description": "UI string: wallpaperAutoRotate"
+  },
+  "wallpaperRotateMinutes": {
+    "message": "Intervallo (minuti)",
+    "description": "UI string: wallpaperRotateMinutes"
+  },
+  "wallpaperRotatePickSources": {
+    "message": "Sorgenti in rotazione",
+    "description": "UI string: wallpaperRotatePickSources"
+  },
+  "wallpaperPreviewReleaseRefresh": {
+    "message": "Rilascia per aggiornare",
+    "description": "UI string: wallpaperPreviewReleaseRefresh"
+  },
+  "wallpaperPreviewPullRefresh": {
+    "message": "Trascina per aggiornare",
+    "description": "UI string: wallpaperPreviewPullRefresh"
+  },
+  "wallpaperPreviewThumbsLoading": {
+    "message": "Caricamento…",
+    "description": "UI string: wallpaperPreviewThumbsLoading"
+  },
+  "wallpaperPreviewApplyBusy": {
+    "message": "Applicazione…",
+    "description": "UI string: wallpaperPreviewApplyBusy"
+  },
+  "wallpaperPreviewAppendTimeout": {
+    "message": "Timeout nel caricamento di altre immagini; caricamento interrotto. Chiudi e riapri l’anteprima.",
+    "description": "UI string: wallpaperPreviewAppendTimeout"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "Colore testo delle schede",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

@@ -159,6 +159,110 @@
     "message": "表示",
     "description": "UI string: settingsGroupView"
   },
+  "settingsGroupBackground": {
+    "message": "背景",
+    "description": "UI string: settingsGroupBackground"
+  },
+  "wallpaperThumbOpenAria": {
+    "message": "背景画像の設定を開く",
+    "description": "UI string: wallpaperThumbOpenAria"
+  },
+  "wallpaperThumbEmpty": {
+    "message": "画像なし",
+    "description": "UI string: wallpaperThumbEmpty"
+  },
+  "wallpaperDrawerTitle": {
+    "message": "背景画像",
+    "description": "UI string: wallpaperDrawerTitle"
+  },
+  "wallpaperDrawerBack": {
+    "message": "戻る",
+    "description": "UI string: wallpaperDrawerBack"
+  },
+  "wallpaperSectionLocal": {
+    "message": "ローカル画像",
+    "description": "UI string: wallpaperSectionLocal"
+  },
+  "wallpaperSourceListTitle": {
+    "message": "オンライン壁紙",
+    "description": "UI string: wallpaperSourceListTitle"
+  },
+  "wallpaperProv_bing": {
+    "message": "Bing daily",
+    "description": "UI string: wallpaperProv_bing"
+  },
+  "wallpaperProv_unsplash": {
+    "message": "Unsplash",
+    "description": "UI string: wallpaperProv_unsplash"
+  },
+  "wallpaperProv_lifeofpix": {
+    "message": "Life of Pix",
+    "description": "UI string: wallpaperProv_lifeofpix"
+  },
+  "wallpaperProv_mmt": {
+    "message": "Magdeleine",
+    "description": "UI string: wallpaperProv_mmt"
+  },
+  "wallpaperProv_jaymantri": {
+    "message": "Jay Mantri",
+    "description": "UI string: wallpaperProv_jaymantri"
+  },
+  "wallpaperProv_skitterphoto": {
+    "message": "Skitterphoto",
+    "description": "UI string: wallpaperProv_skitterphoto"
+  },
+  "wallpaperPreviewHint": {
+    "message": "タップしてプレビュー",
+    "description": "UI string: wallpaperPreviewHint"
+  },
+  "wallpaperSourceApplying": {
+    "message": "適用中…",
+    "description": "UI string: wallpaperSourceApplying"
+  },
+  "wallpaperSourceApply": {
+    "message": "現在のソースを適用",
+    "description": "UI string: wallpaperSourceApply"
+  },
+  "wallpaperSourceFail": {
+    "message": "壁紙を読み込めませんでした。しばらくしてから再度お試しください。",
+    "description": "UI string: wallpaperSourceFail"
+  },
+  "wallpaperRotateSection": {
+    "message": "自動切り替え",
+    "description": "UI string: wallpaperRotateSection"
+  },
+  "wallpaperAutoRotate": {
+    "message": "自動で切り替え",
+    "description": "UI string: wallpaperAutoRotate"
+  },
+  "wallpaperRotateMinutes": {
+    "message": "間隔（分）",
+    "description": "UI string: wallpaperRotateMinutes"
+  },
+  "wallpaperRotatePickSources": {
+    "message": "切り替えに使うソース",
+    "description": "UI string: wallpaperRotatePickSources"
+  },
+  "wallpaperPreviewReleaseRefresh": {
+    "message": "離して更新",
+    "description": "UI string: wallpaperPreviewReleaseRefresh"
+  },
+  "wallpaperPreviewPullRefresh": {
+    "message": "引いて更新",
+    "description": "UI string: wallpaperPreviewPullRefresh"
+  },
+  "wallpaperPreviewThumbsLoading": {
+    "message": "読み込み中…",
+    "description": "UI string: wallpaperPreviewThumbsLoading"
+  },
+  "wallpaperPreviewApplyBusy": {
+    "message": "適用中…",
+    "description": "UI string: wallpaperPreviewApplyBusy"
+  },
+  "wallpaperPreviewAppendTimeout": {
+    "message": "追加の読み込みがタイムアウトしたため、続きの取得を停止しました。プレビューを閉じて開き直してください。",
+    "description": "UI string: wallpaperPreviewAppendTimeout"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "カードの文字色",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

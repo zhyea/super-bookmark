@@ -159,6 +159,110 @@
     "message": "檢視",
     "description": "UI string: settingsGroupView"
   },
+  "settingsGroupBackground": {
+    "message": "背景",
+    "description": "UI string: settingsGroupBackground"
+  },
+  "wallpaperThumbOpenAria": {
+    "message": "開啟背景圖設定",
+    "description": "UI string: wallpaperThumbOpenAria"
+  },
+  "wallpaperThumbEmpty": {
+    "message": "無背景圖",
+    "description": "UI string: wallpaperThumbEmpty"
+  },
+  "wallpaperDrawerTitle": {
+    "message": "背景圖設定",
+    "description": "UI string: wallpaperDrawerTitle"
+  },
+  "wallpaperDrawerBack": {
+    "message": "返回",
+    "description": "UI string: wallpaperDrawerBack"
+  },
+  "wallpaperSectionLocal": {
+    "message": "本機圖片",
+    "description": "UI string: wallpaperSectionLocal"
+  },
+  "wallpaperSourceListTitle": {
+    "message": "線上桌布",
+    "description": "UI string: wallpaperSourceListTitle"
+  },
+  "wallpaperProv_bing": {
+    "message": "必應每日",
+    "description": "UI string: wallpaperProv_bing"
+  },
+  "wallpaperProv_unsplash": {
+    "message": "Unsplash",
+    "description": "UI string: wallpaperProv_unsplash"
+  },
+  "wallpaperProv_lifeofpix": {
+    "message": "Life of Pix",
+    "description": "UI string: wallpaperProv_lifeofpix"
+  },
+  "wallpaperProv_mmt": {
+    "message": "Magdeleine",
+    "description": "UI string: wallpaperProv_mmt"
+  },
+  "wallpaperProv_jaymantri": {
+    "message": "Jay Mantri",
+    "description": "UI string: wallpaperProv_jaymantri"
+  },
+  "wallpaperProv_skitterphoto": {
+    "message": "Skitterphoto",
+    "description": "UI string: wallpaperProv_skitterphoto"
+  },
+  "wallpaperPreviewHint": {
+    "message": "點選預覽",
+    "description": "UI string: wallpaperPreviewHint"
+  },
+  "wallpaperSourceApplying": {
+    "message": "套用中…",
+    "description": "UI string: wallpaperSourceApplying"
+  },
+  "wallpaperSourceApply": {
+    "message": "套用目前圖源",
+    "description": "UI string: wallpaperSourceApply"
+  },
+  "wallpaperSourceFail": {
+    "message": "取得失敗，請稍後重試。",
+    "description": "UI string: wallpaperSourceFail"
+  },
+  "wallpaperRotateSection": {
+    "message": "自動輪換",
+    "description": "UI string: wallpaperRotateSection"
+  },
+  "wallpaperAutoRotate": {
+    "message": "啟用自動輪換",
+    "description": "UI string: wallpaperAutoRotate"
+  },
+  "wallpaperRotateMinutes": {
+    "message": "輪換間隔（分鐘）",
+    "description": "UI string: wallpaperRotateMinutes"
+  },
+  "wallpaperRotatePickSources": {
+    "message": "參與輪換的圖源",
+    "description": "UI string: wallpaperRotatePickSources"
+  },
+  "wallpaperPreviewReleaseRefresh": {
+    "message": "放開以重新整理",
+    "description": "UI string: wallpaperPreviewReleaseRefresh"
+  },
+  "wallpaperPreviewPullRefresh": {
+    "message": "下拉重新整理",
+    "description": "UI string: wallpaperPreviewPullRefresh"
+  },
+  "wallpaperPreviewThumbsLoading": {
+    "message": "載入中…",
+    "description": "UI string: wallpaperPreviewThumbsLoading"
+  },
+  "wallpaperPreviewApplyBusy": {
+    "message": "套用中…",
+    "description": "UI string: wallpaperPreviewApplyBusy"
+  },
+  "wallpaperPreviewAppendTimeout": {
+    "message": "載入更多逾時，已停止繼續載入。可關閉後重新開啟預覽再試。",
+    "description": "UI string: wallpaperPreviewAppendTimeout"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "書籤卡片文字顏色",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

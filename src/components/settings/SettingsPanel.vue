@@ -101,6 +101,8 @@
                     </div>
                 </div>
 
+                <BackgroundWallpaperSettings :main-panel-open="panelOpen" />
+
                 <div class="settings-section">
                     <div class="settings-section-title">{{ t('settingsGroupView') }}</div>
                     <div v-if="uiMode !== 'simple'" class="settings-row">
@@ -174,33 +176,6 @@
                                 @input="onPickerInput"
                                 @change="onPickerChange"
                             />
-                        </div>
-                    </div>
-                    <div class="settings-row">
-                        <span class="settings-label">{{ t('settingsBgImg') }}</span>
-                        <div class="settings-btns settings-bg-image-row">
-                            <input
-                                id="settingsBackgroundImage"
-                                ref="bgFileRef"
-                                type="file"
-                                accept="image/*"
-                                class="settings-file-input"
-                                style="display: none"
-                                @change="onBgFile"
-                            />
-                            <button type="button" class="settings-btn" id="settingsUploadBgBtn" @click="openBgFilePicker">
-                                {{ t('chooseImg') }}
-                            </button>
-                            <button
-                                type="button"
-                                class="settings-btn"
-                                :class="{ disabled: !hasBgImageEffective }"
-                                :disabled="!hasBgImageEffective"
-                                id="settingsClearBgBtn"
-                                @click="clearBgImage"
-                            >
-                                {{ t('clear') }}
-                            </button>
                         </div>
                     </div>
                     <div v-if="uiMode !== 'simple'" class="settings-row settings-row-range">
@@ -399,6 +374,7 @@ import {
 import { normalizeHex, normalizeBookmarkCardTextColor, presetMatchesColor } from '../../services/settingsUtils.js';
 import { appRuntime } from '../../services/appRuntime.js';
 import { effectiveGridColumnCount, GRID_CARD_MIN_PX } from '../../utils/bookmarkRenderHelpers.js';
+import BackgroundWallpaperSettings from './BackgroundWallpaperSettings.vue';
 
 /** 兼容层 i18n（与 legacyI18n 挂载一致） */
 function legacyI18n() {
@@ -457,7 +433,6 @@ const panelOpen = ref(false);
 const panelContentRef = ref(null);
 const colorPickerRef = ref(null);
 const simpleBookmarkTextColorPickerRef = ref(null);
-const bgFileRef = ref(null);
 const backupFileRef = ref(null);
 
 let scrollHideTimer = null;
@@ -542,10 +517,6 @@ const uiMode = computed(() => {
 function columnDisabled(n) {
     return n > maxCols.value;
 }
-
-const hasBgImageEffective = computed(() => {
-    return !!(s().backgroundImage) || s().disableDefaultBg !== true;
-});
 
 watch(panelOpen, (open) => {
     if (!open) flushDebouncedSimplePersist();
@@ -793,32 +764,6 @@ function onPickerChange() {
     applySettings();
 }
 
-/** 背景图文件大小上限（与 chrome.storage 容量兼顾） */
-const MAX_BG_IMAGE_FILE_BYTES = 3 * 1024 * 1024;
-
-function onBgFile(e) {
-    const file = e.target.files && e.target.files[0];
-    if (!file || !file.type.startsWith('image/')) return;
-    if (file.size > MAX_BG_IMAGE_FILE_BYTES) {
-        alert(t('imgTooBig'));
-        e.target.value = '';
-        return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-        const dataUrl = reader.result;
-        persistSettings({ backgroundImage: dataUrl, disableDefaultBg: false });
-        applyLayout();
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
-}
-
-function clearBgImage() {
-    persistSettings({ backgroundImage: '', disableDefaultBg: true });
-    applyLayout();
-}
-
 function loadRootButtons() {
     const BM = bookmarkManager();
     if (typeof chrome === 'undefined' || !chrome.bookmarks || !chrome.bookmarks.getTree || !BM) return;
@@ -989,7 +934,10 @@ function onLocaleChange() {
 function onDocPointerDownOutside(event) {
     if (event.button !== 0 && event.button !== undefined) return;
     const el = event.target;
-    if (el && typeof el.closest === 'function' && el.closest('.settings-vue-root')) return;
+    if (el && typeof el.closest === 'function') {
+        if (el.closest('.settings-vue-root')) return;
+        if (el.closest('.settings-wallpaper-preview-mask')) return;
+    }
     panelOpen.value = false;
 }
 
@@ -1019,9 +967,5 @@ onUnmounted(() => {
     }
     flushDebouncedSimplePersist();
 });
-
-function openBgFilePicker() {
-    bgFileRef.value?.click();
-}
 
 </script>
