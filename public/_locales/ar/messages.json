@@ -171,6 +171,10 @@
     "message": "لا توجد صورة",
     "description": "UI string: wallpaperThumbEmpty"
   },
+  "wallpaperThumbChangeHint": {
+    "message": "تغيير الخلفية",
+    "description": "UI string: wallpaperThumbChangeHint"
+  },
   "wallpaperDrawerTitle": {
     "message": "صورة الخلفية",
     "description": "UI string: wallpaperDrawerTitle"
@@ -195,9 +199,9 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_pexels": {
-    "message": "Pexels",
-    "description": "UI string: wallpaperProv_pexels"
+  "wallpaperProv_paugram": {
+    "message": "Paugram anime",
+    "description": "UI string: wallpaperProv_paugram"
   },
   "wallpaperProvDesc_bing": {
     "message": "Microsoft Bing's official daily image—landscapes and world highlights.",
@@ -207,9 +211,9 @@
     "message": "Random photo-style wallpapers via Lorem Picsum (Unsplash-style).",
     "description": "UI string: wallpaperProvDesc_unsplash"
   },
-  "wallpaperProvDesc_pexels": {
-    "message": "Curated photos from Pexels API (set VITE_PEXELS_API_KEY when building).",
-    "description": "UI string: wallpaperProvDesc_pexels"
+  "wallpaperProvDesc_paugram": {
+    "message": "Random anime wallpapers via Dreamer-Paul API (source=sm). See api.paugram.com/help/wallpaper",
+    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "رفع محلي",

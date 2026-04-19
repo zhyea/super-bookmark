@@ -85,6 +85,12 @@
                             </label>
                         </div>
                     </div>
+                </div>
+
+                <BackgroundWallpaperSettings :main-panel-open="panelOpen" />
+
+                <div class="settings-section">
+                    <div class="settings-section-title">{{ t('settingsGroupView') }}</div>
                     <div v-if="uiMode !== 'simple'" class="settings-row settings-row-inline">
                         <span class="settings-label">{{ t('settingsShowOverviewAllNav') }}</span>
                         <div class="settings-btns settings-switch-row">
@@ -99,12 +105,6 @@
                             </label>
                         </div>
                     </div>
-                </div>
-
-                <BackgroundWallpaperSettings :main-panel-open="panelOpen" />
-
-                <div class="settings-section">
-                    <div class="settings-section-title">{{ t('settingsGroupView') }}</div>
                     <div v-if="uiMode !== 'simple'" class="settings-row">
                         <span class="settings-label">{{ t('settingsColumns') }}</span>
                         <div class="settings-btns">
@@ -337,7 +337,8 @@ import {
     maxColumnsForContentWidthPercent,
     clampContentWidthPercent,
     LANG_KEYS,
-    DEFAULT_BGK
+    DEFAULT_BGK,
+    CONTENT_CHROME_TRANSPARENCY_DEFAULT
 } from '../../services/settingsConstants.js';
 import { normalizeHex, normalizeBookmarkCardTextColor, presetMatchesColor } from '../../services/settingsUtils.js';
 import { appRuntime } from '../../services/appRuntime.js';
@@ -464,7 +465,7 @@ function flushDebouncedSimplePersist() {
 
 const replaceNewTab = ref(false);
 const showOverviewNav = ref(false);
-const contentChromeTransparencyLocal = ref(0);
+const contentChromeTransparencyLocal = ref(CONTENT_CHROME_TRANSPARENCY_DEFAULT);
 const contentWidthPercent = ref(CONTENT_WIDTH_PERCENT_DEFAULT);
 const viewportW = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
 const columns = ref(3);
@@ -546,7 +547,7 @@ function syncFromAppRuntime() {
     {
         const ct = Number(w.contentChromeTransparency);
         contentChromeTransparencyLocal.value =
-            Number.isFinite(ct) && ct >= 0 && ct <= 100 ? Math.round(ct) : 0;
+            Number.isFinite(ct) && ct >= 0 && ct <= 100 ? Math.round(ct) : CONTENT_CHROME_TRANSPARENCY_DEFAULT;
     }
     syncSimpleSearchFieldsFromRuntime();
 }

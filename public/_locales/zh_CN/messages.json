@@ -160,7 +160,7 @@
     "description": "UI string: settingsGroupView"
   },
   "settingsGroupBackground": {
-    "message": "背景",
+    "message": "壁纸",
     "description": "UI string: settingsGroupBackground"
   },
   "wallpaperThumbOpenAria": {
@@ -171,8 +171,12 @@
     "message": "无背景图",
     "description": "UI string: wallpaperThumbEmpty"
   },
+  "wallpaperThumbChangeHint": {
+    "message": "更换壁纸",
+    "description": "UI string: wallpaperThumbChangeHint"
+  },
   "wallpaperDrawerTitle": {
-    "message": "背景图设置",
+    "message": "壁纸设置",
     "description": "UI string: wallpaperDrawerTitle"
   },
   "wallpaperDrawerBack": {
@@ -195,9 +199,9 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_pexels": {
-    "message": "Pexels",
-    "description": "UI string: wallpaperProv_pexels"
+  "wallpaperProv_paugram": {
+    "message": "随机动漫（保罗·sm）",
+    "description": "UI string: wallpaperProv_paugram"
   },
   "wallpaperProvDesc_bing": {
     "message": "微软必应官方每日一图，全球风景与影像精选",
@@ -207,9 +211,9 @@
     "message": "随机摄影风壁纸，画面简洁通透（Lorem Picsum）",
     "description": "UI string: wallpaperProvDesc_unsplash"
   },
-  "wallpaperProvDesc_pexels": {
-    "message": "Pexels 官方精选摄影图（构建时需配置 VITE_PEXELS_API_KEY）",
-    "description": "UI string: wallpaperProvDesc_pexels"
+  "wallpaperProvDesc_paugram": {
+    "message": "保罗 API 随机动漫壁纸（source=sm，sm.ms 图床），详见 api.paugram.com/help/wallpaper",
+    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "本地上传",

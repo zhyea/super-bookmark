@@ -218,7 +218,8 @@ let customUrlExpandTimer = null;
 
 const simpleUi = inject('simpleUi', null);
 
-const bookmarkMode = ref(false);
+// 极简页默认书签搜索（快捷面板可切回网页引擎）
+const bookmarkMode = ref(true);
 const flatBookmarks = ref([]);
 const bookmarkResultCards = ref([]);
 const bookmarkSuggestVisible = ref(false);

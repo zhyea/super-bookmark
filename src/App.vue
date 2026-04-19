@@ -17,6 +17,7 @@ import SettingsPanel from './components/settings/SettingsPanel.vue';
 import { appRuntime } from './services/appRuntime.js';
 import { BookmarkManagerSettings } from './services/settings.js';
 import { normalizeBookmarkCardTextColor } from './services/settingsUtils.js';
+import { disposeWallpaperRotation, initWallpaperRotation } from './services/wallpaperRotation.js';
 
 /** 在 loadSettings 完成前不挂载布局，避免极简/完整模式误判导致首屏闪烁 */
 const layoutReady = ref(false);
@@ -59,12 +60,17 @@ function syncMode() {
 function onSettingsSaved() {
   syncMode();
   syncSimpleUiFromRuntime();
+  /* 极简首启时首次 apply 尚无 .container；切回默认后须再应用，否则内容区透明度等内联样式未写入 */
+  nextTick(() => {
+    BookmarkManagerSettings.applyContentWidthAndBackground();
+  });
 }
 
 onMounted(() => {
   BookmarkManagerSettings.loadSettings(() => {
     syncMode();
     syncSimpleUiFromRuntime();
+    initWallpaperRotation();
     layoutReady.value = true;
     nextTick(() => {
       BookmarkManagerSettings.applyContentWidthAndBackground();
@@ -75,5 +81,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('bookmark-settings-saved', onSettingsSaved);
+  disposeWallpaperRotation();
 });
 </script>

@@ -24,7 +24,7 @@ body {
     overflow: hidden;
 }
 
-/* 全页背景层：由 settings.js 写入色/图与「透明度」(simpleOverlayOpacity→opacity)；#app 叠在其上 */
+/* 全页背景层：由 settings.js 写入色/图；simpleOverlayOpacity 为 0–100 不透明度（越大 opacity 越高）；#app 叠在其上 */
 .page-bg-backdrop {
     position: fixed;
     inset: 0;

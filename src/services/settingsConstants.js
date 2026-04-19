@@ -8,6 +8,8 @@ export const CONTENT_WIDTH_PERCENT_MIN = 50;
 export const CONTENT_WIDTH_PERCENT_MAX = 100;
 /** 新用户 / 无存储时的默认内容宽度（视口百分比） */
 export const CONTENT_WIDTH_PERCENT_DEFAULT = 70;
+/** 视图「内容透明度」默认（0–100，与设置滑块一致；越大内容区越透） */
+export const CONTENT_CHROME_TRANSPARENCY_DEFAULT = 54;
 export const CONTENT_WIDTH_MIN_PX = 400;
 
 export function clampContentWidthPercent(p) {

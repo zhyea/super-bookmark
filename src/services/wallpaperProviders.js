@@ -1,96 +1,23 @@
 /**
  * 公共在线壁纸源（抓取后转 data URL 写入 storage，与本地自选图一致）
- * Pexels：需在构建环境设置 VITE_PEXELS_API_KEY（参见 https://www.pexels.com/api/ ）
  */
 
-export const WALLPAPER_REMOTE_IDS = ['bing', 'unsplash', 'pexels'];
+import {
+    blobToDataUrl,
+    fetchImageBlob,
+    MAX_WALLPAPER_BYTES,
+    upgradeWallpaperUrlToHttps
+} from './wallpaper/wallpaperImageFetch.js';
+import { buildPaugramWallpaperUrl } from './wallpaper/paugramWallpaper.js';
 
-export const MAX_WALLPAPER_BYTES = 3 * 1024 * 1024;
+export { blobToDataUrl, fetchImageBlob, MAX_WALLPAPER_BYTES, upgradeWallpaperUrlToHttps } from './wallpaper/wallpaperImageFetch.js';
 
-/**
- * Pexels 官方要求请求头 Authorization 为密钥本身（非 Bearer）。
- * @returns {string}
- */
-export function getPexelsApiKey() {
-    try {
-        const k = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_PEXELS_API_KEY;
-        return k != null && String(k).trim() ? String(k).trim() : '';
-    } catch (_e) {
-        return '';
-    }
-}
-
-/**
- * @param {string} u
- * @returns {string}
- */
-export function upgradeWallpaperUrlToHttps(u) {
-    let s = String(u || '').trim();
-    if (s.indexOf('http://') === 0) {
-        s = 'https://' + s.slice(7);
-    }
-    return s;
-}
-
-/**
- * @param {Blob} blob
- * @returns {Promise<string>}
- */
-export function blobToDataUrl(blob) {
-    return new Promise(function (resolve, reject) {
-        if (!blob || !blob.size) {
-            reject(new Error('EMPTY_BLOB'));
-            return;
-        }
-        if (blob.size > MAX_WALLPAPER_BYTES) {
-            reject(new Error('TOO_LARGE'));
-            return;
-        }
-        const r = new FileReader();
-        r.onload = function () {
-            resolve(String(r.result || ''));
-        };
-        r.onerror = function () {
-            reject(new Error('READ_FAIL'));
-        };
-        r.readAsDataURL(blob);
-    });
-}
-
-/**
- * @param {string} url
- * @returns {Promise<Blob>}
- */
-export async function fetchImageBlob(url) {
-    const res = await fetch(url, {credentials: 'omit', redirect: 'follow'});
-    if (!res.ok) throw new Error('HTTP_' + res.status);
-    const ct = (res.headers.get('content-type') || '').toLowerCase();
-    if (ct && !ct.includes('image') && !ct.includes('octet-stream')) {
-        throw new Error('NOT_IMAGE');
-    }
-    return res.blob();
-}
-
-/**
- * @param {string} pathQuery 如 curated?page=1&per_page=6
- * @param {string} errPrefix
- * @returns {Promise<unknown>}
- */
-export async function fetchPexelsApiJson(pathQuery, errPrefix) {
-    const key = getPexelsApiKey();
-    if (!key) throw new Error('pexels_no_api_key');
-    const res = await fetch('https://api.pexels.com/v1/' + pathQuery, {
-        headers: {Authorization: key},
-        credentials: 'omit'
-    });
-    if (!res.ok) throw new Error(errPrefix + res.status);
-    return res.json();
-}
+export const WALLPAPER_REMOTE_IDS = ['bing', 'unsplash', 'paugram'];
 
 async function fetchBing() {
     const jr = await fetch(
         'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US',
-        {credentials: 'omit'}
+        { credentials: 'omit' }
     );
     if (!jr.ok) throw new Error('bing_json');
     const j = await jr.json();
@@ -113,15 +40,8 @@ async function fetchUnsplash() {
     return blobToDataUrl(blob);
 }
 
-async function fetchPexels() {
-    const page = 1 + Math.floor(Math.random() * 40);
-    const j = await fetchPexelsApiJson('curated?page=' + page + '&per_page=20', 'pexels_json_');
-    const photos = Array.isArray(j && j.photos) ? j.photos : [];
-    if (!photos.length) throw new Error('pexels_empty');
-    const p = photos[Math.floor(Math.random() * photos.length)];
-    const src = (p && p.src) || {};
-    const u = upgradeWallpaperUrlToHttps(src.large2x || src.large || src.original || '');
-    if (!u) throw new Error('pexels_nourl');
+async function fetchPaugram() {
+    const u = buildPaugramWallpaperUrl(String(Date.now()) + '_' + String(Math.random()).slice(2, 12));
     const blob = await fetchImageBlob(u);
     return blobToDataUrl(blob);
 }
@@ -136,8 +56,8 @@ export function fetchWallpaperByProvider(id) {
             return fetchBing();
         case 'unsplash':
             return fetchUnsplash();
-        case 'pexels':
-            return fetchPexels();
+        case 'paugram':
+            return fetchPaugram();
         default:
             return Promise.reject(new Error('UNKNOWN_PROVIDER'));
     }
@@ -167,16 +87,49 @@ export function isWallpaperRotateSourceId(id) {
 }
 
 /**
+ * 将 storage / 备份中可能出现的非数组形态转为 id 数组。
+ * @param {unknown} raw
+ * @returns {unknown[]}
+ */
+function coerceWallpaperRotateSourceIdsArray(raw) {
+    if (raw == null) return [];
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+        const t = raw.trim();
+        if (!t) return [];
+        try {
+            const j = JSON.parse(t);
+            return Array.isArray(j) ? j : [];
+        } catch (_e) {
+            return [];
+        }
+    }
+    if (typeof raw === 'object') {
+        return Object.keys(raw)
+            .filter(function (k) {
+                return /^\d+$/.test(k);
+            })
+            .sort(function (a, b) {
+                return Number(a) - Number(b);
+            })
+            .map(function (k) {
+                return raw[k];
+            });
+    }
+    return [];
+}
+
+/**
  * 参与轮换的图源 id；允许空数组（远程默认不加入，由预览开关或本地上传加入）。
  * @param {unknown} raw
  * @returns {string[]}
  */
 export function normalizeWallpaperRotateSourceIdsForSave(raw) {
-    if (!Array.isArray(raw)) return [];
+    const arr = coerceWallpaperRotateSourceIdsArray(raw);
     const out = [];
     const seen = Object.create(null);
-    for (let i = 0; i < raw.length; i++) {
-        const id = String(raw[i] || '');
+    for (let i = 0; i < arr.length; i++) {
+        const id = String(arr[i] || '');
         if (!isWallpaperRotateSourceId(id) || seen[id]) continue;
         seen[id] = true;
         out.push(id);

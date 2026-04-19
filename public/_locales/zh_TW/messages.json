@@ -160,7 +160,7 @@
     "description": "UI string: settingsGroupView"
   },
   "settingsGroupBackground": {
-    "message": "背景",
+    "message": "壁紙",
     "description": "UI string: settingsGroupBackground"
   },
   "wallpaperThumbOpenAria": {
@@ -171,8 +171,12 @@
     "message": "無背景圖",
     "description": "UI string: wallpaperThumbEmpty"
   },
+  "wallpaperThumbChangeHint": {
+    "message": "更換壁紙",
+    "description": "UI string: wallpaperThumbChangeHint"
+  },
   "wallpaperDrawerTitle": {
-    "message": "背景圖設定",
+    "message": "壁紙設定",
     "description": "UI string: wallpaperDrawerTitle"
   },
   "wallpaperDrawerBack": {
@@ -195,9 +199,9 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_pexels": {
-    "message": "Pexels",
-    "description": "UI string: wallpaperProv_pexels"
+  "wallpaperProv_paugram": {
+    "message": "隨機動漫（保羅·sm）",
+    "description": "UI string: wallpaperProv_paugram"
   },
   "wallpaperProvDesc_bing": {
     "message": "微軟必應官方每日一圖，全球風景與影像精選",
@@ -207,9 +211,9 @@
     "message": "隨機攝影風桌布，畫面簡潔通透（Lorem Picsum）",
     "description": "UI string: wallpaperProvDesc_unsplash"
   },
-  "wallpaperProvDesc_pexels": {
-    "message": "Pexels 官方精選攝影圖（建置時需設定 VITE_PEXELS_API_KEY）",
-    "description": "UI string: wallpaperProvDesc_pexels"
+  "wallpaperProvDesc_paugram": {
+    "message": "保羅 API 隨機動漫桌布（source=sm，sm.ms 圖床），詳見 api.paugram.com/help/wallpaper",
+    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "本機上傳",

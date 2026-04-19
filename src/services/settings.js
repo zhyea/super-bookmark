@@ -6,7 +6,8 @@ import {
     normalizeContentWidthPercentFromStorage,
     maxColumnsForContentWidthPercent,
     clampContentWidthPercent,
-    CONTENT_WIDTH_PERCENT_DEFAULT
+    CONTENT_WIDTH_PERCENT_DEFAULT,
+    CONTENT_CHROME_TRANSPARENCY_DEFAULT
 } from './settingsConstants.js';
 import {
     normalizeHex,
@@ -40,7 +41,7 @@ function rgbaFromHex(hex, alpha) {
 function normalizeContentChromeTransparency(s) {
     const t = Number(s.contentChromeTransparency);
     if (Number.isFinite(t) && t >= 0 && t <= 100) return Math.round(t);
-    return 0;
+    return CONTENT_CHROME_TRANSPARENCY_DEFAULT;
 }
 
 function applyLayoutChromeSurfaces(s) {
@@ -141,7 +142,7 @@ function loadSettings(cb) {
         let wallpaperProvider =
             wallpaperProvRaw === 'bing' ||
             wallpaperProvRaw === 'unsplash' ||
-            wallpaperProvRaw === 'pexels' ||
+            wallpaperProvRaw === 'paugram' ||
             wallpaperProvRaw === 'custom' ||
             wallpaperProvRaw === 'none'
                 ? wallpaperProvRaw
@@ -194,10 +195,19 @@ function loadSettings(cb) {
                 if (!Number.isFinite(v) || v < 0 || v > 100) return 100;
                 return Math.max(10, Math.min(100, Math.round(v)));
             })(),
-            simpleOverlayOpacity:
-                Number.isFinite(Number(s.simpleOverlayOpacity)) && Number(s.simpleOverlayOpacity) >= 0 && Number(s.simpleOverlayOpacity) <= 100
-                    ? Math.round(Number(s.simpleOverlayOpacity))
-                    : 0,
+            simpleOverlayOpacity: (function () {
+                const raw = Number(s.simpleOverlayOpacity);
+                let op =
+                    Number.isFinite(raw) && raw >= 0 && raw <= 100
+                        ? Math.round(raw)
+                        : 0;
+                /* 旧版存的是「背景层透明度」0–100（越大整层越透）；现改为「背景不透明度」与滑块一致，仅迁移一次 */
+                if (s.bgBackdropOpacitySemanticsV2 !== true) {
+                    op = 100 - op;
+                }
+                return op;
+            })(),
+            bgBackdropOpacitySemanticsV2: true,
             /* 键名沿用 simpleOverlayBlurPx，语义为 0–100（与 simpleOverlayOpacity 一致）；旧版存 0–32 的像素值会在读取时换算 */
             simpleOverlayBlurPx: normalizeSimpleOverlayBlurStored(s.simpleOverlayBlurPx),
             simpleSearchBorderRadiusPx:
@@ -215,6 +225,9 @@ function loadSettings(cb) {
             wallpaperRotateIndex: wallpaperRotateIndex,
             wallpaperCustomDataUrl: wallpaperCustomDataUrl
         };
+        if (s.bgBackdropOpacitySemanticsV2 !== true) {
+            saveSettings({});
+        }
         if (typeof document !== 'undefined' && document.body) {
             document.body.classList.toggle('hide-card-actions', !appRuntime.settings.showActions);
             document.body.classList.toggle('theme-dark', appRuntime.settings.theme === 'dark');
@@ -226,9 +239,23 @@ function loadSettings(cb) {
 function saveSettings(partial) {
     if (!appRuntime.settings) appRuntime.settings = {};
     Object.assign(appRuntime.settings, partial);
-    chrome.storage.local.set({ [SETTINGS_STORAGE_KEY]: appRuntime.settings });
-    if (typeof window !== 'undefined' && window.dispatchEvent) {
-        window.dispatchEvent(new CustomEvent('bookmark-settings-saved'));
+    function dispatchSaved() {
+        if (typeof window !== 'undefined' && window.dispatchEvent) {
+            window.dispatchEvent(new CustomEvent('bookmark-settings-saved'));
+        }
+    }
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.set({ [SETTINGS_STORAGE_KEY]: appRuntime.settings }, function () {
+            const err = chrome.runtime && chrome.runtime.lastError;
+            if (err && err.message) {
+                if (typeof console !== 'undefined' && console.warn) {
+                    console.warn('[settings] storage set failed', err.message);
+                }
+            }
+            dispatchSaved();
+        });
+    } else {
+        dispatchSaved();
     }
 }
 
@@ -266,10 +293,10 @@ function applyContentWidthAndBackground() {
         backdrop.style.backgroundPosition = '';
         backdrop.style.backgroundRepeat = '';
     }
-    /* 背景透明度：仅作用于 body 下全页背景层（色/图），0=不透明 100=完全透明；勿与内容区 chrome 混用 */
+    /* 背景不透明度：仅作用于 #page-bg-backdrop（色/图），0–100，越大壁纸越实；勿与内容区 chrome 混用 */
     const bgTrans = Number(s.simpleOverlayOpacity);
     const t = Number.isFinite(bgTrans) && bgTrans >= 0 && bgTrans <= 100 ? bgTrans : 0;
-    backdrop.style.opacity = String(1 - t / 100);
+    backdrop.style.opacity = String(t / 100);
     backdrop.style.filter = 'none';
 
     const blurLayer = ensurePageBgBlurLayer();

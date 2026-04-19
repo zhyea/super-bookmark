@@ -1,4 +1,5 @@
-import {fetchImageBlob, upgradeWallpaperUrlToHttps, fetchPexelsApiJson} from './wallpaperProviders.js';
+import { fetchImageBlob, upgradeWallpaperUrlToHttps } from './wallpaper/wallpaperImageFetch.js';
+import { buildPaugramWallpaperUrl } from './wallpaper/paugramWallpaper.js';
 
 async function fetchJson(url, err) {
     const res = await fetch(url, { credentials: 'omit' });
@@ -54,30 +55,20 @@ async function fetchUnsplashPreviewPage(page, pageSize) {
     };
 }
 
-/** Pexels curated 分页，page 为 0-based */
-async function fetchPexelsPreviewPage(page, pageSize) {
-    const apiPage = page + 1;
-    const j = await fetchPexelsApiJson(
-        'curated?page=' + apiPage + '&per_page=' + pageSize,
-        'pexels_preview_'
-    );
-    const photos = Array.isArray(j && j.photos) ? j.photos : [];
-    const items = photos
-        .map(function (p) {
-            if (!p || p.id == null) return null;
-            const src = p.src || {};
-            const thumb = upgradeWallpaperUrlToHttps(src.medium || src.small || src.tiny || '');
-            const full = upgradeWallpaperUrlToHttps(src.large2x || src.large || src.original || '');
-            if (!thumb || !full) return null;
-            return {
-                id: String(p.id),
-                thumbUrl: thumb,
-                fullUrl: full
-            };
-        })
-        .filter(Boolean);
-    const hasMore = !!(j && j.next_page);
-    return {items, hasMore};
+/** 保罗 API 每次请求随机图；用唯一查询串区分缩略图请求 */
+async function fetchPaugramPreviewPage(page, pageSize) {
+    const batch = String(page) + '-' + String(Date.now()) + '-' + String(Math.random()).slice(2, 9);
+    const items = [];
+    for (let i = 0; i < pageSize; i++) {
+        const token = batch + '-' + i + '-' + String(Math.random()).slice(2, 10);
+        const u = upgradeWallpaperUrlToHttps(buildPaugramWallpaperUrl(token));
+        items.push({
+            id: 'pg-' + page + '-' + i + '-' + token.slice(-24),
+            thumbUrl: u,
+            fullUrl: u
+        });
+    }
+    return { items, hasMore: true };
 }
 
 /**
@@ -92,8 +83,8 @@ export async function fetchWallpaperPreviewPage(providerId, page, pageSize) {
             return fetchBingPreviewPage(page, pageSize);
         case 'unsplash':
             return fetchUnsplashPreviewPage(page, pageSize);
-        case 'pexels':
-            return fetchPexelsPreviewPage(page, pageSize);
+        case 'paugram':
+            return fetchPaugramPreviewPage(page, pageSize);
         default:
             throw new Error('UNKNOWN_PROVIDER');
     }

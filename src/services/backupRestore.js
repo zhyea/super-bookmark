@@ -2,6 +2,7 @@
  * 备份 / 导入：书签树 + 扩展存储（标签、图标色、描述、设置），AES-GCM 加密后写入 .zhx
  */
 import { BookmarkManager as BM } from './bookmarks.js';
+import { CONTENT_CHROME_TRANSPARENCY_DEFAULT } from './settingsConstants.js';
     const DEFAULT_BACKUP_PASSWORD = 'SuperBookmark-backup-default-v1';
 
     function b64(u8) {
@@ -414,7 +415,7 @@ import { BookmarkManager as BM } from './bookmarks.js';
                 columns: 3,
                 contentWidthPercent: 70,
                 backgroundColor: '#e8f4fc',
-                contentChromeTransparency: 0,
+                contentChromeTransparency: CONTENT_CHROME_TRANSPARENCY_DEFAULT,
                 backgroundImage: '',
                 disableDefaultBg: false,
                 replaceDefaultNewTab: false,
