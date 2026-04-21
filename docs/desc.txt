@@ -1,0 +1,239 @@
+[zh_CN]
+SuperBookmark，让你的书签真正“好找、好用、好管理”。
+
+无论是学习资料、工作后台还是常用工具网站，都可以在一个清晰界面中快速访问，告别层层菜单翻找。
+
+核心亮点
+- 快速打开：支持从新标签页或工具栏一键进入书签管理
+- 高效整理：更直观地浏览与管理书签，常用内容触手可及
+- 轻量流畅：聚焦核心功能，日常使用更顺手
+- 安心使用：仅申请实现功能所需的必要权限
+
+适合人群
+- 书签很多、经常找不到目标网站的用户
+- 需要频繁切换工作网址、希望提升效率的用户
+- 想要一个简洁、稳定的书签管理体验的用户
+
+权限与隐私说明
+本扩展仅使用书签、标签页和本地存储等必要权限，以实现书签管理与快速访问功能。
+不采集与功能无关的个人隐私信息。
+
+--------------------------------------------------
+
+[zh_TW]
+SuperBookmark，讓你的書籤真正「好找、好用、好管理」。
+
+無論是學習資料、工作後台或常用工具網站，都能在清晰介面中快速存取，告別層層選單搜尋。
+
+核心亮點
+- 快速開啟：支援從新分頁或工具列一鍵進入書籤管理
+- 高效整理：更直覺地瀏覽與管理書籤，常用內容隨手可得
+- 輕量流暢：聚焦核心功能，日常使用更順手
+- 安心使用：僅申請實現功能所需的必要權限
+
+適合族群
+- 書籤很多、經常找不到目標網站的使用者
+- 需要頻繁切換工作網址、想提升效率的使用者
+- 想要簡潔穩定書籤管理體驗的使用者
+
+權限與隱私說明
+本擴充功能僅使用書籤、分頁與本機儲存等必要權限，以實現書籤管理與快速存取功能。
+不蒐集與功能無關的個人隱私資訊。
+
+--------------------------------------------------
+
+[en]
+SuperBookmark helps you find, organize, and open bookmarks faster.
+
+From study resources to work dashboards and daily tools, everything is easier to reach in one clean interface.
+
+Key highlights
+- Quick access: open bookmark management from a new tab or the toolbar
+- Better organization: browse and manage bookmarks in a clearer way
+- Lightweight experience: focused features for smooth daily use
+- Privacy-minded: only requests permissions required for core functionality
+
+Best for
+- Users with many bookmarks who need faster navigation
+- Users switching between multiple work websites every day
+- Anyone looking for a clean and stable bookmark workflow
+
+Permissions and privacy
+This extension uses only required permissions such as bookmarks, tabs, and local storage to provide bookmark management and quick access.
+It does not collect personal data unrelated to its features.
+
+--------------------------------------------------
+
+[es]
+SuperBookmark te ayuda a encontrar, organizar y abrir tus marcadores mucho mas rapido.
+
+Desde recursos de estudio hasta paneles de trabajo y herramientas diarias, todo queda a mano en una interfaz clara.
+
+Puntos clave
+- Acceso rapido: abre la gestion de marcadores desde una nueva pestana o la barra de herramientas
+- Mejor organizacion: visualiza y administra tus marcadores de forma mas clara
+- Ligero y fluido: funciones esenciales para el uso diario
+- Enfoque en privacidad: solo solicita permisos necesarios para su funcionamiento
+
+Ideal para
+- Usuarios con muchos marcadores que quieren ahorrar tiempo
+- Usuarios que cambian con frecuencia entre sitios de trabajo
+- Quienes buscan una experiencia simple y estable
+
+Permisos y privacidad
+La extension usa solo permisos necesarios como marcadores, pestanas y almacenamiento local para gestionar y acceder rapidamente a tus marcadores.
+No recopila datos personales no relacionados con sus funciones.
+
+--------------------------------------------------
+
+[de]
+SuperBookmark hilft dir, Lesezeichen schneller zu finden, zu ordnen und zu offnen.
+
+Ob Lernmaterial, Arbeits-Dashboards oder tagliche Tools: Alles ist in einer klaren Oberflache schnell erreichbar.
+
+Wichtigste Vorteile
+- Schneller Zugriff: Lesezeichenverwaltung uber neuen Tab oder Symbolleiste
+- Bessere Organisation: Lesezeichen ubersichtlich ansehen und verwalten
+- Leicht und flussig: Fokus auf Kernfunktionen fur den Alltag
+- Datenschutzfreundlich: nur notwendige Berechtigungen werden angefragt
+
+Geeignet fur
+- Nutzer mit vielen Lesezeichen und hohem Suchaufwand
+- Nutzer, die oft zwischen Arbeitsseiten wechseln
+- Alle, die eine einfache und stabile Lesezeichenverwaltung mochten
+
+Berechtigungen und Datenschutz
+Diese Erweiterung verwendet nur notwendige Berechtigungen wie Lesezeichen, Tabs und lokalen Speicher fur Verwaltung und Schnellzugriff.
+Es werden keine personenbezogenen Daten gesammelt, die nicht funktionsrelevant sind.
+
+--------------------------------------------------
+
+[fr]
+SuperBookmark vous aide a trouver, organiser et ouvrir vos favoris plus rapidement.
+
+Ressources d'etude, tableaux de bord de travail ou outils quotidiens: tout est accessible dans une interface claire.
+
+Points forts
+- Acces rapide: ouvrez la gestion des favoris depuis un nouvel onglet ou la barre d'outils
+- Organisation efficace: parcourez et gerez les favoris plus facilement
+- Leger et fluide: fonctions essentielles pour un usage quotidien
+- Respect de la vie privee: seulement les autorisations necessaires
+
+Ideal pour
+- Les utilisateurs avec beaucoup de favoris
+- Les utilisateurs qui passent souvent d'un site de travail a un autre
+- Ceux qui veulent une experience simple et stable
+
+Autorisations et confidentialite
+Cette extension utilise uniquement les autorisations necessaires (favoris, onglets, stockage local) pour la gestion et l'acces rapide.
+Elle ne collecte pas de donnees personnelles sans lien avec ses fonctions.
+
+--------------------------------------------------
+
+[ja]
+SuperBookmark は、ブックマークをより速く見つけて整理し、すぐに開けるようにする拡張機能です。
+
+学習用サイト、業務ダッシュボード、日常ツールまで、1つの見やすい画面で素早くアクセスできます。
+
+主な特長
+- クイックアクセス: 新しいタブまたはツールバーからすぐに管理画面へ
+- 整理しやすいUI: ブックマークの閲覧と管理をより分かりやすく
+- 軽快な動作: 必要な機能に集中したシンプル設計
+- プライバシー配慮: 機能に必要な権限のみを使用
+
+こんな方におすすめ
+- ブックマークが多く、目的のサイトを探すのに時間がかかる方
+- 仕事で複数サイトを頻繁に行き来する方
+- シンプルで安定した管理体験を求める方
+
+権限とプライバシー
+本拡張機能は、ブックマーク管理と高速アクセスのために、ブックマーク、タブ、ローカル保存など必要な権限のみを使用します。
+機能に関係のない個人情報は収集しません。
+
+--------------------------------------------------
+
+[ko]
+SuperBookmark는 북마크를 더 빠르게 찾고, 정리하고, 여는 데 도움을 주는 확장 프로그램입니다.
+
+학습 자료, 업무 대시보드, 자주 쓰는 도구 사이트를 깔끔한 한 화면에서 빠르게 접근할 수 있습니다.
+
+핵심 기능
+- 빠른 접근: 새 탭 또는 툴바에서 북마크 관리 화면으로 즉시 이동
+- 쉬운 정리: 북마크를 더 직관적으로 탐색하고 관리
+- 가볍고 부드러움: 핵심 기능 중심의 쾌적한 사용성
+- 개인정보 배려: 기능에 필요한 권한만 요청
+
+추천 대상
+- 북마크가 많아 원하는 사이트를 자주 찾는 사용자
+- 업무 사이트를 자주 오가는 사용자
+- 단순하고 안정적인 북마크 관리 경험을 원하는 사용자
+
+권한 및 개인정보
+이 확장 프로그램은 북마크 관리와 빠른 접근을 위해 북마크, 탭, 로컬 저장소 등 필요한 권한만 사용합니다.
+기능과 무관한 개인정보는 수집하지 않습니다.
+
+--------------------------------------------------
+
+[it]
+SuperBookmark ti aiuta a trovare, organizzare e aprire i preferiti piu velocemente.
+
+Dalle risorse di studio alle dashboard di lavoro e agli strumenti quotidiani, tutto e raggiungibile da un'interfaccia chiara.
+
+Punti principali
+- Accesso rapido: apri la gestione preferiti da nuova scheda o barra strumenti
+- Organizzazione migliore: visualizza e gestisci i preferiti in modo piu chiaro
+- Leggero e fluido: funzioni essenziali per l'uso di ogni giorno
+- Attenzione alla privacy: richiede solo i permessi necessari
+
+Ideale per
+- Chi ha molti preferiti e vuole risparmiare tempo
+- Chi passa spesso tra diversi siti di lavoro
+- Chi cerca un'esperienza semplice e stabile
+
+Permessi e privacy
+L'estensione usa solo i permessi necessari, come preferiti, schede e archiviazione locale, per gestione e accesso rapido.
+Non raccoglie dati personali non legati alle funzionalita.
+
+--------------------------------------------------
+
+[ru]
+SuperBookmark помогает быстрее находить, упорядочивать и открывать закладки.
+
+Учебные ресурсы, рабочие панели и повседневные сайты доступны в одном понятном интерфейсе.
+
+Основные преимущества
+- Быстрый доступ: управление закладками из новой вкладки или панели инструментов
+- Удобная организация: более наглядный просмотр и редактирование закладок
+- Легкость и плавность: только важные функции для ежедневной работы
+- Внимание к приватности: запрашиваются только необходимые разрешения
+
+Кому подойдет
+- Пользователям с большим количеством закладок
+- Тем, кто часто переключается между рабочими сайтами
+- Тем, кто хочет простой и стабильный рабочий процесс
+
+Разрешения и приватность
+Расширение использует только необходимые разрешения, включая закладки, вкладки и локальное хранилище, для управления и быстрого доступа.
+Оно не собирает персональные данные, не связанные с функциями расширения.
+
+--------------------------------------------------
+
+[ar]
+يساعدك SuperBookmark على العثور على الاشارات المرجعية وتنظيمها وفتحها بشكل اسرع.
+
+سواء كنت تستخدم مواقع الدراسة او لوحات العمل او الادوات اليومية، ستصل اليها بسهولة من واجهة واضحة واحدة.
+
+ابرز المزايا
+- وصول سريع: افتح ادارة الاشارات المرجعية من علامة تبويب جديدة او من شريط الادوات
+- تنظيم افضل: تصفح وادارة الاشارات المرجعية بشكل اوضح
+- خفيف وسلس: وظائف اساسية لاستخدام يومي مريح
+- مراعاة الخصوصية: يطلب فقط الاذونات الضرورية لعمله
+
+مناسب لـ
+- المستخدمين الذين لديهم عدد كبير من الاشارات المرجعية
+- من يتنقلون كثيرا بين مواقع العمل
+- من يبحثون عن تجربة بسيطة ومستقرة
+
+الاذونات والخصوصية
+يستخدم هذا الامتداد فقط الاذونات الضرورية مثل الاشارات المرجعية وعلامات التبويب والتخزين المحلي لتوفير الادارة والوصول السريع.
+ولا يجمع بيانات شخصية غير مرتبطة بوظائف الامتداد.
