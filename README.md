@@ -1,6 +1,6 @@
 # SuperBookmark
 
-Chrome 扩展：书签管理（从新标签页或工具栏打开）。
+跨浏览器扩展：**Chrome** 与 **Firefox**（Manifest V3）。书签管理，支持从新标签页或工具栏打开。
 
 ## 「增强型安全浏览不信任此扩展程序」说明
 
@@ -22,12 +22,25 @@ Chrome 扩展：书签管理（从新标签页或工具栏打开）。
 
 当前 `manifest.json` 仅声明：`storage`、`bookmarks`、`tabs`，用于存储设置、读写书签、打开新标签页；**无** `<all_urls>` 等宽泛网站权限。权限无法在代码里「消除」上述提示；提示主要来自**分发方式**，而非权限行数。
 
-## 本地加载
+## 本地加载（Chrome）
 
 1. 执行 `npm run build`，静态资源与清单来自 `public/`（含 `manifest.json`、`icons/`、`assets/`）。  
 2. 打开 `chrome://extensions`，开启「开发者模式」。  
 3. 「加载已解压的扩展程序」，选择本仓库下的 **`dist`** 目录（勿选仓库根目录）。  
 4. 从 `icon.png` 生成各尺寸 PNG：见 `tools/build_extension_png_icons.py`（输出到 `public/icons/`）。
+
+## 本地加载（Firefox）
+
+1. 执行 `npm run build:firefox`，产物在 **`dist-firefox`**（与 Chrome 版相比会额外写入 `browser_specific_settings.gecko`，便于长期侧载与提交 [AMO](https://addons.mozilla.org/developers/)）。  
+2. 打开 `about:debugging#/runtime/this-firefox`，点「临时载入扩展…」，选择 **`dist-firefox/manifest.json`**。  
+3. **扩展 ID**：默认脚本写入 `superbookmark@superbookmark.local`。若需固定为其他 ID（例如上架），构建前设置环境变量：  
+   `GECKO_EXTENSION_ID=你的唯一ID@你的域名 npm run build:firefox`  
+4. 要求 **Firefox 115+**（与脚本中 `strict_min_version` 一致，可按需调高）。
+
+### Firefox 与 Chrome 行为差异说明
+
+- **替换新标签页**：后台脚本会识别 Chromium 的 `chrome://newtab` 与 Firefox 的 `about:newtab` / `about:home`。  
+- **打开系统书签管理器**：Chromium 使用 `chrome://bookmarks/`；Firefox 使用书签库页 `chrome://browser/content/places/places.xhtml`（若个别版本受限无法打开，请直接在扩展内管理书签）。
 
 ## 许可证
 

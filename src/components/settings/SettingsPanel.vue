@@ -343,6 +343,7 @@ import {
 import { normalizeHex, normalizeBookmarkCardTextColor, presetMatchesColor } from '../../services/settingsUtils.js';
 import { appRuntime } from '../../services/appRuntime.js';
 import { effectiveGridColumnCount, GRID_CARD_MIN_PX } from '../../utils/bookmarkRenderHelpers.js';
+import { nativeBookmarkManagerUrl } from '../../extensionEnv.js';
 import BackgroundWallpaperSettings from './BackgroundWallpaperSettings.vue';
 
 /** 兼容层 i18n（与 legacyI18n 挂载一致） */
@@ -788,7 +789,7 @@ function toggleRoot(key) {
 
 function openBookmarkManager() {
     if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
-        chrome.tabs.create({ url: 'chrome://bookmarks/' });
+        chrome.tabs.create({ url: nativeBookmarkManagerUrl() });
     }
 }
 

@@ -32,15 +32,21 @@ export function normalizeLocale(code) {
 
 export function detectLocale() {
     try {
-        /* 扩展环境：优先使用 Chrome 界面语言（与 _locales 一致），参见 chrome.i18n.getUILanguage */
-        if (typeof chrome !== 'undefined' && chrome.i18n && typeof chrome.i18n.getUILanguage === 'function') {
-            const uil = chrome.i18n.getUILanguage();
+        /* 扩展环境：优先使用浏览器界面语言（与 _locales 一致） */
+        const i18nApi =
+            typeof browser !== 'undefined' && browser.i18n && typeof browser.i18n.getUILanguage === 'function'
+                ? browser.i18n
+                : typeof chrome !== 'undefined' && chrome.i18n && typeof chrome.i18n.getUILanguage === 'function'
+                  ? chrome.i18n
+                  : null;
+        if (i18nApi) {
+            const uil = i18nApi.getUILanguage();
             if (uil && typeof uil === 'string') {
                 return normalizeLocale(uil);
             }
         }
     } catch (e) {
-        /* 非扩展页或未注入 chrome */
+        /* 非扩展页或未注入 i18n API */
     }
     try {
         const nav = (typeof navigator !== 'undefined' && navigator.language) || 'zh';
