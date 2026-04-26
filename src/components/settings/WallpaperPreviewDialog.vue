@@ -55,6 +55,20 @@
                 class="settings-wallpaper-preview-tile"
                 :title="t('wallpaperProv_' + providerId)"
             >
+              <button
+                  type="button"
+                  class="settings-wallpaper-preview-download-btn"
+                  :aria-label="t('wallpaperPreviewDownload')"
+                  :title="t('wallpaperPreviewDownload')"
+                  :disabled="downloadingId === item.id"
+                  @click.stop="downloadWallpaper(item)"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+              </button>
               <img
                   :src="thumbUrlForPreview(item)"
                   :alt="t('wallpaperProv_' + providerId)"
@@ -163,6 +177,7 @@ const appendTimeoutHint = ref(false);
 const hasMore = ref(true);
 const page = ref(0);
 const applyBusy = ref(false);
+const downloadingId = ref(null);
 /** 为每条预览分配稳定 :key，便于追加批次而不复用旧 vnode */
 let listBatchSeq = 0;
 /**
@@ -480,6 +495,25 @@ async function onItemDoubleClick(item) {
   }
 }
 
+async function downloadWallpaper(item) {
+  if (!item || !item.fullUrl || downloadingId.value) return;
+  downloadingId.value = item.id;
+  try {
+    const dataUrl = await fetchWallpaperDataUrlFromUrl(item.fullUrl);
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    const ext = (dataUrl.match(/data:image\/(\w+);/) || ['', 'jpg'])[1];
+    a.download = 'super-bookmark-wallpaper-' + props.providerId + '-' + String(item.id) + '.' + ext;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch (_e) {
+    /* ignore */
+  } finally {
+    downloadingId.value = null;
+  }
+}
+
 watch(
     () => [props.open, props.providerId],
     ([open]) => {
@@ -716,6 +750,48 @@ watch(
   border-radius: 0;
   overflow: hidden;
   background: #e5e7eb;
+  position: relative;
+}
+
+.settings-wallpaper-preview-download-btn {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.5);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.18s ease, background 0.15s;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.settings-wallpaper-preview-tile:hover .settings-wallpaper-preview-download-btn,
+.settings-wallpaper-preview-download-btn:focus-visible {
+  opacity: 1;
+}
+
+.settings-wallpaper-preview-download-btn:hover {
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.settings-wallpaper-preview-download-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.settings-wallpaper-preview-download-btn svg {
+  width: 14px;
+  height: 14px;
 }
 
 .settings-wallpaper-preview-image {

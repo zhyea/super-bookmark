@@ -283,6 +283,10 @@
     "message": "Zeitüberschreitung beim Nachladen; weiteres Laden wurde gestoppt. Vorschau schließen und erneut öffnen.",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "Hintergrundbild herunterladen",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "Textfarbe der Lesezeichenkarten",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

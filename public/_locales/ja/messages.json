@@ -283,6 +283,10 @@
     "message": "追加の読み込みがタイムアウトしたため、続きの取得を停止しました。プレビューを閉じて開き直してください。",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "壁紙をダウンロード",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "カードの文字色",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

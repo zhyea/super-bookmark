@@ -283,6 +283,10 @@
     "message": "載入更多逾時，已停止繼續載入。可關閉後重新開啟預覽再試。",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "下載壁紙",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "書籤卡片文字顏色",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

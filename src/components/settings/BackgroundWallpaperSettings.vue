@@ -12,6 +12,20 @@
               @click="openWallpaperSub"
           >
             <span class="settings-bg-thumb-hover-hint" aria-hidden="true">{{ t('wallpaperThumbChangeHint') }}</span>
+            <span
+                v-if="bgThumbSrc"
+                class="settings-bg-thumb-download-btn"
+                role="button"
+                :aria-label="t('wallpaperPreviewDownload')"
+                :title="t('wallpaperPreviewDownload')"
+                @click.stop="downloadCurrentWallpaper"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </span>
             <img v-if="bgThumbSrc" :src="bgThumbSrc" alt="" class="settings-bg-thumb-img"/>
             <span v-else class="settings-bg-thumb-empty">{{ t('wallpaperThumbEmpty') }}</span>
           </button>
@@ -199,6 +213,8 @@ const props = defineProps({
 
 const wallpaperSubOpen = ref(false);
 const wallpaperPreviewOpen = ref(false);
+/** 当 appRuntime.settings 被外部修改（如 applyPreviewImage）后，用于强制刷新依赖 settings 的 computed */
+const settingsRev = ref(0);
 const previewProviderId = ref('bing');
 const selectedRemoteId = ref('bing');
 const wallpaperAutoRotateLocal = ref(false);
@@ -276,10 +292,12 @@ function onWallpaperBgOverlayInput() {
 const s = () => appRuntime.settings || {};
 
 const hasBgImageEffective = computed(() => {
+  void settingsRev.value;
   return !!(s().backgroundImage) || s().disableDefaultBg !== true;
 });
 
 const bgThumbSrc = computed(() => {
+  void settingsRev.value;
   const w = s();
   if (w.backgroundImage) return String(w.backgroundImage);
   if (w.disableDefaultBg === true) return '';
@@ -288,6 +306,7 @@ const bgThumbSrc = computed(() => {
 
 /** 当前已应用的图源，用于壁纸卡片高亮（与预览中临时选中的 selectedRemoteId 区分） */
 const currentWallpaperProvider = computed(() => {
+  void settingsRev.value;
   const p = s().wallpaperProvider;
   return p == null ? '' : String(p);
 });
@@ -433,6 +452,26 @@ function openBgFilePicker() {
   bgFileRef.value?.click();
 }
 
+async function downloadCurrentWallpaper() {
+  const src = bgThumbSrc.value;
+  if (!src) return;
+  try {
+    const res = await fetch(src);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const ext = (blob.type ? blob.type.split('/')[1] : 'jpg') || 'jpg';
+    a.download = 'super-bookmark-wallpaper-current.' + ext;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (_e) {
+    /* ignore */
+  }
+}
+
 watch(
     () => props.mainPanelOpen,
     (open) => {
@@ -446,6 +485,7 @@ watch(
 
 function onBookmarkSettingsSaved() {
   syncWallpaperSubFromRuntime();
+  settingsRev.value += 1;
 }
 
 onMounted(() => {
@@ -528,6 +568,42 @@ onUnmounted(() => {
 
 .settings-bg-wallpaper-row .settings-bg-thumb-btn:hover .settings-bg-thumb-hover-hint {
   opacity: 1;
+}
+
+.settings-bg-thumb-download-btn {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.5);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.18s ease, background 0.15s;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.settings-bg-wallpaper-row .settings-bg-thumb-btn:hover .settings-bg-thumb-download-btn,
+.settings-bg-thumb-download-btn:focus-visible {
+  opacity: 1;
+}
+
+.settings-bg-thumb-download-btn:hover {
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.settings-bg-thumb-download-btn svg {
+  width: 12px;
+  height: 12px;
 }
 
 .settings-bg-thumb-img {

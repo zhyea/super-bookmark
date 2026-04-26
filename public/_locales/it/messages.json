@@ -283,6 +283,10 @@
     "message": "Timeout nel caricamento di altre immagini; caricamento interrotto. Chiudi e riapri l’anteprima.",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "Scarica sfondo",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "Colore testo delle schede",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

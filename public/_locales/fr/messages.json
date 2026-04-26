@@ -283,6 +283,10 @@
     "message": "Délai dépassé pour charger la suite ; chargement arrêté. Fermez puis rouvrez l’aperçu.",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "Télécharger le fond",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "Couleur du texte des cartes",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

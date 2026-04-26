@@ -283,6 +283,10 @@
     "message": "Превышено время загрузки следующей страницы; подгрузка остановлена. Закройте и снова откройте предпросмотр.",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "Скачать обои",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "Цвет текста на карточках закладок",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

@@ -283,6 +283,10 @@
     "message": "Se agotó el tiempo al cargar más; se detuvo la carga. Cierra y vuelve a abrir la vista previa.",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "Descargar fondo",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "Color del texto en tarjetas",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

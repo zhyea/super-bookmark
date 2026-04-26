@@ -283,6 +283,10 @@
     "message": "더 불러오기 시간이 초과되어 추가 로드를 중단했습니다. 미리보기를 닫았다가 다시 여세요.",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "배경화면 다운로드",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "카드 글자색",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

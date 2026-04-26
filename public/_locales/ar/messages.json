@@ -283,6 +283,10 @@
     "message": "انتهت مهلة تحميل المزيد؛ تم إيقاف التحميل. أغلق المعاينة وأعد فتحها.",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "تحميل الخلفية",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "لون نص بطاقات الإشارات",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

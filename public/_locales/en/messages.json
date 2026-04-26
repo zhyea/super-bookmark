@@ -283,6 +283,10 @@
     "message": "Loading more timed out; further pages were stopped. Close and reopen the preview to try again.",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "Download wallpaper",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "Bookmark card text color",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"

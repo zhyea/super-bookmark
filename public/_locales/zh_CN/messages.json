@@ -283,6 +283,10 @@
     "message": "加载更多超时，已停止继续加载。可关闭后重新打开预览再试。",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "下载壁纸",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "书签卡片文字颜色",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"
