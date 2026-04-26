@@ -202,6 +202,7 @@ import {
   WALLPAPER_REMOTE_IDS
 } from '../../services/wallpaperProviders.js';
 import WallpaperPreviewDialog from './WallpaperPreviewDialog.vue';
+import {persistSettings, applyLayout} from '../../utils/chromeBridge.js';
 
 const {t} = useI18n();
 const simpleUiInjected = inject('simpleUi', null);
@@ -213,8 +214,6 @@ const props = defineProps({
 
 const wallpaperSubOpen = ref(false);
 const wallpaperPreviewOpen = ref(false);
-/** 当 appRuntime.settings 被外部修改（如 applyPreviewImage）后，用于强制刷新依赖 settings 的 computed */
-const settingsRev = ref(0);
 const previewProviderId = ref('bing');
 const selectedRemoteId = ref('bing');
 const wallpaperAutoRotateLocal = ref(false);
@@ -227,18 +226,6 @@ const bgFileRef = ref(null);
 
 let wallpaperOverlayPersistTimer = null;
 let wallpaperOverlayLayoutRaf = null;
-
-function settingsModule() {
-  return typeof window !== 'undefined' ? window.BookmarkManagerSettings : null;
-}
-
-function persistSettings(partial) {
-  settingsModule()?.saveSettings(partial);
-}
-
-function applyLayout() {
-  settingsModule()?.applyContentWidthAndBackground();
-}
 
 function scheduleWallpaperBgOverlayLayout() {
   if (wallpaperOverlayLayoutRaf != null) {
@@ -292,12 +279,10 @@ function onWallpaperBgOverlayInput() {
 const s = () => appRuntime.settings || {};
 
 const hasBgImageEffective = computed(() => {
-  void settingsRev.value;
   return !!(s().backgroundImage) || s().disableDefaultBg !== true;
 });
 
 const bgThumbSrc = computed(() => {
-  void settingsRev.value;
   const w = s();
   if (w.backgroundImage) return String(w.backgroundImage);
   if (w.disableDefaultBg === true) return '';
@@ -306,7 +291,6 @@ const bgThumbSrc = computed(() => {
 
 /** 当前已应用的图源，用于壁纸卡片高亮（与预览中临时选中的 selectedRemoteId 区分） */
 const currentWallpaperProvider = computed(() => {
-  void settingsRev.value;
   const p = s().wallpaperProvider;
   return p == null ? '' : String(p);
 });
@@ -457,6 +441,7 @@ async function downloadCurrentWallpaper() {
   if (!src) return;
   try {
     const res = await fetch(src);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -467,8 +452,8 @@ async function downloadCurrentWallpaper() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  } catch (_e) {
-    /* ignore */
+  } catch (e) {
+    console.error('[downloadCurrentWallpaper] failed:', e);
   }
 }
 
@@ -485,7 +470,6 @@ watch(
 
 function onBookmarkSettingsSaved() {
   syncWallpaperSubFromRuntime();
-  settingsRev.value += 1;
 }
 
 onMounted(() => {
@@ -529,7 +513,7 @@ onUnmounted(() => {
   position: relative;
   display: block;
   width: 100%;
-  max-width: 168px;
+  max-width: 224px;
   aspect-ratio: 16 / 9;
   padding: 0;
   border: 1px solid #d1d5db;

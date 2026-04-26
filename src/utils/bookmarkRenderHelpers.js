@@ -146,7 +146,7 @@ export function faviconUrl(url) {
     try {
         const parsed = new URL(url);
         if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '';
-        return parsed.origin + '/favicon.ico';
+        return 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(parsed.hostname) + '&sz=64';
     } catch (_) {
         return '';
     }

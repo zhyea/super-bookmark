@@ -16,10 +16,23 @@ export default defineConfig({
     build: {
         outDir: 'dist',
         emptyOutDir: true,
+        cssCodeSplit: true,
+        sourcemap: false,
+        minify: 'esbuild',
+        esbuildOptions: {
+            drop: ['console', 'debugger']
+        },
         rollupOptions: {
             input: {
                 main: resolve(__dirname, 'index.html'),
                 guide: resolve(__dirname, 'guide.html')
+            },
+            output: {
+                manualChunks: {
+                    vendor: ['vue', 'vue-i18n']
+                },
+                chunkFileNames: 'assets/[name]-[hash].js',
+                entryFileNames: 'assets/[name]-[hash].js'
             }
         }
     },

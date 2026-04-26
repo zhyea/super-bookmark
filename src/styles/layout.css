@@ -1,0 +1,235 @@
+/**
+ * layout.css — 容器、侧栏、顶栏、内容区
+ */
+.container {
+    width: 100%;
+    /* 设置：视口 50%～100%，且不小于 400px（与 settingsConstants 中逻辑一致） */
+    max-width: max(400px, min(100vw, calc(var(--content-width-percent, 70) * 1vw)));
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 auto;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px #0000001a;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ========== 主内容区域（侧栏 + 中间区） ========== */
+.main-content {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* 当前顶部菜单无子目录时隐藏侧边栏，主内容占满 */
+.main-content.sidebar-hidden .sidebar {
+    display: none;
+}
+
+/* ========== 左侧侧边栏（固定，项多时内部滚动） ========== */
+.sidebar {
+    width: 120px;
+    flex-shrink: 0;
+    background-color: #f8f8f8;
+    border-right: 1px solid #e0e0e0;
+    padding: 20px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d0d0d0;
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #b0b0b0;
+}
+
+.sidebar-section {
+    margin-bottom: 16px;
+}
+
+.sidebar-section:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-list {
+    list-style: none;
+}
+
+.sidebar-item {
+    margin-bottom: 5px;
+}
+
+.sidebar .side-nav-item {
+    display: block;
+    text-decoration: none;
+    color: #333333;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 8px 20px;
+    transition: background-color 0.3s;
+}
+
+.sidebar .side-nav-item:hover {
+    background-color: #f0f0f0;
+}
+
+.sidebar .side-nav-item.active {
+    color: #4285f4;
+    font-weight: normal;
+    border-top: 1px dashed #d9d9d9;
+    border-bottom: 1px dashed #d9d9d9;
+    background-color: transparent;
+}
+
+/* ========== 顶栏（横向子类 + 搜索） ========== */
+.header {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.nav {
+    margin-bottom: 0;
+}
+
+.primary-nav-wrap {
+    margin-bottom: 8px;
+}
+
+.primary-nav-wrap[hidden] {
+    display: none !important;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.nav-item a,
+.nav-list .secondary-nav-item,
+.nav-list .primary-nav-item {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333333;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 0;
+    transition: background-color 0.3s;
+}
+
+.nav-item a:hover,
+.nav-list .secondary-nav-item:hover,
+.nav-list .primary-nav-item:hover {
+    background-color: #f0f0f0;
+}
+
+.nav-item a.active,
+.nav-list .secondary-nav-item.active,
+.nav-list .primary-nav-item.active {
+    font-weight: bold;
+    border-bottom: 4px solid #4285f4;
+    background-color: transparent;
+}
+
+.search-container {
+    margin-top: 10px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 5px 10px;
+    max-width: 420px;
+}
+
+.search-icon {
+    font-size: 16px;
+}
+
+.search-input,
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 14px;
+    min-width: 0;
+}
+
+.search-btn {
+    background-color: #4285f4;
+    color: #ffffff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-btn:hover {
+    background-color: #3367d6;
+}
+
+/* ========== 主内容（唯一滚动区域） ========== */
+.content {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+/* 主内容区滚动条样式（宽度为常见 8px 的 50%） */
+.content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 2px;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.category-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+}

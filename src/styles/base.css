@@ -1,0 +1,55 @@
+/**
+ * base.css — 重置与页面壳
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-width: 300px;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background-color: #e8f4fc;
+    color: #333333;
+    min-width: 300px;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* 全页背景层：由 settings.js 写入色/图；simpleOverlayOpacity 为 0–100 不透明度（越大 opacity 越高）；#app 叠在其上 */
+.page-bg-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: #e8f4fc;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 默认模式：整屏「背景模糊度」，叠在 .page-bg-backdrop 之上、#app 之下（与背景透明度同视口范围）；极简模式由 JS 设为 display:none */
+.page-bg-blur-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: transparent;
+}
+
+/* Vue 根节点占满视口，建立高度链，使 .main-content / .content 在内容多时可滚动、少时白底铺满 */
+#app {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+    min-height: 100dvh;
+}
