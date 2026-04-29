@@ -77,7 +77,7 @@ function buildExportPayload(cb) {
         cb(new Error('NO_API'));
         return;
     }
-    const keys = [BM.TAGS_STORAGE_KEY, BM.ICON_COLOR_STORAGE_KEY, BM.DESCRIPTION_STORAGE_KEY, BM.SETTINGS_STORAGE_KEY];
+    const keys = [BM.TAGS_STORAGE_KEY, BM.ICON_COLOR_STORAGE_KEY, BM.SETTINGS_STORAGE_KEY];
     chrome.storage.local.get(keys, function(store) {
         chrome.bookmarks.getTree(function(tree) {
             const roots = (tree && tree[0] && tree[0].children) ? tree[0].children.map(stripNode).filter(Boolean) : [];
@@ -87,7 +87,6 @@ function buildExportPayload(cb) {
                 storage: {
                     [BM.TAGS_STORAGE_KEY]: store[BM.TAGS_STORAGE_KEY] || {},
                     [BM.ICON_COLOR_STORAGE_KEY]: store[BM.ICON_COLOR_STORAGE_KEY] || {},
-                    [BM.DESCRIPTION_STORAGE_KEY]: store[BM.DESCRIPTION_STORAGE_KEY] || {},
                     [BM.SETTINGS_STORAGE_KEY]: store[BM.SETTINGS_STORAGE_KEY] || {}
                 },
                 roots: roots
@@ -306,7 +305,6 @@ function importPayload(payload, cb) {
             {
                 [BM.TAGS_STORAGE_KEY]: s[BM.TAGS_STORAGE_KEY] || {},
                 [BM.ICON_COLOR_STORAGE_KEY]: s[BM.ICON_COLOR_STORAGE_KEY] || {},
-                [BM.DESCRIPTION_STORAGE_KEY]: s[BM.DESCRIPTION_STORAGE_KEY] || {},
                 [BM.SETTINGS_STORAGE_KEY]: s[BM.SETTINGS_STORAGE_KEY] || {}
             },
             function() {
@@ -321,21 +319,18 @@ function importPayload(payload, cb) {
         const idMap = {};
 
         function applyStorageAndDone() {
-            const storeKeys = [BM.TAGS_STORAGE_KEY, BM.ICON_COLOR_STORAGE_KEY, BM.DESCRIPTION_STORAGE_KEY, BM.SETTINGS_STORAGE_KEY];
+            const storeKeys = [BM.TAGS_STORAGE_KEY, BM.ICON_COLOR_STORAGE_KEY, BM.SETTINGS_STORAGE_KEY];
             chrome.storage.local.get(storeKeys, function(cur) {
                 if (chrome.runtime.lastError) return cb(chrome.runtime.lastError);
                 const remTags = remapMap(payload.storage[BM.TAGS_STORAGE_KEY] || {}, idMap);
                 const remColors = remapMap(payload.storage[BM.ICON_COLOR_STORAGE_KEY] || {}, idMap);
-                const remDesc = remapMap(payload.storage[BM.DESCRIPTION_STORAGE_KEY] || {}, idMap);
                 const tags = Object.assign({}, cur[BM.TAGS_STORAGE_KEY] || {}, remTags);
                 const colors = Object.assign({}, cur[BM.ICON_COLOR_STORAGE_KEY] || {}, remColors);
-                const desc = Object.assign({}, cur[BM.DESCRIPTION_STORAGE_KEY] || {}, remDesc);
                 const settings = payload.storage[BM.SETTINGS_STORAGE_KEY] || {};
                 chrome.storage.local.set(
                     {
                         [BM.TAGS_STORAGE_KEY]: tags,
                         [BM.ICON_COLOR_STORAGE_KEY]: colors,
-                        [BM.DESCRIPTION_STORAGE_KEY]: desc,
                         [BM.SETTINGS_STORAGE_KEY]: settings
                     },
                     function() {
@@ -405,7 +400,7 @@ function restoreFactoryDefaults(cb) {
         cb(new Error('NO_BM'));
         return;
     }
-    chrome.storage.local.remove([BM.TAGS_STORAGE_KEY, BM.ICON_COLOR_STORAGE_KEY, BM.DESCRIPTION_STORAGE_KEY], function() {
+    chrome.storage.local.remove([BM.TAGS_STORAGE_KEY, BM.ICON_COLOR_STORAGE_KEY], function() {
         if (chrome.runtime.lastError) return cb(chrome.runtime.lastError);
         const L = typeof window !== 'undefined' ? window.BookmarkManagerI18n : null;
         const locale = L && L.normalizeLocale ? L.normalizeLocale(L.detectLocale && L.detectLocale()) : 'zh';

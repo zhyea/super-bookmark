@@ -10,9 +10,9 @@
             <div class="card-head">
                 <div class="card-icon" :style="{ background: iconColor }">
                     <img
-                        v-if="favicon"
+                        v-if="faviconUrls.length"
                         class="card-icon-img"
-                        :src="favicon"
+                        :src="faviconUrls[0]"
                         alt=""
                         referrerpolicy="no-referrer"
                         @load="onImgLoad"
@@ -78,7 +78,7 @@ const iconColor = computed(() => {
     const m = props.secondary._userIconColor;
     return (m && m[props.bookmark.id]) || H.getIconColorForChar(firstChar.value);
 });
-const favicon = computed(() => H.faviconUrl(props.bookmark.url));
+const faviconUrls = computed(() => H.faviconUrl(props.bookmark.url));
 const linkTitle = computed(() => {
     const t0 = props.bookmark.title && props.bookmark.title.trim();
     return t0 || props.bookmark.url;
@@ -96,6 +96,13 @@ function onImgLoad(e) {
     e.target.classList.add('loaded');
 }
 function onImgErr(e) {
-    e.target.classList.add('error');
+    const img = e.target;
+    const currentSrc = img.src;
+    const idx = faviconUrls.value.findIndex((u) => currentSrc === u || currentSrc.includes(u.replace(/^https?:\/\//, '')));
+    if (idx >= 0 && idx + 1 < faviconUrls.value.length) {
+        img.src = faviconUrls.value[idx + 1];
+    } else {
+        img.classList.add('error');
+    }
 }
 </script>

@@ -16,6 +16,7 @@ import BookmarkMainLayout from './components/bookmark/BookmarkMainLayout.vue';
 import SettingsPanel from './components/settings/SettingsPanel.vue';
 import { appRuntime } from './services/appRuntime.js';
 import { BookmarkManagerSettings } from './services/settings.js';
+import { BookmarkManager } from './services/bookmarks.js';
 import { normalizeBookmarkCardTextColor } from './services/settingsUtils.js';
 import { disposeWallpaperRotation, initWallpaperRotation } from './services/wallpaperRotation.js';
 
@@ -76,6 +77,13 @@ onMounted(() => {
       BookmarkManagerSettings.applyContentWidthAndBackground();
     });
   });
+  if (BookmarkManager && BookmarkManager.cleanupOrphanedData) {
+    BookmarkManager.cleanupOrphanedData(function(cleaned) {
+      if (cleaned && typeof console !== 'undefined' && console.log) {
+        console.log('[bookmark] orphaned data cleaned');
+      }
+    });
+  }
   window.addEventListener('bookmark-settings-saved', onSettingsSaved);
 });
 

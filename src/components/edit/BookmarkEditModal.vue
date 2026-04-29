@@ -51,18 +51,6 @@
                         <span class="desc-hint">{{ tagsArray.length }} / 3</span>
                     </div>
                     <div class="form-group">
-                        <label for="edit-desc">{{ t('labelDesc') }}</label>
-                        <textarea
-                            id="edit-desc"
-                            v-model="descriptionVal"
-                            class="edit-desc"
-                            maxlength="100"
-                            :placeholder="t('descPlaceholder')"
-                            @input="descLen = (descriptionVal || '').length"
-                        ></textarea>
-                        <span class="desc-hint">{{ descLen }} / 100</span>
-                    </div>
-                    <div class="form-group">
                         <label class="edit-url-label">{{ t('labelUrl') }}</label>
                         <div class="edit-url-readonly">{{ urlDisplay }}</div>
                     </div>
@@ -91,8 +79,6 @@ const { t } = useI18n();
 const visible = ref(false);
 const titleVal = ref('');
 const urlDisplay = ref('');
-const descriptionVal = ref('');
-const descLen = ref(0);
 const tagsArray = ref([]);
 const tagInputRef = ref(null);
 const folderRows = ref([]);
@@ -121,11 +107,6 @@ function openEditModal(linkItem, context) {
     const secondary = context.getSecondary && context.getSecondary();
     const userTags = (secondary && secondary._userTags && secondary._userTags[id]) || [];
     tagsArray.value = userTags.slice(0, 3).map((tag) => String(tag).slice(0, 16));
-    descriptionVal.value =
-        secondary && secondary._descriptions && secondary._descriptions[id]
-            ? String(secondary._descriptions[id])
-            : '';
-    descLen.value = (descriptionVal.value || '').length;
     const savedIconColor = (secondary && secondary._userIconColor && secondary._userIconColor[id]) || '';
     selectedIconColor.value = savedIconColor;
     titleVal.value = title;
@@ -156,7 +137,6 @@ function onSubmit() {
     const linkItem = linkItemRef.value;
     const context = contextRef.value;
     const newTitle = titleVal.value;
-    const newDesc = (descriptionVal.value || '').trim().slice(0, 100);
     const selectedParentId = selectedFolderId.value;
     const moveApi = BookmarkMaintenance;
     const folderChanged = !!(moveApi && selectedParentId && String(selectedParentId) !== String(currentParentId.value));
@@ -170,7 +150,6 @@ function onSubmit() {
                 if (te) te.textContent = newTitle;
             }
             BM.saveTags(id, tagsToSave);
-            BM.saveDescription(id, newDesc);
             BM.saveIconColor(id, selectedIconColor.value || null, function () {
                 if (context.onSave) context.onSave(id, tagsToSave);
                 if (context.onReload) context.onReload(targetParentIdForReload);

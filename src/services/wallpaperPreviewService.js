@@ -1,6 +1,4 @@
 import { fetchImageBlob, upgradeWallpaperUrlToHttps } from './wallpaper/wallpaperImageFetch.js';
-import { buildPaugramWallpaperUrl } from './wallpaper/paugramWallpaper.js';
-
 async function fetchJson(url, err) {
     const res = await fetch(url, { credentials: 'omit' });
     if (!res.ok) throw new Error(err + '_' + res.status);
@@ -55,22 +53,6 @@ async function fetchUnsplashPreviewPage(page, pageSize) {
     };
 }
 
-/** 保罗 API 每次请求随机图；用唯一查询串区分缩略图请求 */
-async function fetchPaugramPreviewPage(page, pageSize) {
-    const batch = String(page) + '-' + String(Date.now()) + '-' + String(Math.random()).slice(2, 9);
-    const items = [];
-    for (let i = 0; i < pageSize; i++) {
-        const token = batch + '-' + i + '-' + String(Math.random()).slice(2, 10);
-        const u = upgradeWallpaperUrlToHttps(buildPaugramWallpaperUrl(token));
-        items.push({
-            id: 'pg-' + page + '-' + i + '-' + token.slice(-24),
-            thumbUrl: u,
-            fullUrl: u
-        });
-    }
-    return { items, hasMore: true };
-}
-
 /**
  * @param {string} providerId
  * @param {number} page
@@ -83,8 +65,6 @@ export async function fetchWallpaperPreviewPage(providerId, page, pageSize) {
             return fetchBingPreviewPage(page, pageSize);
         case 'unsplash':
             return fetchUnsplashPreviewPage(page, pageSize);
-        case 'paugram':
-            return fetchPaugramPreviewPage(page, pageSize);
         default:
             throw new Error('UNKNOWN_PROVIDER');
     }

@@ -142,7 +142,6 @@ function loadSettings(cb) {
         let wallpaperProvider =
             wallpaperProvRaw === 'bing' ||
             wallpaperProvRaw === 'unsplash' ||
-            wallpaperProvRaw === 'paugram' ||
             wallpaperProvRaw === 'custom' ||
             wallpaperProvRaw === 'none'
                 ? wallpaperProvRaw

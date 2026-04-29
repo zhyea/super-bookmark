@@ -742,10 +742,6 @@ onUnmounted(() => {
   border-color: #ddd6fe;
 }
 
-.settings-wallpaper-source-card--paugram {
-  border-color: #fbcfe8;
-}
-
 .settings-wallpaper-source-card--local {
   border-color: #cbd5e1;
 }
@@ -762,11 +758,6 @@ onUnmounted(() => {
 .settings-wallpaper-source-card--unsplash.active {
   border-color: #4f46e5;
   box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.35);
-}
-
-.settings-wallpaper-source-card--paugram.active {
-  border-color: #db2777;
-  box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.32);
 }
 
 .settings-wallpaper-source-card--local.active {
@@ -789,10 +780,6 @@ onUnmounted(() => {
 
 .settings-wallpaper-source-card--unsplash .settings-wallpaper-source-card-visual {
   background: linear-gradient(112deg, #4f46e5 0%, #a78bfa 38%, #fde68a 100%);
-}
-
-.settings-wallpaper-source-card--paugram .settings-wallpaper-source-card-visual {
-  background: linear-gradient(118deg, #9d174d 0%, #f472b6 42%, #fce7f3 100%);
 }
 
 .settings-wallpaper-source-card--local .settings-wallpaper-source-card-visual {
@@ -824,13 +811,6 @@ onUnmounted(() => {
   color: #eef2ff;
 }
 
-.settings-wallpaper-source-card--paugram .settings-wallpaper-source-card-icon::before {
-  content: '\2661';
-  font-size: calc(30px * 2 / 3);
-  font-weight: 500;
-  color: #fdf2f8;
-}
-
 .settings-wallpaper-source-card--local .settings-wallpaper-source-card-icon::before {
   content: '\21E7';
   font-size: calc(32px * 2 / 3);
@@ -850,10 +830,6 @@ onUnmounted(() => {
 
 .settings-wallpaper-source-card--unsplash .settings-wallpaper-source-card-body {
   background: #faf5ff;
-}
-
-.settings-wallpaper-source-card--paugram .settings-wallpaper-source-card-body {
-  background: #fdf2f8;
 }
 
 .settings-wallpaper-source-card--local .settings-wallpaper-source-card-body {

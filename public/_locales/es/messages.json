@@ -199,10 +199,6 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_paugram": {
-    "message": "Paugram anime",
-    "description": "UI string: wallpaperProv_paugram"
-  },
   "wallpaperProvDesc_bing": {
     "message": "Microsoft Bing's official daily image—landscapes and world highlights.",
     "description": "UI string: wallpaperProvDesc_bing"
@@ -210,10 +206,6 @@
   "wallpaperProvDesc_unsplash": {
     "message": "Random photo-style wallpapers via Lorem Picsum (Unsplash-style).",
     "description": "UI string: wallpaperProvDesc_unsplash"
-  },
-  "wallpaperProvDesc_paugram": {
-    "message": "Random anime wallpapers via Dreamer-Paul API (source=sm). See api.paugram.com/help/wallpaper",
-    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "Subida local",
@@ -348,8 +340,112 @@
     "description": "UI string: simpleUiBuiltinEngines"
   },
   "simpleUiEngineQuickBar": {
-    "message": "Mostrar {name} en la barra rápida",
+    "message": "Mostrar {name} en barra rápida",
     "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "langRu": {
+    "message": "Русский",
+    "description": "UI string: langRu"
+  },
+  "langAr": {
+    "message": "العربية",
+    "description": "UI string: langAr"
+  },
+  "langIt": {
+    "message": "Italiano",
+    "description": "UI string: langIt"
+  },
+  "langTr": {
+    "message": "Türkçe",
+    "description": "UI string: langTr"
+  },
+  "langVi": {
+    "message": "Tiếng Việt",
+    "description": "UI string: langVi"
+  },
+  "langId": {
+    "message": "Bahasa Indonesia",
+    "description": "UI string: langId"
+  },
+  "langTh": {
+    "message": "ไทย",
+    "description": "UI string: langTh"
+  },
+  "langPl": {
+    "message": "Polski",
+    "description": "UI string: langPl"
+  },
+  "langNl": {
+    "message": "Nederlands",
+    "description": "UI string: langNl"
+  },
+  "langFa": {
+    "message": "فارسی",
+    "description": "UI string: langFa"
+  },
+  "langUk": {
+    "message": "Українська",
+    "description": "UI string: langUk"
+  },
+  "langMs": {
+    "message": "Bahasa Melayu",
+    "description": "UI string: langMs"
+  },
+  "langRo": {
+    "message": "Română",
+    "description": "UI string: langRo"
+  },
+  "langSv": {
+    "message": "Svenska",
+    "description": "UI string: langSv"
+  },
+  "langCs": {
+    "message": "Čeština",
+    "description": "UI string: langCs"
+  },
+  "langEl": {
+    "message": "Ελληνικά",
+    "description": "UI string: langEl"
+  },
+  "langHe": {
+    "message": "עברית",
+    "description": "UI string: langHe"
+  },
+  "langHu": {
+    "message": "Magyar",
+    "description": "UI string: langHu"
+  },
+  "langDa": {
+    "message": "Dansk",
+    "description": "UI string: langDa"
+  },
+  "langFi": {
+    "message": "Suomi",
+    "description": "UI string: langFi"
+  },
+  "langNo": {
+    "message": "Norsk",
+    "description": "UI string: langNo"
+  },
+  "langBn": {
+    "message": "বাংলা",
+    "description": "UI string: langBn"
+  },
+  "langTa": {
+    "message": "தமிழ்",
+    "description": "UI string: langTa"
+  },
+  "langTe": {
+    "message": "తెలుగు",
+    "description": "UI string: langTe"
+  },
+  "langMr": {
+    "message": "मराठी",
+    "description": "UI string: langMr"
+  },
+  "langUr": {
+    "message": "اردو",
+    "description": "UI string: langUr"
   },
   "simpleUiAddEngineTitle": {
     "message": "Añadir motor de búsqueda",
@@ -459,6 +555,66 @@
     "message": "Gestión",
     "description": "UI string: settingsGroupManage"
   },
+  "settingsGroupBackup": {
+    "message": "Copia de seguridad y restablecimiento",
+    "description": "UI string: settingsGroupBackup"
+  },
+  "settingsBackupActions": {
+    "message": "Acciones de copia de seguridad",
+    "description": "UI string: settingsBackupActions"
+  },
+  "backupRestoreDefault": {
+    "message": "Restaurar predeterminados",
+    "description": "UI string: backupRestoreDefault"
+  },
+  "backupExport": {
+    "message": "Exportar copia de seguridad",
+    "description": "UI string: backupExport"
+  },
+  "backupImport": {
+    "message": "Importar copia de seguridad",
+    "description": "UI string: backupImport"
+  },
+  "settingsColumnDisabled": {
+    "message": "El ancho actual no es suficiente para esta cantidad de columnas",
+    "description": "UI string: settingsColumnDisabled"
+  },
+  "backupPwdExport": {
+    "message": "Contraseña de copia de seguridad (opcional; déjela en blanco para usar la clave integrada):",
+    "description": "UI string: backupPwdExport"
+  },
+  "backupPwdImport": {
+    "message": "Introduzca la contraseña de copia de seguridad (pulse Aceptar si no se estableció):",
+    "description": "UI string: backupPwdImport"
+  },
+  "backupExportDone": {
+    "message": "Copia de seguridad exportada como archivo .zhx.",
+    "description": "UI string: backupExportDone"
+  },
+  "backupImportDone": {
+    "message": "Importación completada. Marcadores fusionados incrementalmente (nada eliminado localmente); configuración y etiquetas fusionadas.",
+    "description": "UI string: backupImportDone"
+  },
+  "backupRestoreDone": {
+    "message": "Valores predeterminados restaurados; etiquetas y colores de la extensión eliminados.",
+    "description": "UI string: backupRestoreDone"
+  },
+  "backupConfirmRestore": {
+    "message": "¿Restablecer todos los ajustes a los valores predeterminados y borrar etiquetas y colores de icono (los marcadores del navegador no se eliminarán)? ¿Continuar?",
+    "description": "UI string: backupConfirmRestore"
+  },
+  "backupConfirmImport": {
+    "message": "Los marcadores se fusionarán: coincidir por id / misma URL / mismo nombre de carpeta y actualizar; de lo contrario, crear nuevo. Los marcadores existentes no se eliminan. La configuración proviene de la copia de seguridad; las etiquetas se fusionan con los locales (la copia de seguridad gana en conflictos). ¿Continuar?",
+    "description": "UI string: backupConfirmImport"
+  },
+  "backupFail": {
+    "message": "Error de operación: ",
+    "description": "UI string: backupFail"
+  },
+  "backupWrongPwd": {
+    "message": "Error de descifrado. Verifique la contraseña o el archivo.",
+    "description": "UI string: backupWrongPwd"
+  },
   "settingsGroupAbout": {
     "message": "Acerca de",
     "description": "UI string: settingsGroupAbout"
@@ -563,10 +719,6 @@
     "message": "Etiquetas",
     "description": "UI string: labelTags"
   },
-  "labelDesc": {
-    "message": "Descripción",
-    "description": "UI string: labelDesc"
-  },
   "labelUrl": {
     "message": "Enlace",
     "description": "UI string: labelUrl"
@@ -586,10 +738,6 @@
   "tagPlaceholder": {
     "message": "Hasta 3 etiquetas, 16 caracteres",
     "description": "UI string: tagPlaceholder"
-  },
-  "descPlaceholder": {
-    "message": "Opcional, máx. 100 caracteres",
-    "description": "UI string: descPlaceholder"
   },
   "cancel": {
     "message": "Cancelar",

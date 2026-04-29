@@ -2,6 +2,7 @@
  * 纯函数：过滤书签、标签、favicon、图标色（供 Vue 与旧 render 共用）
  */
 import { CARD_ICON_BACKGROUND_COLORS } from '../services/constants.js';
+import { getFaviconFallbackUrls } from '../services/faviconProvider.js';
 
 export const ICON_COLORS = CARD_ICON_BACKGROUND_COLORS;
 
@@ -79,9 +80,7 @@ export function getFilteredBookmarks(state, searchTerm) {
             const titleMatch = b.title && b.title.toLowerCase().includes(term);
             const tagMatch = allTags.some((x) => x && String(x).toLowerCase().includes(term));
             const urlMatch = b.url && String(b.url).toLowerCase().includes(term);
-            const desc = secondary._descriptions && secondary._descriptions[b.id];
-            const descMatch = desc && String(desc).toLowerCase().includes(term);
-            return titleMatch || tagMatch || urlMatch || descMatch;
+            return titleMatch || tagMatch || urlMatch;
         });
     }
     return list;
@@ -112,9 +111,7 @@ export function getOverviewFilteredGroups(state, secondary, searchTerm) {
                         return x && String(x).toLowerCase().includes(term);
                     });
                     const urlMatch = b.url && String(b.url).toLowerCase().includes(term);
-                    const desc = secondary._descriptions && secondary._descriptions[b.id];
-                    const descMatch = desc && String(desc).toLowerCase().includes(term);
-                    return titleMatch || tagMatch || urlMatch || descMatch;
+                    return titleMatch || tagMatch || urlMatch;
                 });
             }
             return {
@@ -142,13 +139,14 @@ export function getCurrentScopeTags(state, secondary) {
     return Array.from(tagSet).sort();
 }
 
+/** 返回书签 favicon 的 fallback URL 数组（网站 favicon → google → duckduckgo → favicon.im） */
 export function faviconUrl(url) {
     try {
         const parsed = new URL(url);
-        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '';
-        return 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(parsed.hostname) + '&sz=64';
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return [];
+        return getFaviconFallbackUrls(parsed.hostname);
     } catch (_) {
-        return '';
+        return [];
     }
 }
 

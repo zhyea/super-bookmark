@@ -199,10 +199,6 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_paugram": {
-    "message": "Paugram anime",
-    "description": "UI string: wallpaperProv_paugram"
-  },
   "wallpaperProvDesc_bing": {
     "message": "Microsoft Bing's official daily image—landscapes and world highlights.",
     "description": "UI string: wallpaperProvDesc_bing"
@@ -210,10 +206,6 @@
   "wallpaperProvDesc_unsplash": {
     "message": "Random photo-style wallpapers via Lorem Picsum (Unsplash-style).",
     "description": "UI string: wallpaperProvDesc_unsplash"
-  },
-  "wallpaperProvDesc_paugram": {
-    "message": "Random anime wallpapers via Dreamer-Paul API (source=sm). See api.paugram.com/help/wallpaper",
-    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "Локальная загрузка",
@@ -348,8 +340,104 @@
     "description": "UI string: simpleUiBuiltinEngines"
   },
   "simpleUiEngineQuickBar": {
-    "message": "Показать «{name}» в быстрой панели",
+    "message": "Показать «{name}» в панели быстрого доступа",
     "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "langIt": {
+    "message": "Italiano",
+    "description": "UI string: langIt"
+  },
+  "langTr": {
+    "message": "Türkçe",
+    "description": "UI string: langTr"
+  },
+  "langVi": {
+    "message": "Tiếng Việt",
+    "description": "UI string: langVi"
+  },
+  "langId": {
+    "message": "Bahasa Indonesia",
+    "description": "UI string: langId"
+  },
+  "langTh": {
+    "message": "ไทย",
+    "description": "UI string: langTh"
+  },
+  "langPl": {
+    "message": "Polski",
+    "description": "UI string: langPl"
+  },
+  "langNl": {
+    "message": "Nederlands",
+    "description": "UI string: langNl"
+  },
+  "langFa": {
+    "message": "فارسی",
+    "description": "UI string: langFa"
+  },
+  "langUk": {
+    "message": "Українська",
+    "description": "UI string: langUk"
+  },
+  "langMs": {
+    "message": "Bahasa Melayu",
+    "description": "UI string: langMs"
+  },
+  "langRo": {
+    "message": "Română",
+    "description": "UI string: langRo"
+  },
+  "langSv": {
+    "message": "Svenska",
+    "description": "UI string: langSv"
+  },
+  "langCs": {
+    "message": "Čeština",
+    "description": "UI string: langCs"
+  },
+  "langEl": {
+    "message": "Ελληνικά",
+    "description": "UI string: langEl"
+  },
+  "langHe": {
+    "message": "עברית",
+    "description": "UI string: langHe"
+  },
+  "langHu": {
+    "message": "Magyar",
+    "description": "UI string: langHu"
+  },
+  "langDa": {
+    "message": "Dansk",
+    "description": "UI string: langDa"
+  },
+  "langFi": {
+    "message": "Suomi",
+    "description": "UI string: langFi"
+  },
+  "langNo": {
+    "message": "Norsk",
+    "description": "UI string: langNo"
+  },
+  "langBn": {
+    "message": "বাংলা",
+    "description": "UI string: langBn"
+  },
+  "langTa": {
+    "message": "தமிழ்",
+    "description": "UI string: langTa"
+  },
+  "langTe": {
+    "message": "తెలుగు",
+    "description": "UI string: langTe"
+  },
+  "langMr": {
+    "message": "मराठी",
+    "description": "UI string: langMr"
+  },
+  "langUr": {
+    "message": "اردو",
+    "description": "UI string: langUr"
   },
   "simpleUiAddEngineTitle": {
     "message": "Добавить поисковую систему",
@@ -458,6 +546,66 @@
   "settingsGroupManage": {
     "message": "Управление",
     "description": "UI string: settingsGroupManage"
+  },
+  "settingsGroupBackup": {
+    "message": "Резервное копирование и сброс",
+    "description": "UI string: settingsGroupBackup"
+  },
+  "settingsBackupActions": {
+    "message": "Действия резервного копирования",
+    "description": "UI string: settingsBackupActions"
+  },
+  "backupRestoreDefault": {
+    "message": "Восстановить по умолчанию",
+    "description": "UI string: backupRestoreDefault"
+  },
+  "backupExport": {
+    "message": "Экспорт резервной копии",
+    "description": "UI string: backupExport"
+  },
+  "backupImport": {
+    "message": "Импорт резервной копии",
+    "description": "UI string: backupImport"
+  },
+  "settingsColumnDisabled": {
+    "message": "Текущей ширины недостаточно для такого количества столбцов",
+    "description": "UI string: settingsColumnDisabled"
+  },
+  "backupPwdExport": {
+    "message": "Пароль резервной копии (необязательно; оставьте пустым для использования встроенного ключа):",
+    "description": "UI string: backupPwdExport"
+  },
+  "backupPwdImport": {
+    "message": "Введите пароль резервной копии (нажмите OK, если пароль не был задан):",
+    "description": "UI string: backupPwdImport"
+  },
+  "backupExportDone": {
+    "message": "Резервная копия экспортирована в файл .zhx.",
+    "description": "UI string: backupExportDone"
+  },
+  "backupImportDone": {
+    "message": "Импорт завершён. Закладки объединены инкрементально (локально ничего не удалено); настройки и метки объединены.",
+    "description": "UI string: backupImportDone"
+  },
+  "backupRestoreDone": {
+    "message": "Настройки по умолчанию восстановлены; метки и цвета расширения очищены.",
+    "description": "UI string: backupRestoreDone"
+  },
+  "backupConfirmRestore": {
+    "message": "Сбросить все настройки к значениям по умолчанию и очистить метки и цвета значков (закладки браузера не будут удалены). Продолжить?",
+    "description": "UI string: backupConfirmRestore"
+  },
+  "backupConfirmImport": {
+    "message": "Закладки будут объединены: совпадение по id / одинаковому URL / одинаковому имени папки и обновление; иначе создание новой. Существующие закладки не удаляются. Настройки берутся из резервной копии; метки объединяются с локальными (приоритет у резервной копии). Продолжить?",
+    "description": "UI string: backupConfirmImport"
+  },
+  "backupFail": {
+    "message": "Операция не удалась: ",
+    "description": "UI string: backupFail"
+  },
+  "backupWrongPwd": {
+    "message": "Ошибка расшифровки. Проверьте пароль или целостность файла.",
+    "description": "UI string: backupWrongPwd"
   },
   "settingsGroupAbout": {
     "message": "О программе",
@@ -571,10 +719,6 @@
     "message": "Теги",
     "description": "UI string: labelTags"
   },
-  "labelDesc": {
-    "message": "Описание",
-    "description": "UI string: labelDesc"
-  },
   "labelUrl": {
     "message": "Ссылка",
     "description": "UI string: labelUrl"
@@ -594,10 +738,6 @@
   "tagPlaceholder": {
     "message": "До 3 тегов, по 16 символов",
     "description": "UI string: tagPlaceholder"
-  },
-  "descPlaceholder": {
-    "message": "Необязательно, до 100 символов",
-    "description": "UI string: descPlaceholder"
   },
   "cancel": {
     "message": "Отмена",

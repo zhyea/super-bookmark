@@ -199,10 +199,6 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_paugram": {
-    "message": "随机动漫（保罗·sm）",
-    "description": "UI string: wallpaperProv_paugram"
-  },
   "wallpaperProvDesc_bing": {
     "message": "微软必应官方每日一图，全球风景与影像精选",
     "description": "UI string: wallpaperProvDesc_bing"
@@ -210,10 +206,6 @@
   "wallpaperProvDesc_unsplash": {
     "message": "随机摄影风壁纸，画面简洁通透（Lorem Picsum）",
     "description": "UI string: wallpaperProvDesc_unsplash"
-  },
-  "wallpaperProvDesc_paugram": {
-    "message": "保罗 API 随机动漫壁纸（source=sm，sm.ms 图床），详见 api.paugram.com/help/wallpaper",
-    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "本地上传",
@@ -500,11 +492,11 @@
     "description": "UI string: backupImportDone"
   },
   "backupRestoreDone": {
-    "message": "已恢复默认并清除扩展内的标签、颜色与描述数据。",
+    "message": "已恢复默认并清除扩展内的标签与颜色数据。",
     "description": "UI string: backupRestoreDone"
   },
   "backupConfirmRestore": {
-    "message": "将重置所有设置为默认值，并清除标签、图标颜色与描述（不会删除浏览器中的书签）。是否继续？",
+    "message": "将重置所有设置为默认值，并清除标签与图标颜色（不会删除浏览器中的书签）。是否继续？",
     "description": "UI string: backupConfirmRestore"
   },
   "backupConfirmImport": {
@@ -727,10 +719,6 @@
     "message": "标签",
     "description": "UI string: labelTags"
   },
-  "labelDesc": {
-    "message": "描述",
-    "description": "UI string: labelDesc"
-  },
   "labelUrl": {
     "message": "链接",
     "description": "UI string: labelUrl"
@@ -750,10 +738,6 @@
   "tagPlaceholder": {
     "message": "最多3个，每标签最多16字",
     "description": "UI string: tagPlaceholder"
-  },
-  "descPlaceholder": {
-    "message": "选填，最多100字",
-    "description": "UI string: descPlaceholder"
   },
   "cancel": {
     "message": "取消",

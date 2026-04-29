@@ -199,10 +199,6 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_paugram": {
-    "message": "Paugram anime",
-    "description": "UI string: wallpaperProv_paugram"
-  },
   "wallpaperProvDesc_bing": {
     "message": "Microsoft Bing's official daily image—landscapes and world highlights.",
     "description": "UI string: wallpaperProvDesc_bing"
@@ -210,10 +206,6 @@
   "wallpaperProvDesc_unsplash": {
     "message": "Random photo-style wallpapers via Lorem Picsum (Unsplash-style).",
     "description": "UI string: wallpaperProvDesc_unsplash"
-  },
-  "wallpaperProvDesc_paugram": {
-    "message": "Random anime wallpapers via Dreamer-Paul API (source=sm). See api.paugram.com/help/wallpaper",
-    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "Lokal hochladen",
@@ -348,8 +340,112 @@
     "description": "UI string: simpleUiBuiltinEngines"
   },
   "simpleUiEngineQuickBar": {
-    "message": "{name} in der Schnellleiste anzeigen",
+    "message": "{name} in Schnellleiste anzeigen",
     "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "langRu": {
+    "message": "Русский",
+    "description": "UI string: langRu"
+  },
+  "langAr": {
+    "message": "العربية",
+    "description": "UI string: langAr"
+  },
+  "langIt": {
+    "message": "Italiano",
+    "description": "UI string: langIt"
+  },
+  "langTr": {
+    "message": "Türkçe",
+    "description": "UI string: langTr"
+  },
+  "langVi": {
+    "message": "Tiếng Việt",
+    "description": "UI string: langVi"
+  },
+  "langId": {
+    "message": "Bahasa Indonesia",
+    "description": "UI string: langId"
+  },
+  "langTh": {
+    "message": "ไทย",
+    "description": "UI string: langTh"
+  },
+  "langPl": {
+    "message": "Polski",
+    "description": "UI string: langPl"
+  },
+  "langNl": {
+    "message": "Nederlands",
+    "description": "UI string: langNl"
+  },
+  "langFa": {
+    "message": "فارسی",
+    "description": "UI string: langFa"
+  },
+  "langUk": {
+    "message": "Українська",
+    "description": "UI string: langUk"
+  },
+  "langMs": {
+    "message": "Bahasa Melayu",
+    "description": "UI string: langMs"
+  },
+  "langRo": {
+    "message": "Română",
+    "description": "UI string: langRo"
+  },
+  "langSv": {
+    "message": "Svenska",
+    "description": "UI string: langSv"
+  },
+  "langCs": {
+    "message": "Čeština",
+    "description": "UI string: langCs"
+  },
+  "langEl": {
+    "message": "Ελληνικά",
+    "description": "UI string: langEl"
+  },
+  "langHe": {
+    "message": "עברית",
+    "description": "UI string: langHe"
+  },
+  "langHu": {
+    "message": "Magyar",
+    "description": "UI string: langHu"
+  },
+  "langDa": {
+    "message": "Dansk",
+    "description": "UI string: langDa"
+  },
+  "langFi": {
+    "message": "Suomi",
+    "description": "UI string: langFi"
+  },
+  "langNo": {
+    "message": "Norsk",
+    "description": "UI string: langNo"
+  },
+  "langBn": {
+    "message": "বাংলা",
+    "description": "UI string: langBn"
+  },
+  "langTa": {
+    "message": "தமிழ்",
+    "description": "UI string: langTa"
+  },
+  "langTe": {
+    "message": "తెలుగు",
+    "description": "UI string: langTe"
+  },
+  "langMr": {
+    "message": "मराठी",
+    "description": "UI string: langMr"
+  },
+  "langUr": {
+    "message": "اردو",
+    "description": "UI string: langUr"
   },
   "simpleUiAddEngineTitle": {
     "message": "Suchmaschine hinzufügen",
@@ -459,6 +555,66 @@
     "message": "Verwaltung",
     "description": "UI string: settingsGroupManage"
   },
+  "settingsGroupBackup": {
+    "message": "Sicherung & Zurücksetzen",
+    "description": "UI string: settingsGroupBackup"
+  },
+  "settingsBackupActions": {
+    "message": "Sicherungsaktionen",
+    "description": "UI string: settingsBackupActions"
+  },
+  "backupRestoreDefault": {
+    "message": "Auf Standard zurücksetzen",
+    "description": "UI string: backupRestoreDefault"
+  },
+  "backupExport": {
+    "message": "Sicherung exportieren",
+    "description": "UI string: backupExport"
+  },
+  "backupImport": {
+    "message": "Sicherung importieren",
+    "description": "UI string: backupImport"
+  },
+  "settingsColumnDisabled": {
+    "message": "Die aktuelle Breite reicht für diese Spaltenanzahl nicht aus",
+    "description": "UI string: settingsColumnDisabled"
+  },
+  "backupPwdExport": {
+    "message": "Sicherungskennwort (optional; leer lassen für integrierten Schlüssel):",
+    "description": "UI string: backupPwdExport"
+  },
+  "backupPwdImport": {
+    "message": "Sicherungskennwort eingeben (bei nicht festgelegtem Kennwort einfach OK drücken):",
+    "description": "UI string: backupPwdImport"
+  },
+  "backupExportDone": {
+    "message": "Sicherung als .zhx-Datei exportiert.",
+    "description": "UI string: backupExportDone"
+  },
+  "backupImportDone": {
+    "message": "Import abgeschlossen. Lesezeichen inkrementell zusammengeführt (lokal nichts gelöscht); Einstellungen und Tags zusammengeführt.",
+    "description": "UI string: backupImportDone"
+  },
+  "backupRestoreDone": {
+    "message": "Standards wiederhergestellt; Erweiterungs-Tags und -Farben gelöscht.",
+    "description": "UI string: backupRestoreDone"
+  },
+  "backupConfirmRestore": {
+    "message": "Alle Einstellungen auf Standard zurücksetzen und Tags sowie Symbolfarben löschen (Browser-Lesezeichen werden nicht gelöscht). Fortfahren?",
+    "description": "UI string: backupConfirmRestore"
+  },
+  "backupConfirmImport": {
+    "message": "Lesezeichen werden zusammengeführt: nach ID / gleicher URL / gleichem Ordnernamen abgleichen und aktualisieren; sonst neu erstellen. Vorhandene Lesezeichen werden nicht gelöscht. Einstellungen stammen aus der Sicherung; Tags werden mit lokalen zusammengeführt (Sicherung gewinnt bei Konflikten). Fortfahren?",
+    "description": "UI string: backupConfirmImport"
+  },
+  "backupFail": {
+    "message": "Vorgang fehlgeschlagen: ",
+    "description": "UI string: backupFail"
+  },
+  "backupWrongPwd": {
+    "message": "Entschlüsselung fehlgeschlagen. Überprüfen Sie das Kennwort oder die Datei.",
+    "description": "UI string: backupWrongPwd"
+  },
   "settingsGroupAbout": {
     "message": "Info",
     "description": "UI string: settingsGroupAbout"
@@ -563,10 +719,6 @@
     "message": "Tags",
     "description": "UI string: labelTags"
   },
-  "labelDesc": {
-    "message": "Beschreibung",
-    "description": "UI string: labelDesc"
-  },
   "labelUrl": {
     "message": "Link",
     "description": "UI string: labelUrl"
@@ -586,10 +738,6 @@
   "tagPlaceholder": {
     "message": "Bis 3 Tags, je 16 Zeichen",
     "description": "UI string: tagPlaceholder"
-  },
-  "descPlaceholder": {
-    "message": "Optional, max. 100 Zeichen",
-    "description": "UI string: descPlaceholder"
   },
   "cancel": {
     "message": "Abbrechen",

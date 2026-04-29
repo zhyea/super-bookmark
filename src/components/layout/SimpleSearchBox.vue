@@ -3,7 +3,13 @@
     <div class="simple-search-input-shell" :style="searchShellStyle">
       <button type="button" class="engine-trigger-btn" :aria-expanded="showQuickPanel" aria-haspopup="true" @click.stop="toggleQuickPanel">
         <span class="engine-icon-wrap">
-          <img v-if="currentEngineMeta.type === 'img'" class="engine-icon" :src="currentEngineMeta.src" :alt="currentEngineLabel" />
+          <img
+            v-if="currentEngineMeta.type === 'img'"
+            class="engine-icon"
+            :src="currentEngineMeta.src"
+            :alt="currentEngineLabel"
+            @error="onCurrentEngineIconError"
+          />
           <span
             v-else
             class="engine-custom-icon"
@@ -77,7 +83,7 @@
             class="quick-icon-img"
             :src="engineIconMeta(key).src"
             :alt="labelForKey(key)"
-            @error="() => onQuickIconError(key)"
+            @error="(e) => onQuickIconError(e, key)"
           />
           <span v-else class="quick-icon-fallback" :style="quickFallbackStyle(key)">{{ quickFallbackText(key) }}</span>
         </span>
@@ -126,13 +132,10 @@ import {
   inferHostFromUrlTemplate,
   expandSimpleCustomUrlTemplate,
   normalizeCustomEngines,
-  normalizeQuickEngineKeys
+  normalizeQuickEngineKeys,
+  matchBuiltinEngineByDomain
 } from '../../services/simpleSearchEngines.js';
-import {
-  faviconState,
-  detectFaviconProviders,
-  getCustomEngineFaviconUrl
-} from '../../services/faviconProvider.js';
+import { getCustomEngineFaviconUrls } from '../../services/faviconProvider.js';
 import SimpleSearchDrawer from './SimpleSearchDrawer.vue';
 
 const { t, locale } = useI18n();
@@ -368,7 +371,6 @@ onMounted(() => {
   window.addEventListener('simple-search-ui-updated', onSimpleSearchUiUpdated);
   loadFlatBookmarks();
   BookmarkManagerSettings.loadSettings(() => syncFromSettings());
-  detectFaviconProviders();
 
   // 结果卡片脱离 anchor 后需要固定定位；根据输入框位置动态计算。
   updateBookmarkResultPosition();
@@ -498,14 +500,12 @@ function engineIconMeta(key) {
   }
   const domain = inferHostFromUrlTemplate(eng.urlTemplate);
   if (domain) {
-    void faviconState.googleReachable;
-    void faviconState.faviconImReachable;
-    return {
-      type: 'img',
-      src: getCustomEngineFaviconUrl(domain),
-      text: '',
-      bg: ''
-    };
+    const builtinKey = matchBuiltinEngineByDomain(domain);
+    if (builtinKey) {
+      return { type: 'img', src: engineIconPath(builtinKey), text: '', bg: '' };
+    }
+    const urls = getCustomEngineFaviconUrls(domain);
+    return { type: 'img', src: urls[0] || '', text: '', bg: '' };
   }
   return {
     type: 'text',
@@ -516,30 +516,45 @@ function engineIconMeta(key) {
   };
 }
 
-function onQuickIconError(key) {
-  quickIconFailed[key] = true;
-  const eng = getEngineByKeyLocal(key);
-  if (eng && eng.isCustom) {
-    const domain = inferHostFromUrlTemplate(eng.urlTemplate);
-    if (domain) {
-      const src = getCustomEngineFaviconUrl(domain);
-      if (src.includes('google.com/s2/favicons') && faviconState.googleReachable !== false) {
-        faviconState.googleReachable = false;
-      } else if (src.includes('favicon.im') && faviconState.faviconImReachable !== false) {
-        faviconState.faviconImReachable = false;
-      }
-    }
+function onCurrentEngineIconError(event) {
+  const img = event.target;
+  const currentSrc = img.src;
+  const eng = getEngineByKeyLocal(engineKey.value);
+  if (!eng || !eng.isCustom) return;
+  const domain = inferHostFromUrlTemplate(eng.urlTemplate);
+  if (!domain) return;
+  const builtinKey = matchBuiltinEngineByDomain(domain);
+  if (builtinKey) return; // 本地图标不需要 fallback
+  const urls = getCustomEngineFaviconUrls(domain);
+  const idx = urls.findIndex((u) => currentSrc === u || currentSrc.includes(u.replace(/^https?:\/\//, '')));
+  if (idx >= 0 && idx + 1 < urls.length) {
+    img.src = urls[idx + 1];
   }
 }
 
-watch(
-  () => [faviconState.googleReachable, faviconState.faviconImReachable],
-  () => {
-    for (const key of Object.keys(quickIconFailed)) {
-      delete quickIconFailed[key];
-    }
+function onQuickIconError(event, key) {
+  const img = event.target;
+  const currentSrc = img.src;
+  const eng = getEngineByKeyLocal(key);
+  if (!eng || !eng.isCustom) {
+    quickIconFailed[key] = true;
+    return;
   }
-);
+  const domain = inferHostFromUrlTemplate(eng.urlTemplate);
+  if (!domain) {
+    quickIconFailed[key] = true;
+    return;
+  }
+  const builtinKey = matchBuiltinEngineByDomain(domain);
+  if (builtinKey) return; // 本地图标不需要 fallback
+  const urls = getCustomEngineFaviconUrls(domain);
+  const idx = urls.findIndex((u) => currentSrc === u || currentSrc.includes(u.replace(/^https?:\/\//, '')));
+  if (idx >= 0 && idx + 1 < urls.length) {
+    img.src = urls[idx + 1];
+  } else {
+    quickIconFailed[key] = true;
+  }
+}
 
 function quickFallbackStyle(key) {
   const m = engineIconMeta(key);
