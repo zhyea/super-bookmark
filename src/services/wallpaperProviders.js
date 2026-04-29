@@ -8,11 +8,9 @@ import {
     MAX_WALLPAPER_BYTES,
     upgradeWallpaperUrlToHttps
 } from './wallpaper/wallpaperImageFetch.js';
-import { buildPaugramWallpaperUrl } from './wallpaper/paugramWallpaper.js';
-
 export { blobToDataUrl, fetchImageBlob, MAX_WALLPAPER_BYTES, upgradeWallpaperUrlToHttps } from './wallpaper/wallpaperImageFetch.js';
 
-export const WALLPAPER_REMOTE_IDS = ['bing', 'unsplash', 'paugram'];
+export const WALLPAPER_REMOTE_IDS = ['bing', 'unsplash'];
 
 async function fetchBing() {
     const jr = await fetch(
@@ -40,12 +38,6 @@ async function fetchUnsplash() {
     return blobToDataUrl(blob);
 }
 
-async function fetchPaugram() {
-    const u = buildPaugramWallpaperUrl(String(Date.now()) + '_' + String(Math.random()).slice(2, 12));
-    const blob = await fetchImageBlob(u);
-    return blobToDataUrl(blob);
-}
-
 /**
  * @param {string} id
  * @returns {Promise<string>} data URL
@@ -56,8 +48,6 @@ export function fetchWallpaperByProvider(id) {
             return fetchBing();
         case 'unsplash':
             return fetchUnsplash();
-        case 'paugram':
-            return fetchPaugram();
         default:
             return Promise.reject(new Error('UNKNOWN_PROVIDER'));
     }

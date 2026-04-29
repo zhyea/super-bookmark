@@ -12,6 +12,20 @@
               @click="openWallpaperSub"
           >
             <span class="settings-bg-thumb-hover-hint" aria-hidden="true">{{ t('wallpaperThumbChangeHint') }}</span>
+            <span
+                v-if="bgThumbSrc"
+                class="settings-bg-thumb-download-btn"
+                role="button"
+                :aria-label="t('wallpaperPreviewDownload')"
+                :title="t('wallpaperPreviewDownload')"
+                @click.stop="downloadCurrentWallpaper"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </span>
             <img v-if="bgThumbSrc" :src="bgThumbSrc" alt="" class="settings-bg-thumb-img"/>
             <span v-else class="settings-bg-thumb-empty">{{ t('wallpaperThumbEmpty') }}</span>
           </button>
@@ -188,6 +202,7 @@ import {
   WALLPAPER_REMOTE_IDS
 } from '../../services/wallpaperProviders.js';
 import WallpaperPreviewDialog from './WallpaperPreviewDialog.vue';
+import {persistSettings, applyLayout} from '../../utils/chromeBridge.js';
 
 const {t} = useI18n();
 const simpleUiInjected = inject('simpleUi', null);
@@ -211,18 +226,6 @@ const bgFileRef = ref(null);
 
 let wallpaperOverlayPersistTimer = null;
 let wallpaperOverlayLayoutRaf = null;
-
-function settingsModule() {
-  return typeof window !== 'undefined' ? window.BookmarkManagerSettings : null;
-}
-
-function persistSettings(partial) {
-  settingsModule()?.saveSettings(partial);
-}
-
-function applyLayout() {
-  settingsModule()?.applyContentWidthAndBackground();
-}
 
 function scheduleWallpaperBgOverlayLayout() {
   if (wallpaperOverlayLayoutRaf != null) {
@@ -433,6 +436,27 @@ function openBgFilePicker() {
   bgFileRef.value?.click();
 }
 
+async function downloadCurrentWallpaper() {
+  const src = bgThumbSrc.value;
+  if (!src) return;
+  try {
+    const res = await fetch(src);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const ext = (blob.type ? blob.type.split('/')[1] : 'jpg') || 'jpg';
+    a.download = 'super-bookmark-wallpaper-current.' + ext;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (e) {
+    console.error('[downloadCurrentWallpaper] failed:', e);
+  }
+}
+
 watch(
     () => props.mainPanelOpen,
     (open) => {
@@ -489,7 +513,7 @@ onUnmounted(() => {
   position: relative;
   display: block;
   width: 100%;
-  max-width: 168px;
+  max-width: 224px;
   aspect-ratio: 16 / 9;
   padding: 0;
   border: 1px solid #d1d5db;
@@ -528,6 +552,42 @@ onUnmounted(() => {
 
 .settings-bg-wallpaper-row .settings-bg-thumb-btn:hover .settings-bg-thumb-hover-hint {
   opacity: 1;
+}
+
+.settings-bg-thumb-download-btn {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.5);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.18s ease, background 0.15s;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.settings-bg-wallpaper-row .settings-bg-thumb-btn:hover .settings-bg-thumb-download-btn,
+.settings-bg-thumb-download-btn:focus-visible {
+  opacity: 1;
+}
+
+.settings-bg-thumb-download-btn:hover {
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.settings-bg-thumb-download-btn svg {
+  width: 12px;
+  height: 12px;
 }
 
 .settings-bg-thumb-img {
@@ -682,10 +742,6 @@ onUnmounted(() => {
   border-color: #ddd6fe;
 }
 
-.settings-wallpaper-source-card--paugram {
-  border-color: #fbcfe8;
-}
-
 .settings-wallpaper-source-card--local {
   border-color: #cbd5e1;
 }
@@ -702,11 +758,6 @@ onUnmounted(() => {
 .settings-wallpaper-source-card--unsplash.active {
   border-color: #4f46e5;
   box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.35);
-}
-
-.settings-wallpaper-source-card--paugram.active {
-  border-color: #db2777;
-  box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.32);
 }
 
 .settings-wallpaper-source-card--local.active {
@@ -729,10 +780,6 @@ onUnmounted(() => {
 
 .settings-wallpaper-source-card--unsplash .settings-wallpaper-source-card-visual {
   background: linear-gradient(112deg, #4f46e5 0%, #a78bfa 38%, #fde68a 100%);
-}
-
-.settings-wallpaper-source-card--paugram .settings-wallpaper-source-card-visual {
-  background: linear-gradient(118deg, #9d174d 0%, #f472b6 42%, #fce7f3 100%);
 }
 
 .settings-wallpaper-source-card--local .settings-wallpaper-source-card-visual {
@@ -764,13 +811,6 @@ onUnmounted(() => {
   color: #eef2ff;
 }
 
-.settings-wallpaper-source-card--paugram .settings-wallpaper-source-card-icon::before {
-  content: '\2661';
-  font-size: calc(30px * 2 / 3);
-  font-weight: 500;
-  color: #fdf2f8;
-}
-
 .settings-wallpaper-source-card--local .settings-wallpaper-source-card-icon::before {
   content: '\21E7';
   font-size: calc(32px * 2 / 3);
@@ -790,10 +830,6 @@ onUnmounted(() => {
 
 .settings-wallpaper-source-card--unsplash .settings-wallpaper-source-card-body {
   background: #faf5ff;
-}
-
-.settings-wallpaper-source-card--paugram .settings-wallpaper-source-card-body {
-  background: #fdf2f8;
 }
 
 .settings-wallpaper-source-card--local .settings-wallpaper-source-card-body {

@@ -199,10 +199,6 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_paugram": {
-    "message": "隨機動漫（保羅·sm）",
-    "description": "UI string: wallpaperProv_paugram"
-  },
   "wallpaperProvDesc_bing": {
     "message": "微軟必應官方每日一圖，全球風景與影像精選",
     "description": "UI string: wallpaperProvDesc_bing"
@@ -210,10 +206,6 @@
   "wallpaperProvDesc_unsplash": {
     "message": "隨機攝影風桌布，畫面簡潔通透（Lorem Picsum）",
     "description": "UI string: wallpaperProvDesc_unsplash"
-  },
-  "wallpaperProvDesc_paugram": {
-    "message": "保羅 API 隨機動漫桌布（source=sm，sm.ms 圖床），詳見 api.paugram.com/help/wallpaper",
-    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "本機上傳",
@@ -282,6 +274,10 @@
   "wallpaperPreviewAppendTimeout": {
     "message": "載入更多逾時，已停止繼續載入。可關閉後重新開啟預覽再試。",
     "description": "UI string: wallpaperPreviewAppendTimeout"
+  },
+  "wallpaperPreviewDownload": {
+    "message": "下載壁紙",
+    "description": "UI string: wallpaperPreviewDownload"
   },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "書籤卡片文字顏色",
@@ -496,11 +492,11 @@
     "description": "UI string: backupImportDone"
   },
   "backupRestoreDone": {
-    "message": "已恢復預設並清除擴充功能內的標籤、顏色與描述資料。",
+    "message": "已恢復預設並清除擴充功能內的標籤與顏色資料。",
     "description": "UI string: backupRestoreDone"
   },
   "backupConfirmRestore": {
-    "message": "將重設所有設定為預設值，並清除標籤、圖示顏色與描述（不會刪除瀏覽器書籤）。是否繼續？",
+    "message": "將重設所有設定為預設值，並清除標籤與圖示顏色（不會刪除瀏覽器書籤）。是否繼續？",
     "description": "UI string: backupConfirmRestore"
   },
   "backupConfirmImport": {
@@ -599,6 +595,110 @@
     "message": "한국어",
     "description": "UI string: langKo"
   },
+  "langAr": {
+    "message": "العربية",
+    "description": "UI string: langAr"
+  },
+  "langBn": {
+    "message": "বাংলা",
+    "description": "UI string: langBn"
+  },
+  "langCs": {
+    "message": "Čeština",
+    "description": "UI string: langCs"
+  },
+  "langDa": {
+    "message": "Dansk",
+    "description": "UI string: langDa"
+  },
+  "langEl": {
+    "message": "Ελληνικά",
+    "description": "UI string: langEl"
+  },
+  "langFa": {
+    "message": "فارسی",
+    "description": "UI string: langFa"
+  },
+  "langFi": {
+    "message": "Suomi",
+    "description": "UI string: langFi"
+  },
+  "langHe": {
+    "message": "עברית",
+    "description": "UI string: langHe"
+  },
+  "langHu": {
+    "message": "Magyar",
+    "description": "UI string: langHu"
+  },
+  "langId": {
+    "message": "Bahasa Indonesia",
+    "description": "UI string: langId"
+  },
+  "langIt": {
+    "message": "Italiano",
+    "description": "UI string: langIt"
+  },
+  "langMr": {
+    "message": "मराठी",
+    "description": "UI string: langMr"
+  },
+  "langMs": {
+    "message": "Bahasa Melayu",
+    "description": "UI string: langMs"
+  },
+  "langNl": {
+    "message": "Nederlands",
+    "description": "UI string: langNl"
+  },
+  "langNo": {
+    "message": "Norsk",
+    "description": "UI string: langNo"
+  },
+  "langPl": {
+    "message": "Polski",
+    "description": "UI string: langPl"
+  },
+  "langRo": {
+    "message": "Română",
+    "description": "UI string: langRo"
+  },
+  "langRu": {
+    "message": "Русский",
+    "description": "UI string: langRu"
+  },
+  "langSv": {
+    "message": "Svenska",
+    "description": "UI string: langSv"
+  },
+  "langTa": {
+    "message": "தமிழ்",
+    "description": "UI string: langTa"
+  },
+  "langTe": {
+    "message": "తెలుగు",
+    "description": "UI string: langTe"
+  },
+  "langTh": {
+    "message": "ไทย",
+    "description": "UI string: langTh"
+  },
+  "langTr": {
+    "message": "Türkçe",
+    "description": "UI string: langTr"
+  },
+  "langUk": {
+    "message": "Українська",
+    "description": "UI string: langUk"
+  },
+  "langUr": {
+    "message": "اردو",
+    "description": "UI string: langUr"
+  },
+  "langVi": {
+    "message": "Tiếng Việt",
+    "description": "UI string: langVi"
+  },
   "editTitle": {
     "message": "編輯卡片",
     "description": "UI string: editTitle"
@@ -619,10 +719,6 @@
     "message": "標籤",
     "description": "UI string: labelTags"
   },
-  "labelDesc": {
-    "message": "描述",
-    "description": "UI string: labelDesc"
-  },
   "labelUrl": {
     "message": "連結",
     "description": "UI string: labelUrl"
@@ -642,10 +738,6 @@
   "tagPlaceholder": {
     "message": "最多 3 個，每標籤最多 16 字",
     "description": "UI string: tagPlaceholder"
-  },
-  "descPlaceholder": {
-    "message": "選填，最多 100 字",
-    "description": "UI string: descPlaceholder"
   },
   "cancel": {
     "message": "取消",

@@ -1,0 +1,103 @@
+/**
+ * components/menu-float.css — 右键菜单与悬浮滚动按钮
+ */
+/* ========== 右下角滚动到顶部/底部按钮 ========== */
+.scroll-float-wrap {
+    position: fixed;
+    right: 20px;
+    left: auto;
+    bottom: 20px;
+    z-index: 499;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.scroll-float-wrap.scroll-float-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.scroll-float-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0 2px 12px #00000026;
+    font-size: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+/* 优雅的上下箭头（单一向下箭头 + 旋转动画切换方向） */
+.scroll-float-btn::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #595959;
+    border-bottom: none;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
+    transform: rotate(0deg); /* 向下：滚动到底部 */
+}
+
+.scroll-float-btn.scroll-to-top::before {
+    transform: rotate(180deg); /* 向上：滚动到顶部 */
+}
+
+.scroll-float-btn:hover::before,
+.scroll-float-btn.scroll-to-top:hover::before {
+    border-top-color: #262626;
+}
+
+.scroll-float-btn:hover {
+    box-shadow: 0 4px 16px #00000033;
+    transform: scale(1.05);
+}
+
+/* ========== 书签卡片右键菜单 ========== */
+.link-context-menu {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    z-index: 1000;
+    min-width: 120px;
+    padding: 4px 0;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px #0000001f;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s, visibility 0.15s;
+}
+
+.link-context-menu.link-context-menu-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.link-context-menu-item {
+    display: block;
+    width: 100%;
+    padding: 8px 14px;
+    font-size: 14px;
+    color: #333333;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.link-context-menu-item:hover {
+    background: #f5f5f5;
+}

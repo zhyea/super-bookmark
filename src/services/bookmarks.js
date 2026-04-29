@@ -5,7 +5,6 @@ import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
 
     const TAGS_STORAGE_KEY = 'bookmarkTags';
     const ICON_COLOR_STORAGE_KEY = 'bookmarkIconColors';
-    const DESCRIPTION_STORAGE_KEY = 'bookmarkDescriptions';
     const SETTINGS_STORAGE_KEY = 'bookmarkManagerSettings';
 
     function escapeHtml(text) {
@@ -38,23 +37,6 @@ import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
         });
     }
 
-    function loadDescriptions(cb) {
-        chrome.storage.local.get(DESCRIPTION_STORAGE_KEY, function(data) {
-            cb(data[DESCRIPTION_STORAGE_KEY] || {});
-        });
-    }
-
-    function saveDescription(bookmarkId, text) {
-        loadDescriptions(function(map) {
-            if (text != null && String(text).trim() !== '') {
-                map[bookmarkId] = String(text).trim().slice(0, 100);
-            } else {
-                delete map[bookmarkId];
-            }
-            chrome.storage.local.set({ [DESCRIPTION_STORAGE_KEY]: map });
-        });
-    }
-
     function saveIconColor(bookmarkId, color, cb) {
         loadIconColors(function(colorMap) {
             if (color != null && color !== '') {
@@ -64,6 +46,62 @@ import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
             }
             chrome.storage.local.set({ [ICON_COLOR_STORAGE_KEY]: colorMap }, function() {
                 if (typeof cb === 'function') cb();
+            });
+        });
+    }
+
+    const CLEANUP_TIMESTAMP_KEY = 'bookmarkCleanupTimestamp';
+    const CLEANUP_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24小时
+
+    function cleanupOrphanedData(cb) {
+        chrome.storage.local.get(CLEANUP_TIMESTAMP_KEY, function(tsData) {
+            const lastCleanup = tsData[CLEANUP_TIMESTAMP_KEY] || 0;
+            const now = Date.now();
+            if (now - lastCleanup < CLEANUP_INTERVAL_MS) {
+                if (typeof cb === 'function') cb(false);
+                return;
+            }
+            if (typeof chrome === 'undefined' || !chrome.bookmarks || !chrome.bookmarks.getTree) {
+                if (typeof cb === 'function') cb(false);
+                return;
+            }
+            chrome.bookmarks.getTree(function(tree) {
+                const validIds = new Set();
+                function collectIds(nodes) {
+                    for (let i = 0; i < nodes.length; i++) {
+                        const node = nodes[i];
+                        if (node.url) validIds.add(String(node.id));
+                        if (node.children) collectIds(node.children);
+                    }
+                }
+                collectIds(tree);
+
+                const keys = [TAGS_STORAGE_KEY, ICON_COLOR_STORAGE_KEY];
+                chrome.storage.local.get(keys, function(data) {
+                    let hasChanges = false;
+                    const updates = {};
+
+                    for (let ki = 0; ki < keys.length; ki++) {
+                        const key = keys[ki];
+                        const map = data[key] || {};
+                        const cleaned = {};
+                        const ids = Object.keys(map);
+                        for (let ii = 0; ii < ids.length; ii++) {
+                            const id = ids[ii];
+                            if (validIds.has(id)) {
+                                cleaned[id] = map[id];
+                            } else {
+                                hasChanges = true;
+                            }
+                        }
+                        updates[key] = cleaned;
+                    }
+
+                    updates[CLEANUP_TIMESTAMP_KEY] = now;
+                    chrome.storage.local.set(updates, function() {
+                        if (typeof cb === 'function') cb(hasChanges);
+                    });
+                });
             });
         });
     }
@@ -93,7 +131,6 @@ import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
         const overviewGroups = [];
         const _userTags = {};
         const _userIconColor = {};
-        const _descriptions = {};
         const allTagsSet = new Set();
 
         for (let pi = 0; pi < navData.length; pi++) {
@@ -112,7 +149,6 @@ import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
                     groupBookmarks.push(b);
                     if (sec._userTags && sec._userTags[b.id]) _userTags[b.id] = sec._userTags[b.id];
                     if (sec._userIconColor && sec._userIconColor[b.id]) _userIconColor[b.id] = sec._userIconColor[b.id];
-                    if (sec._descriptions && sec._descriptions[b.id] != null) _descriptions[b.id] = sec._descriptions[b.id];
                     if (sec._userTags && sec._userTags[b.id]) {
                         sec._userTags[b.id].forEach(function(t) {
                             if (t) allTagsSet.add(t);
@@ -157,7 +193,6 @@ import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
         };
         overview._userTags = _userTags;
         overview._userIconColor = _userIconColor;
-        overview._descriptions = _descriptions;
         return overview;
     }
 
@@ -183,29 +218,25 @@ import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
                 const navData = NB.buildNavData(tree, visibleRoots);
                 loadTags(function(tagsMap) {
                     loadIconColors(function(iconColorMap) {
-                        loadDescriptions(function(descMap) {
-                            navData.forEach(function(p) {
-                                p.secondaries.forEach(function(sec) {
-                                    sec._userTags = {};
-                                    sec._userIconColor = {};
-                                    sec._descriptions = {};
-                                    sec.bookmarks.forEach(function(b) {
-                                        if (tagsMap[b.id] && tagsMap[b.id].length) sec._userTags[b.id] = tagsMap[b.id];
-                                        if (iconColorMap[b.id]) sec._userIconColor[b.id] = iconColorMap[b.id];
-                                        if (descMap[b.id] != null) sec._descriptions[b.id] = descMap[b.id];
-                                    });
-                                    const userTagSet = new Set(Object.values(sec._userTags).flat());
-                                    sec.allTags = [...new Set([...(sec.allTags || []), ...userTagSet])].filter(Boolean).sort();
+                        navData.forEach(function(p) {
+                            p.secondaries.forEach(function(sec) {
+                                sec._userTags = {};
+                                sec._userIconColor = {};
+                                sec.bookmarks.forEach(function(b) {
+                                    if (tagsMap[b.id] && tagsMap[b.id].length) sec._userTags[b.id] = tagsMap[b.id];
+                                    if (iconColorMap[b.id]) sec._userIconColor[b.id] = iconColorMap[b.id];
                                 });
+                                const userTagSet = new Set(Object.values(sec._userTags).flat());
+                                sec.allTags = [...new Set([...(sec.allTags || []), ...userTagSet])].filter(Boolean).sort();
                             });
-                            if (showOverviewAllNav && navData.length) {
-                                const overviewSec = buildOverviewSecondary(navData);
-                                navData.forEach(function(p) {
-                                    insertOverviewAfterUncat(p.secondaries, overviewSec);
-                                });
-                            }
-                            cb(navData);
                         });
+                        if (showOverviewAllNav && navData.length) {
+                            const overviewSec = buildOverviewSecondary(navData);
+                            navData.forEach(function(p) {
+                                insertOverviewAfterUncat(p.secondaries, overviewSec);
+                            });
+                        }
+                        cb(navData);
                     });
                 });
             });
@@ -215,13 +246,11 @@ import { BookmarkNavBuild as NB } from './bookmarkNavBuild.js';
 export const BookmarkManager = {
     TAGS_STORAGE_KEY,
     ICON_COLOR_STORAGE_KEY,
-    DESCRIPTION_STORAGE_KEY,
     SETTINGS_STORAGE_KEY,
+    CLEANUP_TIMESTAMP_KEY,
     DEFAULT_VISIBLE_ROOTS: NB.DEFAULT_VISIBLE_ROOTS,
     normalizeVisibleRoots: NB.normalizeVisibleRoots,
     classifyBuiltinRoot: NB.classifyBuiltinRoot,
-    loadDescriptions,
-    saveDescription,
     escapeHtml,
     collectBookmarks: NB.collectBookmarks,
     buildNavData: NB.buildNavData,
@@ -230,7 +259,8 @@ export const BookmarkManager = {
     loadIconColors,
     saveIconColor,
     parseTagInput,
-    fetchNavData
+    fetchNavData,
+    cleanupOrphanedData
 };
 
 if (typeof window !== 'undefined') {

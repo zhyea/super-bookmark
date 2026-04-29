@@ -345,24 +345,13 @@ import { appRuntime } from '../../services/appRuntime.js';
 import { effectiveGridColumnCount, GRID_CARD_MIN_PX } from '../../utils/bookmarkRenderHelpers.js';
 import { nativeBookmarkManagerUrl } from '../../extensionEnv.js';
 import BackgroundWallpaperSettings from './BackgroundWallpaperSettings.vue';
-
-/** 兼容层 i18n（与 legacyI18n 挂载一致） */
-function legacyI18n() {
-    return typeof window !== 'undefined' ? window.BookmarkManagerI18n : null;
-}
-
-/** 设置模块（main 已挂 window，此处集中访问避免散落） */
-function settingsModule() {
-    return typeof window !== 'undefined' ? window.BookmarkManagerSettings : null;
-}
-
-function persistSettings(partial) {
-    settingsModule()?.saveSettings(partial);
-}
-
-function applyLayout() {
-    settingsModule()?.applyContentWidthAndBackground();
-}
+import {
+    getLegacyI18n,
+    getBookmarkManager,
+    getSettingsModule,
+    persistSettings,
+    applyLayout
+} from '../../utils/chromeBridge.js';
 
 /** 合并到下一帧再应用布局，避免 range 连续 input 时同步重排打断拖动；取消未执行的帧并只跑最后一次 */
 let layoutEffectsRafId = null;
@@ -377,10 +366,6 @@ function scheduleLayoutEffects() {
     });
 }
 
-function bookmarkManager() {
-    return typeof window !== 'undefined' ? window.BookmarkManager : null;
-}
-
 const props = defineProps({
     linksGrid: { type: [Object, HTMLElement], default: null }
 });
@@ -388,12 +373,12 @@ const props = defineProps({
 const { t } = useI18n();
 
 const BGK = computed(() => {
-    const L = legacyI18n();
+    const L = getLegacyI18n();
     return (L && L.BG_PRESET_KEYS) || DEFAULT_BGK;
 });
 
 const localeCodes = computed(() => {
-    const L = legacyI18n();
+    const L = getLegacyI18n();
     return (L && L.CODES) || ['zh', 'en'];
 });
 
@@ -530,7 +515,7 @@ function syncSimpleSearchFieldsFromRuntime() {
 
 function syncFromAppRuntime() {
     const w = s();
-    const L = legacyI18n();
+    const L = getLegacyI18n();
     localeModel.value = L && L.normalizeLocale ? L.normalizeLocale(w.locale || 'zh') : 'zh';
     themeDark.value = w.theme === 'dark';
     editModeOn.value = !!w.showActions;
@@ -669,7 +654,7 @@ function onContentWidthPercentInput() {
 }
 
 function applySettings() {
-    const L = legacyI18n();
+    const L = getLegacyI18n();
     const p = clampContentWidthPercent(contentWidthPercent.value);
     contentWidthPercent.value = p;
     let col = columns.value;
@@ -731,7 +716,7 @@ function onPickerChange() {
 }
 
 function loadRootButtons() {
-    const BM = bookmarkManager();
+    const BM = getBookmarkManager();
     if (typeof chrome === 'undefined' || !chrome.bookmarks || !chrome.bookmarks.getTree || !BM) return;
     chrome.bookmarks.getTree(function (tree) {
         const roots = tree && tree[0] && tree[0].children ? tree[0].children : [];
@@ -762,7 +747,7 @@ function loadRootButtons() {
 }
 
 function toggleRoot(key) {
-    const BM = bookmarkManager();
+    const BM = getBookmarkManager();
     if (!BM) return;
     const base = s().visibleRoots || BM.DEFAULT_VISIBLE_ROOTS;
     const next = {
@@ -816,8 +801,8 @@ function backupRestoreDefault(ev) {
             return;
         }
         alert(t('backupRestoreDone'));
-        const Settings = settingsModule();
-        const L = legacyI18n();
+        const Settings = getSettingsModule();
+        const L = getLegacyI18n();
         if (Settings) {
             // 重新从 storage 读取默认设置，更新应用与抽屉，但不关闭抽屉
             Settings.loadSettings(() => {
@@ -886,7 +871,7 @@ function onShowOverviewNavChange() {
 }
 
 function onLocaleChange() {
-    const L = legacyI18n();
+    const L = getLegacyI18n();
     const v = L && L.normalizeLocale ? L.normalizeLocale(localeModel.value) : localeModel.value;
     if (L && L.setLocale) L.setLocale(v);
     persistSettings({ locale: v });

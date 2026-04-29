@@ -8,3 +8,4 @@ dist-firefox/
 .DS_Store
 *.idea/
 tools
+!/dist-firefox/

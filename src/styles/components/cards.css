@@ -1,0 +1,295 @@
+/**
+ * components/cards.css — 书签卡片与工具提示
+ */
+/* ========== 加载与空状态 ========== */
+.loading,
+.empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: #8c8c8c;
+    font-size: 14px;
+}
+
+.empty-state p {
+    margin: 0;
+}
+
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+}
+
+.overview-all-wrap {
+    margin-top: 0;
+}
+
+.overview-group {
+    margin-bottom: 1.5rem;
+}
+
+.overview-group:last-child {
+    margin-bottom: 0;
+}
+
+.overview-group-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+    margin: 0 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.overview-group-grid {
+    margin-bottom: 4px;
+}
+
+.overview-all-empty {
+    padding: 24px 12px;
+    text-align: center;
+    color: #8c8c8c;
+    font-size: 14px;
+}
+
+/* ========== 链接卡片 ========== */
+.link-item {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px #00000014;
+    border: 1px solid #f0f0f0;
+    transition: box-shadow 0.2s, transform 0.2s;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+    position: relative;
+}
+
+.link-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px #0000001a;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+.link-item.dragging {
+    opacity: 0.6;
+}
+
+/* 同目录内拖拽排序：悬停时显示插入位置（落在该卡片左侧） */
+.link-item.drop-target-reorder {
+    position: relative;
+}
+
+.link-item.drop-target-reorder::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #1890ff;
+    border-radius: 2px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.primary-nav-item.drop-target,
+.secondary-nav-item.drop-target,
+.side-nav-item.drop-target {
+    background: #bae7ff !important;
+    color: #0050b3;
+}
+
+.link-item a.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.link-item .card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.link-item .card-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.link-item .card-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    position: relative;
+    transform: translateY(3px);
+}
+
+.link-item .card-icon-img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    border-radius: 4px;
+    display: none;
+}
+
+.link-item .card-icon-img.loaded {
+    display: block;
+    margin: auto;
+}
+
+.link-item .card-icon-img.error {
+    display: none;
+}
+
+.link-item .card-icon-fallback {
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: inherit;
+}
+
+.link-item .card-icon-img.loaded ~ .card-icon-fallback {
+    display: none;
+}
+
+.link-item .card-title {
+    display: block;
+    width: 100%;
+    font-weight: normal;
+    font-size: 13px;
+    color: #262626;
+    line-height: 1.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link-item .card-url {
+    display: block;
+    max-width: 90%;
+    font-size: 11px;
+    color: #ddd;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+/* 完整链接通过悬浮 tooltip 显示（鼠标在卡片上超过 32ms 后） */
+.url-tooltip {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    z-index: 9999;
+    max-width: 360px;
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #333333;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px #0000001f;
+    word-break: break-all;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.url-tooltip.url-tooltip-visible {
+    opacity: 1;
+}
+
+.link-item .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+    padding-top: 5px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.link-item .card-tags:empty {
+    display: none;
+}
+
+.link-item .card-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 8px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #a3a3a3;
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.hide-card-actions .link-item .actions {
+    display: none !important;
+}
+
+.link-item .actions {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+    padding-top: 8px;
+    border-top: 1px solid #f5f5f5;
+}
+
+.link-item .actions button {
+    background: none;
+    border: none;
+    color: #bfbfbf;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+}
+
+/* 编辑图标使用更浅的灰色 */
+.link-item .actions .action-edit {
+    color: #e8e8e8;
+}

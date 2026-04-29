@@ -1,0 +1,58 @@
+/**
+ * responsive.css — 响应式
+ */
+@media (max-width: 1024px) {
+    .links-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 10px 0;
+    }
+
+    .sidebar-list {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        padding: 0 20px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .sidebar-item {
+        white-space: nowrap;
+        margin-bottom: 0;
+    }
+
+    .nav-item a {
+        padding: 8px 12px;
+    }
+
+    .header {
+        padding: 10px 16px;
+    }
+
+    .nav-list {
+        gap: 10px;
+    }
+
+    .links-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer {
+        padding: 15px;
+    }
+
+    .footer p {
+        font-size: 11px;
+    }
+}

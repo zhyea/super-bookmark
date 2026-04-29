@@ -51,6 +51,19 @@ export function engineIconPath(key) {
     return extensionAssetUrl(`assets/imgs/search-engine/${key}.svg`);
 }
 
+/** 根据域名匹配内置搜索引擎，返回对应 key；不匹配则返回 null */
+export function matchBuiltinEngineByDomain(domain) {
+    const d = String(domain || '').toLowerCase().replace(/^www\./, '');
+    if (!d) return null;
+    for (const e of SIMPLE_ENGINE_CATALOG) {
+        const ed = e.domain.toLowerCase().replace(/^www\./, '');
+        if (d === ed || d.endsWith('.' + ed)) {
+            return e.key;
+        }
+    }
+    return null;
+}
+
 /** 极简搜索：快捷面板「书签」与书签模式下的引擎图标 */
 export function bookmarkQuickPanelIconUrl() {
     return extensionAssetUrl('assets/imgs/simple-bookmark-mode-bookmark.png');

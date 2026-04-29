@@ -142,7 +142,6 @@ function loadSettings(cb) {
         let wallpaperProvider =
             wallpaperProvRaw === 'bing' ||
             wallpaperProvRaw === 'unsplash' ||
-            wallpaperProvRaw === 'paugram' ||
             wallpaperProvRaw === 'custom' ||
             wallpaperProvRaw === 'none'
                 ? wallpaperProvRaw
@@ -238,7 +237,7 @@ function loadSettings(cb) {
 
 function saveSettings(partial) {
     if (!appRuntime.settings) appRuntime.settings = {};
-    Object.assign(appRuntime.settings, partial);
+    appRuntime.settings = { ...appRuntime.settings, ...partial };
     function dispatchSaved() {
         if (typeof window !== 'undefined' && window.dispatchEvent) {
             window.dispatchEvent(new CustomEvent('bookmark-settings-saved'));

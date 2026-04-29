@@ -199,10 +199,6 @@
     "message": "Unsplash",
     "description": "UI string: wallpaperProv_unsplash"
   },
-  "wallpaperProv_paugram": {
-    "message": "Paugram anime",
-    "description": "UI string: wallpaperProv_paugram"
-  },
   "wallpaperProvDesc_bing": {
     "message": "Microsoft Bing's official daily image—landscapes and world highlights.",
     "description": "UI string: wallpaperProvDesc_bing"
@@ -210,10 +206,6 @@
   "wallpaperProvDesc_unsplash": {
     "message": "Random photo-style wallpapers via Lorem Picsum (Unsplash-style).",
     "description": "UI string: wallpaperProvDesc_unsplash"
-  },
-  "wallpaperProvDesc_paugram": {
-    "message": "Random anime wallpapers via Dreamer-Paul API (source=sm). See api.paugram.com/help/wallpaper",
-    "description": "UI string: wallpaperProvDesc_paugram"
   },
   "wallpaperProv_local": {
     "message": "端末から選択",
@@ -283,6 +275,10 @@
     "message": "追加の読み込みがタイムアウトしたため、続きの取得を停止しました。プレビューを閉じて開き直してください。",
     "description": "UI string: wallpaperPreviewAppendTimeout"
   },
+  "wallpaperPreviewDownload": {
+    "message": "壁紙をダウンロード",
+    "description": "UI string: wallpaperPreviewDownload"
+  },
   "settingsSimpleBookmarkCardTextColor": {
     "message": "カードの文字色",
     "description": "UI string: settingsSimpleBookmarkCardTextColor"
@@ -346,6 +342,110 @@
   "simpleUiEngineQuickBar": {
     "message": "クイックバーに {name} を表示",
     "description": "UI string: simpleUiEngineQuickBar"
+  },
+  "langRu": {
+    "message": "Русский",
+    "description": "UI string: langRu"
+  },
+  "langAr": {
+    "message": "العربية",
+    "description": "UI string: langAr"
+  },
+  "langIt": {
+    "message": "Italiano",
+    "description": "UI string: langIt"
+  },
+  "langTr": {
+    "message": "Türkçe",
+    "description": "UI string: langTr"
+  },
+  "langVi": {
+    "message": "Tiếng Việt",
+    "description": "UI string: langVi"
+  },
+  "langId": {
+    "message": "Bahasa Indonesia",
+    "description": "UI string: langId"
+  },
+  "langTh": {
+    "message": "ไทย",
+    "description": "UI string: langTh"
+  },
+  "langPl": {
+    "message": "Polski",
+    "description": "UI string: langPl"
+  },
+  "langNl": {
+    "message": "Nederlands",
+    "description": "UI string: langNl"
+  },
+  "langFa": {
+    "message": "فارسی",
+    "description": "UI string: langFa"
+  },
+  "langUk": {
+    "message": "Українська",
+    "description": "UI string: langUk"
+  },
+  "langMs": {
+    "message": "Bahasa Melayu",
+    "description": "UI string: langMs"
+  },
+  "langRo": {
+    "message": "Română",
+    "description": "UI string: langRo"
+  },
+  "langSv": {
+    "message": "Svenska",
+    "description": "UI string: langSv"
+  },
+  "langCs": {
+    "message": "Čeština",
+    "description": "UI string: langCs"
+  },
+  "langEl": {
+    "message": "Ελληνικά",
+    "description": "UI string: langEl"
+  },
+  "langHe": {
+    "message": "עברית",
+    "description": "UI string: langHe"
+  },
+  "langHu": {
+    "message": "Magyar",
+    "description": "UI string: langHu"
+  },
+  "langDa": {
+    "message": "Dansk",
+    "description": "UI string: langDa"
+  },
+  "langFi": {
+    "message": "Suomi",
+    "description": "UI string: langFi"
+  },
+  "langNo": {
+    "message": "Norsk",
+    "description": "UI string: langNo"
+  },
+  "langBn": {
+    "message": "বাংলা",
+    "description": "UI string: langBn"
+  },
+  "langTa": {
+    "message": "தமிழ்",
+    "description": "UI string: langTa"
+  },
+  "langTe": {
+    "message": "తెలుగు",
+    "description": "UI string: langTe"
+  },
+  "langMr": {
+    "message": "मराठी",
+    "description": "UI string: langMr"
+  },
+  "langUr": {
+    "message": "اردو",
+    "description": "UI string: langUr"
   },
   "simpleUiAddEngineTitle": {
     "message": "検索エンジンを追加",
@@ -455,6 +555,66 @@
     "message": "管理",
     "description": "UI string: settingsGroupManage"
   },
+  "settingsGroupBackup": {
+    "message": "バックアップとリセット",
+    "description": "UI string: settingsGroupBackup"
+  },
+  "settingsBackupActions": {
+    "message": "バックアップ操作",
+    "description": "UI string: settingsBackupActions"
+  },
+  "backupRestoreDefault": {
+    "message": "デフォルトに戻す",
+    "description": "UI string: backupRestoreDefault"
+  },
+  "backupExport": {
+    "message": "バックアップをエクスポート",
+    "description": "UI string: backupExport"
+  },
+  "backupImport": {
+    "message": "バックアップをインポート",
+    "description": "UI string: backupImport"
+  },
+  "settingsColumnDisabled": {
+    "message": "現在のコンテンツ幅ではこの列数を表示できません",
+    "description": "UI string: settingsColumnDisabled"
+  },
+  "backupPwdExport": {
+    "message": "バックアップ用パスワードを入力してください（空欄の場合は内蔵キーを使用）:",
+    "description": "UI string: backupPwdExport"
+  },
+  "backupPwdImport": {
+    "message": "バックアップ用パスワードを入力してください（設定していない場合はOKを押してください）:",
+    "description": "UI string: backupPwdImport"
+  },
+  "backupExportDone": {
+    "message": "バックアップを .zhx ファイルとしてエクスポートしました。",
+    "description": "UI string: backupExportDone"
+  },
+  "backupImportDone": {
+    "message": "インポートが完了しました。ブックマークを増分合并しました（ローカルの既存項目は削除されません）；設定とタグを合并しました。",
+    "description": "UI string: backupImportDone"
+  },
+  "backupRestoreDone": {
+    "message": "デフォルトに復元し、拡張機能のタグと色データをクリアしました。",
+    "description": "UI string: backupRestoreDone"
+  },
+  "backupConfirmRestore": {
+    "message": "すべての設定をデフォルトにリセットし、タグとアイコンの色をクリアします（ブラウザのブックマークは削除されません）。続行しますか？",
+    "description": "UI string: backupConfirmRestore"
+  },
+  "backupConfirmImport": {
+    "message": "ブックマークを増分合并します：id / 同じURL / 同じフォルダ名で照合・更新、それ以外は新規作成；ローカルの既存ブックマークは削除しません。拡張機能の設定はバックアップの値を使用し、タグ等はローカルと合并します（バックアップ優先）。続行しますか？",
+    "description": "UI string: backupConfirmImport"
+  },
+  "backupFail": {
+    "message": "操作に失敗しました：",
+    "description": "UI string: backupFail"
+  },
+  "backupWrongPwd": {
+    "message": "復号に失敗しました。パスワードまたはファイルを確認してください。",
+    "description": "UI string: backupWrongPwd"
+  },
   "settingsGroupAbout": {
     "message": "このアプリについて",
     "description": "UI string: settingsGroupAbout"
@@ -559,10 +719,6 @@
     "message": "タグ",
     "description": "UI string: labelTags"
   },
-  "labelDesc": {
-    "message": "説明",
-    "description": "UI string: labelDesc"
-  },
   "labelUrl": {
     "message": "リンク",
     "description": "UI string: labelUrl"
@@ -582,10 +738,6 @@
   "tagPlaceholder": {
     "message": "最大3個、各16文字",
     "description": "UI string: tagPlaceholder"
-  },
-  "descPlaceholder": {
-    "message": "任意、最大100文字",
-    "description": "UI string: descPlaceholder"
   },
   "cancel": {
     "message": "キャンセル",
