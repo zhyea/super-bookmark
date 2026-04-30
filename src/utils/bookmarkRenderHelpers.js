@@ -2,7 +2,7 @@
  * 纯函数：过滤书签、标签、favicon、图标色（供 Vue 与旧 render 共用）
  */
 import { CARD_ICON_BACKGROUND_COLORS } from '../services/constants.js';
-import { getFaviconFallbackUrls } from '../services/faviconProvider.js';
+import { getFaviconFallbackUrls, getCachedFaviconUrl } from '../services/faviconProvider.js';
 
 export const ICON_COLORS = CARD_ICON_BACKGROUND_COLORS;
 
@@ -139,11 +139,13 @@ export function getCurrentScopeTags(state, secondary) {
     return Array.from(tagSet).sort();
 }
 
-/** 返回书签 favicon 的 fallback URL 数组（网站 favicon → google → duckduckgo → favicon.im） */
+/** 返回书签 favicon 的 fallback URL 数组（优先使用缓存；无缓存时：网站 favicon → google → duckduckgo → favicon.im，含子域名回退主域名） */
 export function faviconUrl(url) {
     try {
         const parsed = new URL(url);
         if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return [];
+        const cached = getCachedFaviconUrl(parsed.hostname);
+        if (cached) return [cached];
         return getFaviconFallbackUrls(parsed.hostname);
     } catch (_) {
         return [];

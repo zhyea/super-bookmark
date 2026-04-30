@@ -2,6 +2,7 @@
  * 书签维护：加载导航、删除/移动/排序书签。
  */
 import { BookmarkManager as BM } from './bookmarks.js';
+import { preloadFaviconsForBookmarks } from './faviconProvider.js';
 
 function setCurrentSideId(state) {
     const primary = state.navData[state.currentPrimaryIndex];
@@ -16,6 +17,30 @@ function setCurrentSideId(state) {
     }
 }
 
+/** 从 navData 中收集所有书签（用于 favicon 预加载去重） */
+function collectAllBookmarksFromNavData(navData) {
+    const out = [];
+    for (let i = 0; i < navData.length; i++) {
+        const p = navData[i];
+        const secs = p.secondaries || [];
+        for (let j = 0; j < secs.length; j++) {
+            const sec = secs[j];
+            if (sec.bookmarks) {
+                for (let k = 0; k < sec.bookmarks.length; k++) out.push(sec.bookmarks[k]);
+            }
+            if (sec.sides) {
+                for (let k = 0; k < sec.sides.length; k++) {
+                    const side = sec.sides[k];
+                    if (side.bookmarks) {
+                        for (let m = 0; m < side.bookmarks.length; m++) out.push(side.bookmarks[m]);
+                    }
+                }
+            }
+        }
+    }
+    return out;
+}
+
 function loadNavAndRender(state, callbacks) {
     const loadingEl = callbacks.loadingEl;
     const emptyState = callbacks.emptyState;
@@ -28,6 +53,7 @@ function loadNavAndRender(state, callbacks) {
     BM.fetchNavData(function(navData) {
         state.navData = navData;
         if (typeof state.initialized !== 'undefined') state.initialized = true;
+        preloadFaviconsForBookmarks(collectAllBookmarksFromNavData(navData));
         if (!navData.length) {
             if (emptyState) emptyState.style.display = 'block';
             if (categoryPanel) categoryPanel.style.display = 'none';
@@ -60,6 +86,7 @@ function refreshNavAndRender(state, callbacks) {
     BM.fetchNavData(function(navData) {
         state.navData = navData;
         if (typeof state.initialized !== 'undefined') state.initialized = true;
+        preloadFaviconsForBookmarks(collectAllBookmarksFromNavData(navData));
         if (!navData.length) {
             if (emptyState) emptyState.style.display = 'block';
             if (categoryPanel) categoryPanel.style.display = 'none';

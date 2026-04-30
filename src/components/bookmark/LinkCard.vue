@@ -64,6 +64,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as H from '../../utils/bookmarkRenderHelpers.js';
+import { setCachedFaviconUrl, setCachedFaviconFailed } from '../../services/faviconProvider.js';
 
 const props = defineProps({
     bookmark: { type: Object, required: true },
@@ -94,6 +95,12 @@ const userTags = computed(() => {
 
 function onImgLoad(e) {
     e.target.classList.add('loaded');
+    try {
+        const parsed = new URL(props.bookmark.url);
+        if (parsed.hostname && e.target.src) {
+            setCachedFaviconUrl(parsed.hostname, e.target.src);
+        }
+    } catch (_) {}
 }
 function onImgErr(e) {
     const img = e.target;
@@ -103,6 +110,10 @@ function onImgErr(e) {
         img.src = faviconUrls.value[idx + 1];
     } else {
         img.classList.add('error');
+        try {
+            const parsed = new URL(props.bookmark.url);
+            if (parsed.hostname) setCachedFaviconFailed(parsed.hostname);
+        } catch (_) {}
     }
 }
 </script>
